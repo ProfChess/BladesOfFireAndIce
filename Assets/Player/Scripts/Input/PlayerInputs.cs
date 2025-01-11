@@ -44,6 +44,42 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchAttackForm"",
+                    ""type"": ""Button"",
+                    ""id"": ""913267ec-0b45-4893-b7e5-98b22b993a98"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BasicAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""332e1774-f327-4e15-b60b-b11408ae03a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability1"",
+                    ""type"": ""Button"",
+                    ""id"": ""bedb345f-dd46-456f-be82-8289f9987b91"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability2"",
+                    ""type"": ""Button"",
+                    ""id"": ""86074195-b9ee-4a42-bd0b-c0e53793c009"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -105,11 +141,55 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d62dca59-3393-4459-b109-1c691de993f6"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af2960aa-4cf8-4dbb-8937-1935cd9ac6e9"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchAttackForm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6678d418-9dce-416a-a946-f61749b33a19"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BasicAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68074af6-0623-4fd8-9854-d084f048b8c5"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd30b475-1f01-4e9d-baef-ab562266f06e"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -122,6 +202,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_PlayerButtons = asset.FindActionMap("PlayerButtons", throwIfNotFound: true);
         m_PlayerButtons_Movement = m_PlayerButtons.FindAction("Movement", throwIfNotFound: true);
         m_PlayerButtons_Dash = m_PlayerButtons.FindAction("Dash", throwIfNotFound: true);
+        m_PlayerButtons_SwitchAttackForm = m_PlayerButtons.FindAction("SwitchAttackForm", throwIfNotFound: true);
+        m_PlayerButtons_BasicAttack = m_PlayerButtons.FindAction("BasicAttack", throwIfNotFound: true);
+        m_PlayerButtons_Ability1 = m_PlayerButtons.FindAction("Ability1", throwIfNotFound: true);
+        m_PlayerButtons_Ability2 = m_PlayerButtons.FindAction("Ability2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,12 +269,20 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private List<IPlayerButtonsActions> m_PlayerButtonsActionsCallbackInterfaces = new List<IPlayerButtonsActions>();
     private readonly InputAction m_PlayerButtons_Movement;
     private readonly InputAction m_PlayerButtons_Dash;
+    private readonly InputAction m_PlayerButtons_SwitchAttackForm;
+    private readonly InputAction m_PlayerButtons_BasicAttack;
+    private readonly InputAction m_PlayerButtons_Ability1;
+    private readonly InputAction m_PlayerButtons_Ability2;
     public struct PlayerButtonsActions
     {
         private @PlayerInputs m_Wrapper;
         public PlayerButtonsActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerButtons_Movement;
         public InputAction @Dash => m_Wrapper.m_PlayerButtons_Dash;
+        public InputAction @SwitchAttackForm => m_Wrapper.m_PlayerButtons_SwitchAttackForm;
+        public InputAction @BasicAttack => m_Wrapper.m_PlayerButtons_BasicAttack;
+        public InputAction @Ability1 => m_Wrapper.m_PlayerButtons_Ability1;
+        public InputAction @Ability2 => m_Wrapper.m_PlayerButtons_Ability2;
         public InputActionMap Get() { return m_Wrapper.m_PlayerButtons; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -206,6 +298,18 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @SwitchAttackForm.started += instance.OnSwitchAttackForm;
+            @SwitchAttackForm.performed += instance.OnSwitchAttackForm;
+            @SwitchAttackForm.canceled += instance.OnSwitchAttackForm;
+            @BasicAttack.started += instance.OnBasicAttack;
+            @BasicAttack.performed += instance.OnBasicAttack;
+            @BasicAttack.canceled += instance.OnBasicAttack;
+            @Ability1.started += instance.OnAbility1;
+            @Ability1.performed += instance.OnAbility1;
+            @Ability1.canceled += instance.OnAbility1;
+            @Ability2.started += instance.OnAbility2;
+            @Ability2.performed += instance.OnAbility2;
+            @Ability2.canceled += instance.OnAbility2;
         }
 
         private void UnregisterCallbacks(IPlayerButtonsActions instance)
@@ -216,6 +320,18 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @SwitchAttackForm.started -= instance.OnSwitchAttackForm;
+            @SwitchAttackForm.performed -= instance.OnSwitchAttackForm;
+            @SwitchAttackForm.canceled -= instance.OnSwitchAttackForm;
+            @BasicAttack.started -= instance.OnBasicAttack;
+            @BasicAttack.performed -= instance.OnBasicAttack;
+            @BasicAttack.canceled -= instance.OnBasicAttack;
+            @Ability1.started -= instance.OnAbility1;
+            @Ability1.performed -= instance.OnAbility1;
+            @Ability1.canceled -= instance.OnAbility1;
+            @Ability2.started -= instance.OnAbility2;
+            @Ability2.performed -= instance.OnAbility2;
+            @Ability2.canceled -= instance.OnAbility2;
         }
 
         public void RemoveCallbacks(IPlayerButtonsActions instance)
@@ -237,5 +353,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnSwitchAttackForm(InputAction.CallbackContext context);
+        void OnBasicAttack(InputAction.CallbackContext context);
+        void OnAbility1(InputAction.CallbackContext context);
+        void OnAbility2(InputAction.CallbackContext context);
     }
 }
