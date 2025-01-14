@@ -10,24 +10,39 @@ public class PlayerController : MonoBehaviour
     [Header("Player Move")]
     [SerializeField] private float MoveSpeed;
     [Header("Player Dash")]
-    [SerializeField] private float DashSpeed;
     [SerializeField] private float DashDuration;
     [SerializeField] private float DashCooldown;
     [Header("Player Attack")]
+    [Header("Fire Stats")]
+    [SerializeField] private float FireRollSpeed;
+    [SerializeField] private float FireAttackSpeed;
+    [SerializeField] private float FireAttackDamage;
+    [Header("Ice Stats")]
+    [SerializeField] private float IceRollSpeed;
+    [SerializeField] private float IceAttackSpeed;
+    [SerializeField] private float IceAttackDamage;
+    [Header("General")]
     [SerializeField] private float FormSwitchCooldown;
     [SerializeField] private float BasicAttackDuration;
     [SerializeField] private float BasicAttackCooldown;
+    private float playerRollSpeed;
+    private float playerAttackSpeed;
+    private float playerAttackDamage;
 
     //Form Enum
     [HideInInspector]
     public enum AttackForm {Fire, Ice};
     AttackForm PlayerAttackForm;
 
+
     //References
     [Header("References")]
     [SerializeField] private BoxCollider2D playerHitBox;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerAttack playerAttack;
+    [Header("Visuals")]
+    [SerializeField] private SpriteRenderer playerSprite;
+    [SerializeField] private Animator playerAnim;
 
     //Physics 
     private Vector2 moveDirection = Vector2.zero;
@@ -36,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private float DashCooldownTimer;
     private float FormSwitchCooldownTimer;
     private float BasicAttackCooldownTimer;
+    private bool playerStop = false;
 
     //WASD MOVEMENT CALLS
     public void OnMovement(InputAction.CallbackContext ctx)
@@ -49,11 +65,16 @@ public class PlayerController : MonoBehaviour
     //DASH
     public void OnDash(InputAction.CallbackContext ctx)
     {
-        if (DashCooldownTimer <= 0f)
+        if (ctx.started)
         {
-            isDashing = true;
-            StartCoroutine(DashCoroutine());
+            if (DashCooldownTimer <= 0f && !isDashing && !playerStop)
+            {
+                isDashing = true;
+                playerAnim.Play("PlayerRoll");
+                StartCoroutine(DashCoroutine());
+            }
         }
+
     }
     private IEnumerator DashCoroutine()
     {
@@ -64,30 +85,46 @@ public class PlayerController : MonoBehaviour
     //SWITCH ATTACK FORM
     public void OnFormSwitch(InputAction.CallbackContext ctx)
     {
-        if (!isDashing && FormSwitchCooldownTimer <= 0)
+        if (ctx.started)
         {
-            SwitchAttackForm();
+            if (!isDashing && FormSwitchCooldownTimer <= 0)
+            {
+                SwitchAttackForm();
+            }
         }
+
     }
     //ATTACK
     public void OnBasicAttack(InputAction.CallbackContext ctx)
     {
-        if (!isDashing && BasicAttackCooldownTimer <= 0)
+        if (ctx.started)
         {
-            playerAttack.BasicAttack();
-            BasicAttackCooldownTimer = BasicAttackCooldown;
+            if (!isDashing && BasicAttackCooldownTimer <= 0 && !playerStop)
+            {
+                playerAttack.BasicAttack();
+                BasicAttackCooldownTimer = BasicAttackCooldown;
+            }
         }
+
     }
     //Physics Movement
     private void FixedUpdate()
     {
-        if (isDashing)
+        //Moveing or Dashing
+        if (playerStop)
         {
-            rb.velocity = dashDirection * DashSpeed;
+            rb.velocity = Vector2.zero;
         }
-        else if (!isDashing)
+        else
         {
-            rb.velocity = moveDirection * MoveSpeed;
+            if (isDashing)
+            {
+                rb.velocity = dashDirection * playerRollSpeed;
+            }
+            else
+            {
+                rb.velocity = moveDirection * MoveSpeed;
+            }
         }
     }
 
@@ -101,18 +138,64 @@ public class PlayerController : MonoBehaviour
         //Attack Cooldown
         if (BasicAttackCooldownTimer > 0) { BasicAttackCooldownTimer -= Time.deltaTime; }
 
+        //Player State
+        if (moveDirection == Vector2.zero && !isDashing)
+        {
+            playerAnim.SetBool("Run", false);
+        }
+        else if (moveDirection != Vector2.zero && !isDashing)
+        {
+            playerAnim.SetBool("Run", true);
+        }
+
+        //Flip Sprite
+        if (moveDirection.x > 0)
+        {
+            playerSprite.flipX = false;
+        }
+        else if (moveDirection.x < 0)
+        {
+            playerSprite.flipX = true;
+        }
+
     }
     private void Start()
     {
         PlayerAttackForm = AttackForm.Fire; //Player starts in fire form
+        SetFormStats();
     }
 
     //FORM SWITCHING/TRACKING
     //SwitchForm
     private void SwitchAttackForm() //Swtich from other form
     {
-        PlayerAttackForm = PlayerAttackForm == AttackForm.Fire ? AttackForm.Ice : AttackForm.Fire;
+        if (PlayerAttackForm == AttackForm.Fire)
+        {
+            playerAnim.Play("PlayerChangeToIce");
+            PlayerAttackForm = AttackForm.Ice;
+        }
+        else if (PlayerAttackForm == AttackForm.Ice)
+        {
+            playerAnim.Play("PlayerChangeToFire");
+            PlayerAttackForm = AttackForm.Fire;
+        }
+        SetFormStats();
         FormSwitchCooldownTimer = FormSwitchCooldown;
+    }
+    private void SetFormStats()
+    {
+        if (PlayerAttackForm == AttackForm.Fire)
+        {
+            playerRollSpeed = FireRollSpeed;
+            playerAttackSpeed = FireAttackSpeed;
+            playerAttackDamage = FireAttackDamage;
+        }
+        if (PlayerAttackForm == AttackForm.Ice)
+        {
+            playerRollSpeed = IceRollSpeed;
+            playerAttackSpeed = IceAttackSpeed;
+            playerAttackDamage = IceAttackDamage;
+        }
     }
     //Get Form
     public AttackForm GetAttackForm()
@@ -123,6 +206,14 @@ public class PlayerController : MonoBehaviour
     public Vector2 GetMoveVector()
     {
         return dashDirection;
+    }
+    public void SetPlayerStop()
+    {
+        playerStop = true;
+    }
+    public void UndoPlayerStop()
+    {
+        playerStop = false;
     }
     //Get Attack Duration
     public float GetAttackDuration()
