@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -106,6 +107,24 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+    //ABILITIES
+    public void OnAbilityOne(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            //playerAttack.CallAbility(1);
+            Debug.Log("First Ability");
+        }
+
+    }
+    public void OnAbilityTwo(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            //playerAttack.CallAbility(2);
+            Debug.Log("Second Ability");
+        }
     }
     //Physics Movement
     private void FixedUpdate()

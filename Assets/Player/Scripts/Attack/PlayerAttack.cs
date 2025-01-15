@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -64,5 +66,44 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(attackDuration);
         attackBox.enabled = false;
     }
+
+
+
+    //ABILITIES
+    //[SerializeField] private List<PlayerAbility> AbilityList;
+    //private PlayerAbility Ability1;
+    //private PlayerAbility Ability2;
+
+    //private void AssignAbility(PlayerAbility ability)
+    //{
+    //    if (ability != null)
+    //    {
+    //        if(Ability1 == null)
+    //        {
+    //            Ability1 = ability;
+    //        }
+    //        else
+    //        {
+    //            Ability2 = ability;
+    //        }
+    //    }
+    //}
+
+    //public void CallAbility(int x)
+    //{
+    //    switch (x)
+    //    {
+    //        case 1:
+    //            Ability1.UseAbility();
+    //            break;
+    //        case 2:
+    //            Ability2.UseAbility();
+    //            break;
+    //        default:
+    //            Debug.Log("Ability Num Incorrect");
+    //            break;
+    //    }
+    //}
+
 
 }
