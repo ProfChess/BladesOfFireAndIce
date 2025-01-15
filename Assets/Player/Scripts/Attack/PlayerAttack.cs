@@ -9,14 +9,17 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("Visual")]
     [SerializeField] private Animator playerAnim;
+    [SerializeField] private Animator attackAnim;
+    [SerializeField] private SpriteRenderer attackSprite;
 
     private float offsetDistance = 1f;
     private float attackDuration;
     PlayerController.AttackForm attackForm;
     private void Start()
     {
-        attackBox.enabled = false;
-        attackDuration = controls.GetAttackDuration();
+        attackSprite.sortingOrder = -1;                 //Hide Attack Sprite
+        attackBox.enabled = false;                      //Turn Collider Off
+        attackDuration = controls.GetAttackDuration();  //Assign Duration 
     }
 
     //Places Attack Box Collider in Direction Player is Moving
@@ -24,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
     {
         //Animation
         attackForm = controls.GetAttackForm();
+
         if (attackForm == PlayerController.AttackForm.Fire)
         {
             playerAnim.Play("PlayerSlash");
@@ -42,9 +46,18 @@ public class PlayerAttack : MonoBehaviour
         attackBox.transform.localPosition = attackDirection;
         attackBox.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
 
+        //Hit Effect
+        AttackHitAnimation();
+
         //Collider on and Start Coroutine
         attackBox.enabled = true;
         StartCoroutine(BaseAttackStay());
+    }
+    private void AttackHitAnimation()
+    {
+        attackAnim.SetBool("Fire", attackForm == PlayerController.AttackForm.Fire);
+        attackAnim.SetTrigger("BasicAttack");
+        attackSprite.sortingOrder = 2;
     }
     private IEnumerator BaseAttackStay() //Collider stays for attack duration
     {

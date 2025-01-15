@@ -11,14 +11,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float MoveSpeed;
     [Header("Player Dash")]
     [SerializeField] private float DashDuration;
-    [SerializeField] private float DashCooldown;
+    [SerializeField] private float DashSpeed;
     [Header("Player Attack")]
     [Header("Fire Stats")]
-    [SerializeField] private float FireRollSpeed;
+    [SerializeField] private float FireRollCooldown;
     [SerializeField] private float FireAttackSpeed;
     [SerializeField] private float FireAttackDamage;
     [Header("Ice Stats")]
-    [SerializeField] private float IceRollSpeed;
+    [SerializeField] private float IceRollCooldown;
     [SerializeField] private float IceAttackSpeed;
     [SerializeField] private float IceAttackDamage;
     [Header("General")]
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(DashDuration);
         isDashing = false;
-        DashCooldownTimer = DashCooldown;
+        DashCooldownTimer = playerRollSpeed;
     }
     //SWITCH ATTACK FORM
     public void OnFormSwitch(InputAction.CallbackContext ctx)
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isDashing)
             {
-                rb.velocity = dashDirection * playerRollSpeed;
+                rb.velocity = dashDirection * DashSpeed;
             }
             else
             {
@@ -186,16 +186,17 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerAttackForm == AttackForm.Fire)
         {
-            playerRollSpeed = FireRollSpeed;
+            playerRollSpeed = FireRollCooldown;
             playerAttackSpeed = FireAttackSpeed;
             playerAttackDamage = FireAttackDamage;
         }
         if (PlayerAttackForm == AttackForm.Ice)
         {
-            playerRollSpeed = IceRollSpeed;
+            playerRollSpeed = IceRollCooldown;
             playerAttackSpeed = IceAttackSpeed;
             playerAttackDamage = IceAttackDamage;
         }
+        playerAnim.SetFloat("AttackSpeed", playerAttackSpeed);
     }
     //Get Form
     public AttackForm GetAttackForm()
@@ -215,10 +216,13 @@ public class PlayerController : MonoBehaviour
     {
         playerStop = false;
     }
-    //Get Attack Duration
-    public float GetAttackDuration()
+    //GET ATTACK STATS
+    public float GetAttackDuration()    //Get Attack Duration
     {
         return BasicAttackDuration;
     }
-
+    public float GetAttackSpeed()       //Get Attack Speed
+    {
+        return playerAttackSpeed;
+    }
 }

@@ -21,4 +21,12 @@ public class PlayerAnimationEvent : MonoBehaviour
     {
         attacks.callAttack();
     }
+
+
+    private void Start()
+    {
+        Animator anim = GetComponent<Animator>();
+        anim.SetFloat("AttackSpeed", controls.GetAttackSpeed());
+    }
+
 }
