@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     //Physics 
     private Vector2 moveDirection = Vector2.zero;
-    private Vector2 dashDirection = Vector2.zero;
+    private Vector2 dashDirection = Vector2.right;
     private bool isDashing = false;
     private float DashCooldownTimer;
     private float FormSwitchCooldownTimer;
@@ -225,7 +225,14 @@ public class PlayerController : MonoBehaviour
     //Get Movement Vector
     public Vector2 GetMoveVector()
     {
-        return dashDirection;
+        if (moveDirection == Vector2.zero)
+        {
+            return dashDirection;
+        }
+        else
+        {
+            return moveDirection;
+        }
     }
     public void SetPlayerStop()
     {
