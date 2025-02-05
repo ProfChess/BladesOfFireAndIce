@@ -995,8 +995,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Space:
     m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 350, y: 250, z: 0}
-  minRoomSize: {x: 75, y: 35}
+    m_Size: {x: 50, y: 50, z: 0}
+  minRoomSize: {x: 5, y: 5}
 --- !u!4 &1696567155
 Transform:
   m_ObjectHideFlags: 0

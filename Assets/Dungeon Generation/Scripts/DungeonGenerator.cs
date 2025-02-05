@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class DungeonGenerator : MonoBehaviour
 
     //List of rooms
     private List<BoundsInt> roomList = new List<BoundsInt>();
+    private List<Tuple<BoundsInt, BoundsInt>> corridorList = new List<Tuple<BoundsInt, BoundsInt>>();
+    private List<Vector3Int> roomCenterList = new List<Vector3Int>();
 
     void Start()
     {
@@ -18,9 +21,10 @@ public class DungeonGenerator : MonoBehaviour
         FirstRoom = new DungeonRoom(Space, minRoomSize);
         FirstRoom.SplitRecursive();       //Create Tree
         CollectLeafRooms(FirstRoom);      //Collect Leaf Nodes
+        CollectCorridors();
     }
 
-    private void CollectLeafRooms(DungeonRoom room)
+    private void CollectLeafRooms(DungeonRoom room) //Gathers rooms into list
     {
         if (room != null)
         {
@@ -36,6 +40,31 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+    private void CollectCorridors()
+    {
+        foreach (BoundsInt room in roomList)
+        {
+            roomCenterList.Add(Vector3Int.RoundToInt(room.center));
+        }
+        for (int i = 0; i < roomList.Count - 1; i++)
+        {
+            Vector3Int xy1 = new Vector3Int(roomCenterList[i].x, roomCenterList[i].y, 0);
+            Vector3Int xy2 = new Vector3Int(roomCenterList[i+1].x, roomCenterList[i+1].y, 0);
+            int xStart = Mathf.Min(xy1.x, xy2.x);
+            int yStart = Mathf.Min(xy1.y, xy2.y);
+            int xEnd = Mathf.Max(xy1.x, xy2.x);
+            int yEnd = Mathf.Max(xy1.y, xy2.y);
+
+            int xLength = Mathf.Max(1, xEnd -  xStart);
+            int yLength = Mathf.Max(1, yEnd - yStart);
+
+            BoundsInt XCor = new BoundsInt(new Vector3Int(xStart, xy1.y, 0), new Vector3Int(xLength, 1, 0));
+
+            BoundsInt YCor = new BoundsInt(new Vector3Int(xy2.x, yStart, 0), new Vector3Int(1, yLength, 0));
+
+            corridorList.Add(new Tuple<BoundsInt, BoundsInt>(XCor, YCor));
+        }
+    }
     private void OnDrawGizmos()
     {
         if (roomList == null) return;
@@ -46,6 +75,12 @@ public class DungeonGenerator : MonoBehaviour
         {
             // Draw the room as a wireframe box
             Gizmos.DrawWireCube(room.center, room.size);
+        }
+        Gizmos.color = Color.red;
+        foreach (Tuple<BoundsInt, BoundsInt> Cor in corridorList)
+        {
+            Gizmos.DrawWireCube(Cor.Item1.center, Cor.Item1.size);
+            Gizmos.DrawWireCube(Cor.Item2.center, Cor.Item2.size);
         }
     }
 
