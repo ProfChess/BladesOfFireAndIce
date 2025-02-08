@@ -13,15 +13,19 @@ public class DungeonGenerator : MonoBehaviour
     //List of rooms
     private List<BoundsInt> roomList = new List<BoundsInt>();
     private List<Tuple<BoundsInt, BoundsInt>> corridorList = new List<Tuple<BoundsInt, BoundsInt>>();
-    private List<Vector3Int> roomCenterList = new List<Vector3Int>();
+    private List<Tuple<BoundsInt, BoundsInt, float>> roomDistances = new List<Tuple<BoundsInt, BoundsInt, float>>();
+
+    //Room Specifics
+    [SerializeField]
+    private int roomBuffer = 1;
 
     void Start()
     {
         roomList.Clear();
-        FirstRoom = new DungeonRoom(Space, minRoomSize);
+        FirstRoom = new DungeonRoom(Space, minRoomSize, roomBuffer);
         FirstRoom.SplitRecursive();       //Create Tree
         CollectLeafRooms(FirstRoom);      //Collect Leaf Nodes
-        CollectCorridors();
+        SortRoomDistance();
     }
 
     private void CollectLeafRooms(DungeonRoom room) //Gathers rooms into list
@@ -39,31 +43,82 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
-
-    private void CollectCorridors()
+    private void SortRoomDistance()
     {
-        foreach (BoundsInt room in roomList)
+        for (int i = 0; i < roomList.Count; i++)
         {
-            roomCenterList.Add(Vector3Int.RoundToInt(room.center));
+            for (int a = i + 1; a < roomList.Count; a++)
+            {
+                BoundsInt FirstRoom = roomList[i];
+                BoundsInt SecondRoom = roomList[a];
+
+                float d = Vector3Int.Distance(Vector3Int.RoundToInt(FirstRoom.center), Vector3Int.RoundToInt(SecondRoom.center));
+                roomDistances.Add(new Tuple<BoundsInt, BoundsInt, float>(FirstRoom, SecondRoom, d));
+            }
         }
-        for (int i = 0; i < roomList.Count - 1; i++)
+
+        roomDistances.Sort((a, b) => a.Item3.CompareTo(b.Item3));
+        GenerateMST();
+    }
+    private void GenerateMST()
+    {
+        //Set of rooms already checked
+        HashSet<BoundsInt> checkedRooms = new HashSet<BoundsInt>();
+        List<Tuple<BoundsInt, BoundsInt, float>> freeEdges = new List<Tuple<BoundsInt, BoundsInt, float>>();
+
+        checkedRooms.Add(roomList[0]); //Pick First Room
+
+        //Get all connected edges
+        foreach (var edge in roomDistances)
         {
-            Vector3Int xy1 = new Vector3Int(roomCenterList[i].x, roomCenterList[i].y, 0);
-            Vector3Int xy2 = new Vector3Int(roomCenterList[i+1].x, roomCenterList[i+1].y, 0);
-            int xStart = Mathf.Min(xy1.x, xy2.x);
-            int yStart = Mathf.Min(xy1.y, xy2.y);
-            int xEnd = Mathf.Max(xy1.x, xy2.x);
-            int yEnd = Mathf.Max(xy1.y, xy2.y);
-
-            int xLength = Mathf.Max(1, xEnd -  xStart);
-            int yLength = Mathf.Max(1, yEnd - yStart);
-
-            BoundsInt XCor = new BoundsInt(new Vector3Int(xStart, xy1.y, 0), new Vector3Int(xLength, 1, 0));
-
-            BoundsInt YCor = new BoundsInt(new Vector3Int(xy2.x, yStart, 0), new Vector3Int(1, yLength, 0));
-
-            corridorList.Add(new Tuple<BoundsInt, BoundsInt>(XCor, YCor));
+            if (edge.Item1 == roomList[0] || edge.Item2 == roomList[0])
+            {
+                freeEdges.Add(edge);
+            }
         }
+        while (checkedRooms.Count < roomList.Count)
+        {
+            freeEdges.Sort((a, b) => a.Item3.CompareTo(b.Item3));
+
+            var shortestEdge = freeEdges[0];
+            freeEdges.RemoveAt(0);
+
+            BoundsInt newRoom = !checkedRooms.Contains(shortestEdge.Item1) ? shortestEdge.Item1 : shortestEdge.Item2;
+
+            if (!checkedRooms.Contains(newRoom))
+            {
+                checkedRooms.Add(newRoom);
+
+                CreateCorridor(shortestEdge.Item1.center, shortestEdge.Item2.center);
+
+                foreach (var edge in roomDistances)
+                {
+                    if ((edge.Item1 == newRoom || edge.Item2 == newRoom) && (!checkedRooms.Contains(edge.Item1) || !checkedRooms.Contains(edge.Item2)))
+                    {
+                        freeEdges.Add(edge);
+                    }
+                }
+            }
+        }
+    }
+    private void CreateCorridor(Vector3 First, Vector3 Second)
+    {
+        Vector3Int xy1 = Vector3Int.RoundToInt(First);
+        Vector3Int xy2 = Vector3Int.RoundToInt(Second);
+
+        int xStart = Mathf.Min(xy1.x, xy2.x);
+        int yStart = Mathf.Min(xy1.y, xy2.y);
+        int xEnd = Mathf.Max(xy1.x, xy2.x);
+        int yEnd = Mathf.Max(xy1.y, xy2.y);
+
+        int xLength = Mathf.Max(1, xEnd - xStart);
+        int yLength = Mathf.Max(1, yEnd - yStart);
+
+        BoundsInt XCor = new BoundsInt(new Vector3Int(xStart, xy1.y, 0), new Vector3Int(xLength, 1, 0));
+
+        BoundsInt YCor = new BoundsInt(new Vector3Int(xy2.x, yStart, 0), new Vector3Int(1, yLength, 0));
+
+        corridorList.Add(new Tuple<BoundsInt, BoundsInt>(XCor, YCor));
     }
     private void OnDrawGizmos()
     {
@@ -96,13 +151,14 @@ public class DungeonRoom
     public bool HasChild => leftChild != null || rightChild != null;
 
     private Vector2Int minRoomSize;
-
+    private int roomBuffer;
 
     //Constructor
-    public DungeonRoom(BoundsInt roomSpace, Vector2Int minSize)
+    public DungeonRoom(BoundsInt roomSpace, Vector2Int minSize, int roomBuff)
     {
         space = roomSpace;
         minRoomSize = minSize;
+        roomBuffer = roomBuff;
     }
 
     // Method to split the room
@@ -112,24 +168,36 @@ public class DungeonRoom
 
         //Calculate Aspect Ratio of Room
         float aspectRatio = (float)space.size.y / space.size.x;
-        
-        //Calculate Bias
-        float hBias = aspectRatio;
-        float vBias = 1.0f / aspectRatio;
-        float totalBias = hBias + vBias;
-        float weightedRandom = (float)random.NextDouble() * totalBias;
+
+        //Check if splitting is only possible one way
         int randomAxis;
-        if (weightedRandom < hBias)
+        if (space.size.x <= 2 * minRoomSize.x)
         {
             randomAxis = 0;
         }
-        else
+        else if (space.size.y <= 2 * minRoomSize.y)
         {
             randomAxis = 1;
         }
+        else
+        {
+            //Calculate Bias
+            float hBias = aspectRatio;
+            float vBias = 1.0f / aspectRatio;
+            float totalBias = hBias + vBias;
+            float weightedRandom = (float)random.NextDouble() * totalBias;
+            if (weightedRandom < hBias)
+            {
+                randomAxis = 0;
+            }
+            else
+            {
+                randomAxis = 1;
+            }
+        }
+        
 
         int randomPoint;
-        int roomBuffer = 1;
 
         if (randomAxis == 0)                // Horizontal split
         {
@@ -142,11 +210,11 @@ public class DungeonRoom
             if (leftSpace.size.x >= minRoomSize.x && leftSpace.size.y >= minRoomSize.y &&
                 rightSpace.size.x >= minRoomSize.x && rightSpace.size.y >= minRoomSize.y)
             {
-                leftChild = new DungeonRoom (leftSpace, minRoomSize);
-                rightChild = new DungeonRoom (rightSpace, minRoomSize);
+                leftChild = new DungeonRoom (leftSpace, minRoomSize, roomBuffer);
+                rightChild = new DungeonRoom (rightSpace, minRoomSize, roomBuffer);
             }
         }
-        else // Vertical split
+        else                                // Vertical split
         {
             randomPoint = random.Next(space.xMin + minRoomSize.x, space.xMax - minRoomSize.x); // avoid splitting too close to the edge
 
@@ -157,8 +225,8 @@ public class DungeonRoom
             if (leftSpace.size.x >= minRoomSize.x && leftSpace.size.y >= minRoomSize.y &&
                 rightSpace.size.x >= minRoomSize.x && rightSpace.size.y >= minRoomSize.y)
             {
-                leftChild = new DungeonRoom(leftSpace, minRoomSize);
-                rightChild = new DungeonRoom(rightSpace, minRoomSize);
+                leftChild = new DungeonRoom(leftSpace, minRoomSize, roomBuffer);
+                rightChild = new DungeonRoom(rightSpace, minRoomSize, roomBuffer);
             }
         }
     }
@@ -166,12 +234,10 @@ public class DungeonRoom
     //Create BSP Tree
     public void SplitRecursive()
     {
-        if (space.size.x <= 2 * minRoomSize.x || space.size.y <= 2 * minRoomSize.y)
+        if (space.size.x > 2 * minRoomSize.x || space.size.y > 2 * minRoomSize.y)
         {
-            return;
+            Split(); //Split again
         }
-
-        Split(); //Split again
 
         if (leftChild == null && rightChild == null)
         {
