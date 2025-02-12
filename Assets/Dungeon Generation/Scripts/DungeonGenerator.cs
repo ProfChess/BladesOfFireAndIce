@@ -19,7 +19,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField]
     private int roomBuffer = 1;
 
-    void Start()
+    void Awake()
     {
         roomList.Clear();
         FirstRoom = new DungeonRoom(Space, minRoomSize, roomBuffer);
@@ -114,9 +114,9 @@ public class DungeonGenerator : MonoBehaviour
         int xLength = Mathf.Max(1, xEnd - xStart);
         int yLength = Mathf.Max(1, yEnd - yStart);
 
-        BoundsInt XCor = new BoundsInt(new Vector3Int(xStart, xy1.y, 0), new Vector3Int(xLength, 1, 0));
+        BoundsInt XCor = new BoundsInt(new Vector3Int(xStart, xy1.y, 0), new Vector3Int(xLength, 2, 0));
 
-        BoundsInt YCor = new BoundsInt(new Vector3Int(xy2.x, yStart, 0), new Vector3Int(1, yLength, 0));
+        BoundsInt YCor = new BoundsInt(new Vector3Int(xy2.x, yStart, 0), new Vector3Int(2, yLength, 0));
 
         corridorList.Add(new Tuple<BoundsInt, BoundsInt>(XCor, YCor));
     }
@@ -139,6 +139,16 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
+
+    //GET LISTS
+    public List<BoundsInt> getRoomList()
+    {
+        return roomList;
+    }
+    public List<Tuple<BoundsInt, BoundsInt>> getCorridorList()
+    {
+        return corridorList;
+    }
 }
 
 public class DungeonRoom
