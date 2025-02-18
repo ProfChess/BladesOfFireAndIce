@@ -5,7 +5,7 @@ using UnityEngine;
 public class DungeonGenerator : MonoBehaviour 
 {
     //Dungeon Specs
-    [SerializeField] private BoundsInt Space;
+    public BoundsInt Space;
     [SerializeField] private Vector2Int minRoomSize;
 
     private DungeonRoom FirstRoom;
@@ -120,27 +120,6 @@ public class DungeonGenerator : MonoBehaviour
 
         corridorList.Add(new Tuple<BoundsInt, BoundsInt>(XCor, YCor));
     }
-    private void OnDrawGizmos()
-    {
-        if (roomList == null) return;
-
-        Gizmos.color = Color.green;
-
-        foreach (BoundsInt room in roomList)
-        {
-            // Draw the room as a wireframe box
-            Gizmos.DrawWireCube(room.center, room.size);
-        }
-        Gizmos.color = Color.red;
-        foreach (Tuple<BoundsInt, BoundsInt> Cor in corridorList)
-        {
-            Gizmos.DrawWireCube(Cor.Item1.center, Cor.Item1.size);
-            Gizmos.DrawWireCube(Cor.Item2.center, Cor.Item2.size);
-        }
-    }
-
-
-    //GET LISTS
     public List<BoundsInt> getRoomList()
     {
         return roomList;
