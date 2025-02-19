@@ -9,43 +9,41 @@ public class CameraFollowScript : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private DungeonGenerator DunGen;
 
+    //Camera
+    private Camera cam;
+    private float camHalfHeight;
+    private float camHalfWidth;
+
     private void Start()
     {
-        xyMinLimit = new Vector2(DunGen.Space.xMin, DunGen.Space.yMin);
-        xyMaxLimit = new Vector2(DunGen.Space.xMax, DunGen.Space.yMax);
+        //Camera Set
+        cam = Camera.main;
+
+        //Bounds
+        xyMinLimit = new Vector2(DunGen.Space.xMin - 1, DunGen.Space.yMin - 1);
+        xyMaxLimit = new Vector2(DunGen.Space.xMax + 1, DunGen.Space.yMax + 1);
     }
 
     private void LateUpdate()
     {
-        if (player != null)
-        {
-            followPlayer();
-        }
+        followPlayer();
     }
 
     private void followPlayer()
     {
-        if (isWithinLimits())
-        {
-            gameObject.transform.position = Vector3.Lerp(transform.position, 
-                new Vector3(player.transform.position.x, player.transform.position.y, gameObject.transform.position.z), 1);
+        if (player == null) { return;}
 
-        }
+        camHalfHeight = cam.orthographicSize;
+        camHalfWidth = camHalfHeight * cam.aspect;
+
+        Vector2 PlayerPos = player.transform.position;
+        float targetX = Mathf.Clamp(PlayerPos.x, xyMinLimit.x + camHalfWidth, xyMaxLimit.x - camHalfWidth);
+        float targetY = Mathf.Clamp(PlayerPos.y, xyMinLimit.y + camHalfHeight, xyMaxLimit.y - camHalfHeight);
+
+        Vector3 Goal = new Vector3(targetX, targetY, gameObject.transform.position.z);
+        gameObject.transform.position = Vector3.Lerp(transform.position, Goal, 1); //Moves towards player
+
     }
 
-
-    private bool isWithinLimits()
-    {
-        //Check if camera is within map
-        Vector2 p = gameObject.transform.position;
-        if (p.x >= xyMinLimit.x && p.x <= xyMaxLimit.x)     //Checks X position
-        {
-            if (p.y >= xyMinLimit.y && p.y <= xyMaxLimit.y) //Checks Y position
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

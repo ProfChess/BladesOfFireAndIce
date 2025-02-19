@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer playerSprite;
     [SerializeField] private Animator playerAnim;
+    [SerializeField] private PlayerAnimationEvent pae;
 
     //Physics 
     private Vector2 moveDirection = Vector2.zero;
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!isDashing && BasicAttackCooldownTimer <= 0 && !playerStop)
             {
+                FlipSpriteByMouse();
                 playerAttack.BasicAttack();
                 BasicAttackCooldownTimer = BasicAttackCooldown;
             }
@@ -168,15 +170,32 @@ public class PlayerController : MonoBehaviour
         }
 
         //Flip Sprite
-        if (moveDirection.x > 0)
+        if (moveDirection == Vector2.zero && !pae.GetIsAttacking())         //Player is not moving or attacking
+        {
+            FlipSpriteByMouse();
+        }
+        else if (moveDirection != Vector2.zero && !pae.GetIsAttacking())    //PLayer is moving but not attacking
+        {
+            playerSprite.flipX = moveDirection.x < 0;
+        }
+        else                                                                //Player is attacking
+        {
+            Vector2 MD = playerAttack.GetMouseDirection();                  
+            playerSprite.flipX = MD.x < 0;
+        }
+    }
+    private void FlipSpriteByMouse()
+    {
+        Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
+        Vector2 MouseDirection = (MouseLocation - gameObject.transform.position).normalized;
+        if (MouseDirection.x > 0)
         {
             playerSprite.flipX = false;
         }
-        else if (moveDirection.x < 0)
+        else if (MouseDirection.x < 0)
         {
             playerSprite.flipX = true;
         }
-
     }
     private void Start()
     {
