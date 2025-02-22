@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour 
@@ -16,30 +17,43 @@ public class DungeonGenerator : MonoBehaviour
     private List<Tuple<BoundsInt, BoundsInt, float>> roomDistances = new List<Tuple<BoundsInt, BoundsInt, float>>();
 
     //Room Specifics
-    [SerializeField]
-    private int roomBuffer = 1;
+    [SerializeField] private int roomBuffer = 1;
 
     void Awake()
     {
         roomList.Clear();
+        if (!(Space.size.x > 2 * minRoomSize.x + roomBuffer && Space.size.y > 2 * minRoomSize.y + roomBuffer))
+        {
+            Debug.Log("Returning To Default Dungeon Size");
+            Space.size = new Vector3Int(12, 12, 0);
+            roomBuffer = 1;
+            minRoomSize = new Vector2Int(5, 5);
+        }
+
         FirstRoom = new DungeonRoom(Space, minRoomSize, roomBuffer);
         FirstRoom.SplitRecursive();       //Create Tree
         CollectLeafRooms(FirstRoom);      //Collect Leaf Nodes
         SortRoomDistance();
     }
-
+    
     private void CollectLeafRooms(DungeonRoom room) //Gathers rooms into list
     {
         if (room != null)
         {
-            if (room.HasChild)
+            if (!room.HasChild)
             {
-                CollectLeafRooms(room.leftChild);
-                CollectLeafRooms(room.rightChild);
+                roomList.Add(room.space);
             }
             else
             {
-                roomList.Add(room.space);
+                if (room.leftChild != null)
+                {
+                    CollectLeafRooms(room.leftChild);
+                }
+                if (room.rightChild != null)
+                {
+                    CollectLeafRooms(room.rightChild);
+                }
             }
         }
     }
@@ -138,7 +152,6 @@ public class DungeonRoom
 
     //Check if room has children
     public bool HasChild => leftChild != null || rightChild != null;
-
     private Vector2Int minRoomSize;
     private int roomBuffer;
 
@@ -171,44 +184,65 @@ public class DungeonRoom
         else
         {
             //Calculate Bias
-            float hBias = aspectRatio;
-            float vBias = 1.0f / aspectRatio;
+            float hBias = Mathf.Clamp(aspectRatio, 0.5f, 2.0f);
+            float vBias = 1.0f / Mathf.Clamp(aspectRatio, 0.5f, 2.0f);
             float totalBias = hBias + vBias;
             float weightedRandom = (float)random.NextDouble() * totalBias;
-            if (weightedRandom < hBias)
-            {
-                randomAxis = 0;
-            }
-            else
-            {
-                randomAxis = 1;
-            }
+            randomAxis = (weightedRandom < hBias) ? 0 : 1;
         }
         
 
         int randomPoint;
 
-        if (randomAxis == 0)                // Horizontal split
+        if (randomAxis == 0)                // Horizontal split -> Y AXIS
         {
-            randomPoint = random.Next(space.yMin + minRoomSize.y, space.yMax - minRoomSize.y); // avoid splitting too close to the edge
+            if (space.size.y - 2 * minRoomSize.y - roomBuffer <= 0) { return; }
+            if (space.yMin + minRoomSize.y + roomBuffer >= space.yMax - minRoomSize.y - roomBuffer)
+            {
+                randomPoint = (space.yMin + space.yMax) / 2;
+            }
+            else
+            {
+                randomPoint = random.Next(space.yMin + minRoomSize.y + roomBuffer, space.yMax - minRoomSize.y - roomBuffer);
+            }
 
-            BoundsInt leftSpace = new BoundsInt(space.position, new Vector3Int(space.size.x, randomPoint - space.yMin - roomBuffer, 0));
-            BoundsInt rightSpace = new BoundsInt(new Vector3Int(space.xMin, randomPoint + roomBuffer, 0), new Vector3Int(space.size.x, space.yMax - randomPoint - roomBuffer, 0));
+            SplitAttempt(randomAxis, randomPoint);
+        }
+        else                                // Vertical split -> X AXIS
+        {
+            if (space.size.x - 2 * minRoomSize.x - roomBuffer <= 0) { return; }
+            if (space.xMin + minRoomSize.x + roomBuffer >= space.xMax - minRoomSize.x - roomBuffer)
+            {
+                randomPoint = (space.xMin + space.xMax) / 2;
+            }
+            else
+            {
+                randomPoint = random.Next(space.xMin + minRoomSize.x + roomBuffer, space.xMax - minRoomSize.x - roomBuffer);
+            }
 
-            // Ensure both rooms are big enough
+            SplitAttempt(randomAxis, randomPoint);
+        }
+    }
+    private bool SplitAttempt(int randomAxis, int splitPoint)
+    {
+        if (randomAxis == 0)
+        {
+            BoundsInt leftSpace = new BoundsInt(space.position, new Vector3Int(space.size.x, splitPoint - space.yMin - roomBuffer, 0));
+            BoundsInt rightSpace = new BoundsInt(new Vector3Int(space.xMin, splitPoint + roomBuffer, 0), 
+                new Vector3Int(space.size.x, space.yMax - splitPoint - roomBuffer, 0));
             if (leftSpace.size.x >= minRoomSize.x && leftSpace.size.y >= minRoomSize.y &&
                 rightSpace.size.x >= minRoomSize.x && rightSpace.size.y >= minRoomSize.y)
             {
-                leftChild = new DungeonRoom (leftSpace, minRoomSize, roomBuffer);
-                rightChild = new DungeonRoom (rightSpace, minRoomSize, roomBuffer);
+                leftChild = new DungeonRoom(leftSpace, minRoomSize, roomBuffer);
+                rightChild = new DungeonRoom(rightSpace, minRoomSize, roomBuffer);
+                return true;
             }
         }
-        else                                // Vertical split
+        else
         {
-            randomPoint = random.Next(space.xMin + minRoomSize.x, space.xMax - minRoomSize.x); // avoid splitting too close to the edge
-
-            BoundsInt leftSpace = new BoundsInt(space.position, new Vector3Int(randomPoint - space.xMin - roomBuffer, space.size.y, 0));
-            BoundsInt rightSpace = new BoundsInt(new Vector3Int(randomPoint + roomBuffer, space.yMin, 0), new Vector3Int(space.xMax - randomPoint - roomBuffer, space.size.y, 0));
+            BoundsInt leftSpace = new BoundsInt(space.position, new Vector3Int(splitPoint - space.xMin - roomBuffer, space.size.y, 0));
+            BoundsInt rightSpace = new BoundsInt(new Vector3Int(splitPoint + roomBuffer, space.yMin, 0), 
+                new Vector3Int(space.xMax - splitPoint - roomBuffer, space.size.y, 0));
 
             // Ensure both rooms are big enough
             if (leftSpace.size.x >= minRoomSize.x && leftSpace.size.y >= minRoomSize.y &&
@@ -216,8 +250,11 @@ public class DungeonRoom
             {
                 leftChild = new DungeonRoom(leftSpace, minRoomSize, roomBuffer);
                 rightChild = new DungeonRoom(rightSpace, minRoomSize, roomBuffer);
+                return true;
             }
         }
+        return false;
+        
     }
 
     //Create BSP Tree
@@ -225,13 +262,13 @@ public class DungeonRoom
     {
         if (space.size.x > 2 * minRoomSize.x || space.size.y > 2 * minRoomSize.y)
         {
-            Split(); //Split again
+            Split();
         }
-
-        if (leftChild == null && rightChild == null)
+        else if (space.size.x <= 2 * minRoomSize.x && space.size.y <= 2 * minRoomSize.y)
         {
             return;
         }
+        
 
         //If successful split again
         if (leftChild != null)
@@ -242,5 +279,7 @@ public class DungeonRoom
         {
             rightChild.SplitRecursive();
         }
+
+
     }
 }

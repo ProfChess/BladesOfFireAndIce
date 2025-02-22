@@ -20,8 +20,9 @@ public class DungeonVisuals : MonoBehaviour
 
     private HashSet<Vector3Int> FloorPositions = new HashSet<Vector3Int>();
     private HashSet<Vector3Int> WallPositions = new HashSet<Vector3Int>();
-    Vector3Int[] TileAdjacentDirecitons = 
+    Vector3Int[] TileAdjacentDirecitons =
     {
+        //Regular Spots
         new Vector3Int(1, 0, 0),
         new Vector3Int(-1, 0, 0),
         new Vector3Int(0, 1, 0),
@@ -30,6 +31,25 @@ public class DungeonVisuals : MonoBehaviour
         new Vector3Int(-1, 1, 0),
         new Vector3Int(1, -1, 0),
         new Vector3Int(-1, -1, 0),
+
+        //Additional Spaces
+        new Vector3Int(2, 0, 0),
+        new Vector3Int(-2, 0, 0),
+        new Vector3Int(0, 2, 0),
+        new Vector3Int(0, -2, 0),
+        new Vector3Int(2, 2, 0),
+        new Vector3Int(-2, 2, 0),
+        new Vector3Int(2, -2, 0),
+        new Vector3Int(-2, -2, 0),
+
+        new Vector3Int(3, 0, 0),
+        new Vector3Int(-3, 0, 0),
+        new Vector3Int(0, 3, 0),
+        new Vector3Int(0, -3, 0),
+        new Vector3Int(3, 3, 0),
+        new Vector3Int(-3, 3, 0),
+        new Vector3Int(3, -3, 0),
+        new Vector3Int(-3, -3, 0),
     };
     // Start is called before the first frame update
     void Start()

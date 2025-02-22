@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5a1c10c1c3ace964e8a19f28d03b65c1
+guid: 1cdcd3a976f1654469ed6dcbd131fd79
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Wall1
+      name: Pot-Green-Large
       rect:
         serializedVersion: 2
-        x: 736
-        y: 336
-        width: 32
-        height: 32
+        x: 144
+        y: 64
+        width: 16
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa55be0852a0f2342ae4fac9d53d6195
-      internalID: -518365064
+      spriteID: 650ea92b2245d6a43952a9388c23bd6d
+      internalID: 1946198811
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Floor1
+      name: Pot-Green-Medium
       rect:
         serializedVersion: 2
-        x: 736
-        y: 384
-        width: 32
-        height: 32
+        x: 162
+        y: 64
+        width: 12
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,209 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb8c8c15e4f61bc4b897d4002bff673c
-      internalID: 607344536
+      spriteID: a762edf6a6d4d9545b1dc3125fd437e2
+      internalID: -377277156
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Grate-Small-Empty
+      name: Pot-Green-Small
       rect:
         serializedVersion: 2
-        x: 496
-        y: 320
-        width: 32
-        height: 32
+        x: 179
+        y: 64
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1be4b13b6450d64798240160c9e69ac
+      internalID: 614849879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pot-Green-Tiny
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 64
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f23372bfed6939e43899e99fbbacdd1a
+      internalID: 1598087401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pot-Green-Large-Broken
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 48
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1a18eccc7704824f92bdd4c68194c6a
+      internalID: 644231219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pot-Green-Small-Broken
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 48
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6824aafa182a7d64ab4aa424c67b2443
+      internalID: 1460803081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pot-Green-Medium-Broken
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 48
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef534f56372231a4487f065e2e677f47
+      internalID: -1548396045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pot-Green-Tiny-Broken
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 48
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59398d6eb6c95a34c85f41c0dc3276a2
+      internalID: -1762622613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Candle2
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 225
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6332d3c0c5baeb94bab4fb4199ddde24
+      internalID: 1051117956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Candle3
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 225
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd78647fbcd5aab439291e3dc44f8a22
+      internalID: 894780489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Candle1
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 226
+        width: 5
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f20dc9cac6d46ae42a014a1afa166e69
+      internalID: -2103501374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Coffin-Unbroken
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 32
+        width: 37
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,50 +381,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01897b7721c39ab46a2fcd87c1234687
-      internalID: 477945936
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Grate-Small-Water
-      rect:
-        serializedVersion: 2
-        x: 496
-        y: 272
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7fb5599dbe6b2ae43b88421575000a62
-      internalID: -1684425120
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Grate-Large
-      rect:
-        serializedVersion: 2
-        x: 487
-        y: 359
-        width: 82
-        height: 79
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7cd73efbe27f72547852cf726f449220
-      internalID: -1123634616
+      spriteID: deace4c8303d32c459076b48bf537833
+      internalID: 1884897232
       vertices: []
       indices: 
       edges: []
@@ -251,11 +398,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Floor1: 607344536
-      Grate-Large: -1123634616
-      Grate-Small-Empty: 477945936
-      Grate-Small-Water: -1684425120
-      Wall1: -518365064
+      Candle1: -2103501374
+      Candle2: 1051117956
+      Candle3: 894780489
+      Coffin-Unbroken: 1884897232
+      Pot-Green-Large: 1946198811
+      Pot-Green-Large-Broken: 644231219
+      Pot-Green-Medium: -377277156
+      Pot-Green-Medium-Broken: -1548396045
+      Pot-Green-Small: 614849879
+      Pot-Green-Small-Broken: 1460803081
+      Pot-Green-Tiny: 1598087401
+      Pot-Green-Tiny-Broken: -1762622613
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
