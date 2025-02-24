@@ -14,12 +14,21 @@ public class DungeonVisuals : MonoBehaviour
     [SerializeField] private RuleTile floorTile;
     [SerializeField] private RuleTile wallTile;
 
+    [Header("Decorations")]
+    [SerializeField] private Tilemap DecorTM;
+    [SerializeField] private List<RuleTile> DecorationTiles = new List<RuleTile>();
+    [SerializeField] private List<RuleTile> CandleList = new List<RuleTile>();
+    [SerializeField] private List<RuleTile> PotList = new List<RuleTile>();
+
+
     //Private Lists
     private List<BoundsInt> roomList = new List<BoundsInt>();
     private List<Tuple<BoundsInt, BoundsInt>> corridorList = new List<Tuple<BoundsInt, BoundsInt>>();
 
     private HashSet<Vector3Int> FloorPositions = new HashSet<Vector3Int>();
     private HashSet<Vector3Int> WallPositions = new HashSet<Vector3Int>();
+    private HashSet<Vector3Int> DecorationFloorPositions = new HashSet<Vector3Int>();
+
     Vector3Int[] TileAdjacentDirecitons =
     {
         //Regular Spots
@@ -72,6 +81,7 @@ public class DungeonVisuals : MonoBehaviour
                 for (int y = room.yMin; y < room.yMax; y++)
                 {
                     FloorPositions.Add(new Vector3Int(x, y, 0));
+                    DecorationFloorPositions.Add(new Vector3Int(x, y, 0));
                 }
             }
         }
@@ -115,6 +125,8 @@ public class DungeonVisuals : MonoBehaviour
         foreach (Vector3Int tilePosition in FloorPositions)
         {
             FloorTM.SetTile(tilePosition, floorTile);
+            if (PlaceTileChance(0.1f)) { SelectRandomTile(tilePosition); }
+
             foreach (Vector3Int Direction in TileAdjacentDirecitons)
             {
                 Vector3Int AdjacentPos = tilePosition + Direction;
@@ -128,5 +140,35 @@ public class DungeonVisuals : MonoBehaviour
         {
             WallTM.SetTile(WallPos, wallTile);
         }
+    }
+
+    private bool PlaceTileChance(float chance)
+    {
+        float x = UnityEngine.Random.Range(0f, 1f);
+        if (chance <= x) { return false; }
+        else { return true; }
+    }
+    private void SelectRandomTile(Vector3Int spot)
+    {
+        int x = UnityEngine.Random.Range(0, DecorationTiles.Count);
+        RuleTile newTile = null;
+        switch (x)
+        {
+            //Candle
+            case 0:
+                int CandleNum = UnityEngine.Random.Range(0, CandleList.Count);
+                newTile = CandleList[CandleNum];
+                break;
+
+            //Pot
+            case 1:
+                int PotNum = UnityEngine.Random.Range(0, PotList.Count);
+                newTile = PotList[PotNum];
+                break;
+
+            default:
+                break;
+        }
+        DecorTM.SetTile(spot, newTile);
     }
 }
