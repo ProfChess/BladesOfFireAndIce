@@ -5,6 +5,15 @@ using UnityEngine.Tilemaps;
 
 public class DungeonVisuals : MonoBehaviour
 {
+    //Stats
+    [Header("Chance For Each Decoration")]
+    [SerializeField] private float FloorDecorChance;
+    [SerializeField] private float FloorGrateChance;
+    [SerializeField] private float WallHangingChance;
+    //Decoration Heirarchy Objects
+    [SerializeField] private GameObject GrateObject;
+    [SerializeField] private GameObject WallObject;
+
     //Variables
     [Header("Dungeon")]
     [SerializeField] private DungeonGenerator DG;
@@ -14,12 +23,20 @@ public class DungeonVisuals : MonoBehaviour
     [SerializeField] private RuleTile floorTile;
     [SerializeField] private RuleTile wallTile;
 
+    //Decor
     [Header("Decorations")]
     [SerializeField] private Tilemap DecorTM;
     [SerializeField] private List<RuleTile> DecorationTiles = new List<RuleTile>();
     [SerializeField] private List<RuleTile> CandleList = new List<RuleTile>();
     [SerializeField] private List<RuleTile> PotList = new List<RuleTile>();
 
+    //Decoration Struct
+    [Serializable]
+    public struct DecorationObject { public GameObject obj; public float spawnChance; }
+    //Grates
+    [SerializeField] private List<DecorationObject> GrateList = new List<DecorationObject>();
+    //Hanging Objects
+    [SerializeField] private List<DecorationObject> WallObjectList = new List<DecorationObject>();
 
     //Private Lists
     private List<BoundsInt> roomList = new List<BoundsInt>();
@@ -28,6 +45,8 @@ public class DungeonVisuals : MonoBehaviour
     private HashSet<Vector3Int> FloorPositions = new HashSet<Vector3Int>();
     private HashSet<Vector3Int> WallPositions = new HashSet<Vector3Int>();
     private HashSet<Vector3Int> DecorationFloorPositions = new HashSet<Vector3Int>();
+    private HashSet<Vector3Int> DecorationRoomCenters = new HashSet<Vector3Int>();
+    private HashSet<Vector3Int> WallHangingPositions = new HashSet<Vector3Int>();
 
     Vector3Int[] TileAdjacentDirecitons =
     {
@@ -60,17 +79,38 @@ public class DungeonVisuals : MonoBehaviour
         new Vector3Int(3, -3, 0),
         new Vector3Int(-3, -3, 0),
     };
+    Vector3Int[] WallAdjacentDirections =
+    {
+        //Regular Spots
+        new Vector3Int(1, 0, 0),
+        new Vector3Int(-1, 0, 0),
+        new Vector3Int(0, -1, 0),
+        new Vector3Int(1, -1, 0),
+        new Vector3Int(-1, -1, 0),
+    };
     // Start is called before the first frame update
     void Start()
     {
+        //Clear Rooms
         roomList.Clear();
         corridorList.Clear();
+
+        //Get Rooms from Dungeon Gen
         roomList = DG.getRoomList();
         corridorList = DG.getCorridorList();
+
+        getRoomCenters();
         gatherTiles();
         placeTiles();
     }
 
+    private void getRoomCenters()
+    {
+        foreach (BoundsInt room in roomList)
+        {
+            DecorationRoomCenters.Add(Vector3Int.RoundToInt(room.center));
+        }
+    }
     private void gatherTiles()
     {
         //Adds Positions for Tiles for rooms in roomlist
@@ -119,13 +159,15 @@ public class DungeonVisuals : MonoBehaviour
 
     }
 
-
     private void placeTiles()
     {
         foreach (Vector3Int tilePosition in FloorPositions)
         {
+            //Place Floor Tiles
             FloorTM.SetTile(tilePosition, floorTile);
-            if (PlaceTileChance(0.1f)) { SelectRandomTile(tilePosition); }
+
+            //Place Random Decor on Floor
+            if (PlaceTileChance(FloorDecorChance)) { SelectRandomTile(tilePosition); }
 
             foreach (Vector3Int Direction in TileAdjacentDirecitons)
             {
@@ -136,10 +178,43 @@ public class DungeonVisuals : MonoBehaviour
                 }
             }
         }
-        foreach (Vector3Int WallPos in WallPositions)
+        foreach (Vector3Int x in WallPositions) //Checks each wall tiles adjacent position adds to wall decor list if no surrounding tiles are floor
         {
-            WallTM.SetTile(WallPos, wallTile);
+            int count = 0;
+            foreach (Vector3Int y in WallAdjacentDirections)
+            {
+                Vector3Int Pos = x + y;
+                if (FloorPositions.Contains(Pos)) { count += 1; }
+            }
+            if (count == 0)
+            {
+                if (x.y >= DG.Space.yMin - 1 && x.y <= DG.Space.yMax + 1 
+                    && x.x >= DG.Space.xMin && x.x <= DG.Space.xMax + 1)
+                {
+                    bool nearDecor = false;
+                    foreach (Vector3Int Dir in WallAdjacentDirections)
+                    {
+                        Vector3Int AdjacentDir = x + Dir;
+                        if (WallHangingPositions.Contains(AdjacentDir))
+                        {
+                            nearDecor = true;
+                        }
+                    }
+                    if (!nearDecor)
+                    {
+                        WallHangingPositions.Add(x);
+                    }
+                }
+            }
         }
+        foreach (Vector3Int WallPos in WallPositions){ WallTM.SetTile(WallPos, wallTile); }
+
+        //Decorations
+        //Place Grate in Center of room
+        foreach (Vector3Int FloorCenter in DecorationRoomCenters) { if (PlaceTileChance(FloorGrateChance)) { PlaceDecorList(FloorCenter, GrateList, GrateObject); }}
+
+        //Place Hanging Decor on Walls
+        foreach (Vector3Int wallPos in WallHangingPositions) { if (PlaceTileChance(WallHangingChance)) { PlaceDecorList(wallPos, WallObjectList, WallObject); }}
     }
 
     private bool PlaceTileChance(float chance)
@@ -147,6 +222,26 @@ public class DungeonVisuals : MonoBehaviour
         float x = UnityEngine.Random.Range(0f, 1f);
         if (chance <= x) { return false; }
         else { return true; }
+    }
+    private void PlaceDecorList(Vector3Int Center, List<DecorationObject> List, GameObject Parent)
+    {
+        //Total Chance
+        float totalChance = 0;
+        foreach (DecorationObject Obj in List) {totalChance += Obj.spawnChance;}
+
+        float rand = UnityEngine.Random.Range(0f, totalChance);
+        float curSum = 0f;
+
+        foreach (DecorationObject Obj in List)
+        {
+            curSum += Obj.spawnChance;
+            if (rand <= curSum)
+            {
+                GameObject x = Instantiate(Obj.obj, Center, Quaternion.identity);
+                x.transform.parent = Parent.transform;
+                return;
+            }
+        }
     }
     private void SelectRandomTile(Vector3Int spot)
     {
