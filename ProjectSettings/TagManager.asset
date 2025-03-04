@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Hazard-Hole
   layers:
   - Default
   - TransparentFX
@@ -11,9 +12,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Enemy
+  - Hazard
+  - PlayerAttackLayer
   - 
   - 
   - 

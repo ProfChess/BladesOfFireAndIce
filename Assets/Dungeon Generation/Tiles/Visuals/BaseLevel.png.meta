@@ -240,6 +240,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: HoleSmall
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df23d2ff56a20914796ac3b04be94d9c
+      internalID: 744454635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HoleLarge
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 299
+        width: 74
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 032a42577e63c2745b4daaf3f4fcac65
+      internalID: -328902071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -255,6 +297,8 @@ TextureImporter:
       Grate-Large: -1123634616
       Grate-Small-Empty: 477945936
       Grate-Small-Water: -1684425120
+      HoleLarge: -328902071
+      HoleSmall: 744454635
       Wall1: -518365064
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

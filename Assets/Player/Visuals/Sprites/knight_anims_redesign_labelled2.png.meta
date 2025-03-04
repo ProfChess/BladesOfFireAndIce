@@ -1316,7 +1316,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 896
-        y: 3457
+        y: 3456
         width: 128
         height: 128
       alignment: 0
@@ -1526,7 +1526,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1024
-        y: 3329
+        y: 3328
         width: 128
         height: 128
       alignment: 0
@@ -1672,8 +1672,8 @@ TextureImporter:
       name: Roll4
       rect:
         serializedVersion: 2
-        x: 641
-        y: 3201
+        x: 640
+        y: 3200
         width: 128
         height: 128
       alignment: 0
@@ -3789,6 +3789,132 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Fall0
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9ab42ebdee6f184da8acc41dbb771eb
+      internalID: 2024583197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fall1
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7ecfa6ca2fac064ba96a13f5746a24f
+      internalID: -966352583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fall2
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8b50491745976f43941603c29ba0f18
+      internalID: -849240328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fall3
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e0b8a5d2b5ec7a44b0337d5e457fe22
+      internalID: 335959260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fall4
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4573f5231595a74f887e8f4bf64c2c7
+      internalID: -834240537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fall5
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 3584
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0300a1d376affd4cae4961ebb8ca9ff
+      internalID: -479074702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -3815,6 +3941,12 @@ TextureImporter:
       Death7: -566992450
       Death8: -148683671
       Death9: -1509175734
+      Fall0: 2024583197
+      Fall1: -966352583
+      Fall2: -849240328
+      Fall3: 335959260
+      Fall4: -834240537
+      Fall5: -479074702
       Hurt0: 649404768
       Hurt1: 1050141419
       Hurt2: -366886867
