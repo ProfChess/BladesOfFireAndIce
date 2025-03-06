@@ -102,7 +102,6 @@ public class PlayerController : MonoBehaviour
         {
             if (!isDashing && BasicAttackCooldownTimer <= 0 && !playerStop)
             {
-                FlipSpriteByMouse();
                 playerAttack.BasicAttack();
                 BasicAttackCooldownTimer = BasicAttackCooldown;
             }
@@ -180,14 +179,13 @@ public class PlayerController : MonoBehaviour
         }
         else                                                                //Player is attacking
         {
-            Vector2 MD = playerAttack.GetMouseDirection();                  
+            Vector2 MD = playerAttack.GetMouseDirection();                 
             playerSprite.flipX = MD.x < 0;
         }
     }
     private void FlipSpriteByMouse()
     {
-        Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
-        Vector2 MouseDirection = (MouseLocation - gameObject.transform.position).normalized;
+        Vector2 MouseDirection = GetMouseDir();
         if (MouseDirection.x > 0)
         {
             playerSprite.flipX = false;
@@ -196,6 +194,12 @@ public class PlayerController : MonoBehaviour
         {
             playerSprite.flipX = true;
         }
+    }
+    private Vector2 GetMouseDir()
+    {
+        Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
+        Vector2 MouseDirection = (MouseLocation - gameObject.transform.position).normalized;
+        return MouseDirection;
     }
     private void Start()
     {

@@ -52,7 +52,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         //Reset Player to previous state
-        transform.position = new Vector3 (2, 2, 0);
+        GameManager.Instance.PlacePlayerAtStart();
         transform.localScale = OrigScale;
         isFalling = false;
         input.enabled = true;

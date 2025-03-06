@@ -29,7 +29,8 @@ public class PlayerAttack : MonoBehaviour
     {
         //Animation
         attackForm = controls.GetAttackForm();
-
+        Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
+        MouseDirection = (MouseLocation - controls.transform.position).normalized;
         if (attackForm == PlayerController.AttackForm.Fire)
         {
             playerAnim.Play("PlayerSlash");
@@ -43,8 +44,6 @@ public class PlayerAttack : MonoBehaviour
     public void callAttack()
     {
         //Position Calculations
-        Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
-        MouseDirection = (MouseLocation - controls.transform.position).normalized;
         Vector2 attackDirection = MouseDirection * offsetDistance;                                            //Direction
         float rotateAngle = Mathf.Atan2(attackDirection.y, attackDirection.x) * Mathf.Rad2Deg;                //Angle
         attackBox.transform.localPosition = attackDirection;

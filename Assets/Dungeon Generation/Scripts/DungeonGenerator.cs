@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour 
@@ -12,12 +11,15 @@ public class DungeonGenerator : MonoBehaviour
     private DungeonRoom FirstRoom;
 
     //List of rooms
-    private List<BoundsInt> roomList = new List<BoundsInt>();
+    private List<BoundsInt> roomList = new List<BoundsInt>(); //List of all rooms
     private List<Tuple<BoundsInt, BoundsInt>> corridorList = new List<Tuple<BoundsInt, BoundsInt>>();
     private List<Tuple<BoundsInt, BoundsInt, float>> roomDistances = new List<Tuple<BoundsInt, BoundsInt, float>>();
 
     //Room Specifics
     [SerializeField] private int roomBuffer = 1;
+
+    public BoundsInt StartingRoom;
+    public BoundsInt EndingRoom;
 
     void Awake()
     {
@@ -33,7 +35,8 @@ public class DungeonGenerator : MonoBehaviour
         FirstRoom = new DungeonRoom(Space, minRoomSize, roomBuffer);
         FirstRoom.SplitRecursive();       //Create Tree
         CollectLeafRooms(FirstRoom);      //Collect Leaf Nodes
-        SortRoomDistance();
+        SortRoomDistance();               //Sorts out an efficient way to connect rooms
+        AssignStartingEndingRooms();
     }
     
     private void CollectLeafRooms(DungeonRoom room) //Gathers rooms into list
@@ -57,7 +60,7 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
-    private void SortRoomDistance()
+    private void SortRoomDistance() //Sorts out efficient way to connect rooms
     {
         for (int i = 0; i < roomList.Count; i++)
         {
@@ -73,8 +76,8 @@ public class DungeonGenerator : MonoBehaviour
 
         roomDistances.Sort((a, b) => a.Item3.CompareTo(b.Item3));
         GenerateMST();
-    }
-    private void GenerateMST()
+    }   
+    private void GenerateMST() //Connects rooms and Creates corridors 
     {
         //Set of rooms already checked
         HashSet<BoundsInt> checkedRooms = new HashSet<BoundsInt>();
@@ -115,7 +118,7 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
-    private void CreateCorridor(Vector3 First, Vector3 Second)
+    private void CreateCorridor(Vector3 First, Vector3 Second) //Creates corridor between two positions
     {
         Vector3Int xy1 = Vector3Int.RoundToInt(First);
         Vector3Int xy2 = Vector3Int.RoundToInt(Second);
@@ -134,6 +137,9 @@ public class DungeonGenerator : MonoBehaviour
 
         corridorList.Add(new Tuple<BoundsInt, BoundsInt>(XCor, YCor));
     }
+
+
+    //Get Room and corridor lists for decorations
     public List<BoundsInt> getRoomList()
     {
         return roomList;
@@ -142,6 +148,29 @@ public class DungeonGenerator : MonoBehaviour
     {
         return corridorList;
     }
+
+
+    //Getting and Setting Player Spawn Room and Ending Room
+    private void AssignStartingEndingRooms()
+    {
+        StartingRoom = FirstRoom.space;
+        EndingRoom = FirstRoom.space;
+
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (roomList[i].center.x < StartingRoom.center.x && roomList[i].center.y < StartingRoom.center.y)
+            {
+                StartingRoom = roomList[i];
+            }
+            if (roomList[i].center.x > EndingRoom.center.x && roomList[i].center.y > EndingRoom.center.y)
+            {
+                EndingRoom = roomList[i];
+            }
+        }
+
+    }
+    public Vector3 GetStartingRoomCenter() { return StartingRoom.center; }
+    public Vector3 GetEndingRoomCenter() { return EndingRoom.center; }
 }
 
 public class DungeonRoom
