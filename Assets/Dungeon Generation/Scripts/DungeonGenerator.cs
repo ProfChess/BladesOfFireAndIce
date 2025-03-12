@@ -18,8 +18,8 @@ public class DungeonGenerator : MonoBehaviour
     //Room Specifics
     [SerializeField] private int roomBuffer = 1;
 
-    public BoundsInt StartingRoom;
-    public BoundsInt EndingRoom;
+    [HideInInspector] public BoundsInt StartingRoom {get; private set;}
+    [HideInInspector] public BoundsInt EndingRoom {get; private set; }
 
     void Awake()
     {
@@ -169,8 +169,6 @@ public class DungeonGenerator : MonoBehaviour
         }
 
     }
-    public Vector3 GetStartingRoomCenter() { return StartingRoom.center; }
-    public Vector3 GetEndingRoomCenter() { return EndingRoom.center; }
 }
 
 public class DungeonRoom

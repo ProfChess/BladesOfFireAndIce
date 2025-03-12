@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : BaseHealth
 {
     [SerializeField] private BoxCollider2D PlayerHitbox;
     [SerializeField] private Animator PlayerAnim;
@@ -11,19 +11,24 @@ public class PlayerHealth : MonoBehaviour
     private bool isFalling = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Hazard Collision
         if (PlayerHitbox != null)
         {
-            if (collision.CompareTag("Hazard-Hole") && !isFalling)
-            {
-                FallInHole(collision.transform.position);
-            }
+            //Hazard Collision
+            if (collision.CompareTag("Hazard-Hole") && !isFalling) { FallInHole(collision.transform.position); }
+            //Damage Collision
+            if (collision.CompareTag("Enemy")) { PlayerDamage(collision.GetComponent<EnemyDamage>().Damage); }
         }
-
-        //Damage Collision
     }
 
+    //DAMAGE
+    private void PlayerDamage(float damage)
+    {
+        if (damage > 0) { TakeDamage(damage); }
+        if (curHealth > 0) { PlayerAnim.Play("PlayerHurt", 1); }
+        else { PlayerAnim.Play("PlayerDeath", 1); }
+    }
 
+    //HOLE HAZARD
     private void FallInHole(Vector3 HoleSpot)
     {
         isFalling = true;
@@ -52,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         //Reset Player to previous state
-        GameManager.Instance.PlacePlayerAtStart();
+        gameObject.GetComponent<PlayerController>().GameBeginning();
         transform.localScale = OrigScale;
         isFalling = false;
         input.enabled = true;

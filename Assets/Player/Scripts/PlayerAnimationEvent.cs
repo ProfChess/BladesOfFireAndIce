@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
+using System;
 using UnityEngine;
 
 public class PlayerAnimationEvent : MonoBehaviour
 {
-    [SerializeField] private PlayerController controls;
-    [SerializeField] private PlayerAttack attacks;
+    private PlayerController controls;
+    private PlayerAttack attacks;
 
     private bool isAttacking = false;
+
+    //Event for player death
+    public event Action PlayerIsDead;
 
     //Physics Lock
     public void StopPlayer()
@@ -38,9 +39,18 @@ public class PlayerAnimationEvent : MonoBehaviour
         return isAttacking;
     }
 
+    public void PlayerDeath()
+    {
+        PlayerIsDead.Invoke();
+    }
 
     private void Start()
     {
+        //Set Script Variables
+        GameObject obj = gameObject.transform.parent.gameObject;
+        controls = obj.GetComponent<PlayerController>();
+        attacks = obj.GetComponentInChildren<PlayerAttack>();
+
         Animator anim = GetComponent<Animator>();
         anim.SetFloat("AttackSpeed", controls.GetAttackSpeed());
     }

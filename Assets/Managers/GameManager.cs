@@ -1,11 +1,12 @@
-
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    [SerializeField] private GameObject Player;
-    [SerializeField] private DungeonGenerator DunGen;
+
+    public event Action GameStart;
+
     private void Awake()
     {
         if (Instance == null)
@@ -21,12 +22,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        PlacePlayerAtStart();
-    }
-
-    //Placing + Respawning Player
-    public void PlacePlayerAtStart()
-    {
-        Player.transform.position = DunGen.GetStartingRoomCenter();
+        GameStart?.Invoke();
     }
 }

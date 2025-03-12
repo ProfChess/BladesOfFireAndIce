@@ -362,8 +362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e456b7f69fea95240a30447e11770589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls: {fileID: 1409708138}
-  attacks: {fileID: 968923751}
 --- !u!1 &428499503
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +399,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428499503}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -409,7 +407,7 @@ Transform:
   - {fileID: 558453581}
   - {fileID: 1372229258}
   - {fileID: 1606889585}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1692946447}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -688,8 +686,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0584a732501cb024a9bcec258869e595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1409708134}
-  DunGen: {fileID: 1696567154}
 --- !u!4 &694984447
 Transform:
   m_ObjectHideFlags: 0
@@ -1108,9 +1104,9 @@ MonoBehaviour:
   FormSwitchCooldown: 1
   BasicAttackDuration: 0.25
   BasicAttackCooldown: 0.25
-  playerHitBox: {fileID: 1506141338}
   rb: {fileID: 1409708136}
   playerAttack: {fileID: 968923751}
+  DunGen: {fileID: 1696567154}
   playerSprite: {fileID: 130608849}
   playerAnim: {fileID: 130608850}
   pae: {fileID: 130608851}
@@ -1252,6 +1248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a557e0155865e54bbce6eba6958b066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 10
   PlayerHitbox: {fileID: 1506141338}
   PlayerAnim: {fileID: 130608850}
   input: {fileID: 1409708139}
@@ -1530,6 +1527,39 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1692946446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1692946447}
+  m_Layer: 0
+  m_Name: Map Creation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1692946447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692946446}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1696567155}
+  - {fileID: 428499505}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1696567153
 GameObject:
   m_ObjectHideFlags: 0
@@ -1565,12 +1595,6 @@ MonoBehaviour:
     m_Size: {x: 40, y: 40, z: 0}
   minRoomSize: {x: 5, y: 5}
   roomBuffer: 1
-  StartingRoom:
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 0, y: 0, z: 0}
-  EndingRoom:
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 0, y: 0, z: 0}
 --- !u!4 &1696567155
 Transform:
   m_ObjectHideFlags: 0
@@ -1579,13 +1603,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696567153}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1282791744}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1692946447}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1696567156
 MonoBehaviour:
@@ -1708,8 +1732,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1409708135}
-  - {fileID: 1696567155}
-  - {fileID: 428499505}
   - {fileID: 519420032}
+  - {fileID: 1409708135}
+  - {fileID: 1692946447}
   - {fileID: 694984447}

@@ -37,9 +37,10 @@ public class PlayerController : MonoBehaviour
 
     //References
     [Header("References")]
-    [SerializeField] private BoxCollider2D playerHitBox;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerAttack playerAttack;
+    [SerializeField] private DungeonGenerator DunGen;
+
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer playerSprite;
     [SerializeField] private Animator playerAnim;
@@ -53,6 +54,82 @@ public class PlayerController : MonoBehaviour
     private float FormSwitchCooldownTimer;
     private float BasicAttackCooldownTimer;
     private bool playerStop = false;
+
+    //START/UPDATE/ETC
+    private void Start()
+    {
+        PlayerAttackForm = AttackForm.Fire; //Player starts in fire form
+        SetFormStats();
+    }
+    private void FixedUpdate()
+    {
+        //Moving or Dashing
+        if (playerStop) //Player needs to stop moving (EX: Form Switch)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            if (isDashing) //Player moves in chosen direction without change
+            {
+                rb.velocity = dashDirection.normalized * DashSpeed;
+            }
+            else          //Player moves in one of eight directions
+            {
+                rb.velocity = moveDirection.normalized * MoveSpeed;
+            }
+        }
+    }
+    private void Update()
+    {
+        //COOLDOWNS
+        //Dash Cooldown
+        if (!isDashing && DashCooldownTimer > 0) { DashCooldownTimer -= Time.deltaTime; }
+        //Form Switch Cooldown
+        if (FormSwitchCooldownTimer > 0) { FormSwitchCooldownTimer -= Time.deltaTime; }
+        //Attack Cooldown
+        if (BasicAttackCooldownTimer > 0) { BasicAttackCooldownTimer -= Time.deltaTime; }
+
+        //Player State
+        if (moveDirection == Vector2.zero && !isDashing)
+        {
+            playerAnim.SetBool("Run", false);
+        }
+        else if (moveDirection != Vector2.zero && !isDashing)
+        {
+            playerAnim.SetBool("Run", true);
+        }
+
+        //Flip Sprite
+        if (moveDirection == Vector2.zero && !pae.GetIsAttacking())         //Player is not moving or attacking
+        {
+            FlipSpriteByMouse();
+        }
+        else if (moveDirection != Vector2.zero && !pae.GetIsAttacking())    //PLayer is moving but not attacking
+        {
+            playerSprite.flipX = moveDirection.x < 0;
+        }
+        else                                                                //Player is attacking
+        {
+            Vector2 MD = playerAttack.GetMouseDirection();
+            playerSprite.flipX = MD.x < 0;
+        }
+    }
+
+    //ENABLE/DISABLE/EVENTS
+    private void OnEnable() 
+    {
+        GameManager.Instance.GameStart += GameBeginning;
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.GameStart -= GameBeginning;
+    }
+    public void GameBeginning() //Handles Start of Game
+    {
+        transform.position = DunGen.StartingRoom.center;
+    }
+
 
     //WASD MOVEMENT CALLS
     public void OnMovement(InputAction.CallbackContext ctx)
@@ -126,86 +203,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Second Ability");
         }
     }
-    //Physics Movement
-    private void FixedUpdate()
-    {
-        //Moveing or Dashing
-        if (playerStop)
-        {
-            rb.velocity = Vector2.zero;
-        }
-        else
-        {
-            if (isDashing)
-            {
-                rb.velocity = dashDirection * DashSpeed;
-            }
-            else
-            {
-                rb.velocity = moveDirection * MoveSpeed;
-            }
-        }
-    }
 
-
-    private void Update()
-    {
-        //COOLDOWNS
-        //Dash Cooldown
-        if(!isDashing && DashCooldownTimer > 0) { DashCooldownTimer -= Time.deltaTime; }
-        //Form Switch Cooldown
-        if (FormSwitchCooldownTimer > 0) { FormSwitchCooldownTimer -= Time.deltaTime; }
-        //Attack Cooldown
-        if (BasicAttackCooldownTimer > 0) { BasicAttackCooldownTimer -= Time.deltaTime; }
-
-        //Player State
-        if (moveDirection == Vector2.zero && !isDashing)
-        {
-            playerAnim.SetBool("Run", false);
-        }
-        else if (moveDirection != Vector2.zero && !isDashing)
-        {
-            playerAnim.SetBool("Run", true);
-        }
-
-        //Flip Sprite
-        if (moveDirection == Vector2.zero && !pae.GetIsAttacking())         //Player is not moving or attacking
-        {
-            FlipSpriteByMouse();
-        }
-        else if (moveDirection != Vector2.zero && !pae.GetIsAttacking())    //PLayer is moving but not attacking
-        {
-            playerSprite.flipX = moveDirection.x < 0;
-        }
-        else                                                                //Player is attacking
-        {
-            Vector2 MD = playerAttack.GetMouseDirection();                 
-            playerSprite.flipX = MD.x < 0;
-        }
-    }
-    private void FlipSpriteByMouse()
-    {
-        Vector2 MouseDirection = GetMouseDir();
-        if (MouseDirection.x > 0)
-        {
-            playerSprite.flipX = false;
-        }
-        else if (MouseDirection.x < 0)
-        {
-            playerSprite.flipX = true;
-        }
-    }
-    private Vector2 GetMouseDir()
-    {
-        Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
-        Vector2 MouseDirection = (MouseLocation - gameObject.transform.position).normalized;
-        return MouseDirection;
-    }
-    private void Start()
-    {
-        PlayerAttackForm = AttackForm.Fire; //Player starts in fire form
-        SetFormStats();
-    }
 
     //FORM SWITCHING/TRACKING
     //SwitchForm
@@ -265,6 +263,8 @@ public class PlayerController : MonoBehaviour
     {
         playerStop = false;
     }
+    
+    
     //GET ATTACK STATS
     public float GetAttackDuration()    //Get Attack Duration
     {
@@ -274,4 +274,25 @@ public class PlayerController : MonoBehaviour
     {
         return playerAttackSpeed;
     }
+
+    //SPRITE FLIPPING FUNCTIONS
+    private void FlipSpriteByMouse() //Flip Sprite in direction of mouse
+    {
+        Vector2 MouseDirection = GetMouseDir();
+        if (MouseDirection.x > 0)
+        {
+            playerSprite.flipX = false;
+        }
+        else if (MouseDirection.x < 0)
+        {
+            playerSprite.flipX = true;
+        }
+    }
+    private Vector2 GetMouseDir()    //Get Direction of mouse based on player position
+    {
+        Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
+        Vector2 MouseDirection = (MouseLocation - gameObject.transform.position).normalized;
+        return MouseDirection;
+    }
+
 }
