@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 
     public event Action GameStart;
 
+    private GameObject Player;
+
     private void Awake()
     {
         if (Instance == null)
@@ -18,10 +20,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Start()
     {
         GameStart?.Invoke();
+
     }
+    public GameObject getPlayer() { return  Player; }
 }
