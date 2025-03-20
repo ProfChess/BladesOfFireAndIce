@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 //Interfaces For Enemy Uses
 public interface IEnemyMovementBehaviour
@@ -22,8 +23,17 @@ public class Enemy : BaseHealth
     private Transform playerLocation;
     private Transform enemyTransform;
 
+    //Pathfinding
+    private NavMeshAgent agent;
+
     private void Start()
     {
+        //Pathfinding Settings
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.speed = MoveSpeed;
+
         EnemyMovementComponent = GetComponent<IEnemyMovementBehaviour>();
         EnemyAttackComponent = GetComponent<IEnemyAttackBehaviour>();
         playerLocation = GameManager.Instance.getPlayer().transform;
@@ -32,7 +42,7 @@ public class Enemy : BaseHealth
 
     private void Update()
     {
-        EnemyMovementComponent.Move(enemyTransform, playerLocation, MoveSpeed);
+        agent.SetDestination(playerLocation.position);
     }
 }
 

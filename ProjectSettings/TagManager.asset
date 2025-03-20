@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hazard-Hole
+  - Floor
+  - Wall
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,9 +18,9 @@ TagManager:
   - Enemy
   - Hazard
   - PlayerAttackLayer
-  - 
-  - 
-  - 
+  - Ground
+  - Walls
+  - Decorations
   - 
   - 
   - 
