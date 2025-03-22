@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public event Action GameStart;
 
     private GameObject Player;
+    [SerializeField] private NavMeshBaker MeshBaker;
 
     private void Awake()
     {
@@ -30,4 +31,5 @@ public class GameManager : MonoBehaviour
 
     }
     public GameObject getPlayer() { return  Player; }
+    public NavMeshBaker getNavMesh() {  return MeshBaker; }
 }
