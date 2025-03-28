@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,20 +6,27 @@ using UnityEngine.AI;
 //Interfaces For Enemy Uses
 public interface IEnemyMovementBehaviour
 {
-    void Move(Transform enemyTransform, Transform playerTransform, float speed);
+    void Move(NavMeshAgent agent, Transform playerTransform, float speed);
 }
 public interface IEnemyAttackBehaviour
 {
-    void Attack();
+    void Attack(float Damage, float Range, int Cooldown, int Speed, Transform playerTransform);
 }
 
 public class BaseEnemy : BaseHealth
 {
     //Stats
-    [Header("Speeds")]
-    [SerializeField] protected float MoveSpeed;
-    [SerializeField] protected float AttackSpeed;
+    [Header("Stats")]
+    [Header("Idle")]
+    [SerializeField] protected float IdleSpeed;
+    [Header("Chase")]
+    [SerializeField] protected float ChaseSpeed;
     [SerializeField] protected int ChaseRange;
+    [Header("Attack")]
+    [SerializeField] protected float AttackDamage;
+    [SerializeField] protected int AttackCooldown;
+    [SerializeField] protected int AttackSpeed;
+    [SerializeField] protected float AttackRange;
 
     //States
     protected enum EnemyState {Idle, Chase, Attack}
@@ -34,6 +41,11 @@ public class BaseEnemy : BaseHealth
 
     //Pathfinding
     protected NavMeshAgent agent;
+
+    //Timers
+    protected const float checkInterval = 0.2f;
+    protected float nextCheck = 0f;
+    protected bool canAttack = true;
 
     //Events
     protected void OnEnable()
@@ -59,7 +71,48 @@ public class BaseEnemy : BaseHealth
         enemyTransform = GetComponent<Transform>();
     }
 
-    protected bool PlayerWithinRange() //Checks if player is within chase range
+    virtual protected void Update()
+    {
+        //States
+        if (Time.time >= nextCheck)
+        {
+            nextCheck = Time.time + checkInterval;
+            if (!PlayerWithinChaseRange()) { CurrentEnemyState = EnemyState.Idle; }
+            else if (PlayerWithinChaseRange() && !PlayerWithinAttackRange()) { CurrentEnemyState = EnemyState.Chase; }
+            else if (PlayerWithinChaseRange() && PlayerWithinAttackRange()) { CurrentEnemyState = EnemyState.Attack; }
+
+            //Call functions for each state
+            switch (CurrentEnemyState)
+            {
+                case EnemyState.Chase:
+                    EnemyChaseState();
+                    break;
+
+                case EnemyState.Attack:
+                    EnemyAttackState();
+                    break;
+
+                default:
+                    EnemyIdleState();
+                    break;
+            }
+        }
+    }
+    //State Functions (Override in Inherited Class)
+    protected virtual void EnemyIdleState() { }
+    protected virtual void EnemyChaseState() { }
+    protected virtual void EnemyAttackState() { }
+
+    //Cooldowns
+    protected IEnumerator BasicAttackCooldown()
+    {
+        yield return new WaitForSeconds(AttackCooldown);
+        canAttack = true;
+    }
+    public void StartEnemyCooldown() { StartCoroutine(BasicAttackCooldown()); }
+
+    //Checks
+    protected bool PlayerWithinChaseRange() //Checks if player is within chase range
     {
         RaycastHit2D sight = Physics2D.Raycast(enemyTransform.position, 
             GetPlayerDirection(), 
@@ -72,6 +125,20 @@ public class BaseEnemy : BaseHealth
         }
         return false;
     }
+    protected bool PlayerWithinAttackRange() //Checks if player is within attack range
+    {
+        RaycastHit2D sight = Physics2D.Raycast(enemyTransform.position,
+            GetPlayerDirection(),
+            AttackRange,
+            PlayerDetectionMask);
+
+        if (sight.collider != null)
+        {
+            return sight.collider.CompareTag("Player");
+        }
+        return false;
+    }
+
     protected Vector2 GetPlayerDirection() //Returns player direction from objects position
     {
         return (playerLocation.position - enemyTransform.position).normalized;
@@ -85,6 +152,7 @@ public class BaseEnemy : BaseHealth
         agent.agentTypeID = 0;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.speed = MoveSpeed;
+        agent.speed = IdleSpeed;
+        agent.acceleration = 50;
     }
 }

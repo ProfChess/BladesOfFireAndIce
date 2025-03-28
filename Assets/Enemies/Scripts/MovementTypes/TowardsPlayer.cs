@@ -1,13 +1,12 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-[RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(BaseEnemy))]
 public class TowardsPlayer : MonoBehaviour, IEnemyMovementBehaviour
 {
-    public void Move(Transform enemyTransform, Transform playerTransform, float speed)
+    public void Move(NavMeshAgent agent, Transform playerTransform, float speed)
     {
-        enemyTransform.position = Vector2.MoveTowards
-            (enemyTransform.position,
-            playerTransform.position,
-            speed * Time.deltaTime);
+        agent.speed = speed;
+        agent.SetDestination(playerTransform.position);
     }
 }
