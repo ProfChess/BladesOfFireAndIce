@@ -41,7 +41,7 @@ public class PlayerAnimationEvent : MonoBehaviour
 
     public void PlayerDeath()
     {
-        PlayerIsDead.Invoke();
+        PlayerIsDead?.Invoke();
     }
 
     private void Start()

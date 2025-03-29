@@ -11,6 +11,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Animator playerAnim;
     [SerializeField] private Animator attackAnim;
     [SerializeField] private SpriteRenderer attackSprite;
+    private int attackVisualSortingLevel = 3; //Level the attack visual goes to when on
+
+    [Header("Damage Stats")]
+    [SerializeField] private float AttackDamage;
 
     private Vector2 MouseDirection = Vector2.zero;
 
@@ -61,7 +65,7 @@ public class PlayerAttack : MonoBehaviour
     {
         attackAnim.SetBool("Fire", attackForm == PlayerController.AttackForm.Fire);
         attackAnim.SetTrigger("BasicAttack");
-        attackSprite.sortingOrder = 2;
+        attackSprite.sortingOrder = attackVisualSortingLevel;
     }
     private IEnumerator BaseAttackStay() //Collider stays for attack duration
     {
@@ -69,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
         attackBox.enabled = false;
     }
 
-
+    public float GetDamageNumber() { return AttackDamage; }
 
     //ABILITIES
     //[SerializeField] private List<PlayerAbility> AbilityList;

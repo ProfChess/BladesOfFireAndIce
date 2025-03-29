@@ -16,7 +16,7 @@ public class PlayerHealth : BaseHealth
             //Hazard Collision
             if (collision.CompareTag("Hazard-Hole") && !isFalling) { FallInHole(collision.transform.position); }
             //Damage Collision
-            if (collision.CompareTag("Enemy")) { PlayerDamage(collision.GetComponent<EnemyDamage>().Damage); }
+            if (collision.CompareTag("EnemyAttack")) { PlayerDamage(collision.GetComponentInParent<EnemyDamage>().GetDamage()); }
         }
     }
 

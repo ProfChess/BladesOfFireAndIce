@@ -13,7 +13,7 @@ public interface IEnemyAttackBehaviour
     void Attack(float Damage, float Range, int Cooldown, int Speed, Transform playerTransform);
 }
 
-public class BaseEnemy : BaseHealth
+public class BaseEnemy : MonoBehaviour
 {
     //Stats
     [Header("Stats")]
@@ -27,6 +27,9 @@ public class BaseEnemy : BaseHealth
     [SerializeField] protected int AttackCooldown;
     [SerializeField] protected int AttackSpeed;
     [SerializeField] protected float AttackRange;
+    [Header("Visuals")]
+    [SerializeField] protected SpriteRenderer EnemySprite;
+    [SerializeField] protected Animator anim;
 
     //States
     protected enum EnemyState {Idle, Chase, Attack}
@@ -69,6 +72,7 @@ public class BaseEnemy : BaseHealth
         EnemyAttackComponent = GetComponent<IEnemyAttackBehaviour>();
         playerLocation = GameManager.Instance.getPlayer().transform;
         enemyTransform = GetComponent<Transform>();
+
     }
 
     virtual protected void Update()
@@ -86,10 +90,12 @@ public class BaseEnemy : BaseHealth
             {
                 case EnemyState.Chase:
                     EnemyChaseState();
+                    FlipSprite();
                     break;
 
                 case EnemyState.Attack:
                     EnemyAttackState();
+                    FlipSprite();
                     break;
 
                 default:
@@ -103,6 +109,15 @@ public class BaseEnemy : BaseHealth
     protected virtual void EnemyChaseState() { }
     protected virtual void EnemyAttackState() { }
 
+    //Visuals
+    protected void FlipSprite()
+    {
+        EnemySprite.flipX = playerLocation.position.x <= transform.position.x;
+    }
+    //Visual Gets
+    public Animator GetAnim() {  return anim; }
+
+
     //Cooldowns
     protected IEnumerator BasicAttackCooldown()
     {
@@ -110,7 +125,10 @@ public class BaseEnemy : BaseHealth
         canAttack = true;
     }
     public void StartEnemyCooldown() { StartCoroutine(BasicAttackCooldown()); }
-
+    public void StartEnemyAttackDamage() 
+    { 
+        EnemyAttackComponent.Attack(AttackDamage, AttackRange, AttackCooldown, AttackSpeed, playerLocation); 
+    }
     //Checks
     protected bool PlayerWithinChaseRange() //Checks if player is within chase range
     {
@@ -138,12 +156,12 @@ public class BaseEnemy : BaseHealth
         }
         return false;
     }
-
     protected Vector2 GetPlayerDirection() //Returns player direction from objects position
     {
         return (playerLocation.position - enemyTransform.position).normalized;
     }
 
+    //NavAgent
     protected void CreateAgent() //Setup for adding agent at runtime
     {
         //Pathfinding Settings
@@ -153,6 +171,8 @@ public class BaseEnemy : BaseHealth
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = IdleSpeed;
-        agent.acceleration = 50;
+        agent.acceleration = 500;
     }
+
+    
 }

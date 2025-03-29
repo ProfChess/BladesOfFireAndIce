@@ -7,4 +7,8 @@ public class EnemyAttackCooldown : MonoBehaviour
     {
         Enemy.StartEnemyCooldown();
     }
+    public void AttackDamageCall()
+    {
+        Enemy.StartEnemyAttackDamage();
+    }
 }

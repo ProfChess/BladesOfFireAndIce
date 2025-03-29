@@ -4,7 +4,7 @@ public abstract class BaseHealth : MonoBehaviour
 {
     //BASE CLASS FOR THINGS WITH HEALTH
     [SerializeField] private float MaxHealth;
-    [HideInInspector] public float curHealth { get; private set; }
+    public float curHealth { get; private set; }
 
     //Object Takes Damage -> sets to 0 if below
     protected void TakeDamage(float Damage) 

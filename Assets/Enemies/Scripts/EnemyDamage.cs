@@ -2,5 +2,7 @@ using UnityEngine;
 
 public abstract class EnemyDamage : MonoBehaviour
 {
-    public float Damage {get; protected set;}
+    protected float AttackDamage {get; set;}
+
+    public float GetDamage() {  return AttackDamage; }
 }

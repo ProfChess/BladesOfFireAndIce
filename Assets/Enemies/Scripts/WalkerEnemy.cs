@@ -3,13 +3,12 @@ using UnityEngine.AI;
 
 public class WalkerEnemy : BaseEnemy
 {
+
+    //Wandering Behaviour Stats
     [Header("Wandering")]
     [SerializeField] private int WanderRadius;
     private float wanderInterval = 2f;
     private float nextWanderTime = 0f;
-
-    //Visual
-    [SerializeField] Animator anim;
 
     //Idle
     protected override void EnemyIdleState() 
@@ -29,7 +28,13 @@ public class WalkerEnemy : BaseEnemy
         }
 
         //Anim Bools Sets
-        if (agent.velocity != Vector3.zero) { anim.SetBool("IsWalking", true); anim.SetBool("IsRunning", false); }
+        if (agent.velocity != Vector3.zero) 
+        { 
+            anim.SetBool("IsWalking", true); anim.SetBool("IsRunning", false); 
+
+            //Flip Sprie in Walking Direction
+            EnemySprite.flipX = agent.destination.x <= transform.position.x;
+        }
         else { anim.SetBool("IsWalking", false); }
     }
     //Wandering
