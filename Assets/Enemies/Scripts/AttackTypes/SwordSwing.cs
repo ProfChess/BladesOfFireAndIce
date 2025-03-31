@@ -15,6 +15,7 @@ public class SwordSwing : EnemyDamage, IEnemyAttackBehaviour
         AttackHitbox.transform.localPosition = AttackDirection;
         AttackHitbox.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
         AttackHitbox.enabled = true;
+        StartAttackAnim();
         StartCoroutine(AttackBoxDuration());
     }
     private Vector2 GetPlayerDirection(Transform playerSpot)

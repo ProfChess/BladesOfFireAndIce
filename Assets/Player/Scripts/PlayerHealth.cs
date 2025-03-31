@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using System;
 public class PlayerHealth : BaseHealth
 {
     [SerializeField] private BoxCollider2D PlayerHitbox;
@@ -9,6 +10,11 @@ public class PlayerHealth : BaseHealth
     [SerializeField] private PlayerInput input;
 
     private bool isFalling = false;
+
+    //Events
+    //Event for player death
+    public event Action PlayerIsDead;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (PlayerHitbox != null)
@@ -27,6 +33,7 @@ public class PlayerHealth : BaseHealth
         if (curHealth > 0) { PlayerAnim.Play("PlayerHurt", 1); }
         else { PlayerAnim.Play("PlayerDeath", 1); }
     }
+    public void CallPlayerDeathEvent() { PlayerIsDead?.Invoke(); }
 
     //HOLE HAZARD
     private void FallInHole(Vector3 HoleSpot)

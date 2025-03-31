@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.LowLevel;
 
 
 //Interfaces For Enemy Uses
@@ -12,6 +13,8 @@ public interface IEnemyAttackBehaviour
 {
     void Attack(float Damage, float Range, int Cooldown, int Speed, Transform playerTransform);
 }
+
+public enum PoolType { Slime }
 
 public class BaseEnemy : MonoBehaviour
 {
@@ -34,6 +37,9 @@ public class BaseEnemy : MonoBehaviour
     //States
     protected enum EnemyState {Idle, Chase, Attack}
     protected EnemyState CurrentEnemyState;
+
+    //Spawning 
+    [SerializeField] protected PoolType EnemyPoolType;
 
     //Behaviour Components
     protected IEnemyMovementBehaviour EnemyMovementComponent;
@@ -58,6 +64,22 @@ public class BaseEnemy : MonoBehaviour
     protected void OnDisable()
     {
         GameManager.Instance.getNavMesh().MeshCreated -= CreateAgent;
+    }
+
+    //Init
+    public void CreateEnemy(Vector2 Position)
+    {
+        //Move to Correct Position
+        gameObject.transform.position = Position;
+
+        //Restart State
+        CurrentEnemyState = EnemyState.Idle;
+        gameObject.SetActive(true);
+    }
+    public void DeactivateEnemy()
+    {
+        gameObject.SetActive(false);
+        PoolManager.Instance.ReturnObjectToPool(EnemyPoolType, gameObject);
     }
 
     protected void Start()

@@ -5,11 +5,11 @@ public class PlayerAnimationEvent : MonoBehaviour
 {
     private PlayerController controls;
     private PlayerAttack attacks;
+    private PlayerHealth health;
 
     private bool isAttacking = false;
 
-    //Event for player death
-    public event Action PlayerIsDead;
+
 
     //Physics Lock
     public void StopPlayer()
@@ -41,7 +41,7 @@ public class PlayerAnimationEvent : MonoBehaviour
 
     public void PlayerDeath()
     {
-        PlayerIsDead?.Invoke();
+        health.CallPlayerDeathEvent();
     }
 
     private void Start()
@@ -50,6 +50,7 @@ public class PlayerAnimationEvent : MonoBehaviour
         GameObject obj = gameObject.transform.parent.gameObject;
         controls = obj.GetComponent<PlayerController>();
         attacks = obj.GetComponentInChildren<PlayerAttack>();
+        health = obj.GetComponentInChildren<PlayerHealth>();
 
         Animator anim = GetComponent<Animator>();
         anim.SetFloat("AttackSpeed", controls.GetAttackSpeed());

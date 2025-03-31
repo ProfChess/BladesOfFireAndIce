@@ -114,7 +114,11 @@ public class DungeonVisuals : MonoBehaviour
     {
         foreach (BoundsInt room in roomList)
         {
-            DecorationRoomCenters.Add(Vector3Int.RoundToInt(room.center));
+            if (room.center == DG.StartingRoom.center || room.center == DG.EndingRoom.center) { }
+            else
+            {
+                DecorationRoomCenters.Add(Vector3Int.RoundToInt(room.center));
+            }
         }
     }
     private void gatherTiles()
