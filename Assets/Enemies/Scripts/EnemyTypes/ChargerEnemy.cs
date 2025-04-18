@@ -9,16 +9,29 @@ public class ChargerEnemy : BaseEnemy
     private bool isWaiting = false;
 
     //Extra Attack
-    private SwordSwing NormalEnemyAttack;
+    private ChargeAttack chargeAttack;
+    [Header("Charge Attack Settings")]
+    [Tooltip("Controls Cooldown for Charge Attack")]
+    [SerializeField] private int ChargeCooldownTime;
+    [Tooltip("Controls Damage of Charge Attack")]
+    [SerializeField] private float chargeDamage;
+    [Tooltip("Controls How Long The Enemy Spins")]
+    [SerializeField] private float chargeDuration;
+    [Tooltip("Controls Speed of Enemy as They Move While Spinning")]
+    [SerializeField] private float chargeSpeed;
+    [Tooltip("Controls Range of Enemy Charge Attack")]
+    [SerializeField] private float chargeRange;
 
+    private bool isCharging = false;
+    private bool CanChargeAttack = true;
 
-    //Charge Attack Settings
-    [SerializeField] private float ChargeCooldownTime;
-    private bool CanChargeAttack;
+    private float TempAttackRange;
+    private const float DisableRange = -1f;
     protected override void Start()
     {
         base.Start();
-        NormalEnemyAttack = GetComponent<SwordSwing>();
+        chargeAttack = GetComponent<ChargeAttack>();
+        TempAttackRange = AttackRange;
     }
 
     //Enemy Will Patrol Between 2 Points of its Starting Room in its Idle State
@@ -55,33 +68,54 @@ public class ChargerEnemy : BaseEnemy
     {
         if (CanChargeAttack)
         {
-            ChargeApproachState();
+            if (!isCharging)
+            {
+                ChargeApproachState();
+                isCharging=true;
+            }
         }
-        else
+        else if (!isCharging)
         {
             NormalApproachState();
         }
     }
+    
+    //Approaches Player when Charge is on Cooldown
     private void NormalApproachState()
     {
-
+        base.EnemyChaseState();
+        EnemyMovementComponent.ChaseMove(agent, playerLocation, ChaseSpeed, AttackOffset);
     }
+
+    //Charges At Player
     private void ChargeApproachState()
     {
+        AttackRange = DisableRange;
 
+        agent.speed = chargeSpeed;
+        Vector2 Direction = GetPlayerDirection().normalized * chargeRange;
+        Vector2 TargetPosition = new Vector2(transform.position.x, transform.position.y) + Direction;
+        anim.Play("ChargerSpinAttackIntro");
+        chargeAttack.Attack(chargeDamage, chargeDuration, 0, 0, playerLocation);
+        agent.SetDestination(TargetPosition);
     }
-    private IEnumerator ChargeAttackCooldown()
+    private IEnumerator ChargeAttackCooldown() //Enemy Cannot Charge for Cooldown Duration
     {
         CanChargeAttack = false;
         yield return new WaitForSeconds(ChargeCooldownTime);
         CanChargeAttack = true;
     }
-
+    public void StartChargeCooldown() //End of Charge Attack
+    {
+        StartCoroutine(ChargeAttackCooldown()); isCharging = false; AttackRange = TempAttackRange;
+    }
 
     //Enemy Will Use Normal Attack When in Attack Range (Close)
     protected override void EnemyAttackState()
     {
-
+        base.EnemyAttackState();
+        anim.SetBool("IsWalking", false); anim.SetBool("IsRunning", false);
+        if (canAttack) { canAttack = false; anim.Play("ChargerNormalAttack"); }
     }
 
 

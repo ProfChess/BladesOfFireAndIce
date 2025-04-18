@@ -29,12 +29,12 @@ public abstract class BaseEnemy : MonoBehaviour
     [Tooltip("Distance From Player to Trigger Chase State")]
     [SerializeField] protected int ChaseRange;
 
-    [Header("Attack Settings")]
-    [Tooltip("Damage Each Attack Deals")]
+    [Header("Basic Attack Settings")]
+    [Tooltip("Damage Each Basic Attack Deals")]
     [SerializeField] protected float AttackDamage;
-    [Tooltip("Time Inbetween Each Attack")]
+    [Tooltip("Time Inbetween Each Basic Attack")]
     [SerializeField] protected int AttackCooldown;
-    [Tooltip("Offset of Attack Box / Speed of Projectiles")]
+    [Tooltip("Offset of Basic Attack Box / Speed of Projectiles")]
     [SerializeField] protected float AttackOffset;
     [Tooltip("Distance From Player to Trigger Attack State")]
     [SerializeField] protected float AttackRange;
@@ -137,12 +137,10 @@ public abstract class BaseEnemy : MonoBehaviour
             {
                 case EnemyState.Chase:
                     EnemyChaseState();
-                    FlipSprite();
                     break;
 
                 case EnemyState.Attack:
                     EnemyAttackState();
-                    FlipSprite();
                     break;
 
                 default:
@@ -162,8 +160,8 @@ public abstract class BaseEnemy : MonoBehaviour
         }
         else { anim.SetBool("IsWalking", false); }
     }
-    protected virtual void EnemyChaseState() { }
-    protected virtual void EnemyAttackState() { }
+    protected virtual void EnemyChaseState() { FlipSprite(); }
+    protected virtual void EnemyAttackState() { FlipSprite(); }
 
 
     //Visuals
@@ -186,6 +184,8 @@ public abstract class BaseEnemy : MonoBehaviour
     //Checks
     protected bool PlayerWithinChaseRange() //Checks if player is within chase range
     {
+        if (ChaseRange == -1) { return false; }
+
         RaycastHit2D sight = Physics2D.Raycast(enemyTransform.position, 
             GetPlayerDirection(), 
             ChaseRange,
@@ -199,6 +199,8 @@ public abstract class BaseEnemy : MonoBehaviour
     }
     protected bool PlayerWithinAttackRange() //Checks if player is within attack range
     {
+        if (AttackRange == -1) { return false; }
+
         RaycastHit2D sight = Physics2D.Raycast(enemyTransform.position,
             GetPlayerDirection(),
             AttackRange,

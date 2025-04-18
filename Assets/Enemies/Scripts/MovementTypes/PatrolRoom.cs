@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Timeline;
 
 [RequireComponent(typeof(BaseEnemy))]
 public class PatrolRoom : BaseEnemyMovement, IEnemyMovementBehaviour
@@ -55,6 +56,8 @@ public class PatrolRoom : BaseEnemyMovement, IEnemyMovementBehaviour
     public void ChaseMove(NavMeshAgent agent, Transform playerTransform, float speed, float range)
     {
         agent.speed = speed;
+        agent.stoppingDistance = range;
+        agent.SetDestination(playerTransform.position);
     }
 
 
