@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class DungeonGenerator : MonoBehaviour 
 {
     //Dungeon Specs
@@ -11,6 +12,7 @@ public class DungeonGenerator : MonoBehaviour
     private DungeonRoom FirstRoom;
 
     //List of rooms
+    private List<DungeonRoom> dungeonRooms = new List<DungeonRoom>();
     private List<BoundsInt> roomList = new List<BoundsInt>(); //List of all rooms
     private List<Tuple<BoundsInt, BoundsInt>> corridorList = new List<Tuple<BoundsInt, BoundsInt>>();
     private List<Tuple<BoundsInt, BoundsInt, float>> roomDistances = new List<Tuple<BoundsInt, BoundsInt, float>>();
@@ -20,9 +22,12 @@ public class DungeonGenerator : MonoBehaviour
 
     [HideInInspector] public BoundsInt StartingRoom {get; private set;}
     [HideInInspector] public BoundsInt EndingRoom {get; private set; }
+    private int roomIDGiver = 0;
 
     void Awake()
     {
+        roomIDGiver = 0; //Resets Room IDs
+
         roomList.Clear();
         if (!(Space.size.x > 2 * minRoomSize.x + roomBuffer && Space.size.y > 2 * minRoomSize.y + roomBuffer))
         {
@@ -35,6 +40,7 @@ public class DungeonGenerator : MonoBehaviour
         FirstRoom = new DungeonRoom(Space, minRoomSize, roomBuffer);
         FirstRoom.SplitRecursive();       //Create Tree
         CollectLeafRooms(FirstRoom);      //Collect Leaf Nodes
+        DungeonInfo.Instance.SetInfo(dungeonRooms);
         SortRoomDistance();               //Sorts out an efficient way to connect rooms
         AssignStartingEndingRooms();
     }
@@ -46,6 +52,8 @@ public class DungeonGenerator : MonoBehaviour
             if (!room.HasChild)
             {
                 roomList.Add(room.space);
+                room.SetRoomID(roomIDGiver++);
+                dungeonRooms.Add(room);
             }
             else
             {
@@ -181,6 +189,10 @@ public class DungeonRoom
     public bool HasChild => leftChild != null || rightChild != null;
     private Vector2Int minRoomSize;
     private int roomBuffer;
+
+    public int roomID;
+    public int GetRoomID() { return roomID; }
+    public void SetRoomID(int ID) {  roomID = ID; }
 
     //Constructor
     public DungeonRoom(BoundsInt roomSpace, Vector2Int minSize, int roomBuff)

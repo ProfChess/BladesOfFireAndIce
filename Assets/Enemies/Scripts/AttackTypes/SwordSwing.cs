@@ -4,23 +4,21 @@ using UnityEngine;
 [RequireComponent(typeof(BaseEnemy))]
 public class SwordSwing : EnemyDamage, IEnemyAttackBehaviour
 {
-    [SerializeField] BoxCollider2D AttackHitbox;
-    public void Attack(float Damage, float Range, int Cooldown, int Speed, Transform playerTransform)
+    [SerializeField] protected Collider2D AttackCollider;
+    [SerializeField] protected Animator AttackEffectAnim;
+    public void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform)
     {
         AttackDamage = Damage;
-        Vector2 AttackDirection = GetPlayerDirection(playerTransform).normalized * Range;
+        Vector2 AttackDirection = GetPlayerDirection(playerTransform).normalized * Offset;
         float rotateAngle = Mathf.Atan2(AttackDirection.y, AttackDirection.x) * Mathf.Rad2Deg;                //Angle
 
         //Place and Rotate Attack Box
-        AttackHitbox.transform.localPosition = AttackDirection;
-        AttackHitbox.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
-        AttackHitbox.enabled = true;
-        StartAttackAnim();
+        AttackCollider.transform.localPosition = AttackDirection;
+        AttackCollider.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
+        AttackCollider.enabled = true;
+        AttackEffectAnim.Play("AttackEffect");
         StartCoroutine(AttackBoxDuration());
     }
-    private Vector2 GetPlayerDirection(Transform playerSpot)
-    {
-        return playerSpot.position - transform.position;
-    }
-    private IEnumerator AttackBoxDuration() { yield return new WaitForSeconds(0.5f); AttackHitbox.enabled = false; }
+
+    private IEnumerator AttackBoxDuration() { yield return new WaitForSeconds(0.1f); AttackCollider.enabled = false; }
 }

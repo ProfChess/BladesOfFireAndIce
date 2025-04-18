@@ -1,44 +1,54 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.LowLevel;
 
 
 //Interfaces For Enemy Uses
 public interface IEnemyMovementBehaviour
 {
-    void Move(NavMeshAgent agent, Transform playerTransform, float speed);
+    void IdleMove(NavMeshAgent agent, float speed);
+    void ChaseMove(NavMeshAgent agent, Transform playerTransform, float speed, float range);
 }
 public interface IEnemyAttackBehaviour
 {
-    void Attack(float Damage, float Range, int Cooldown, int Speed, Transform playerTransform);
+    void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform);
 }
 
-public enum PoolType { Slime }
+public enum PoolType { Slime, Ranged, ArrowProjectile, Charger }
 
-public class BaseEnemy : MonoBehaviour
+public abstract class BaseEnemy : MonoBehaviour
 {
     //Stats
-    [Header("Stats")]
-    [Header("Idle")]
-    [SerializeField] protected float IdleSpeed;
-    [Header("Chase")]
-    [SerializeField] protected float ChaseSpeed;
-    [SerializeField] protected int ChaseRange;
-    [Header("Attack")]
-    [SerializeField] protected float AttackDamage;
-    [SerializeField] protected int AttackCooldown;
-    [SerializeField] protected int AttackSpeed;
-    [SerializeField] protected float AttackRange;
-    [Header("Visuals")]
-    [SerializeField] protected SpriteRenderer EnemySprite;
-    [SerializeField] protected Animator anim;
+    [Header("Idle Settings")]
+    [Tooltip("Speed Enemy Moves in Idle State")]
+    [SerializeField] protected float IdleSpeed; 
 
+    [Header("Chase Settings")]
+    [Tooltip("Speed Enemy Moves in Chase State")]
+    [SerializeField] protected float ChaseSpeed;
+    [Tooltip("Distance From Player to Trigger Chase State")]
+    [SerializeField] protected int ChaseRange;
+
+    [Header("Attack Settings")]
+    [Tooltip("Damage Each Attack Deals")]
+    [SerializeField] protected float AttackDamage;
+    [Tooltip("Time Inbetween Each Attack")]
+    [SerializeField] protected int AttackCooldown;
+    [Tooltip("Offset of Attack Box / Speed of Projectiles")]
+    [SerializeField] protected float AttackOffset;
+    [Tooltip("Distance From Player to Trigger Attack State")]
+    [SerializeField] protected float AttackRange;
+
+    protected Animator anim;
+    protected SpriteRenderer EnemySprite;
+    public SpriteRenderer GetSpriteRenderer() { return EnemySprite; }
+    public Animator GetAnimator() { return anim; }
     //States
     protected enum EnemyState {Idle, Chase, Attack}
     protected EnemyState CurrentEnemyState;
 
     //Spawning 
+    [Header("Pool Type Selection")]
     [SerializeField] protected PoolType EnemyPoolType;
 
     //Behaviour Components
@@ -55,6 +65,7 @@ public class BaseEnemy : MonoBehaviour
     protected const float checkInterval = 0.2f;
     protected float nextCheck = 0f;
     protected bool canAttack = true;
+    [HideInInspector] public bool canMove = true;
 
     //Events
     protected void OnEnable()
@@ -71,19 +82,25 @@ public class BaseEnemy : MonoBehaviour
     {
         //Move to Correct Position
         gameObject.transform.position = Position;
+        canMove = true;
 
         //Restart State
         CurrentEnemyState = EnemyState.Idle;
         gameObject.SetActive(true);
     }
+
     public void DeactivateEnemy()
     {
         gameObject.SetActive(false);
         PoolManager.Instance.ReturnObjectToPool(EnemyPoolType, gameObject);
     }
-
-    protected void Start()
+    
+    protected virtual void Start()
     {
+        //Visuals 
+        anim = GetComponentInChildren<Animator>();
+        EnemySprite = GetComponentInChildren<SpriteRenderer>();
+
         //Initialize State
         CurrentEnemyState = EnemyState.Idle;
 
@@ -97,15 +114,23 @@ public class BaseEnemy : MonoBehaviour
 
     }
 
+    //Switches State Based Upon Player Distance to Enemy
     virtual protected void Update()
     {
+        if (!canMove) { return; }
+
         //States
-        if (Time.time >= nextCheck)
+        else if (Time.time >= nextCheck)
         {
             nextCheck = Time.time + checkInterval;
-            if (!PlayerWithinChaseRange()) { CurrentEnemyState = EnemyState.Idle; }
-            else if (PlayerWithinChaseRange() && !PlayerWithinAttackRange()) { CurrentEnemyState = EnemyState.Chase; }
-            else if (PlayerWithinChaseRange() && PlayerWithinAttackRange()) { CurrentEnemyState = EnemyState.Attack; }
+            if (!PlayerWithinChaseRange()) 
+            { CurrentEnemyState = EnemyState.Idle; }
+
+            else if (PlayerWithinChaseRange() && !PlayerWithinAttackRange())
+            { CurrentEnemyState = EnemyState.Chase; }
+
+            else if (PlayerWithinChaseRange() && PlayerWithinAttackRange()) 
+            { CurrentEnemyState = EnemyState.Attack; }
 
             //Call functions for each state
             switch (CurrentEnemyState)
@@ -127,18 +152,25 @@ public class BaseEnemy : MonoBehaviour
         }
     }
     //State Functions (Override in Inherited Class)
-    protected virtual void EnemyIdleState() { }
+    protected virtual void EnemyIdleState()
+    {
+        anim.SetBool("IsRunning", false);
+
+        if (agent.velocity.sqrMagnitude > 0)
+        {
+            anim.SetBool("IsWalking", true);
+        }
+        else { anim.SetBool("IsWalking", false); }
+    }
     protected virtual void EnemyChaseState() { }
     protected virtual void EnemyAttackState() { }
+
 
     //Visuals
     protected void FlipSprite()
     {
         EnemySprite.flipX = playerLocation.position.x <= transform.position.x;
     }
-    //Visual Gets
-    public Animator GetAnim() {  return anim; }
-
 
     //Cooldowns
     protected IEnumerator BasicAttackCooldown()
@@ -149,7 +181,7 @@ public class BaseEnemy : MonoBehaviour
     public void StartEnemyCooldown() { StartCoroutine(BasicAttackCooldown()); }
     public void StartEnemyAttackDamage() 
     { 
-        EnemyAttackComponent.Attack(AttackDamage, AttackRange, AttackCooldown, AttackSpeed, playerLocation); 
+        EnemyAttackComponent.Attack(AttackDamage, AttackRange, AttackCooldown, AttackOffset, playerLocation); 
     }
     //Checks
     protected bool PlayerWithinChaseRange() //Checks if player is within chase range
@@ -194,7 +226,23 @@ public class BaseEnemy : MonoBehaviour
         agent.updateUpAxis = false;
         agent.speed = IdleSpeed;
         agent.acceleration = 500;
+        agent.radius = 0.4f;
+        agent.stoppingDistance = 0.5f;
+        agent.autoBraking = false;
     }
 
-    
+    public bool Arrived() //Checks if Agent has Arrived at destination
+    {
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

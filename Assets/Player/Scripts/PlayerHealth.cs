@@ -22,7 +22,12 @@ public class PlayerHealth : BaseHealth
             //Hazard Collision
             if (collision.CompareTag("Hazard-Hole") && !isFalling) { FallInHole(collision.transform.position); }
             //Damage Collision
-            if (collision.CompareTag("EnemyAttack")) { PlayerDamage(collision.GetComponentInParent<EnemyDamage>().GetDamage()); }
+            if (collision.CompareTag("EnemyAttack")) 
+            {
+                EnemyDamage DamageInstance = collision.GetComponentInParent<EnemyDamage>();
+                PlayerDamage(DamageInstance.GetDamage());
+                DamageInstance.SetHitTrue();
+            }
         }
     }
 

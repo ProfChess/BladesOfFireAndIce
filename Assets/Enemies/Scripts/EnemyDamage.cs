@@ -2,17 +2,21 @@ using UnityEngine;
 
 public abstract class EnemyDamage : MonoBehaviour
 {
-    //Visual
-    [SerializeField] Animator AttackAnim;
-    [SerializeField] SpriteRenderer AttackSprite;
+    //Projectile Properties
+    protected bool HasHit = false;
+    public virtual void SetHitTrue() {  HasHit = true; }
 
-    protected void StartAttackAnim() //Play the attack hit effect
-    {
-        AttackAnim.Play("AttackEffectAnim");
-    }
+
+    //Damage
     protected float AttackDamage {get; set;}
 
     public float GetDamage() {  return AttackDamage; }
 
+
+    //Shared Functions
+    protected Vector2 GetPlayerDirection(Transform playerSpot)
+    {
+        return (playerSpot.position - transform.position).normalized;
+    }
 
 }
