@@ -19,12 +19,7 @@ public abstract class BaseEnemyMovement : MonoBehaviour
         Vector3 RandomDirection = Random.insideUnitCircle * Radius;
         RandomDirection += transform.position;
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(RandomDirection, out hit, Radius, NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-        return Vector2.zero;
+        return GetPointOnMesh(RandomDirection);
     }
 
     //Gets Random Point At Max Range
@@ -33,25 +28,15 @@ public abstract class BaseEnemyMovement : MonoBehaviour
         Vector3 RandomPointToFlee = Random.insideUnitCircle.normalized * Range;
         RandomPointToFlee += transform.position;
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(RandomPointToFlee, out hit, Range, NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-        return Vector2.zero;
+        return GetPointOnMesh(RandomPointToFlee);
     }
 
     //Picks random spot on the navmesh within enemy starting room
     protected Vector2 GetPointWithinStartingRoom(BoundsInt roomSpace)
     {
-        Vector3 RandomDirection = new Vector2(Random.Range(roomSpace.xMin, roomSpace.xMax), 
+        Vector3 RandomPointInRoom = new Vector2(Random.Range(roomSpace.xMin, roomSpace.xMax), 
                                                 Random.Range(roomSpace.yMin, roomSpace.yMax));
-
-        if (NavMesh.SamplePosition(RandomDirection, out NavMeshHit hit, Mathf.Infinity, NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-        return Vector2.zero;
+        return GetPointOnMesh(RandomPointInRoom);
     }
 }
 

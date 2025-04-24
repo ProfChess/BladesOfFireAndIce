@@ -268,13 +268,11 @@ MonoBehaviour:
   AttackCooldown: 1
   AttackOffset: 2
   AttackRange: 4
-  BasicAttackBox: {fileID: 0}
-  AttackEffectAnim: {fileID: 0}
   EnemyPoolType: 1
   canMove: 1
   RunAwayCooldown: 3
   RunAwayDistance: 6
-  IdleWanderInterval: 2
+  IdleWanderWaitTime: 3
 --- !u!114 &145554690692720658
 MonoBehaviour:
   m_ObjectHideFlags: 0

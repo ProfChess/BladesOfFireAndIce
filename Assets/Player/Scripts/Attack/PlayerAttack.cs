@@ -11,7 +11,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Animator playerAnim;
     [SerializeField] private Animator attackAnim;
     [SerializeField] private SpriteRenderer attackSprite;
-    private int attackVisualSortingLevel = 3; //Level the attack visual goes to when on
+    private const int attackEffectLayer = 3;
 
     [Header("Damage Stats")]
     [SerializeField] private float AttackDamage;
@@ -23,7 +23,6 @@ public class PlayerAttack : MonoBehaviour
     PlayerController.AttackForm attackForm;
     private void Start()
     {
-        attackSprite.sortingOrder = -1;                 //Hide Attack Sprite
         attackBox.enabled = false;                      //Turn Collider Off
         attackDuration = controls.GetAttackDuration();  //Assign Duration 
     }
@@ -65,7 +64,7 @@ public class PlayerAttack : MonoBehaviour
     {
         attackAnim.SetBool("Fire", attackForm == PlayerController.AttackForm.Fire);
         attackAnim.SetTrigger("BasicAttack");
-        attackSprite.sortingOrder = attackVisualSortingLevel;
+        attackSprite.sortingOrder = attackEffectLayer;
     }
     private IEnumerator BaseAttackStay() //Collider stays for attack duration
     {

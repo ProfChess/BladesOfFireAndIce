@@ -37,27 +37,7 @@ public class ChargerEnemy : BaseEnemy
     //Enemy Will Patrol Between 2 Points of its Starting Room in its Idle State
     protected override void EnemyIdleState()
     {
-        if (Arrived())
-        {
-            //Start Waiting
-            if (!isWaiting)
-            {
-                isWaiting = true;
-                WaitTimeRemaining = Time.time + TimeBetweenPatrols;
-            }
-
-            //Still Waiting
-            if (Time.time >= WaitTimeRemaining)
-            {
-                isWaiting = false;
-                EnemyMovementComponent.IdleMove(agent, IdleSpeed);
-                EnemySprite.flipX = agent.destination.x <= transform.position.x;
-            }
-        }
-        else //Not at destination
-        {
-            isWaiting = false;
-        }
+        IdleWanderThenWait(ref isWaiting, ref WaitTimeRemaining, TimeBetweenPatrols);
         
         base.EnemyIdleState();
     }

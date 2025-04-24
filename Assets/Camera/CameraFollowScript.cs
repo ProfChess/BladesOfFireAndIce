@@ -41,7 +41,14 @@ public class CameraFollowScript : MonoBehaviour
         float targetY = Mathf.Clamp(PlayerPos.y, xyMinLimit.y + camHalfHeight, xyMaxLimit.y - camHalfHeight);
 
         Vector3 Goal = new Vector3(targetX, targetY, gameObject.transform.position.z);
-        gameObject.transform.position = Vector3.Lerp(transform.position, Goal, 1); //Moves towards player
+
+        // Snapping position to nearest pixel grid based on PPU
+        float pixelSize = 1f / 32f;
+        Goal.x = Mathf.Round(Goal.x / pixelSize) * pixelSize;
+        Goal.y = Mathf.Round(Goal.y / pixelSize) * pixelSize;
+
+        // Directly move camera to the snapped position
+        transform.position = Goal;
 
     }
 

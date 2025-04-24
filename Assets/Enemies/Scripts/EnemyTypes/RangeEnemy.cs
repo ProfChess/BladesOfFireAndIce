@@ -11,19 +11,14 @@ public class RangeEnemy : BaseEnemy
     [SerializeField] private float RunAwayDistance;
 
     [Header("Idle Wander Stats")]
-    [SerializeField] private float IdleWanderInterval;
+    [SerializeField] private float IdleWanderWaitTime;
     private float idleWanderTimer = 0f;
+    private bool isWaiting = false;
 
     protected override void EnemyIdleState()
     {
         agent.isStopped = false;
-       
-        if (Time.time >= idleWanderTimer && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            EnemyMovementComponent.IdleMove(agent, IdleSpeed);
-            EnemySprite.flipX = agent.destination.x <= transform.position.x;
-            idleWanderTimer = Time.time + IdleWanderInterval;
-        }
+        IdleWanderThenWait(ref isWaiting, ref idleWanderTimer, IdleWanderWaitTime);
         base.EnemyIdleState();
 
     }
@@ -33,14 +28,14 @@ public class RangeEnemy : BaseEnemy
         if (canAttack)
         {
             agent.isStopped = true;
+            canAttack = false; anim.Play("ArcherAttack");
         }
         else
         {
             agent.isStopped = false;
         }
-        anim.SetBool("IsRunning", false); anim.SetBool("IsWalking", false);
-        if (canAttack) { canAttack = false; anim.Play("ArcherAttack"); }
-
+        anim.SetBool("IsWalking", false);
+        anim.SetBool("IsRunning", agent.velocity.magnitude > 0);
     }
 
     protected override void EnemyAttackState()
@@ -49,6 +44,7 @@ public class RangeEnemy : BaseEnemy
 
         anim.SetBool("IsWalking", false);
         anim.SetBool("IsRunning", agent.velocity.magnitude > 0);
+        
         //Runs Away When too Close to Player
         if (CanRunAway)
         {

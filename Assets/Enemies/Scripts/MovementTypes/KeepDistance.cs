@@ -6,6 +6,7 @@ using System.Collections;
 public class KeepDistance : BaseEnemyMovement, IEnemyMovementBehaviour
 {
     private BoundsInt Territory;
+    private const float MAX_WANDER_DISTANCE = 8f;
 
     private void Start()
     {
@@ -13,8 +14,20 @@ public class KeepDistance : BaseEnemyMovement, IEnemyMovementBehaviour
     }
     public void IdleMove(NavMeshAgent agent, float speed)
     {
+        //Set Speed
         agent.speed = speed;
+
+        //Point Agent Will Move To
         Vector2 PointOfInterest = GetPointWithinStartingRoom(Territory);
+
+        //Shorten Vector if Too Long
+        Vector2 Distance = PointOfInterest - (Vector2)transform.position;
+        if (Distance.magnitude > MAX_WANDER_DISTANCE) 
+        { 
+            Distance = Distance.normalized * MAX_WANDER_DISTANCE;
+            PointOfInterest = GetPointOnMesh((Vector2)transform.position + Distance);
+        }
+        
         if (PointOfInterest != Vector2.zero) { agent.SetDestination(PointOfInterest); }
     }
     public void ChaseMove(NavMeshAgent agent, Transform playerTransform, float speed, float range)

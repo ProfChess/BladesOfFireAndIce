@@ -14,7 +14,7 @@ public interface IEnemyAttackBehaviour
     void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform);
 }
 
-public enum PoolType { Slime, Ranged, ArrowProjectile, Charger }
+public enum PoolType { Slime, Ranged, ArrowProjectile, Charger, Caster}
 
 public abstract class BaseEnemy : MonoBehaviour
 {
@@ -246,5 +246,30 @@ public abstract class BaseEnemy : MonoBehaviour
             }
         }
         return false;
+    }
+    //Default way for enemy to move in idle state, wandering around
+    protected void IdleWanderThenWait(ref bool isWaiting, ref float Timer, float WaitTime)
+    {
+        if (Arrived())
+        {
+            //Start Waiting
+            if (!isWaiting)
+            {
+                isWaiting = true;
+                Timer = Time.time + WaitTime;
+            }
+
+            //Still Waiting
+            if (Time.time >= Timer)
+            {
+                isWaiting = false;
+                EnemyMovementComponent.IdleMove(agent, IdleSpeed);
+                EnemySprite.flipX = agent.destination.x <= transform.position.x;
+            }
+        }
+        else //Not at destination
+        {
+            isWaiting = false;
+        }
     }
 }
