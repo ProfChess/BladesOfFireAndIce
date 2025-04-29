@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     //Form Enum
     [HideInInspector]
     public enum AttackForm {Fire, Ice};
-    AttackForm PlayerAttackForm;
+    public AttackForm PlayerAttackForm;
 
 
     //References
@@ -50,9 +50,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 dashDirection = Vector2.right;
     private bool isDashing = false;
-    private float DashCooldownTimer;
     private float FormSwitchCooldownTimer;
-    private float BasicAttackCooldownTimer;
     private bool playerStop = false;
 
     //START/UPDATE/ETC
@@ -83,12 +81,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //COOLDOWNS
-        //Dash Cooldown
-        if (!isDashing && DashCooldownTimer > 0) { DashCooldownTimer -= Time.deltaTime; }
         //Form Switch Cooldown
         if (FormSwitchCooldownTimer > 0) { FormSwitchCooldownTimer -= Time.deltaTime; }
-        //Attack Cooldown
-        if (BasicAttackCooldownTimer > 0) { BasicAttackCooldownTimer -= Time.deltaTime; }
 
         //Player State
         if (moveDirection == Vector2.zero && !isDashing)
@@ -135,30 +129,34 @@ public class PlayerController : MonoBehaviour
     public void OnMovement(InputAction.CallbackContext ctx)
     {
         moveDirection = ctx.ReadValue<Vector2>();        //Read Input Value
-        if (moveDirection != Vector2.zero && !isDashing) //Remember Last moved direction for dash
-        {
-            dashDirection = moveDirection;
-        }
     }
     //DASH
     public void OnDash(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
         {
-            if (DashCooldownTimer <= 0f && !isDashing && !playerStop)
+            if (playerAttack.CheckStamina(PlayerAttack.AttackList.Roll, PlayerAttackForm) 
+                && !isDashing && !playerStop)
             {
                 isDashing = true;
+
+                //Get Direction
+                Vector2 Direction = moveDirection;
+                if (Direction != Vector2.zero) { dashDirection = Direction; }
+
+                //If not moving, Sets direction based on mouse position
+                else { dashDirection = SnapMousePositionTo8Directions(GetMouseDir()); }
+
                 playerAnim.Play("PlayerRoll");
+                playerAttack.UseSkill(PlayerAttack.AttackList.Roll);
                 StartCoroutine(DashCoroutine());
             }
         }
-
     }
     private IEnumerator DashCoroutine()
     {
         yield return new WaitForSeconds(DashDuration);
         isDashing = false;
-        DashCooldownTimer = playerRollSpeed;
     }
     //SWITCH ATTACK FORM
     public void OnFormSwitch(InputAction.CallbackContext ctx)
@@ -177,10 +175,10 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            if (!isDashing && BasicAttackCooldownTimer <= 0 && !playerStop)
+            if (!isDashing && !playerStop && !pae.GetIsAttacking()
+                && playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerAttackForm))
             {
-                playerAttack.BasicAttack();
-                BasicAttackCooldownTimer = BasicAttackCooldown;
+                playerAttack.UseSkill(PlayerAttack.AttackList.BasicAttack);
             }
         }
 
@@ -243,18 +241,7 @@ public class PlayerController : MonoBehaviour
     {
         return PlayerAttackForm;
     }
-    //Get Movement Vector
-    public Vector2 GetMoveVector()
-    {
-        if (moveDirection == Vector2.zero)
-        {
-            return dashDirection;
-        }
-        else
-        {
-            return moveDirection;
-        }
-    }
+    
     public void SetPlayerStop()
     {
         playerStop = true;
@@ -293,6 +280,20 @@ public class PlayerController : MonoBehaviour
         Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
         Vector2 MouseDirection = (MouseLocation - gameObject.transform.position).normalized;
         return MouseDirection;
+    }
+    private Vector2 SnapMousePositionTo8Directions(Vector2 Direction)
+    {
+        //Default Angle
+        if (Direction == Vector2.zero) { return Vector2.right; }
+
+        float angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg; //Angle of direction
+        angle = (angle + 360f) % 360f; //Ensures Angle is between 0-360
+
+        int snappedAngle = Mathf.RoundToInt(angle / 45f) * 45; //Snaps angle to nearest 45 (360/8 directions)
+
+        float AngleInRadians = snappedAngle * Mathf.Deg2Rad;
+        Vector2 snappedDirection = new Vector2(Mathf.Cos(AngleInRadians), Mathf.Sin(AngleInRadians)).normalized;
+        return snappedDirection;
     }
 
 }

@@ -1049,6 +1049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 968923752}
   - component: {fileID: 968923751}
+  - component: {fileID: 968923753}
   m_Layer: 12
   m_Name: PlayerAttacks
   m_TagString: Untagged
@@ -1068,6 +1069,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599899534e0165c4fa1f8cdfc81f6c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FireStaminaCost: 3
+  IceStaminaCost: 2
+  RollStaminaCost: 2
   controls: {fileID: 1409708138}
   attackBox: {fileID: 1579664786}
   playerAnim: {fileID: 130608850}
@@ -1090,6 +1094,21 @@ Transform:
   - {fileID: 1579664787}
   m_Father: {fileID: 1409708135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &968923753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968923750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31e2a84308f0ae441882ac91ddf6c3e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxStamina: 10
+  CurrentStamina: 0
+  StaminaRegenRate: 2
 --- !u!1 &1128126079
 GameObject:
   m_ObjectHideFlags: 0

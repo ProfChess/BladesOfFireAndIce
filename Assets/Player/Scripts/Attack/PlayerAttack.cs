@@ -3,9 +3,15 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [Header("Stamina Cost")]
+    [SerializeField] private float FireStaminaCost;
+    [SerializeField] private float IceStaminaCost;
+    [SerializeField] private float RollStaminaCost;
+
     [Header("References")]
     [SerializeField] private PlayerController controls;
     [SerializeField] private BoxCollider2D attackBox;
+    private PlayerStaminaManager playerStamina;
 
     [Header("Visual")]
     [SerializeField] private Animator playerAnim;
@@ -21,28 +27,75 @@ public class PlayerAttack : MonoBehaviour
     private float offsetDistance = 1f;
     private float attackDuration;
     PlayerController.AttackForm attackForm;
+
+    public enum AttackList { BasicAttack, Roll };
     private void Start()
     {
         attackBox.enabled = false;                      //Turn Collider Off
-        attackDuration = controls.GetAttackDuration();  //Assign Duration 
+        attackDuration = controls.GetAttackDuration();  //Assign Duration
+        playerStamina = GetComponent<PlayerStaminaManager>();                                           
     }
 
     //Places Attack Box Collider in Direction Player is Moving
-    public void BasicAttack()
+    public void UseSkill(AttackList type)
+    {
+        switch (type)
+        {
+            case AttackList.BasicAttack:
+                //Fire Stance
+                if (controls.PlayerAttackForm == PlayerController.AttackForm.Fire)
+                {
+                    if (playerStamina.GetStamina() >= FireStaminaCost)
+                    {
+                        ConsumeStamina(FireStaminaCost);
+                        BasicAttack();
+                        playerAnim.Play("PlayerSlash");
+                    }
+                    else { Debug.Log("Not Enough Stamina"); }
+                }
+
+                //Ice Stance
+                if (controls.PlayerAttackForm == PlayerController.AttackForm.Ice)
+                {
+                    if (playerStamina.GetStamina() >= IceStaminaCost)
+                    {
+                        ConsumeStamina(IceStaminaCost);
+                        BasicAttack();
+                        playerAnim.Play("PlayerStab");
+                    }
+                    else { Debug.Log("Not Enough Stamina"); }
+                }
+                break;
+            case AttackList.Roll:
+                ConsumeStamina(RollStaminaCost);
+                break;
+        }
+    }
+    public bool CheckStamina(AttackList Attacktype, PlayerController.AttackForm StanceType) //returns true if there is enough stamina to perform attack or skill
+    {
+        switch (Attacktype)
+        {
+            case AttackList.BasicAttack:
+                if (StanceType == PlayerController.AttackForm.Fire)
+                {
+                    return playerStamina.GetStamina() >= FireStaminaCost;
+                }
+                else
+                {
+                    return playerStamina.GetStamina() >= IceStaminaCost;
+                }
+            case AttackList.Roll:
+                return playerStamina.GetStamina() >= RollStaminaCost;
+        }
+        return false;
+
+    }
+    private void BasicAttack()
     {
         //Animation
         attackForm = controls.GetAttackForm();
         Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
         MouseDirection = (MouseLocation - controls.transform.position).normalized;
-        if (attackForm == PlayerController.AttackForm.Fire)
-        {
-            playerAnim.Play("PlayerSlash");
-        }
-        else
-        {
-            playerAnim.Play("PlayerStab");
-        }
-
     }
     public void callAttack()
     {
@@ -73,6 +126,13 @@ public class PlayerAttack : MonoBehaviour
     }
 
     public float GetDamageNumber() { return AttackDamage; }
+
+    private void ConsumeStamina(float Amount)
+    {
+        playerStamina.DecreaseStamina(Amount);
+    }
+
+
 
     //ABILITIES
     //[SerializeField] private List<PlayerAbility> AbilityList;
