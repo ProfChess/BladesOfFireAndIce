@@ -39,8 +39,13 @@ public abstract class BaseEnemy : MonoBehaviour
     [Tooltip("Distance From Player to Trigger Attack State")]
     [SerializeField] protected float AttackRange;
 
+    //Animation
     protected Animator anim;
     protected SpriteRenderer EnemySprite;
+    //Bools
+    protected static readonly int Walking = Animator.StringToHash("IsWalking");
+    protected static readonly int Running = Animator.StringToHash("IsRunning");
+
     public SpriteRenderer GetSpriteRenderer() { return EnemySprite; }
     public Animator GetAnimator() { return anim; }
     //States
@@ -91,9 +96,11 @@ public abstract class BaseEnemy : MonoBehaviour
 
     public void DeactivateEnemy()
     {
+        CustomEnemyDeathLogic();
         gameObject.SetActive(false);
         PoolManager.Instance.ReturnObjectToPool(EnemyPoolType, gameObject);
     }
+    protected virtual void CustomEnemyDeathLogic() { }
     
     protected virtual void Start()
     {
@@ -152,13 +159,13 @@ public abstract class BaseEnemy : MonoBehaviour
     //State Functions (Override in Inherited Class)
     protected virtual void EnemyIdleState()
     {
-        anim.SetBool("IsRunning", false);
+        anim.SetBool(Running, false);
 
         if (agent.velocity.sqrMagnitude > 0)
         {
-            anim.SetBool("IsWalking", true);
+            anim.SetBool(Walking, true);
         }
-        else { anim.SetBool("IsWalking", false); }
+        else { anim.SetBool(Walking, false); }
     }
     protected virtual void EnemyChaseState() { FlipSprite(); }
     protected virtual void EnemyAttackState() { FlipSprite(); }

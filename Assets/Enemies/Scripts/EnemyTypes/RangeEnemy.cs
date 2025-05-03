@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class RangeEnemy : BaseEnemy
 {
+    //ANIMATION STRINGS
+    //States
+    private static readonly int Attack = Animator.StringToHash("ArcherAttack");
     //For this Enemy -> Attacks at chase range and flees at Attack Range
 
     [Header("Run Away Stats")]
@@ -28,22 +31,22 @@ public class RangeEnemy : BaseEnemy
         if (canAttack)
         {
             agent.isStopped = true;
-            canAttack = false; anim.Play("ArcherAttack");
+            canAttack = false; anim.Play(Attack);
         }
         else
         {
             agent.isStopped = false;
         }
-        anim.SetBool("IsWalking", false);
-        anim.SetBool("IsRunning", agent.velocity.magnitude > 0);
+        anim.SetBool(Walking, false);
+        anim.SetBool(Running, agent.velocity.magnitude > 0);
     }
 
     protected override void EnemyAttackState()
     {
         agent.isStopped = false;
 
-        anim.SetBool("IsWalking", false);
-        anim.SetBool("IsRunning", agent.velocity.magnitude > 0);
+        anim.SetBool(Walking, false);
+        anim.SetBool(Running, agent.velocity.magnitude > 0);
         
         //Runs Away When too Close to Player
         if (CanRunAway)

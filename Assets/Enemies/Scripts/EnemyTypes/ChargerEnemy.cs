@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class ChargerEnemy : BaseEnemy
 {
+    //ANIMATION STRINGS
+    //States
+    private static readonly int SpinAttackStart = Animator.StringToHash("ChargerSpinAttackIntro");
+    private static readonly int NormalAttack = Animator.StringToHash("ChargerNormalAttack");
+
     [Tooltip("Controls How Long (Seconds) the Enemy Waits at Each Patrol Point")]
     [SerializeField] private float TimeBetweenPatrols;
     private float WaitTimeRemaining = 0;
@@ -75,7 +80,7 @@ public class ChargerEnemy : BaseEnemy
         agent.speed = chargeSpeed;
         Vector2 Direction = GetPlayerDirection().normalized * chargeRange;
         Vector2 TargetPosition = new Vector2(transform.position.x, transform.position.y) + Direction;
-        anim.Play("ChargerSpinAttackIntro");
+        anim.Play(SpinAttackStart);
         chargeAttack.Attack(chargeDamage, chargeDuration, 0, 0, playerLocation);
         agent.SetDestination(TargetPosition);
     }
@@ -94,8 +99,8 @@ public class ChargerEnemy : BaseEnemy
     protected override void EnemyAttackState()
     {
         base.EnemyAttackState();
-        anim.SetBool("IsWalking", false); anim.SetBool("IsRunning", false);
-        if (canAttack) { canAttack = false; anim.Play("ChargerNormalAttack"); }
+        anim.SetBool(Walking, false); anim.SetBool(Running, false);
+        if (canAttack) { canAttack = false; anim.Play(NormalAttack); }
     }
 
 

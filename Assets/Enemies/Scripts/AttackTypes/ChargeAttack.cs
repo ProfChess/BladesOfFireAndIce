@@ -11,7 +11,7 @@ public class ChargeAttack : EnemyDamage, IEnemyAttackBehaviour
     //Charge Attack Settings
     [Header("Charge Settings")]
     private float chargeDuration;
-
+    private static readonly int EndAttack = Animator.StringToHash("FinishSpinAttack");
     public void Attack(float Damage, float Range, int Cooldown, float Speed, Transform playerTransform)
     {
         AttackDamage = Damage;
@@ -29,7 +29,7 @@ public class ChargeAttack : EnemyDamage, IEnemyAttackBehaviour
     private IEnumerator ChargeAttackStart()
     {
         yield return new WaitForSeconds(chargeDuration);
-        anim.SetTrigger("FinishSpinAttack");
+        anim.SetTrigger(EndAttack);
         TurnOffSpin();
     }
     private void TurnOffSpin()

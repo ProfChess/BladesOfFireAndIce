@@ -3,6 +3,9 @@ using UnityEngine.AI;
 
 public class WalkerEnemy : BaseEnemy
 {
+    //ANIMATION STRINGS
+    //Triggers
+    private static readonly int TriggerAttack = Animator.StringToHash("AttackTrigger");
 
     //Wandering Behaviour Stats
     private float wanderInterval = 2f;
@@ -29,15 +32,15 @@ public class WalkerEnemy : BaseEnemy
     //Chase
     protected override void EnemyChaseState()
     {
-        anim.SetBool("IsRunning", true); anim.SetBool("IsWalking", false);
+        anim.SetBool(Running, true); anim.SetBool(Walking, false);
         EnemyMovementComponent.ChaseMove(agent, playerLocation, ChaseSpeed, AttackRange);
     }
 
     //Attack
     protected override void EnemyAttackState()
     {
-        anim.SetBool("IsRunning", false); anim.SetBool("IsWalking", false);
-        if (canAttack) { canAttack = false;  anim.SetTrigger("AttackTrigger"); }
+        anim.SetBool(Running, false); anim.SetBool(Walking, false);
+        if (canAttack) { canAttack = false;  anim.SetTrigger(TriggerAttack); }
     }
 
 

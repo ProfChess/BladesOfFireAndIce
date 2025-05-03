@@ -1540,6 +1540,7 @@ MonoBehaviour:
   FormSwitchCooldown: 1
   BasicAttackDuration: 0.25
   BasicAttackCooldown: 0.25
+  PlayerAttackForm: 0
   rb: {fileID: 1409708136}
   playerAttack: {fileID: 968923751}
   DunGen: {fileID: 1696567154}
@@ -2383,6 +2384,7 @@ MonoBehaviour:
   AttackRange: 2
   EnemyPoolType: 4
   canMove: 1
+  WaitTime: 0
 --- !u!1 &2026416220
 GameObject:
   m_ObjectHideFlags: 0

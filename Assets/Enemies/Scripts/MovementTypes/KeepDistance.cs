@@ -10,7 +10,7 @@ public class KeepDistance : BaseEnemyMovement, IEnemyMovementBehaviour
 
     private void Start()
     {
-        Territory = DungeonInfo.Instance.GrabArea(transform.position);
+        Territory = DungeonInfo.Instance.GrabArea(transform.position).space;
     }
     public void IdleMove(NavMeshAgent agent, float speed)
     {

@@ -17,7 +17,7 @@ public class PatrolRoom : BaseEnemyMovement, IEnemyMovementBehaviour
     {
         Enemy = GetComponent<BaseEnemy>();  
 
-        Territory = DungeonInfo.Instance.GrabArea(transform.position);
+        Territory = DungeonInfo.Instance.GrabArea(transform.position).space;
 
         int Length = Territory.yMax - Territory.yMin;
         int Width = Territory.xMax - Territory.xMin;
