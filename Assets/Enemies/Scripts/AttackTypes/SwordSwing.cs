@@ -6,6 +6,7 @@ public class SwordSwing : EnemyDamage, IEnemyAttackBehaviour
 {
     [SerializeField] protected Collider2D AttackCollider;
     [SerializeField] protected Animator AttackEffectAnim;
+    private static readonly int AttackEffect = Animator.StringToHash("AttackEffect");
     public void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform)
     {
         //Assign Var
@@ -21,7 +22,7 @@ public class SwordSwing : EnemyDamage, IEnemyAttackBehaviour
         AttackCollider.enabled = true;
 
         //Play Attack Effect and Delete Box
-        AttackEffectAnim.Play("AttackEffect");
+        AttackEffectAnim.Play(AttackEffect);
         StartCoroutine(AttackBoxDuration());
     }
 

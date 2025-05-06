@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -41,10 +42,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private DungeonGenerator DunGen;
 
+    //Visuals and Animations
+    //Visuals
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer playerSprite;
     [SerializeField] private Animator playerAnim;
     [SerializeField] private PlayerAnimationEvent pae;
+    //Animations
+    private static readonly int Run = Animator.StringToHash("Run");
+    private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+    private static readonly int RollState = Animator.StringToHash("PlayerRoll");
+    private static readonly int ChangeToFire = Animator.StringToHash("PlayerChangeToFire");
+    private static readonly int ChangeToIce = Animator.StringToHash("PlayerChangeToIce");
 
     //Physics 
     private Vector2 moveDirection = Vector2.zero;
@@ -87,11 +96,11 @@ public class PlayerController : MonoBehaviour
         //Player State
         if (moveDirection == Vector2.zero && !isDashing)
         {
-            playerAnim.SetBool("Run", false);
+            playerAnim.SetBool(Run, false);
         }
         else if (moveDirection != Vector2.zero && !isDashing)
         {
-            playerAnim.SetBool("Run", true);
+            playerAnim.SetBool(Run, true);
         }
 
         //Flip Sprite
@@ -147,7 +156,7 @@ public class PlayerController : MonoBehaviour
                 //If not moving, Sets direction based on mouse position
                 else { dashDirection = SnapMousePositionTo8Directions(GetMouseDir()); }
 
-                playerAnim.Play("PlayerRoll");
+                playerAnim.Play(RollState);
                 playerAttack.UseSkill(PlayerAttack.AttackList.Roll);
                 StartCoroutine(DashCoroutine());
             }
@@ -209,12 +218,12 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerAttackForm == AttackForm.Fire)
         {
-            playerAnim.Play("PlayerChangeToIce");
+            playerAnim.Play(ChangeToIce);
             PlayerAttackForm = AttackForm.Ice;
         }
         else if (PlayerAttackForm == AttackForm.Ice)
         {
-            playerAnim.Play("PlayerChangeToFire");
+            playerAnim.Play(ChangeToFire);
             PlayerAttackForm = AttackForm.Fire;
         }
         SetFormStats();
@@ -234,7 +243,7 @@ public class PlayerController : MonoBehaviour
             playerAttackSpeed = IceAttackSpeed;
             playerAttackDamage = IceAttackDamage;
         }
-        playerAnim.SetFloat("AttackSpeed", playerAttackSpeed);
+        playerAnim.SetFloat(AttackSpeed, playerAttackSpeed);
     }
     //Get Form
     public AttackForm GetAttackForm()
