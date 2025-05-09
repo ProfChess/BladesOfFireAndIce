@@ -72,12 +72,12 @@ public class DungeonInfo : MonoBehaviour
             BoundsInt Bounds = room.space;
             
             //Search Each Position of The Room
-            for (int x = Bounds.xMin; x < Bounds.xMax; x++)
+            for (int x = Bounds.xMin + 1; x < Bounds.xMax - 1; x++)
             {
-                for (int y =  Bounds.yMin; y < Bounds.yMax; y++)
+                for (int y =  Bounds.yMin + 1; y < Bounds.yMax -1 ; y++)
                 {
                     Vector3Int Position = new Vector3Int(x, y, 0);
-                    if (IsOutSideGivenBounds(Position, Bounds, 1))
+                    if (IsOutSideGivenBounds(Position, Bounds, 2))
                     {
                         //Position is Near Wall
                         EdgeList.Add(Position);

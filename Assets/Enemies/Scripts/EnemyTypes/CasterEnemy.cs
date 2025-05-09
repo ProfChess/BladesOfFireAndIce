@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,12 +7,14 @@ public class CasterEnemy : BaseEnemy
     //ANIMATION SAVES
     //Triggers
     private static readonly int AwakeTrigger = Animator.StringToHash("WakeUp");
+    private static readonly int CastingTrigger = Animator.StringToHash("IsCasting");
+    private static readonly int AttackingTrigger = Animator.StringToHash("IsAttacking");
+    private static readonly int TeleportingTrigger = Animator.StringToHash("IsTeleporting");
+    private static readonly int AppearingTrigger = Animator.StringToHash("IsAppearing");
+
     //States
     private static readonly int SleepState = Animator.StringToHash("Sleeping");
-    private static readonly int MagicAttackState = Animator.StringToHash("CasterMagicAttack");
-    private static readonly int TeleportStart = Animator.StringToHash("CasterDisappear");
-    private static readonly int TeleportEnd = Animator.StringToHash("CasterAppear");
-
+    private static readonly int FallAsleep = Animator.StringToHash("CasterFallAsleep");
 
     //Waiting 
     private bool isWaiting = false;
@@ -21,9 +24,8 @@ public class CasterEnemy : BaseEnemy
     private bool isAwake = false;   //Triggers enemy waking up
 
     //Teleporting
-    private bool CanTeleportAfterCast = true;
-    private bool isTeleportingAfterCast = false;
-    private bool isTeleportingRegular = false;
+    public bool CanTeleportAfterCast = true;
+    public bool CanTeleportRegular = true;
 
     //Unique Attack (Cast Attack)
     private CastAttack UniqueAttack;
@@ -33,9 +35,8 @@ public class CasterEnemy : BaseEnemy
     [SerializeField] private float MagicProjectileSpeed;
     [SerializeField] private float MagicAttackRange;
     [SerializeField] private float MagicSlashTeleportCD;
-
-
-    private bool canCast = true;
+    [SerializeField] private float RegularTeleportCD;
+    public bool canCast = true;
 
     protected override void Start()
     {
@@ -47,8 +48,10 @@ public class CasterEnemy : BaseEnemy
         if (isAwake)
         {
             base.EnemyIdleState();
-            IdleWanderThenWait(ref isWaiting, ref Timer, WaitTime);
+            isAwake = false;
+            anim.Play(FallAsleep);
         }
+
     }
 
     //CHASE STATE
@@ -70,61 +73,56 @@ public class CasterEnemy : BaseEnemy
             //If Magic Attack is Off Cooldown --> Cast
             if (canCast)
             {
-                anim.Play(MagicAttackState);
+                StartCoroutine(Cooldown(MagicSlashCDTime, val => canCast = val));
+                base.EnemyChaseState();
+                anim.SetTrigger(CastingTrigger);
             }
-
-            
-            //If can't Teleport, Move a Short Distance Away --> Repeat Attack
-
+            //Otherwise teleport the same way if possible
+            else if (GetPlayerDistance().magnitude <= AttackRange + 2 && CanTeleportAfterCast) 
+            {
+                StartCoroutine(Cooldown(MagicSlashTeleportCD, val => CanTeleportAfterCast = val));
+                anim.SetTrigger(TeleportingTrigger);
+            }
 
         }
     }
-    public void AttemptTeleport() 
+    public void TeleportAfterCast() 
     {
         EnemySprite.sortingOrder = -3;
-        if (isTeleportingAfterCast) 
-        { 
-            EnemyMovementComponent.ChaseMove(agent, playerLocation, 0f, 0f);
-            StartCoroutine(TravelDelayWait());
-        }
-        else if (isTeleportingRegular)
-        {
-
-        }
+        EnemyMovementComponent.IdleMove(agent, 0f);
+        StartCoroutine(TravelDelayWait(0.5f));
+    }
+    public void TeleportRegular()
+    {
+        EnemySprite.sortingOrder = -3;
+        EnemyMovementComponent.ChaseMove(agent, playerLocation, 0f, 0f);
+        StartCoroutine(TravelDelayWait(0.2f));
     }
     //Cooldowns
     //Calls
-    public void BeginMagicAttackCD() 
-    { 
-        StartCoroutine(MagicAttackCooldown());
-        if (CanTeleportAfterCast)
+    public void ConsiderTeleportAfterCast() 
+    {
+        if (GetPlayerDistance().magnitude <= AttackRange + 2 && CanTeleportAfterCast)
         {
-            isTeleportingAfterCast = true;
-            anim.Play(TeleportStart);
+            StartCoroutine(Cooldown(MagicSlashTeleportCD, val => CanTeleportAfterCast = val));
+            anim.SetTrigger(TeleportingTrigger);
         }
     }
-    public void BeginMATeleportCD() 
-    {  
-        StartCoroutine(MATeleportCooldown()); 
-    }
+
     //Coroutines
-    private IEnumerator MagicAttackCooldown()
+    
+    private IEnumerator TravelDelayWait(float time)
     {
-        canCast = false;
-        yield return new WaitForSeconds(MagicSlashCDTime);
-        canCast = true;
-    }
-    private IEnumerator MATeleportCooldown()
-    {
-        CanTeleportAfterCast = false;
-        yield return new WaitForSeconds(MagicSlashTeleportCD);
-        CanTeleportAfterCast = true;
-    }
-    private IEnumerator TravelDelayWait()
-    {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(time);
         EnemySprite.sortingOrder = 2;
-        anim.Play(TeleportEnd);
+        anim.SetTrigger(AppearingTrigger);
+        base.EnemyAttackState();
+    }
+    private IEnumerator Cooldown(float CDTime, Action<bool> SetBool)
+    {
+        SetBool(false);
+        yield return new WaitForSeconds(CDTime);
+        SetBool(true);
     }
 
 
@@ -133,13 +131,26 @@ public class CasterEnemy : BaseEnemy
     {
         //Perform Regular Attack, Then Teleport somewhere x distance away from player
         // (Seperate Cooldowns for Teleport Timers)
-        base.EnemyAttackState(); 
+
+        if (canAttack)
+        {
+            StartCoroutine(BasicAttackCooldown());
+            base.EnemyAttackState();
+            anim.SetTrigger(AttackingTrigger);
+        }
+        else if (CanTeleportRegular)
+        {
+            StartCoroutine(Cooldown(RegularTeleportCD, val => CanTeleportRegular = val));
+            anim.SetTrigger(TeleportingTrigger);
+        }
+        
     }
+    //Attacks
     public void SpawnMagicAttack()
     {
         UniqueAttack.Attack(MagicDamage, MagicAttackRange, 0, MagicProjectileSpeed, playerLocation);
     }
-
+    public void NormalAttack() { EnemyAttackComponent.Attack(AttackDamage, 0f, 0, 0f, playerLocation); }
 
     //Death Logic
     protected override void CustomEnemyDeathLogic()

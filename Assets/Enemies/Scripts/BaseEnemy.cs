@@ -178,8 +178,9 @@ public abstract class BaseEnemy : MonoBehaviour
     }
 
     //Cooldowns
-    protected IEnumerator BasicAttackCooldown()
+    protected virtual IEnumerator BasicAttackCooldown()
     {
+        canAttack = false;
         yield return new WaitForSeconds(AttackCooldown);
         canAttack = true;
     }
@@ -221,9 +222,9 @@ public abstract class BaseEnemy : MonoBehaviour
     }
     protected Vector2 GetPlayerDirection() //Returns player direction from objects position
     {
-        return (playerLocation.position - enemyTransform.position).normalized;
+        return GetPlayerDistance().normalized;
     }
-
+    protected Vector2 GetPlayerDistance() { return (playerLocation.position - enemyTransform.position); }
     //NavAgent
     protected void CreateAgent() //Setup for adding agent at runtime
     {

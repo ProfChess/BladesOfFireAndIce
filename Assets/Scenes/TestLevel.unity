@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 112092312}
   - component: {fileID: 112092311}
   - component: {fileID: 112092313}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: AttackVisual
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -864,7 +864,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 1, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -875,7 +875,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.5, y: 4}
   m_EdgeRadius: 0
 --- !u!1 &782554766
 GameObject:
@@ -1327,7 +1327,7 @@ GameObject:
   - component: {fileID: 968923752}
   - component: {fileID: 968923751}
   - component: {fileID: 968923753}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: PlayerAttacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2101,7 +2101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1579664787}
   - component: {fileID: 1579664786}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: AttackBox
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -2385,7 +2385,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -1644836082, guid: 68582f7b0c401b54ab1ac7e4102459bb, type: 3}
+  m_Sprite: {fileID: -721294369, guid: 68582f7b0c401b54ab1ac7e4102459bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2624,7 +2624,7 @@ Transform:
   m_GameObject: {fileID: 2008765049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.98, y: 2.23, z: 0}
+  m_LocalPosition: {x: 8.43, y: 2.23, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2673,17 +2673,21 @@ MonoBehaviour:
   ChaseSpeed: 4
   ChaseRange: 6
   AttackDamage: 1
-  AttackCooldown: 1
-  AttackOffset: 3
-  AttackRange: 2
+  AttackCooldown: 2
+  AttackOffset: 2
+  AttackRange: 1.5
   EnemyPoolType: 4
   canMove: 1
   WaitTime: 2
-  MagicSlashCDTime: 2
+  CanTeleportAfterCast: 1
+  CanTeleportRegular: 1
+  MagicSlashCDTime: 1.5
   MagicDamage: 1
   MagicProjectileSpeed: 1
   MagicAttackRange: 1
   MagicSlashTeleportCD: 5
+  RegularTeleportCD: 3
+  canCast: 1
 --- !u!114 &2008765054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2693,11 +2697,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2008765049}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a4ff2fc3cd1ef4eb02302e3559f84a, type: 3}
+  m_Script: {fileID: 11500000, guid: 60f1309c0b498974b9914e0ed6bf76ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackCollider: {fileID: 736037686}
-  AttackEffectAnim: {fileID: 966135777}
+  attackBox: {fileID: 736037686}
 --- !u!1 &2026416220
 GameObject:
   m_ObjectHideFlags: 0

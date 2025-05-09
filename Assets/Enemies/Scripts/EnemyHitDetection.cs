@@ -7,8 +7,14 @@ public class EnemyHitDetection : BaseHealth
     [SerializeField] private BaseEnemy MainEnemyScript;
     [SerializeField] protected Collider2D HitBox;
 
+    //Box Flipping
     private bool BoxShouldBeFlipped = false;
     private bool BoxIsFlipped = false;
+
+    //Animations
+    private static readonly int EnemyHurt = Animator.StringToHash("Hurt");
+    private static readonly int EnemyDeath = Animator.StringToHash("Death");
+
     //Health and Damage Detection
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -17,8 +23,8 @@ public class EnemyHitDetection : BaseHealth
             if (collision.CompareTag("PlayerAttack"))
             {
                 TakeDamage(collision.GetComponentInParent<PlayerAttack>().GetDamageNumber());
-                if (curHealth > 0) { MainEnemyScript.GetAnimator().Play("Hurt", 1); }
-                else { MainEnemyScript.GetAnimator().Play("Death", 1); MainEnemyScript.canMove = false; }
+                if (curHealth > 0) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }
+                else { MainEnemyScript.GetAnimator().Play(EnemyDeath, 1); MainEnemyScript.canMove = false; }
             }
         }
     }

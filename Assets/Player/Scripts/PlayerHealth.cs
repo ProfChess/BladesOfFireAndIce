@@ -15,6 +15,14 @@ public class PlayerHealth : BaseHealth
     //Event for player death
     public event Action PlayerIsDead;
 
+
+    //Animations
+    private static readonly int Hurt = Animator.StringToHash("PlayerHurt");
+    private static readonly int Death = Animator.StringToHash("PlayerDeath");
+    private static readonly int FallState = Animator.StringToHash("PlayerFall");
+
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (PlayerHitbox != null)
@@ -35,8 +43,8 @@ public class PlayerHealth : BaseHealth
     private void PlayerDamage(float damage)
     {
         if (damage > 0) { TakeDamage(damage); }
-        if (curHealth > 0) { PlayerAnim.Play("PlayerHurt", 1); }
-        else { PlayerAnim.Play("PlayerDeath", 1); }
+        if (curHealth > 0) { PlayerAnim.Play(Hurt, 1); }
+        else { PlayerAnim.Play(Death, 1); }
     }
     public void CallPlayerDeathEvent() { PlayerIsDead?.Invoke(); }
 
@@ -55,7 +63,7 @@ public class PlayerHealth : BaseHealth
         Vector3 StartPosition = transform.position;
 
         //Start Animation
-        PlayerAnim.Play("PlayerFall");
+        PlayerAnim.Play(FallState);
 
         //Disable Input
         input.enabled = false;
