@@ -15,11 +15,6 @@ public class CasterEnemy : BaseEnemy
     //States
     private static readonly int SleepState = Animator.StringToHash("Sleeping");
     private static readonly int FallAsleep = Animator.StringToHash("CasterFallAsleep");
-
-    //Waiting 
-    private bool isWaiting = false;
-    [SerializeField] private float WaitTime;
-    private float Timer;
     
     private bool isAwake = false;   //Triggers enemy waking up
 
@@ -156,7 +151,6 @@ public class CasterEnemy : BaseEnemy
     protected override void CustomEnemyDeathLogic()
     {
         isAwake = false;
-        isWaiting = false;
         anim.Play(SleepState, 0);
     }
 }

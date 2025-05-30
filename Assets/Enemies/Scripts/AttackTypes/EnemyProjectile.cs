@@ -11,6 +11,10 @@ public class EnemyProjectile : EnemyDamage
     private Transform self;
     private LayerMask Stoplayers;
     [SerializeField] private PoolType poolType;
+
+    //Visuals
+    [SerializeField] private GameObject visual;
+
     private void Start()
     {
         self = GetComponent<Transform>();
@@ -24,6 +28,8 @@ public class EnemyProjectile : EnemyDamage
         ProjectileSpeed = Speed;
         Direction = Dir;
         isMoving = true;
+        float RotateAngle = Mathf.Atan2(Dir.y, Dir.x) * Mathf.Rad2Deg;
+        visual.transform.rotation = Quaternion.Euler(0, 0, RotateAngle);
     }
 
     //Called when projectile Hits player
@@ -50,7 +56,7 @@ public class EnemyProjectile : EnemyDamage
         if (isMoving)
         {
             self.Translate(Direction.normalized * ProjectileSpeed * Time.fixedDeltaTime);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right * Time.fixedDeltaTime, 1, Stoplayers);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Direction.normalized, 0.1f, Stoplayers);
             if (hit.collider != null) { DisableProjectile(); }
         }
     }

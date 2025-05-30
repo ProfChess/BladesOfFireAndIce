@@ -14,7 +14,7 @@ public interface IEnemyAttackBehaviour
     void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform);
 }
 
-public enum PoolType { Slime, Ranged, ArrowProjectile, Charger, Caster}
+public enum PoolType { Slime, Ranged, ArrowProjectile, Charger, Caster, FireProjectile}
 
 public abstract class BaseEnemy : MonoBehaviour
 {
