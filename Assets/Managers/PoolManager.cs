@@ -22,7 +22,6 @@ public class PoolManager : MonoBehaviour
         }
         Debug.Log("Pool is not found");
         return null;
-
     }
 
     //Returns object to correct pool based on number given

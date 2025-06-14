@@ -3,12 +3,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-
     public event Action GameStart;
 
     private GameObject Player;
     [SerializeField] private NavMeshBaker MeshBaker;
+
+    //Managers
+    public static GameManager Instance;
+    [HideInInspector] public DifficultyManager difficultyManager;
+    [HideInInspector] public EnemySpawnManager enemySpawnManager;
 
     //Events
     private void OnEnable()
@@ -46,6 +49,10 @@ public class GameManager : MonoBehaviour
         }
 
         Player = GameObject.FindGameObjectWithTag("Player");
+
+        //Other Managers
+        difficultyManager = GetComponentInChildren<DifficultyManager>();
+        enemySpawnManager = GetComponentInChildren<EnemySpawnManager>();
     }
 
     private void Start()
