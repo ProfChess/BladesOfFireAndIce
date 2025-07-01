@@ -10,7 +10,7 @@ public class EnemyProjectile : EnemyDamage
     private bool isMoving = false;
     private Transform self;
     private LayerMask Stoplayers;
-    [SerializeField] private PoolType poolType;
+    [SerializeField] private EnemyType poolType;
 
     //Visuals
     [SerializeField] private GameObject visual;

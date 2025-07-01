@@ -11,11 +11,11 @@ public class CastAttack : EnemyDamage, IEnemyAttackBehaviour
         Vector2 AboveFireballDir = RotateVector(MiddleFireballDir, 30);
         Vector2 BelowFireballDir = RotateVector(MiddleFireballDir, -30);
         //Calculate Rotation
-        GameObject MiddleFireball = PoolManager.Instance.getObjectFromPool(PoolType.FireProjectile);
+        GameObject MiddleFireball = PoolManager.Instance.getObjectFromPool(EnemyType.FireProjectile);
         MiddleFireball.transform.position = transform.position;
-        GameObject AboveFireball = PoolManager.Instance.getObjectFromPool(PoolType.FireProjectile);
+        GameObject AboveFireball = PoolManager.Instance.getObjectFromPool(EnemyType.FireProjectile);
         AboveFireball.transform.position = transform.position;
-        GameObject BelowFireball = PoolManager.Instance.getObjectFromPool(PoolType.FireProjectile);
+        GameObject BelowFireball = PoolManager.Instance.getObjectFromPool(EnemyType.FireProjectile);
         BelowFireball.transform.position = transform.position;
 
         MiddleFireball.GetComponent<EnemyProjectile>().ShootProjectile(Damage, Offset, MiddleFireballDir);

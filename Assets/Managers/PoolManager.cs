@@ -9,9 +9,17 @@ public class PoolManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-    public GameObject getObjectFromPool(PoolType poolType) 
+    public GameObject getObjectFromPool(EnemyType poolType) 
     {
         for (int i = 0; i < pools.Count; i++)
         {
@@ -25,7 +33,7 @@ public class PoolManager : MonoBehaviour
     }
 
     //Returns object to correct pool based on number given
-    public void ReturnObjectToPool(PoolType poolName, GameObject self)
+    public void ReturnObjectToPool(EnemyType poolName, GameObject self)
     {
         for (int i = 0; i < pools.Count; i++)
         {

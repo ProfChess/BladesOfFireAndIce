@@ -151,6 +151,6 @@ public class CasterEnemy : BaseEnemy
     protected override void CustomEnemyDeathLogic()
     {
         isAwake = false;
-        anim.Play(SleepState, 0);
+        
     }
 }

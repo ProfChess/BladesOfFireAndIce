@@ -11,7 +11,7 @@ public class RangedAttack : EnemyDamage, IEnemyAttackBehaviour
         Vector2 PlayerDirection = GetPlayerDirection(playerTransform);
 
         //Spawn Arrow
-        GameObject Arrow = PoolManager.Instance.getObjectFromPool(PoolType.ArrowProjectile);
+        GameObject Arrow = PoolManager.Instance.getObjectFromPool(EnemyType.ArrowProjectile);
         Arrow.transform.position = gameObject.transform.position;
         
         //Start Arrow Movement

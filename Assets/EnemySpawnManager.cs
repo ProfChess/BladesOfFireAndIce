@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+
 
 public class EnemySpawnManager : MonoBehaviour
 {
+    //Ref to PoolManager
     private List<DungeonRoom> dungeonRooms = new List<DungeonRoom>();
-    private Dictionary<DungeonRoom, List<Vector3Int>> roomSpawnPos = new Dictionary<DungeonRoom, List<Vector3Int>>();
+    private Dictionary<DungeonRoom, List<Vector3Int>> roomSpawnPos = 
+        new Dictionary<DungeonRoom, List<Vector3Int>>();
     private void Awake()
     {
         dungeonRooms = DungeonInfo.Instance.GetDungeonRoomList();
@@ -25,14 +27,44 @@ public class EnemySpawnManager : MonoBehaviour
                 }
             }
             roomSpawnPos[room] = positions;
-            Debug.Log(positions.Count);
+            
         }
+
+        //Enemy Spawning
+        SpawnEnemies();
     }
 
     private BoundsInt ReduceBounds(BoundsInt bounds, int amount)
     {
         return new BoundsInt(bounds.xMin + amount, bounds.yMin + amount,
             bounds.zMin, bounds.size.x - amount, bounds.size.y - amount, bounds.size.z);
+    }
+
+
+    //Spawning
+    private void SpawnEnemies()
+    {
+        //Runs through each rooms spawn positions and
+        //spawns enemies that each location based on chance
+        foreach(var Entry in roomSpawnPos)
+        {
+            List<Vector3Int> CurrentRoomList = Entry.Value;
+            for (int i = 0; i < CurrentRoomList.Count; i++)
+            {
+                EnemyType RandomEnemy = GameManager.Instance.difficultyManager.GetEnemyToSpawn();
+                if (RandomEnemy == EnemyType.Invalid) { }
+                else
+                {
+                    PlaceEnemy(RandomEnemy, CurrentRoomList[i]);
+                }
+            }
+        }
+    }
+    private void PlaceEnemy(EnemyType Enemy, Vector3Int Location)
+    {
+        GameObject EnemyObject = PoolManager.Instance.getObjectFromPool(Enemy);
+        EnemyObject.transform.position = Location;
+        //Generic Enemy Starting Function
     }
 
 

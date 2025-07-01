@@ -16,9 +16,4 @@ public class EnemyAttackCooldown : MonoBehaviour
         Enemy.StartEnemyAttackDamage();
     }
 
-    //Enemy death notification
-    public void DeathAnimOver()
-    {
-        Enemy.DeactivateEnemy();
-    }
 }

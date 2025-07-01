@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1631260252677130111, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
-  baseSize: 3
+  baseSize: 15
   poolType: 0
 --- !u!4 &380077682
 Transform:
@@ -799,7 +799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 845127295836630886, guid: 40e856024ce1cbc4c98fc926187c6759, type: 3}
-  baseSize: 3
+  baseSize: 9
   poolType: 5
 --- !u!1 &694984445
 GameObject:
@@ -939,7 +939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 5419324500875122358, guid: 4c9096a519226a14da359739df72ad01, type: 3}
-  baseSize: 3
+  baseSize: 15
   poolType: 1
 --- !u!1 &923583606
 GameObject:
@@ -977,6 +977,8 @@ MonoBehaviour:
   - {fileID: 1128126081}
   - {fileID: 1996390244}
   - {fileID: 586086989}
+  - {fileID: 1294019021}
+  - {fileID: 1407919081}
 --- !u!4 &923583608
 Transform:
   m_ObjectHideFlags: 0
@@ -994,6 +996,8 @@ Transform:
   - {fileID: 131625592}
   - {fileID: 1128126080}
   - {fileID: 1996390245}
+  - {fileID: 1294019022}
+  - {fileID: 1407919082}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &934699189
@@ -1158,7 +1162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e2a84308f0ae441882ac91ddf6c3e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxStamina: 10
+  MaxStamina: 500
   CurrentStamina: 0
   StaminaRegenRate: 2
 --- !u!1 &1128126079
@@ -1206,7 +1210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 5707171787333885230, guid: 904a80b76d5aea34cb62ec83a2007c38, type: 3}
-  baseSize: 3
+  baseSize: 15
   poolType: 3
 --- !u!1 &1282791743
 GameObject:
@@ -1240,6 +1244,53 @@ Transform:
   - {fileID: 2026416221}
   - {fileID: 2074418306}
   m_Father: {fileID: 1696567155}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1294019020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1294019022}
+  - component: {fileID: 1294019021}
+  m_Layer: 0
+  m_Name: Elite1Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1294019021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294019020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd140673ddcd874fb387c5e6416b5c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 5799000873188545324, guid: 621c515d688f24b4dbfbcbf0efc21f1f, type: 3}
+  baseSize: 15
+  poolType: 6
+--- !u!4 &1294019022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294019020}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 923583608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1310351575
 GameObject:
@@ -1548,6 +1599,53 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1 &1407919080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407919082}
+  - component: {fileID: 1407919081}
+  m_Layer: 0
+  m_Name: Elite2Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1407919081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407919080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd140673ddcd874fb387c5e6416b5c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1488615155620444097, guid: 484a798c0244b3646848c8dc1ee9c040, type: 3}
+  baseSize: 15
+  poolType: 7
+--- !u!4 &1407919082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407919080}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 923583608}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1409708134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1859,7 +1957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a557e0155865e54bbce6eba6958b066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 10
+  MaxHealth: 500
   PlayerHitbox: {fileID: 1506141338}
   PlayerAnim: {fileID: 130608850}
   input: {fileID: 1409708139}
@@ -1893,7 +1991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 7786850028855229985, guid: 91af13ed53eeda04d94fa5b82134b67d, type: 3}
-  baseSize: 3
+  baseSize: 10
   poolType: 2
 --- !u!4 &1554035573
 Transform:
@@ -2275,7 +2373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adf7b084836dfd4a8944ea520af9f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DifficultyLevel: 1
+  DifficultyLevel: 0
   RoomSize: {x: 6, y: 6}
   MapSize: {x: 45, y: 45, z: 0}
 --- !u!4 &1972197401
@@ -2323,7 +2421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 3408473429202160570, guid: 836d410d9d6adb740b20f89774d2e25f, type: 3}
-  baseSize: 3
+  baseSize: 15
   poolType: 4
 --- !u!4 &1996390245
 Transform:
@@ -2414,6 +2512,10 @@ PrefabInstance:
     - target: {fileID: 3408473429202160570, guid: 836d410d9d6adb740b20f89774d2e25f, type: 3}
       propertyPath: m_Name
       value: CasterEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3408473429202160570, guid: 836d410d9d6adb740b20f89774d2e25f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5303521196556957049, guid: 836d410d9d6adb740b20f89774d2e25f, type: 3}
       propertyPath: m_LocalPosition.x

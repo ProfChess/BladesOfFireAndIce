@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2700743790324788357}
   - component: {fileID: 3312927642161409200}
   - component: {fileID: 4599158769223413619}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,9 +133,9 @@ GameObject:
   - component: {fileID: 7767933930824330557}
   - component: {fileID: 5403390511417661991}
   - component: {fileID: 3313816040683999142}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CasterEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -14,7 +14,17 @@ public interface IEnemyAttackBehaviour
     void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform);
 }
 
-public enum PoolType { Slime, Ranged, ArrowProjectile, Charger, Caster, FireProjectile}
+public enum EnemyType { 
+    Slime, 
+    Ranged, 
+    ArrowProjectile, 
+    Charger, 
+    Caster, 
+    FireProjectile, 
+    EliteEnemy1, 
+    EliteEnemy2,
+    Invalid
+}
 
 public abstract class BaseEnemy : MonoBehaviour
 {
@@ -54,7 +64,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     //Spawning 
     [Header("Pool Type Selection")]
-    [SerializeField] protected PoolType EnemyPoolType;
+    [SerializeField] protected EnemyType EnemyPoolType;
 
     //Behaviour Components
     protected IEnemyMovementBehaviour EnemyMovementComponent;
@@ -239,6 +249,7 @@ public abstract class BaseEnemy : MonoBehaviour
         agent.radius = 0.4f;
         agent.stoppingDistance = 0.5f;
         agent.autoBraking = false;
+        agent.radius = 0.2f;
     }
 
     public bool Arrived() //Checks if Agent has Arrived at destination
