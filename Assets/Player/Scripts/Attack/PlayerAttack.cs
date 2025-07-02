@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -135,40 +136,37 @@ public class PlayerAttack : MonoBehaviour
 
 
     //ABILITIES
-    //[SerializeField] private List<PlayerAbility> AbilityList;
-    //private PlayerAbility Ability1;
-    //private PlayerAbility Ability2;
+    //Types
+    public enum PlayerAbilityType
+    {
+        None,
+        FireSmash,
+    }
+    //Current Equipped Abilities
+    private PlayerAbilityHolder playerAbilityHolder;
+    public PlayerAbilityType Ability1 = PlayerAbilityType.None; //Will be Set Private later
+    public PlayerAbilityType Ability2 = PlayerAbilityType.None; //Will be Set Private later
+    public PlayerAbilityType GetFirstAbilityType() { return Ability1; }
+    public PlayerAbilityType GetSecondAbilityType() { return Ability2; }
 
-    //private void AssignAbility(PlayerAbility ability)
-    //{
-    //    if (ability != null)
-    //    {
-    //        if(Ability1 == null)
-    //        {
-    //            Ability1 = ability;
-    //        }
-    //        else
-    //        {
-    //            Ability2 = ability;
-    //        }
-    //    }
-    //}
-
-    //public void CallAbility(int x)
-    //{
-    //    switch (x)
-    //    {
-    //        case 1:
-    //            Ability1.UseAbility();
-    //            break;
-    //        case 2:
-    //            Ability2.UseAbility();
-    //            break;
-    //        default:
-    //            Debug.Log("Ability Num Incorrect");
-    //            break;
-    //    }
-    //}
-
-
+    //Assign and Call abilities by Type (Possibilities for Endless Mode)
+    private void AssignAbility(PlayerAbilityType Type)
+    {
+        if (Ability1 == PlayerAbilityType.None)
+        {
+            Ability1 = Type;
+        }
+        else if (Ability2 == PlayerAbilityType.None)
+        {
+            Ability2 = Type;
+        }
+    }
+    public void CallAbility(PlayerAbilityType Ability)
+    {
+        //Stops if Ability is Unassigned
+        if (Ability != PlayerAbilityType.None)
+        {
+            playerAbilityHolder.GetAbilityFromType(Ability).UseAbility();
+        }
+    }
 }
