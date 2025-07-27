@@ -173,7 +173,6 @@ MonoBehaviour:
   IdleSpeed: 2
   ChaseSpeed: 4
   ChaseRange: 6
-  AttackDamage: 1
   AttackCooldown: 2
   AttackOffset: 1.25
   AttackRange: 1.5
@@ -435,6 +434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6433168493745261637}
   - component: {fileID: 7775698551990223586}
+  - component: {fileID: 4783350879999854414}
   m_Layer: 6
   m_Name: AttackBox
   m_TagString: EnemyAttack
@@ -503,3 +503,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.5, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &4783350879999854414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144166480345838263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 115a2631b5605004e803d35f65cc1453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackDamage: 1

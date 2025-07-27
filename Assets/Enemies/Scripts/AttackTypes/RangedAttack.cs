@@ -5,7 +5,7 @@ using UnityEngine;
 public class RangedAttack : EnemyDamage, IEnemyAttackBehaviour
 {
     [SerializeField] private GameObject ProjectilePrefab;
-    public void Attack(float Damage, float Range, int Cooldown, float Duration, Transform playerTransform)
+    public void Attack(float Range, int Cooldown, float Duration, Transform playerTransform)
     {
         //Get Player Direction
         Vector2 PlayerDirection = GetPlayerDirection(playerTransform);
@@ -15,7 +15,7 @@ public class RangedAttack : EnemyDamage, IEnemyAttackBehaviour
         Arrow.transform.position = gameObject.transform.position;
         
         //Start Arrow Movement
-        Arrow.GetComponent<EnemyProjectile>().ShootProjectile(Damage, Duration, PlayerDirection);
+        Arrow.GetComponent<EnemyProjectile>().ShootProjectile(Duration, PlayerDirection);
     }
     
 }

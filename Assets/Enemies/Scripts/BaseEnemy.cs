@@ -11,7 +11,7 @@ public interface IEnemyMovementBehaviour
 }
 public interface IEnemyAttackBehaviour
 {
-    void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform);
+    void Attack(float Range, int Cooldown, float Offset, Transform playerTransform);
 }
 
 public enum EnemyType { 
@@ -40,8 +40,6 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected int ChaseRange;
 
     [Header("Basic Attack Settings")]
-    [Tooltip("Damage Each Basic Attack Deals")]
-    [SerializeField] protected float AttackDamage;
     [Tooltip("Time Inbetween Each Basic Attack")]
     [SerializeField] protected int AttackCooldown;
     [Tooltip("Offset of Basic Attack Box / Speed of Projectiles")]
@@ -197,7 +195,7 @@ public abstract class BaseEnemy : MonoBehaviour
     public void StartEnemyCooldown() { StartCoroutine(BasicAttackCooldown()); }
     public void StartEnemyAttackDamage() 
     { 
-        EnemyAttackComponent.Attack(AttackDamage, AttackRange, AttackCooldown, AttackOffset, playerLocation); 
+        EnemyAttackComponent.Attack(AttackRange, AttackCooldown, AttackOffset, playerLocation); 
     }
     //Checks
     protected bool PlayerWithinChaseRange() //Checks if player is within chase range

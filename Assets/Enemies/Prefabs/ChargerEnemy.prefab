@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4855548585782347380}
   - component: {fileID: 2989022826503893736}
+  - component: {fileID: 873567975396540505}
   m_Layer: 6
   m_Name: NormalAttackBox
   m_TagString: EnemyAttack
@@ -68,6 +69,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.1}
   serializedVersion: 2
   m_Radius: 0.45
+--- !u!114 &873567975396540505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388753152836256481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 115a2631b5605004e803d35f65cc1453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackDamage: 1
 --- !u!1 &2846641321526058852
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +334,6 @@ MonoBehaviour:
   IdleSpeed: 2
   ChaseSpeed: 4
   ChaseRange: 6
-  AttackDamage: 1
   AttackCooldown: 1
   AttackOffset: 0.845
   AttackRange: 1.5
@@ -382,6 +395,7 @@ GameObject:
   m_Component:
   - component: {fileID: 296766337029589107}
   - component: {fileID: 8939205060325712126}
+  - component: {fileID: 6543495926583583220}
   m_Layer: 6
   m_Name: SpinAttackBox
   m_TagString: EnemyAttack
@@ -439,6 +453,19 @@ CapsuleCollider2D:
   m_Offset: {x: -0.05, y: 0.1}
   m_Size: {x: 2.25, y: 0.845}
   m_Direction: 1
+--- !u!114 &6543495926583583220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7564612794103566219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 115a2631b5605004e803d35f65cc1453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackDamage: 2
 --- !u!1 &8637289754895998313
 GameObject:
   m_ObjectHideFlags: 0

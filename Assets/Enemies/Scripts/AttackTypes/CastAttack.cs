@@ -4,7 +4,7 @@ using UnityEngine;
 public class CastAttack : EnemyDamage, IEnemyAttackBehaviour
 {
     [SerializeField] private GameObject prefab;
-    public void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform)
+    public void Attack(float Range, int Cooldown, float Offset, Transform playerTransform)
     {
         //Middle Fireball Direction
         Vector2 MiddleFireballDir = GetPlayerDirection(playerTransform);
@@ -18,9 +18,9 @@ public class CastAttack : EnemyDamage, IEnemyAttackBehaviour
         GameObject BelowFireball = PoolManager.Instance.getObjectFromPool(EnemyType.FireProjectile);
         BelowFireball.transform.position = transform.position;
 
-        MiddleFireball.GetComponent<EnemyProjectile>().ShootProjectile(Damage, Offset, MiddleFireballDir);
-        AboveFireball.GetComponent<EnemyProjectile>().ShootProjectile(Damage, Offset, AboveFireballDir);
-        BelowFireball.GetComponent<EnemyProjectile>().ShootProjectile(Damage, Offset, BelowFireballDir);
+        MiddleFireball.GetComponent<EnemyProjectile>().ShootProjectile(Offset, MiddleFireballDir);
+        AboveFireball.GetComponent<EnemyProjectile>().ShootProjectile(Offset, AboveFireballDir);
+        BelowFireball.GetComponent<EnemyProjectile>().ShootProjectile(Offset, BelowFireballDir);
 
     }
     private Vector2 RotateVector(Vector2 v, float d)

@@ -26,7 +26,6 @@ public class CasterEnemy : BaseEnemy
     private CastAttack UniqueAttack;
     [Header("Cast Attack Settings")]
     [SerializeField] private float MagicSlashCDTime;
-    [SerializeField] private float MagicDamage;
     [SerializeField] private float MagicProjectileSpeed;
     [SerializeField] private float MagicAttackRange;
     [SerializeField] private float MagicSlashTeleportCD;
@@ -143,9 +142,9 @@ public class CasterEnemy : BaseEnemy
     //Attacks
     public void SpawnMagicAttack()
     {
-        UniqueAttack.Attack(MagicDamage, MagicAttackRange, 0, MagicProjectileSpeed, playerLocation);
+        UniqueAttack.Attack(MagicAttackRange, 0, MagicProjectileSpeed, playerLocation);
     }
-    public void NormalAttack() { EnemyAttackComponent.Attack(AttackDamage, 0f, 0, 0f, playerLocation); }
+    public void NormalAttack() { EnemyAttackComponent.Attack(0f, 0, 0f, playerLocation); }
 
     //Death Logic
     protected override void CustomEnemyDeathLogic()

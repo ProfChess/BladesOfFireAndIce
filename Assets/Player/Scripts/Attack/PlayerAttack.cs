@@ -20,9 +20,6 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private SpriteRenderer attackSprite;
     private const int attackEffectLayer = 3;
 
-    [Header("Damage Stats")]
-    [SerializeField] private float AttackDamage;
-
     private Vector2 MouseDirection = Vector2.zero;
 
     private float offsetDistance = 1f;
@@ -34,7 +31,8 @@ public class PlayerAttack : MonoBehaviour
     {
         attackBox.enabled = false;                      //Turn Collider Off
         attackDuration = controls.GetAttackDuration();  //Assign Duration
-        playerStamina = GetComponent<PlayerStaminaManager>();                                           
+        playerStamina = GetComponent<PlayerStaminaManager>();
+        playerAbilityHolder = GetComponentInChildren<PlayerAbilityHolder>();
     }
 
     //Places Attack Box Collider in Direction Player is Moving
@@ -125,8 +123,6 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(attackDuration);
         attackBox.enabled = false;
     }
-
-    public float GetDamageNumber() { return AttackDamage; }
 
     private void ConsumeStamina(float Amount)
     {

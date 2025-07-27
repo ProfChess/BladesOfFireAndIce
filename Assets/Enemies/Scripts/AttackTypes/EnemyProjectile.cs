@@ -18,13 +18,12 @@ public class EnemyProjectile : EnemyDamage
     private void Start()
     {
         self = GetComponent<Transform>();
-        Stoplayers = LayerMask.GetMask("Walls");
+        Stoplayers = LayerMask.GetMask("Walls", "Player");
     }
 
     //Begins Projectile Movement
-    public void ShootProjectile(float Damage, float Speed, Vector2 Dir)
+    public void ShootProjectile(float Speed, Vector2 Dir)
     {
-        AttackDamage = Damage;
         ProjectileSpeed = Speed;
         Direction = Dir;
         isMoving = true;

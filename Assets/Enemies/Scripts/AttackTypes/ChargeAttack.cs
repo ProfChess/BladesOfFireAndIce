@@ -12,9 +12,8 @@ public class ChargeAttack : EnemyDamage, IEnemyAttackBehaviour
     [Header("Charge Settings")]
     private float chargeDuration;
     private static readonly int EndAttack = Animator.StringToHash("FinishSpinAttack");
-    public void Attack(float Damage, float Range, int Cooldown, float Speed, Transform playerTransform)
+    public void Attack(float Range, int Cooldown, float Speed, Transform playerTransform)
     {
-        AttackDamage = Damage;
         chargeDuration = Range;
 
         if (AttackBox.enabled == false)

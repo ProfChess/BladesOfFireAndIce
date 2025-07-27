@@ -18,5 +18,12 @@ public class PlayerAbilityHolder : MonoBehaviour
     {
         return PlayerAbilityList[Type];
     }
+    private void Start()
+    {
+        foreach (PlayerAbilityPair pair in AbilityHolder)
+        {
+            PlayerAbilityList[pair.AbilityType] = pair.Ability;
+        }
+    }
 
 }

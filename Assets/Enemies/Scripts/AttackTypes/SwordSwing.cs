@@ -7,11 +7,9 @@ public class SwordSwing : EnemyDamage, IEnemyAttackBehaviour
     [SerializeField] protected Collider2D AttackCollider;
     [SerializeField] protected Animator AttackEffectAnim;
     private static readonly int AttackEffect = Animator.StringToHash("AttackEffect");
-    public void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform)
+    public void Attack(float Range, int Cooldown, float Offset, Transform playerTransform)
     {
-        //Assign Var
-        AttackDamage = Damage;
-
+        
         //Get Direction and Angle For Attack
         Vector2 AttackDirection = GetPlayerDirection(playerTransform).normalized * Offset;
         float rotateAngle = Mathf.Atan2(AttackDirection.y, AttackDirection.x) * Mathf.Rad2Deg;                //Angle

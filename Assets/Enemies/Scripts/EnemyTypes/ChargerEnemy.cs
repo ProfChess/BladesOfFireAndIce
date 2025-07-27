@@ -81,7 +81,7 @@ public class ChargerEnemy : BaseEnemy
         Vector2 Direction = GetPlayerDirection().normalized * chargeRange;
         Vector2 TargetPosition = new Vector2(transform.position.x, transform.position.y) + Direction;
         anim.Play(SpinAttackStart);
-        chargeAttack.Attack(chargeDamage, chargeDuration, 0, 0, playerLocation);
+        chargeAttack.Attack(chargeDuration, 0, 0, playerLocation);
         agent.SetDestination(TargetPosition);
     }
     private IEnumerator ChargeAttackCooldown() //Enemy Cannot Charge for Cooldown Duration

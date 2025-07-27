@@ -5,7 +5,7 @@ public class SideAttack : EnemyDamage, IEnemyAttackBehaviour
 {
     [SerializeField] private BoxCollider2D attackBox;
     
-    public void Attack(float Damage, float Range, int Cooldown, float Offset, Transform playerTransform)
+    public void Attack(float Range, int Cooldown, float Offset, Transform playerTransform)
     {
         //Attack to the Right
         if (playerTransform.position.x >= gameObject.transform.position.x)

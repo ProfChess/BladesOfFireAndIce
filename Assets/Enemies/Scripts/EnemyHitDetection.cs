@@ -23,7 +23,7 @@ public class EnemyHitDetection : BaseHealth
         {
             if (collision.CompareTag("PlayerAttack"))
             {
-                TakeDamage(collision.GetComponentInParent<PlayerAttack>().GetDamageNumber());
+                TakeDamage(collision.GetComponent<BaseAttackDamage>().GetDamageNumber());
                 if (curHealth > 0) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }
                 else 
                 { 
