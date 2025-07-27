@@ -6,7 +6,14 @@ public class FireSmashAbility : BasePlayerAbility
 {
     [SerializeField] private float Radius;
     [SerializeField] private float Duration;
+
+    [Header("References")]
     [SerializeField] private CircleCollider2D Hitbox;
+    [SerializeField] private Animator EffectAnim;
+    [SerializeField] private SpriteRenderer EffectSprite;
+
+    //Animation Strings 
+    private static readonly int AbilityTrigger = Animator.StringToHash("UseTrigger");
 
     private void Start()
     {
@@ -19,7 +26,7 @@ public class FireSmashAbility : BasePlayerAbility
     }
     protected override void AbilityAnimation()
     {
-        
+        EffectAnim.SetTrigger(AbilityTrigger);
     }
     private IEnumerator AbilityDuration()
     {

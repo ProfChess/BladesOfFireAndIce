@@ -47,3 +47,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Decoration Layer
+    uniqueID: 3225454595
+    locked: 0
+  - name: EnemyLayer
+    uniqueID: 73624549
+    locked: 0
+  - name: Player
+    uniqueID: 2327706175
+    locked: 0
+  - name: PlayerAbilities
+    uniqueID: 3360347465
+    locked: 0
+  - name: EnemyAttack
+    uniqueID: 3897588559
+    locked: 0

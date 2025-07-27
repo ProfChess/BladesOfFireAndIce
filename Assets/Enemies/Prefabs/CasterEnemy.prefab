@@ -72,8 +72,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 73624549
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: -721294369, guid: 68582f7b0c401b54ab1ac7e4102459bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -181,7 +181,6 @@ MonoBehaviour:
   CanTeleportAfterCast: 1
   CanTeleportRegular: 1
   MagicSlashCDTime: 1.5
-  MagicDamage: 1
   MagicProjectileSpeed: 5
   MagicAttackRange: 1
   MagicSlashTeleportCD: 5
@@ -389,8 +388,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -397378737
+  m_SortingLayer: 5
   m_SortingOrder: 3
   m_Sprite: {fileID: 1437441639, guid: ce32cd20fb8087a4181b9c7079dffcea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
