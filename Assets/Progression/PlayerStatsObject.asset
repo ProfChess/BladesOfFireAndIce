@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00f5b4a09ba8a64885fda2dc4d52533, type: 3}
+  m_Name: PlayerStatsObject
+  m_EditorClassIdentifier: 
+  Vitality: 1
+  VitalityScale: 15
+  BaseHealth: 20
+  Endurance: 1
+  EnduranceScale: 10
+  BaseStamina: 15
+  Strength: 1
+  StrengthScale: 5
+  BaseDamage: 8
+  Dexterity: 1
+  DexterityScale: 3
+  BaseAttackSpeed: 1
+  Luck: 1
+  LuckScale: 3
+  BaseCriticalChance: 10
