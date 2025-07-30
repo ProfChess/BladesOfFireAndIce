@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 112092310}
   - component: {fileID: 112092312}
   - component: {fileID: 112092311}
-  - component: {fileID: 112092313}
   m_Layer: 8
   m_Name: AttackVisual
   m_TagString: PlayerAttack
@@ -230,19 +229,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &112092313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 112092309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8d883a3afdca22418bab4e89f094d5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sr: {fileID: 112092312}
 --- !u!1 &130608847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,6 +1227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 967557645}
+  - component: {fileID: 967557646}
   m_Layer: 12
   m_Name: PlayerStats
   m_TagString: Untagged
@@ -1263,6 +1250,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1409708135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &967557646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967557644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5222f78833dd8f4d9b35494222fb0b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stats: {fileID: 11400000, guid: 5eab281a56dd4e44fb0418443e93b209, type: 2}
+  playerHealth: {fileID: 1506141339}
+  playerStamina: {fileID: 968923753}
+  playerDamage: {fileID: 1579664788}
+  playerAttackSpeed: {fileID: 968923754}
 --- !u!1 &968923750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,6 +1278,7 @@ GameObject:
   - component: {fileID: 968923752}
   - component: {fileID: 968923751}
   - component: {fileID: 968923753}
+  - component: {fileID: 968923754}
   m_Layer: 8
   m_Name: PlayerAttacks
   m_TagString: Untagged
@@ -1335,6 +1340,20 @@ MonoBehaviour:
   MaxStamina: 500
   CurrentStamina: 0
   StaminaRegenRate: 2
+--- !u!114 &968923754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968923750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d55251a912c6649bf82da4b193ce71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 1409708138}
+  playerAnim: {fileID: 130608850}
 --- !u!1 &1128126079
 GameObject:
   m_ObjectHideFlags: 0
@@ -1897,11 +1916,7 @@ MonoBehaviour:
   DashDuration: 0.5
   DashSpeed: 10
   FireRollCooldown: 3
-  FireAttackSpeed: 0.85
-  FireAttackDamage: 0
   IceRollCooldown: 1.5
-  IceAttackSpeed: 1.5
-  IceAttackDamage: 0
   FormSwitchCooldown: 1
   BasicAttackDuration: 0.25
   BasicAttackCooldown: 0.25
@@ -1909,6 +1924,8 @@ MonoBehaviour:
   rb: {fileID: 1409708136}
   playerAttack: {fileID: 968923751}
   DunGen: {fileID: 1696567154}
+  playerAttackCalcs: {fileID: 1579664788}
+  attackSpeedManager: {fileID: 968923754}
   playerSprite: {fileID: 130608849}
   playerAnim: {fileID: 130608850}
   pae: {fileID: 130608851}
@@ -2267,10 +2284,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1579664785}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 115a2631b5605004e803d35f65cc1453, type: 3}
+  m_Script: {fileID: 11500000, guid: 94907288e1b9a734192df697f28fcb46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AttackDamage: 3
+  playerController: {fileID: 1409708138}
 --- !u!1 &1606889584
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class PlayerHealth : BaseHealth
     private static readonly int Death = Animator.StringToHash("PlayerDeath");
     private static readonly int FallState = Animator.StringToHash("PlayerFall");
 
-
+    public void SetMaxHealth(float num) { MaxHealth = num; }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

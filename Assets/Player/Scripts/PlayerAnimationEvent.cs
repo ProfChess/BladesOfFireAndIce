@@ -10,7 +10,6 @@ public class PlayerAnimationEvent : MonoBehaviour
     private bool isAttacking = false;
 
 
-
     //Physics Lock
     public void StopPlayer()
     {
@@ -53,7 +52,7 @@ public class PlayerAnimationEvent : MonoBehaviour
         health = obj.GetComponentInChildren<PlayerHealth>();
 
         Animator anim = GetComponent<Animator>();
-        anim.SetFloat("AttackSpeed", controls.GetAttackSpeed());
+        
     }
 
 }

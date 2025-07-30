@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     [HideInInspector] public DifficultyManager difficultyManager;
     [HideInInspector] public EnemySpawnManager enemySpawnManager;
+    
 
     //Events
     private void OnEnable()

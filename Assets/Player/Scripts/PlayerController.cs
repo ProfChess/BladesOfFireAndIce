@@ -16,19 +16,13 @@ public class PlayerController : MonoBehaviour
     [Header("Player Attack")]
     [Header("Fire Stats")]
     [SerializeField] private float FireRollCooldown;
-    [SerializeField] private float FireAttackSpeed;
-    [SerializeField] private float FireAttackDamage;
     [Header("Ice Stats")]
     [SerializeField] private float IceRollCooldown;
-    [SerializeField] private float IceAttackSpeed;
-    [SerializeField] private float IceAttackDamage;
     [Header("General")]
     [SerializeField] private float FormSwitchCooldown;
     [SerializeField] private float BasicAttackDuration;
     [SerializeField] private float BasicAttackCooldown;
     private float playerRollSpeed;
-    private float playerAttackSpeed;
-    private float playerAttackDamage;
 
     //Form Enum
     [HideInInspector]
@@ -41,6 +35,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private DungeonGenerator DunGen;
+    [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
+    [SerializeField] private PlayerAttackSpeedManager attackSpeedManager;
 
     //Visuals and Animations
     //Visuals
@@ -50,7 +46,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAnimationEvent pae;
     //Animations
     private static readonly int Run = Animator.StringToHash("Run");
-    private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
     private static readonly int RollState = Animator.StringToHash("PlayerRoll");
     private static readonly int ChangeToFire = Animator.StringToHash("PlayerChangeToFire");
     private static readonly int ChangeToIce = Animator.StringToHash("PlayerChangeToIce");
@@ -234,16 +229,12 @@ public class PlayerController : MonoBehaviour
         if (PlayerAttackForm == AttackForm.Fire)
         {
             playerRollSpeed = FireRollCooldown;
-            playerAttackSpeed = FireAttackSpeed;
-            playerAttackDamage = FireAttackDamage;
         }
         if (PlayerAttackForm == AttackForm.Ice)
         {
             playerRollSpeed = IceRollCooldown;
-            playerAttackSpeed = IceAttackSpeed;
-            playerAttackDamage = IceAttackDamage;
         }
-        playerAnim.SetFloat(AttackSpeed, playerAttackSpeed);
+        attackSpeedManager.SetAttackSpeed();
     }
     //Get Form
     public AttackForm GetAttackForm()
@@ -265,10 +256,6 @@ public class PlayerController : MonoBehaviour
     public float GetAttackDuration()    //Get Attack Duration
     {
         return BasicAttackDuration;
-    }
-    public float GetAttackSpeed()       //Get Attack Speed
-    {
-        return playerAttackSpeed;
     }
 
     //SPRITE FLIPPING FUNCTIONS

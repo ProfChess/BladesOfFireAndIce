@@ -6,6 +6,8 @@ public class PlayerStaminaManager : MonoBehaviour
 {
     //Variables
     [SerializeField] private float MaxStamina;
+    public void SetMaxStamina(float num) { MaxStamina = num; }
+
     [SerializeField] private float CurrentStamina;      //Current Stamina Level
     [SerializeField] private float StaminaRegenRate;    //Amount Gained Per Second
     private float RegenDelay = 1f;

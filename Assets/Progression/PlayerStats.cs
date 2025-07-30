@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerStats", menuName = "Game/Player Stats")]
@@ -22,14 +23,18 @@ public class PlayerStats : ScriptableObject
     [Header("Damage")]
     [Tooltip("Increases Damage Before Critical Hits")]
     [SerializeField] private int Strength = 1;
-    [SerializeField] private float StrengthScale = 5f;  
-    [SerializeField] private float BaseDamage = 8f;
+    [SerializeField] private float StrengthScaleFire = 5f;  
+    [SerializeField] private float BaseDamageFire = 8f;
+    [SerializeField] private float StrengthScaleIce = 4f;
+    [SerializeField] private float BaseDamageIce = 5f;
 
     [Header("Attack Speed")]
     [Tooltip("Increase Attack Speed")]
     [SerializeField] private int Dexterity = 1;
-    [SerializeField] private float DexterityScale = 3f; //Acts as Percent (IE 5f = 5% Increase/Point)
-    [SerializeField] private float BaseAttackSpeed = 1.0f;
+    [SerializeField] private float DexterityScaleFire = 3f; //Acts as Percent (IE 5f = 5% Increase/Point)
+    [SerializeField] private float BaseAttackSpeedFire = 1.0f;
+    [SerializeField] private float DexterityScaleIce = 5f;  //Acts as Percent (IE 5f = 5% Increase/Point)
+    [SerializeField] private float BaseAttackSpeedIce = 1.25f;
 
     [Header("Critical Chance")]
     [Tooltip("Increases Critical Chance")]
@@ -41,8 +46,10 @@ public class PlayerStats : ScriptableObject
     //Getting Each Value
     public float Health => BaseHealth + (Vitality * VitalityScale); 
     public float Stamina => BaseStamina + (Endurance * EnduranceScale);
-    public float Damage => BaseDamage + (Strength * StrengthScale);
-    public float AttackSpeed => BaseAttackSpeed + (Dexterity * (DexterityScale/100f)); 
+    public float FireDamage => BaseDamageFire + (Strength * StrengthScaleFire);
+    public float IceDamage => BaseDamageIce + (Strength * StrengthScaleIce);
+    public float AttackSpeedFire => BaseAttackSpeedFire + (Dexterity * (DexterityScaleFire/100f));
+    public float AttackSpeedIce => BaseAttackSpeedIce + (Dexterity * (DexterityScaleIce / 100f));
     public float CriticalChance => BaseCriticalChance + (Luck * (LuckScale/100f)); 
 
 }
