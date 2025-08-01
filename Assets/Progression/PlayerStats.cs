@@ -10,19 +10,16 @@ public class PlayerStats : ScriptableObject
     [Header("Player Stats")]
     [Header("Health")]
     [Tooltip("Increases Health")]
-    [SerializeField] private int Vitality = 1;
     [SerializeField] private float VitalityScale = 15f;
     [SerializeField] private float BaseHealth = 20f;
 
     [Header("Stamina")]
     [Tooltip("Increases Stamina")]
-    [SerializeField] private int Endurance = 1;
     [SerializeField] private float EnduranceScale = 10f; 
     [SerializeField] private float BaseStamina = 15f;
 
     [Header("Damage")]
     [Tooltip("Increases Damage Before Critical Hits")]
-    [SerializeField] private int Strength = 1;
     [SerializeField] private float StrengthScaleFire = 5f;  
     [SerializeField] private float BaseDamageFire = 8f;
     [SerializeField] private float StrengthScaleIce = 4f;
@@ -30,7 +27,6 @@ public class PlayerStats : ScriptableObject
 
     [Header("Attack Speed")]
     [Tooltip("Increase Attack Speed")]
-    [SerializeField] private int Dexterity = 1;
     [SerializeField] private float DexterityScaleFire = 3f; //Acts as Percent (IE 5f = 5% Increase/Point)
     [SerializeField] private float BaseAttackSpeedFire = 1.0f;
     [SerializeField] private float DexterityScaleIce = 5f;  //Acts as Percent (IE 5f = 5% Increase/Point)
@@ -38,18 +34,21 @@ public class PlayerStats : ScriptableObject
 
     [Header("Critical Chance")]
     [Tooltip("Increases Critical Chance")]
-    [SerializeField] private int Luck = 1;
     [SerializeField] private float LuckScale = 3f; //Acts as Percent (IE 3f = 3% Increase/Point)
     [SerializeField] private float BaseCriticalChance = 10f;
 
 
+    //Stat Manager Access
+    private StatManager SM => GameManager.Instance.statManager;
+
+
     //Getting Each Value
-    public float Health => BaseHealth + (Vitality * VitalityScale); 
-    public float Stamina => BaseStamina + (Endurance * EnduranceScale);
-    public float FireDamage => BaseDamageFire + (Strength * StrengthScaleFire);
-    public float IceDamage => BaseDamageIce + (Strength * StrengthScaleIce);
-    public float AttackSpeedFire => BaseAttackSpeedFire + (Dexterity * (DexterityScaleFire/100f));
-    public float AttackSpeedIce => BaseAttackSpeedIce + (Dexterity * (DexterityScaleIce / 100f));
-    public float CriticalChance => BaseCriticalChance + (Luck * (LuckScale/100f)); 
+    public float Health => BaseHealth + (SM.VitalityPoints * VitalityScale); 
+    public float Stamina => BaseStamina + (SM.EndurancePoints * EnduranceScale);
+    public float FireDamage => BaseDamageFire + (SM.StrengthPoints * StrengthScaleFire);
+    public float IceDamage => BaseDamageIce + (SM.StrengthPoints * StrengthScaleIce);
+    public float AttackSpeedFire => BaseAttackSpeedFire + (SM.DexterityPoints * (DexterityScaleFire/100f));
+    public float AttackSpeedIce => BaseAttackSpeedIce + (SM.DexterityPoints * (DexterityScaleIce / 100f));
+    public float CriticalChance => BaseCriticalChance + (SM.LuckPoints * (LuckScale/100f)); 
 
 }

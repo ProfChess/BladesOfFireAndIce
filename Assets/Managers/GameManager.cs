@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     [HideInInspector] public DifficultyManager difficultyManager;
     [HideInInspector] public EnemySpawnManager enemySpawnManager;
-    
+    [HideInInspector] public StatManager statManager;
 
     //Events
     private void OnEnable()
@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
         //Other Managers
         difficultyManager = GetComponentInChildren<DifficultyManager>();
         enemySpawnManager = GetComponentInChildren<EnemySpawnManager>();
+        statManager = GetComponentInChildren<StatManager>();
     }
 
     private void Start()
