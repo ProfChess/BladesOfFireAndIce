@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 public class UIStatControls : MonoBehaviour
 {
+    [Header("Stat Texts")]
     [SerializeField] private Text vitalityNum;
     [SerializeField] private Text enduranceNum;
     [SerializeField] private Text strengthNum;
     [SerializeField] private Text dexterityNum;
     [SerializeField] private Text luckNum;
+
+    [Header("Points Text")]
+    [SerializeField] private Text AvailablePoints;
 
     private void UpdateStatVisuals()
     {
@@ -18,9 +22,11 @@ public class UIStatControls : MonoBehaviour
         strengthNum.text = SM.StrengthPoints.ToString();
         dexterityNum.text = SM.DexterityPoints.ToString();
         luckNum.text = SM.LuckPoints.ToString();
+        AvailablePoints.text = SM.AvailablePoints.ToString();
     }
     private void Start()
     {
+        SM.CalculateSpentPoints();
         UpdateStatVisuals();
     }
 
