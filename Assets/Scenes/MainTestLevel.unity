@@ -7418,7 +7418,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DifficultyLevel: 0
   RoomSize: {x: 6, y: 6}
-  MapSize: {x: 45, y: 45, z: 0}
+  MapSize: {x: 9, y: 9, z: 0}
+  TestingMode: 0
 --- !u!4 &1972197401
 Transform:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 public enum ElementType { Fire, Ice }
 public abstract class BaseLingeringAOE : BaseAttackDamage
 {
-    public ElementType Element;
     [SerializeField] protected float Duration = 5f;
     private float timeForVanish;
 
@@ -26,6 +25,5 @@ public abstract class BaseLingeringAOE : BaseAttackDamage
 
     //Element Effects
     protected abstract void ApplyEffect(GameObject target);                 //Status Effects or Hit sound
-    protected abstract void ReactToElement(ElementType IncomingElement);    //Be destroyed or damaged from correct element
 
 }

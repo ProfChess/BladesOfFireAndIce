@@ -24,21 +24,24 @@ public class DungeonGenerator : MonoBehaviour
     [HideInInspector] public BoundsInt StartingRoom {get; private set;}
     [HideInInspector] public BoundsInt EndingRoom {get; private set; }
     private int roomIDGiver = 0;
-
+    private DifficultyManager DM => GameManager.Instance.difficultyManager;
     void Awake()
     {
-        Space = new BoundsInt(new Vector3Int(0, 0, 0), GameManager.Instance.difficultyManager.GetMapSize());
-        minRoomSize = GameManager.Instance.difficultyManager.GetRoomSize();
+        Space = new BoundsInt(new Vector3Int(0, 0, 0), DM.GetMapSize());
+        minRoomSize = DM.GetRoomSize();
 
         roomIDGiver = 0; //Resets Room IDs
 
         roomList.Clear();
         if (!(Space.size.x > 2 * minRoomSize.x + roomBuffer && Space.size.y > 2 * minRoomSize.y + roomBuffer))
         {
-            Debug.Log("Returning To Default Dungeon Size");
-            Space.size = new Vector3Int(40, 40, 0);
-            roomBuffer = 1;
-            minRoomSize = new Vector2Int(5, 5);
+            if (!DM.isTesting)
+            {
+                Debug.Log("Returning To Default Dungeon Size");
+                Space.size = new Vector3Int(40, 40, 0);
+                roomBuffer = 1;
+                minRoomSize = new Vector2Int(5, 5);
+            }
         }
 
         FirstRoom = new DungeonRoom(Space, minRoomSize, roomBuffer);

@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+public enum AttackForm { Fire, Ice };
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
@@ -26,9 +29,8 @@ public class PlayerController : MonoBehaviour
 
     //Form Enum
     [HideInInspector]
-    public enum AttackForm {Fire, Ice};
-    public AttackForm PlayerAttackForm;
 
+    public AttackForm PlayerAttackForm;
 
     //References
     [Header("References")]

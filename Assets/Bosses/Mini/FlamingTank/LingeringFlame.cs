@@ -7,9 +7,4 @@ public class LingeringFlame : BaseLingeringAOE
         
     }
 
-    protected override void ReactToElement(ElementType IncomingElement)
-    {
-        
-    }
-
 }

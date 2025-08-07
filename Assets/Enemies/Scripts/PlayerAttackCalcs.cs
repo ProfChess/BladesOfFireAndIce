@@ -15,10 +15,13 @@ public class PlayerAttackCalcs : BaseAttackDamage
     private float crit = 0f;
     public void SetCritChance(float num) { crit = num; }
     public void SetDamage(float num) { AttackDamage = num; }
+
+    //Quick References
+    private AttackForm attackForm => playerController.GetAttackForm();
     public override float GetDamageNumber()
     {
-        PlayerController.AttackForm Form = playerController.GetAttackForm();
-        if (Form == PlayerController.AttackForm.Fire)
+        AttackForm Form = attackForm;
+        if (Form == AttackForm.Fire)
         {
             AttackDamage = FireAttackDamage;
         }
@@ -36,5 +39,22 @@ public class PlayerAttackCalcs : BaseAttackDamage
         {
             return AttackDamage;
         }
+    }
+
+    public ElementType GetElementDamageType()
+    {
+        if (attackForm == AttackForm.Fire)
+        {
+            return ElementType.Fire;
+        }
+        else { return ElementType.Ice; }
+    }
+    public float GetDamageWithoutCrit()
+    {
+        if (attackForm == AttackForm.Fire)
+        {
+            return FireAttackDamage;
+        }
+        else { return IceAttackDamage; }
     }
 }
