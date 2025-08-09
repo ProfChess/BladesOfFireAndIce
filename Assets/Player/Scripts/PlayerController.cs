@@ -9,6 +9,9 @@ public enum AttackForm { Fire, Ice };
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    //TESTING
+    [SerializeField] private bool TESTINGMODE = false;
+
     //Player Stats
     [Header("Player Stats")]
     [Header("Player Move")]
@@ -127,7 +130,10 @@ public class PlayerController : MonoBehaviour
     }
     public void GameBeginning() //Handles Start of Game
     {
-        transform.position = DunGen.StartingRoom.center;
+        if (!TESTINGMODE)
+        {
+            transform.position = DunGen.StartingRoom.center;
+        }
     }
 
 

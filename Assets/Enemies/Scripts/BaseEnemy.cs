@@ -244,7 +244,6 @@ public abstract class BaseEnemy : MonoBehaviour
         agent.updateUpAxis = false;
         agent.speed = IdleSpeed;
         agent.acceleration = 500;
-        agent.radius = 0.4f;
         agent.stoppingDistance = 0.5f;
         agent.autoBraking = false;
         agent.radius = 0.2f;
