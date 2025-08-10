@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseBossAttack : BaseAttackDamage
+public abstract class BaseBossAttack : BaseAttackDamage
 {
-    [Header("Cooldown")]
-    [SerializeField] protected float AttackCooldown = 3f;
-    private bool OnCooldown = false;
-    private Coroutine CooldownRoutine;
-
-    private IEnumerator AttackCooldownRoutine()
+    protected BaseBoss BossRef;
+    private Coroutine Cooldown;
+    private IEnumerator CooldownRoutine(BossAttackOption AttackOption)
     {
-        OnCooldown = true;
-        yield return new WaitForSeconds(AttackCooldown);
-        OnCooldown = false;
+        AttackOption.OnCooldown = true;
+        yield return new WaitForSeconds(AttackOption.AttackCooldown);
+        AttackOption.OnCooldown = false;
+        Cooldown = null;
     }
-
-
-    protected virtual void BeginCooldown()
+    public virtual void StartAttack(BossAttackOption AttackOption)
     {
-        CooldownRoutine = StartCoroutine(AttackCooldownRoutine());
-    }
-    protected bool IsOnCooldown() { return OnCooldown; }
+        //INPUT ATTACK LOGIC
 
+        if (Cooldown == null)
+        {
+            Cooldown = StartCoroutine(CooldownRoutine(AttackOption));
+        }
+    }
+    private void Start()
+    {
+        BossRef = GetComponent<BaseBoss>();
+    }
 }

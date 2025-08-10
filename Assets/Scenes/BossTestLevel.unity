@@ -6648,6 +6648,13 @@ MonoBehaviour:
   MaxHealth: 10
   MoveSpeed: 2
   attackCooldown: 1
+  BossAttacks:
+  - AttackType: 0
+    SelectionChance: 0
+    AttackCooldown: 0
+    OnCooldown: 0
+    AttackRangeTrigger: 0
+    AttackRef: {fileID: 0}
 --- !u!1 &1848758565
 GameObject:
   m_ObjectHideFlags: 0

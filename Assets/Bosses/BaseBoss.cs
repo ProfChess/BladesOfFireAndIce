@@ -48,6 +48,10 @@ public abstract class BaseBoss : BaseHealth
 
     protected abstract void MoveUpdate();       //Override logic to move around (toward player)
     protected abstract void AttackSelection();  //Override logic to determine attack (check distance, select randomly etc)
+    protected void NowAttacking() { isAttacking = true; }   
+    public void NotAttacking() { isAttacking = false; }
+
+
 
     protected virtual void CreateBossNavAgent()
     {
@@ -61,5 +65,5 @@ public abstract class BaseBoss : BaseHealth
         BossAgent.updateUpAxis = false;
         BossAgent.speed = MoveSpeed;
     }
-
+    protected float GetDistanceToPlayer() { return Vector2.Distance(gameObject.transform.position, playerLocation.position); }
 }
