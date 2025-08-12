@@ -24,6 +24,7 @@ public abstract class BaseBossAttack : BaseAttackDamage
     }
     private void Start()
     {
-        BossRef = GetComponent<BaseBoss>();
+        Transform tempObject = GetComponent<Transform>();
+        BossRef = tempObject.GetComponentInParent<BaseBoss>();
     }
 }

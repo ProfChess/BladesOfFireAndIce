@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,11 +10,13 @@ public class BossAttackOption
     public BossAttackType AttackType;
     [Tooltip("Chance Attack is Selected When Within Range")]
     public float SelectionChance;
+    public float Duration;
     [Tooltip("Cooldown of Attack")]
     public float AttackCooldown;
     public bool OnCooldown = false;
     [Tooltip("Distance to Player to Trigger Attack")]
     public float AttackRangeTrigger;
+    public bool DistanceIsMinimum;  //true -> Greater or Equal to Range | false -> Less Than Range
     public BaseBossAttack AttackRef;
 
     public void CallAttack()
@@ -26,9 +29,12 @@ public class BossAttackOption
 }
 public enum BossAttackType
 {
-    None, AOE, DoubleBlast, ChargeAttack
+    None, 
+    BossAttack1, BossAttack2, BossAttack3, 
+    BossAttack4, BossAttack5, BossAttack6, 
+    BossAttack7, BossAttack8, BossAttack9
 }
-public abstract class BaseBoss : BaseHealth
+public abstract class BaseBoss : MonoBehaviour
 {
     //State Updates
     private float UpdateDelay = 0.2f;
@@ -40,9 +46,10 @@ public abstract class BaseBoss : BaseHealth
     protected NavMeshAgent BossAgent;
 
     //Attacking
-    protected bool isAttacking = false;
+    [SerializeField] protected bool isAttacking = false;
     protected float attackTimer;
     protected Transform playerLocation;
+    protected Coroutine AttackingDuration;
 
     //List
     [Header("List of Boss Attacks")]
@@ -97,10 +104,22 @@ public abstract class BaseBoss : BaseHealth
         //Accumulate Chance from BossAttack List for Use in Random Selection of Attack
         foreach (BossAttackOption AttackOption in BossAttacks)
         {
-            //Makes sure Within Range and Off Cooldown
-            if (PlayerDistance <= AttackOption.AttackRangeTrigger && !AttackOption.OnCooldown)
+            if (!AttackOption.OnCooldown) //Checks Attack is Off Cooldown
             {
-                TotalChance += AttackOption.SelectionChance;
+                if (AttackOption.DistanceIsMinimum) //Attack is Triggered at Range Above Given Distance
+                {
+                    if (PlayerDistance >= AttackOption.AttackRangeTrigger)
+                    {
+                        TotalChance += AttackOption.SelectionChance;
+                    }
+                }
+                else if (!AttackOption.DistanceIsMinimum) //Attack is Triggered at Range Below Given Distance
+                {
+                    if (PlayerDistance < AttackOption.AttackRangeTrigger)
+                    {
+                        TotalChance += AttackOption.SelectionChance;
+                    }
+                }  
             }
         }
 
@@ -110,10 +129,20 @@ public abstract class BaseBoss : BaseHealth
         else
         {
             BossAttackOption Attack = AttackDictionary[SelectedAttack];
-            Attack.CallAttack(); NowAttacking();
+            Attack.CallAttack(); if (AttackingDuration == null) { NowAttacking(Attack.Duration); };
         }
     }
-    protected void NowAttacking() { isAttacking = true; }   
+    protected void NowAttacking(float Duration) //Begins isAttacking State for Specific attack's duration
+    { 
+        AttackingDuration = StartCoroutine(AttackingDurationCoroutine(Duration)); 
+    }   
+    protected IEnumerator AttackingDurationCoroutine(float Duration)
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(Duration);
+        isAttacking = false;
+        AttackingDuration = null;
+    }
     public void NotAttacking() { isAttacking = false; }
 
     private BossAttackType SelectRandomAttack(float TotalChance, float DistanceToPlayer)
@@ -126,18 +155,36 @@ public abstract class BaseBoss : BaseHealth
         //Search for and return which attack was selected by random chance
         foreach (BossAttackOption AttackOption in BossAttacks)
         {
-            if (DistanceToPlayer <= AttackOption.AttackRangeTrigger)
+            if (AttackOption.DistanceIsMinimum) //Attack is Triggered at Range Above Given Distance
             {
-                counter += AttackOption.SelectionChance;
-                if (RandomAttack <= counter)
+                if (DistanceToPlayer >= AttackOption.AttackRangeTrigger)
                 {
-                    //Return name of Attack Selection so it can be used
-                    return AttackOption.AttackType;
+                    counter += AttackOption.SelectionChance;
+                    if (RandomAttack <= counter)
+                    {
+                        //Return name of Attack Selection so it can be used
+                        return AttackOption.AttackType;
+                    }
                 }
             }
+            else if (!AttackOption.DistanceIsMinimum) //Attack is Triggered at Range Below Given Distance
+            {
+                if (DistanceToPlayer < AttackOption.AttackRangeTrigger)
+                {
+                    counter += AttackOption.SelectionChance;
+                    if (RandomAttack <= counter)
+                    {
+                        //Return name of Attack Selection so it can be used
+                        return AttackOption.AttackType;
+                    }
+                }
+            }
+            
         }
         return BossAttackType.None; //Return 'None' if no Attack can be Made
     }
+       
+    
 
 
     protected virtual void CreateBossNavAgent()
