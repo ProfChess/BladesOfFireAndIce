@@ -7,6 +7,7 @@ public class BossHealth : BaseHealth
     [Header("References")]
     [SerializeField] private Animator BossAnim;
     private bool isDead = false;
+    public bool BossDefeated => isDead;
 
     //Anim
     private static readonly int HurtTrig = Animator.StringToHash("HurtTrigger");
@@ -25,8 +26,7 @@ public class BossHealth : BaseHealth
                     int Trigger = curHealth <= 0? DeathTrig : HurtTrig;
                     BossAnim.SetTrigger(Trigger);
                     if (curHealth <= 0) { isDead = true; }
-                }
-                
+                } 
             }
         }
     }

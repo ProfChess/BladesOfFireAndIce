@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class EnemyHitDetection : BaseHealth
 {
-    [SerializeField] private BaseEnemy MainEnemyScript;
     [SerializeField] protected Collider2D HitBox;
+    
+    [Header("References")]
+    [SerializeField] private BaseEnemy MainEnemyScript;
+
 
     //Box Flipping
     private bool BoxShouldBeFlipped = false;

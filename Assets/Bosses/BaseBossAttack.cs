@@ -22,7 +22,7 @@ public abstract class BaseBossAttack : BaseAttackDamage
             Cooldown = StartCoroutine(CooldownRoutine(AttackOption));
         }
     }
-    private void Start()
+    protected virtual void Start()
     {
         Transform tempObject = GetComponent<Transform>();
         BossRef = tempObject.GetComponentInParent<BaseBoss>();

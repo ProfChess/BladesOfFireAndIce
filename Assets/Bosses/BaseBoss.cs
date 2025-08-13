@@ -41,16 +41,21 @@ public abstract class BaseBoss : MonoBehaviour
     private float nextUpdateCheck = 0f;
 
     //Movement
+    [Header("Movement")]
     [SerializeField] protected float MoveSpeed;
-    [SerializeField] protected float attackCooldown;
     protected NavMeshAgent BossAgent;
+    public NavMeshAgent GetAgent() { return BossAgent; }
 
     //Attacking
+    [Header("Attacking")]
     [SerializeField] protected bool isAttacking = false;
     protected float attackTimer;
     protected Transform playerLocation;
     protected Coroutine AttackingDuration;
 
+    [Header("References")]
+    [SerializeField] private BossHealth HealthScript;
+    
     //List
     [Header("List of Boss Attacks")]
     [SerializeField] private List<BossAttackOption> BossAttacks = new List<BossAttackOption>();
@@ -83,6 +88,8 @@ public abstract class BaseBoss : MonoBehaviour
         if (Time.time > nextUpdateCheck)
         {
             nextUpdateCheck = Time.time + UpdateDelay;
+            if (HealthScript.BossDefeated) { return; }
+
             if (!isAttacking)
             {
                 MoveUpdate();
@@ -198,6 +205,7 @@ public abstract class BaseBoss : MonoBehaviour
         BossAgent.updateRotation = false;
         BossAgent.updateUpAxis = false;
         BossAgent.speed = MoveSpeed;
+        BossAgent.acceleration = 999;
     }
     protected float GetDistanceToPlayer() { return Vector2.Distance(gameObject.transform.position, playerLocation.position); }
 

@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - PlayerAttack
   - EnemyAttack
+  - EnemyHitbox
   layers:
   - Default
   - TransparentFX
@@ -61,4 +62,10 @@ TagManager:
     locked: 0
   - name: EnemyAttack
     uniqueID: 3897588559
+    locked: 0
+  - name: Boss
+    uniqueID: 1837733551
+    locked: 0
+  - name: BossAttacks
+    uniqueID: 522098553
     locked: 0

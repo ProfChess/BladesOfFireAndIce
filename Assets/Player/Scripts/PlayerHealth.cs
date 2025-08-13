@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using System;
 public class PlayerHealth : BaseHealth
 {
+    [Header("References")]
     [SerializeField] private BoxCollider2D PlayerHitbox;
     [SerializeField] private Animator PlayerAnim;
 
@@ -27,13 +28,19 @@ public class PlayerHealth : BaseHealth
     {
         if (PlayerHitbox != null)
         {
-            //Hazard Collision
+            //Hazard Interaction
             if (collision.CompareTag("Hazard-Hole") && !isFalling) { FallInHole(collision.transform.position); }
-            //Damage Collision
+            //Attack Damage Interaction
             if (collision.CompareTag("EnemyAttack")) 
             {
                 BaseAttackDamage DamageInstance = collision.GetComponent<BaseAttackDamage>();
                 PlayerDamage(DamageInstance.GetDamageNumber());
+            }
+            //Collision Damage Interaction
+            if (collision.CompareTag("EnemyHitbox"))
+            {
+                float CollisionDamage = collision.GetComponent<BaseHealth>().GetCollisionDamage();
+                if (CollisionDamage > 0) { PlayerDamage(CollisionDamage); }
             }
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlameTankMovement : BaseBoss
 {
+    [Header("Visuals")]
     [SerializeField] private SpriteRenderer BossSprite;
     [SerializeField] private Animator FireTankAnim;
     private static readonly int MovingBool = Animator.StringToHash("IsMoving");

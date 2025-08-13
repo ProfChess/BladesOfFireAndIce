@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 113898421}
   m_Layer: 6
   m_Name: BossHitbox
-  m_TagString: Untagged
+  m_TagString: EnemyHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -250,6 +250,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 200
   curHealth: 0
+  CollisionDamage: 2
+  HasCollisionDamage: 1
   BossAnim: {fileID: 1305809118}
 --- !u!58 &113898421
 CircleCollider2D:
@@ -457,6 +459,8 @@ GameObject:
   m_Component:
   - component: {fileID: 136731647}
   - component: {fileID: 136731646}
+  - component: {fileID: 136731649}
+  - component: {fileID: 136731648}
   m_Layer: 6
   m_Name: FireBlastObj
   m_TagString: EnemyAttack
@@ -477,6 +481,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackDamage: 0
+  RightCol: {fileID: 136731649}
+  LeftCol: {fileID: 136731648}
+  BossSprite: {fileID: 1305809119}
+  BossAnim: {fileID: 1305809118}
 --- !u!4 &136731647
 Transform:
   m_ObjectHideFlags: 0
@@ -492,6 +500,108 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1112081772}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &136731648
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136731645}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -2.2, y: -0.45}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1, y: -1.75}
+      - {x: 0.2, y: 0.25}
+      - {x: 1, y: 2.2}
+      - {x: -0.5, y: 2.2}
+      - {x: -1.25, y: 0.25}
+      - {x: -0.5, y: -1.75}
+  m_UseDelaunayMesh: 0
+--- !u!60 &136731649
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136731645}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 2.2, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -1, y: 1.75}
+      - {x: -0.2, y: -0.25}
+      - {x: -1, y: -2.2}
+      - {x: 0.5, y: -2.2}
+      - {x: 1.25, y: -0.25}
+      - {x: 0.5, y: 1.75}
+  m_UseDelaunayMesh: 0
 --- !u!1 &175944518
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,6 +3219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 500
   curHealth: 0
+  CollisionDamage: 2
+  HasCollisionDamage: 0
   PlayerHitbox: {fileID: 859343228}
   PlayerAnim: {fileID: 234899589}
   input: {fileID: 374085307}
@@ -5083,8 +5195,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 73624549
-  m_SortingLayer: 2
+  m_SortingLayerID: 1837733551
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -21214034, guid: f167139a9ebe41a44844fcb2778ed24d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5535,7 +5647,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a2593fef7a90054c96ad9b7656e065d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDamage: 0
+  AttackDamage: 1
+  ChargeSpeed: 10
+  ChargeTravelDuration: 3
+  BossAnim: {fileID: 1305809118}
 --- !u!1 &1370690219
 GameObject:
   m_ObjectHideFlags: 0
@@ -6939,29 +7054,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 2
-  attackCooldown: 1
   isAttacking: 0
+  HealthScript: {fileID: 113898420}
   BossAttacks:
   - AttackType: 1
-    SelectionChance: 4
+    SelectionChance: 2
     Duration: 0.75
-    AttackCooldown: 3
+    AttackCooldown: 1.5
     OnCooldown: 0
-    AttackRangeTrigger: 3
+    AttackRangeTrigger: 3.5
     DistanceIsMinimum: 0
     AttackRef: {fileID: 1309420064}
   - AttackType: 2
-    SelectionChance: 0
-    Duration: 0
-    AttackCooldown: 4
+    SelectionChance: 3
+    Duration: 3
+    AttackCooldown: 8
     OnCooldown: 0
-    AttackRangeTrigger: 8
+    AttackRangeTrigger: 7
     DistanceIsMinimum: 1
     AttackRef: {fileID: 1329659955}
   - AttackType: 3
-    SelectionChance: 0
-    Duration: 0
-    AttackCooldown: 5
+    SelectionChance: 2
+    Duration: 2
+    AttackCooldown: 3
     OnCooldown: 0
     AttackRangeTrigger: 4
     DistanceIsMinimum: 0

@@ -35,7 +35,6 @@ public class DungeonInfo : MonoBehaviour
     }
 
 
-
     //Dungeon Room Info For Enemy AI
     //Gets Set bounds based on enemy starting point
     public DungeonRoom GrabArea(Vector3 position)

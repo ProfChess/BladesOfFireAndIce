@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 2807073766202386398}
   m_Layer: 6
   m_Name: EnemyHitBox
-  m_TagString: Untagged
+  m_TagString: EnemyHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,8 +271,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 5
-  MainEnemyScript: {fileID: 2174794487145067413}
+  curHealth: 0
+  CollisionDamage: 1
+  HasCollisionDamage: 1
   HitBox: {fileID: 2273477896166827226}
+  MainEnemyScript: {fileID: 2174794487145067413}
 --- !u!1 &2959778175911379652
 GameObject:
   m_ObjectHideFlags: 0
