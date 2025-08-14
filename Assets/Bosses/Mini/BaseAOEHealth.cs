@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseAOEHealth : BaseHealth
 {
     public ElementType Element;
-
+    private bool hasCollided = false;
+    public bool collide => hasCollided;
     //Be destroyed or damaged from correct element
     protected virtual void ReactToElement(ElementType IncomingElement, float Damage)
     {
@@ -25,5 +24,6 @@ public abstract class BaseAOEHealth : BaseHealth
             ReactToElement(elementHit, Damage);
         }
     }
+    public void DieOnCollision() { hasCollided = true; curHealth = 1; TakeDamage(1); }
 
 }

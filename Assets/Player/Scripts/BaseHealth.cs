@@ -12,7 +12,7 @@ public abstract class BaseHealth : MonoBehaviour
     [SerializeField] private bool HasCollisionDamage = false;
 
     //Object Takes Damage -> sets to 0 if below
-    protected void TakeDamage(float Damage) 
+    protected virtual void TakeDamage(float Damage) 
     {
         curHealth -= Damage;
         if (curHealth < 0) { curHealth = 0; }

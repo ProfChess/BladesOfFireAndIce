@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum ElementType { Fire, Ice }
-public abstract class BaseLingeringAOE : BaseAttackDamage
+public abstract class BaseLingeringAOE : MonoBehaviour
 {
     [SerializeField] protected float Duration = 5f;
     private float timeForVanish;
@@ -18,12 +16,13 @@ public abstract class BaseLingeringAOE : BaseAttackDamage
         if (Time.time > timeForVanish)
         {
             //GO BACK TO POOL
-            gameObject.SetActive(false);
+            Disappear();
         }
     }
+    protected virtual void Disappear()
+    {
+        gameObject.SetActive(false);
+    }
 
-
-    //Element Effects
-    protected abstract void ApplyEffect(GameObject target);                 //Status Effects or Hit sound
 
 }

@@ -42,6 +42,18 @@ public class PlayerHealth : BaseHealth
                 float CollisionDamage = collision.GetComponent<BaseHealth>().GetCollisionDamage();
                 if (CollisionDamage > 0) { PlayerDamage(CollisionDamage); }
             }
+            //Damage AOE Interaction
+            if (collision.CompareTag("AOEBox"))
+            {
+                BaseAOEHealth CollidingHealth = collision.GetComponent<BaseAOEHealth>();
+                if (CollidingHealth.collide) { return; }
+                float CollisionDamage = CollidingHealth.GetCollisionDamage();
+                if (CollisionDamage > 0)
+                {
+                    PlayerDamage(CollisionDamage);
+                    CollidingHealth.DieOnCollision();
+                }
+            }
         }
     }
 
