@@ -5,7 +5,8 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     public static PoolManager Instance;
-    public List<ObjectPool> pools;
+    [SerializeField] private List<ObjectPool> pools = new List<ObjectPool>();
+    public Dictionary<EnemyType, ObjectPool> poolsDict = new Dictionary<EnemyType, ObjectPool>();
 
     private void Awake()
     {
@@ -19,29 +20,30 @@ public class PoolManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public GameObject getObjectFromPool(EnemyType poolType) 
+    private void Start()
     {
         for (int i = 0; i < pools.Count; i++)
         {
-            if (pools[i].poolType == poolType)
-            {
-                return pools[i].getObject();
-            }
+            poolsDict.Add(pools[i].poolType, pools[i]);
+        }
+    }
+    public GameObject getObjectFromPool(EnemyType poolType) 
+    {
+        if (poolsDict.ContainsKey(poolType))
+        {
+            return poolsDict[poolType].getObject();
         }
         Debug.Log("Pool is not found");
         return null;
     }
 
     //Returns object to correct pool based on number given
-    public void ReturnObjectToPool(EnemyType poolName, GameObject self)
+    public void ReturnObjectToPool(EnemyType poolType, GameObject self)
     {
-        for (int i = 0; i < pools.Count; i++)
+        if (poolsDict.ContainsKey(poolType))
         {
-            if (pools[i].poolType == poolName)
-            {
-                pools[i].returnObject(self);
-                return;
-            }
+            poolsDict[poolType].returnObject(self);
+            return;
         }
         Debug.Log("Pool is not found");
         return;

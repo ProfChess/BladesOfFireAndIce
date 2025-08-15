@@ -8,6 +8,7 @@ public class FlameTankMovement : BaseBoss
     [SerializeField] private SpriteRenderer BossSprite;
     [SerializeField] private Animator FireTankAnim;
     private static readonly int MovingBool = Animator.StringToHash("IsMoving");
+
     protected override void AttackSelection()
     {
         base.AttackSelection();

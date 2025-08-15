@@ -26,11 +26,20 @@ public class EnemyHitDetection : BaseHealth
         {
             if (collision.CompareTag("PlayerAttack"))
             {
-                TakeDamage(collision.GetComponent<BaseAttackDamage>().GetDamageNumber());
+                BasePlayerDamage DamageScript = collision.GetComponent<BasePlayerDamage>();
+                if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.NormalAttack)
+                {
+                    TakeDamage(DamageScript.GetDamageNumber());
+                }
+                else if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.Ability)
+                {
+                    TakeDamage(DamageScript.GetDamageWithoutCrit());
+                }
+
                 if (curHealth > 0) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }
-                else 
-                { 
-                    MainEnemyScript.GetAnimator().Play(EnemyDeath, 1); 
+                else
+                {
+                    MainEnemyScript.GetAnimator().Play(EnemyDeath, 1);
                     MainEnemyScript.canMove = false;
                     Invoke(nameof(TurnOff), 1.2f);
                 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,10 @@ public class FireCharge : BaseBossAttack
     //Temp Saved Settings
     private float storedSpeed = 0;
     private float storedStoppingDistance = 0;
+
+    //Flame Locations
+    private static readonly float FlameFrequency = 0.15f;
+    private float FlameSpawnTimer = 0f;
 
     protected override void Start()
     {
@@ -46,11 +51,17 @@ public class FireCharge : BaseBossAttack
 
     private IEnumerator DashForDuration(Vector3 Target)
     {
+        FlameSpawnTimer = 0;
         TempDashSettings();
         BossAgent.SetDestination(GetPointOnMesh(Target));
-
         while (BossAgent.pathPending || BossAgent.remainingDistance >= 0.1f)
         {
+            FlameSpawnTimer += Time.deltaTime;
+            if (FlameSpawnTimer >= FlameFrequency) 
+            { 
+                SpawnFlames();
+                FlameSpawnTimer = 0;
+            }
             yield return null; //Wait till boss reaches destination
         }
         BossAnim.SetTrigger(ChargeEndTrigger);
@@ -59,6 +70,7 @@ public class FireCharge : BaseBossAttack
 
         AttackRoutine = null;
     }
+
     //Get Point on Mesh
     protected Vector2 GetPointOnMesh(Vector3 Point)
     {
@@ -82,5 +94,13 @@ public class FireCharge : BaseBossAttack
     {
         storedSpeed = BossAgent.speed;
         storedStoppingDistance = BossAgent.stoppingDistance;
+    }
+
+
+    //Spawning Flames
+    private void SpawnFlames()
+    {
+        GameObject FlameObj = PoolManager.Instance.getObjectFromPool(EnemyType.Flames);
+        FlameObj.transform.position = gameObject.transform.position;
     }
 }

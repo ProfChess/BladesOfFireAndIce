@@ -23,6 +23,7 @@ public enum EnemyType {
     FireProjectile, 
     EliteEnemy1, 
     EliteEnemy2,
+    Flames,
     Invalid
 }
 

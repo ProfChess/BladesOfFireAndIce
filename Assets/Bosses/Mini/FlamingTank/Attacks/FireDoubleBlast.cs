@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FireDoubleBlast : BaseBossAttack
@@ -13,9 +14,24 @@ public class FireDoubleBlast : BaseBossAttack
     [SerializeField] private Animator BossAnim;
     private static readonly int BlastTrigger = Animator.StringToHash("BlastTrigger");
     
-    
     private GameObject Player;
     private Coroutine AttackRoutine;
+
+    //Flame Spawn Locations
+    private static readonly Vector3[] RightFlameLocations =
+    {
+        new Vector2(2,0),
+        new Vector2(1,1),
+        new Vector2(1,-1),
+    };
+
+    private static readonly Vector3[] LeftFlameLocations =
+    {
+        new Vector2(-2,0),
+        new Vector2(-1,1),
+        new Vector2(-1,-1),
+    };
+
     protected override void Start()
     {
         base.Start();
@@ -33,7 +49,7 @@ public class FireDoubleBlast : BaseBossAttack
             {
                 BossSprite.flipX = false;
                 BossAnim.SetTrigger(BlastTrigger);
-                AttackRoutine = StartCoroutine(ActivateEachCol(RightCol, LeftCol));
+                AttackRoutine = StartCoroutine(ActivateEachCol(RightCol, LeftCol, RightFlameLocations, LeftFlameLocations));
             }
         }
         else
@@ -42,21 +58,24 @@ public class FireDoubleBlast : BaseBossAttack
             {
                 BossSprite.flipX = true;
                 BossAnim.SetTrigger(BlastTrigger);
-                AttackRoutine = StartCoroutine(ActivateEachCol(LeftCol, RightCol));
+                AttackRoutine = StartCoroutine(ActivateEachCol(LeftCol, RightCol, LeftFlameLocations, RightFlameLocations));
             }
         }
         base.StartAttack(AttackOption);
     }
 
-    private IEnumerator ActivateEachCol(Collider2D firstCol, Collider2D secondCol)
+    private IEnumerator ActivateEachCol(Collider2D firstCol, Collider2D secondCol, Vector3[] FirstFlames, Vector3[] SecondFlames)
     {
         yield return new WaitForSeconds(AnimWaitTime);          //Wait for right moment in anim
         StartCoroutine(ColliderLive(firstCol, 0.12f));          //Spawns Collider
+        SpawnFlames(FirstFlames);                               //Spawns Flames 
         yield return new WaitForSeconds(1.0f - AnimWaitTime);   //Waits Until Anim is completed
         BossSprite.flipX = !BossSprite.flipX;                   //Flips direction
         BossAnim.SetTrigger(BlastTrigger);                      //Starts next attack
         yield return new WaitForSeconds(AnimWaitTime);          //Wait for right moment in anim
         StartCoroutine(ColliderLive(secondCol, 0.12f));         //Spawns Collider
+        SpawnFlames(SecondFlames);                              //Spawns Flames 
+
         AttackRoutine = null;
     }
     private IEnumerator ColliderLive(Collider2D col, float Time) //Turns collider on and off
@@ -64,5 +83,14 @@ public class FireDoubleBlast : BaseBossAttack
         col.enabled = true;
         yield return new WaitForSeconds(Time);
         col.enabled = false;
+    }
+
+    private void SpawnFlames(Vector3[] FlameLocations)
+    {
+        for (int i = 0; i < FlameLocations.Length; i++)
+        {
+            GameObject FlameObj = PoolManager.Instance.getObjectFromPool(EnemyType.Flames);
+            FlameObj.transform.position = gameObject.transform.position + FlameLocations[i];
+        }
     }
 }

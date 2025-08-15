@@ -46,6 +46,7 @@ public class ObjectPool : MonoBehaviour
     {
         obj.SetActive(false); //Disable object
         obj.transform.SetParent(this.transform); //Return to pool hierarchy
+        obj.transform.position = this.transform.position;
     }
 
     public List<GameObject> getList()

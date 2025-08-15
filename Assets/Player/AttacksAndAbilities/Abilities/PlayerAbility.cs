@@ -1,12 +1,17 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class BasePlayerAbility : BaseAttackDamage
+public abstract class BasePlayerAbility : BasePlayerDamage
 {
     [Header("Ability Stats:")]
     [SerializeField] protected float AbilityCooldown = 0f;
     [SerializeField] protected float abilityDelay = 0.5f; //Delay for animation Startup
     protected bool AbilityOffCooldown = true;
+
+    public override float GetDamageWithoutCrit()
+    {
+        return GetDamageNumber();
+    }
     public void UseAbility()
     {
         //Visual and Cooldown

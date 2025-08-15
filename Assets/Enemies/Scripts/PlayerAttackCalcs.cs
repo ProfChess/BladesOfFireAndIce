@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackCalcs : BaseAttackDamage
-{
-    [SerializeField] private PlayerController playerController;
-
+public class PlayerAttackCalcs : BasePlayerDamage
+{    
+    //Quick References
+    protected ElementType attackForm => PlayerController.PlayerAttackForm;
+    
     private float FireAttackDamage;
     public void SetFireDamage(float num) {  FireAttackDamage = num; }
     private float IceAttackDamage;
@@ -16,12 +17,10 @@ public class PlayerAttackCalcs : BaseAttackDamage
     public void SetCritChance(float num) { crit = num; }
     public void SetDamage(float num) { AttackDamage = num; }
 
-    //Quick References
-    private AttackForm attackForm => playerController.GetAttackForm();
     public override float GetDamageNumber()
     {
-        AttackForm Form = attackForm;
-        if (Form == AttackForm.Fire)
+        ElementType Form = attackForm;
+        if (Form == ElementType.Fire)
         {
             AttackDamage = FireAttackDamage;
         }
@@ -41,17 +40,9 @@ public class PlayerAttackCalcs : BaseAttackDamage
         }
     }
 
-    public ElementType GetElementDamageType()
+    public override float GetDamageWithoutCrit()
     {
-        if (attackForm == AttackForm.Fire)
-        {
-            return ElementType.Fire;
-        }
-        else { return ElementType.Ice; }
-    }
-    public float GetDamageWithoutCrit()
-    {
-        if (attackForm == AttackForm.Fire)
+        if (attackForm == ElementType.Fire)
         {
             return FireAttackDamage;
         }

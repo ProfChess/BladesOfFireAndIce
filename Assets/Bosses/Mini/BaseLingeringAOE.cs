@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public enum ElementType { Fire, Ice }
+public enum ElementType { Fire, Ice, }
 public abstract class BaseLingeringAOE : MonoBehaviour
 {
     [SerializeField] protected float Duration = 5f;
     private float timeForVanish;
-
-    protected virtual void Start()
+    [SerializeField] private EnemyType enemyType;
+    protected virtual void OnEnable()
     {
         timeForVanish = Time.time + Duration;
     }
@@ -21,8 +21,7 @@ public abstract class BaseLingeringAOE : MonoBehaviour
     }
     protected virtual void Disappear()
     {
-        gameObject.SetActive(false);
+        PoolManager.Instance.ReturnObjectToPool(enemyType, gameObject);
     }
-
 
 }

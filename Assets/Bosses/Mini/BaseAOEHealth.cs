@@ -17,8 +17,8 @@ public abstract class BaseAOEHealth : BaseHealth
     {
         if (col.CompareTag("PlayerAttack"))
         {
-            PlayerAttackCalcs attackScript = col.GetComponent<PlayerAttackCalcs>();
-            ElementType elementHit = attackScript.GetElementDamageType();
+            BasePlayerDamage attackScript = col.GetComponent<BasePlayerDamage>();
+            ElementType elementHit = attackScript.GetElement();
             float Damage = attackScript.GetDamageWithoutCrit();
 
             ReactToElement(elementHit, Damage);

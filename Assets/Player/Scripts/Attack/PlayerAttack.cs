@@ -24,7 +24,7 @@ public class PlayerAttack : MonoBehaviour
 
     private float offsetDistance = 1f;
     private float attackDuration;
-    private AttackForm attackForm;
+    private ElementType attackForm;
 
     public enum AttackList { BasicAttack, Roll };
     private void Start()
@@ -42,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
         {
             case AttackList.BasicAttack:
                 //Fire Stance
-                if (controls.PlayerAttackForm == AttackForm.Fire)
+                if (PlayerController.PlayerAttackForm == ElementType.Fire)
                 {
                     if (playerStamina.GetStamina() >= FireStaminaCost)
                     {
@@ -54,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
                 }
 
                 //Ice Stance
-                if (controls.PlayerAttackForm == AttackForm.Ice)
+                if (PlayerController.PlayerAttackForm == ElementType.Ice)
                 {
                     if (playerStamina.GetStamina() >= IceStaminaCost)
                     {
@@ -70,12 +70,12 @@ public class PlayerAttack : MonoBehaviour
                 break;
         }
     }
-    public bool CheckStamina(AttackList Attacktype, AttackForm StanceType) //returns true if there is enough stamina to perform attack or skill
+    public bool CheckStamina(AttackList Attacktype, ElementType StanceType) //returns true if there is enough stamina to perform attack or skill
     {
         switch (Attacktype)
         {
             case AttackList.BasicAttack:
-                if (StanceType == AttackForm.Fire)
+                if (StanceType == ElementType.Fire)
                 {
                     return playerStamina.GetStamina() >= FireStaminaCost;
                 }
@@ -114,7 +114,7 @@ public class PlayerAttack : MonoBehaviour
     public Vector2 GetMouseDirection() {return MouseDirection;}
     private void AttackHitAnimation()
     {
-        attackAnim.SetBool("Fire", attackForm == AttackForm.Fire);
+        attackAnim.SetBool("Fire", attackForm == ElementType.Fire);
         attackAnim.SetTrigger("BasicAttack");
         attackSprite.sortingOrder = attackEffectLayer;
     }

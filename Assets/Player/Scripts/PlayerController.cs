@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public enum AttackForm { Fire, Ice };
-
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
@@ -33,7 +31,7 @@ public class PlayerController : MonoBehaviour
     //Form Enum
     [HideInInspector]
 
-    public AttackForm PlayerAttackForm;
+    public static ElementType PlayerAttackForm;
 
     //References
     [Header("References")]
@@ -65,7 +63,7 @@ public class PlayerController : MonoBehaviour
     //START/UPDATE/ETC
     private void Start()
     {
-        PlayerAttackForm = AttackForm.Fire; //Player starts in fire form
+        PlayerAttackForm = ElementType.Fire; //Player starts in fire form
         SetFormStats();
     }
     private void FixedUpdate()
@@ -219,33 +217,33 @@ public class PlayerController : MonoBehaviour
     //SwitchForm
     private void SwitchAttackForm() //Swtich from other form
     {
-        if (PlayerAttackForm == AttackForm.Fire)
+        if (PlayerAttackForm == ElementType.Fire)
         {
             playerAnim.Play(ChangeToIce);
-            PlayerAttackForm = AttackForm.Ice;
+            PlayerAttackForm = ElementType.Ice;
         }
-        else if (PlayerAttackForm == AttackForm.Ice)
+        else if (PlayerAttackForm == ElementType.Ice)
         {
             playerAnim.Play(ChangeToFire);
-            PlayerAttackForm = AttackForm.Fire;
+            PlayerAttackForm = ElementType.Fire;
         }
         SetFormStats();
         FormSwitchCooldownTimer = FormSwitchCooldown;
     }
     private void SetFormStats()
     {
-        if (PlayerAttackForm == AttackForm.Fire)
+        if (PlayerAttackForm == ElementType.Fire)
         {
             playerRollSpeed = FireRollCooldown;
         }
-        if (PlayerAttackForm == AttackForm.Ice)
+        if (PlayerAttackForm == ElementType.Ice)
         {
             playerRollSpeed = IceRollCooldown;
         }
         attackSpeedManager.SetAttackSpeed();
     }
     //Get Form
-    public AttackForm GetAttackForm()
+    public ElementType GetAttackForm()
     {
         return PlayerAttackForm;
     }
