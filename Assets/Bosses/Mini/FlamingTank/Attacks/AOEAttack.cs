@@ -5,9 +5,13 @@ using UnityEngine;
 public class AOEAttack : BaseBossAttack
 {
     [Header("References")]
-    [SerializeField] private CircleCollider2D AttackCol;
+    [SerializeField] private PolygonCollider2D AttackCol;
     [SerializeField] private Animator BossAnim;
     private bool listeningForPlayer = false;
+
+    [Header("Visual Effect")]
+    [SerializeField] private Animator EffectAnim;
+    private static readonly int EffectTrigger = Animator.StringToHash("Effect Trigger");
 
     //Flame Spawn Locations
     private static readonly Vector3[] FlameLocationOffsets =
@@ -29,6 +33,7 @@ public class AOEAttack : BaseBossAttack
     }
     private IEnumerator AttackAppearance()
     {
+        EffectAnim.SetTrigger(EffectTrigger);
         listeningForPlayer = true;
         yield return new WaitForSeconds(AnimWaitTime);
         AttackCol.enabled = true;

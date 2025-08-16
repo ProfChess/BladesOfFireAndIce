@@ -15,6 +15,11 @@ public class FireCharge : BaseBossAttack
     private Coroutine AttackRoutine;
     private NavMeshAgent BossAgent;
 
+    [Header("Attack VFX")]
+    [SerializeField] private Animator ChargeAnim;
+    private static readonly int StartChargeEffectTrig = Animator.StringToHash("StartChargeTrigger");
+    private static readonly int EndChargeEffectTrig = Animator.StringToHash("EndChargeTrigger");
+
     //Temp Saved Settings
     private float storedSpeed = 0;
     private float storedStoppingDistance = 0;
@@ -53,6 +58,7 @@ public class FireCharge : BaseBossAttack
     {
         FlameSpawnTimer = 0;
         TempDashSettings();
+        ChargeAnim.SetTrigger(StartChargeEffectTrig);
         BossAgent.SetDestination(GetPointOnMesh(Target));
         while (BossAgent.pathPending || BossAgent.remainingDistance >= 0.1f)
         {
@@ -64,6 +70,7 @@ public class FireCharge : BaseBossAttack
             }
             yield return null; //Wait till boss reaches destination
         }
+        ChargeAnim.SetTrigger(EndChargeEffectTrig);
         BossAnim.SetTrigger(ChargeEndTrigger);
         yield return new WaitForSeconds(0.2f);
         RestoreNavSettings();

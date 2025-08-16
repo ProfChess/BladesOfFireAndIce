@@ -15,12 +15,16 @@ public abstract class BaseHealth : MonoBehaviour
     protected virtual void TakeDamage(float Damage) 
     {
         curHealth -= Damage;
-        if (curHealth < 0) { curHealth = 0; }
+        if (curHealth <= 0) { curHealth = 0; gameObject.SetActive(false); }
     }
     public float GetCollisionDamage() { if (HasCollisionDamage) { return CollisionDamage; } else return 0f; }
 
     private void Start()
     {
         curHealth = MaxHealth;
+    }
+    private void OnEnable()
+    {
+        gameObject.SetActive(true);
     }
 }

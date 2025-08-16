@@ -13,7 +13,12 @@ public class FireDoubleBlast : BaseBossAttack
     [SerializeField] private SpriteRenderer BossSprite;
     [SerializeField] private Animator BossAnim;
     private static readonly int BlastTrigger = Animator.StringToHash("BlastTrigger");
-    
+
+    [Header("Attack VFX")]
+    [SerializeField] private Animator RightEffect;
+    [SerializeField] private Animator LeftEffect;
+    private static readonly int EffectTrigger = Animator.StringToHash("Effect Trigger");
+
     private GameObject Player;
     private Coroutine AttackRoutine;
 
@@ -49,7 +54,10 @@ public class FireDoubleBlast : BaseBossAttack
             {
                 BossSprite.flipX = false;
                 BossAnim.SetTrigger(BlastTrigger);
-                AttackRoutine = StartCoroutine(ActivateEachCol(RightCol, LeftCol, RightFlameLocations, LeftFlameLocations));
+                AttackRoutine = 
+                    StartCoroutine(ActivateEachCol(RightCol, LeftCol, 
+                    RightFlameLocations, LeftFlameLocations, 
+                    RightEffect, LeftEffect));
             }
         }
         else
@@ -58,20 +66,28 @@ public class FireDoubleBlast : BaseBossAttack
             {
                 BossSprite.flipX = true;
                 BossAnim.SetTrigger(BlastTrigger);
-                AttackRoutine = StartCoroutine(ActivateEachCol(LeftCol, RightCol, LeftFlameLocations, RightFlameLocations));
+                AttackRoutine = 
+                    StartCoroutine(ActivateEachCol(LeftCol, RightCol, 
+                    LeftFlameLocations, RightFlameLocations,
+                    LeftEffect, RightEffect));
             }
         }
         base.StartAttack(AttackOption);
     }
 
-    private IEnumerator ActivateEachCol(Collider2D firstCol, Collider2D secondCol, Vector3[] FirstFlames, Vector3[] SecondFlames)
+    private IEnumerator ActivateEachCol(
+        Collider2D firstCol, Collider2D secondCol, 
+        Vector3[] FirstFlames, Vector3[] SecondFlames, 
+        Animator FirstAnim, Animator SecondAnim)
     {
+        FirstAnim.SetTrigger(EffectTrigger);                    //First VFX
         yield return new WaitForSeconds(AnimWaitTime);          //Wait for right moment in anim
         StartCoroutine(ColliderLive(firstCol, 0.12f));          //Spawns Collider
         SpawnFlames(FirstFlames);                               //Spawns Flames 
         yield return new WaitForSeconds(1.0f - AnimWaitTime);   //Waits Until Anim is completed
         BossSprite.flipX = !BossSprite.flipX;                   //Flips direction
         BossAnim.SetTrigger(BlastTrigger);                      //Starts next attack
+        SecondAnim.SetTrigger(EffectTrigger);                   //Second VFX
         yield return new WaitForSeconds(AnimWaitTime);          //Wait for right moment in anim
         StartCoroutine(ColliderLive(secondCol, 0.12f));         //Spawns Collider
         SpawnFlames(SecondFlames);                              //Spawns Flames 
