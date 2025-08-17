@@ -73,7 +73,7 @@ public abstract class BaseBoss : MonoBehaviour
         GameManager.Instance.getNavMesh().MeshCreated -= CreateBossNavAgent;
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         playerLocation = GameManager.Instance.getPlayer().transform;
         CreateBossNavAgent();

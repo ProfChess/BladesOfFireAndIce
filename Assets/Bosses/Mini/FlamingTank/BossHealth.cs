@@ -13,7 +13,7 @@ public class BossHealth : BaseHealth
     private static readonly int HurtTrig = Animator.StringToHash("HurtTrigger");
     private static readonly int DeathTrig = Animator.StringToHash("DeathTrigger");
 
-    private void OnTriggerEnter2D(Collider2D col)
+    protected virtual void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("PlayerAttack"))
         {
