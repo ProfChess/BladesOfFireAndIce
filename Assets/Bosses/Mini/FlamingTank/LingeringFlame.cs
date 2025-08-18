@@ -33,6 +33,7 @@ public class LingeringFlame : BaseLingeringAOE
     }
     protected override void Disappear()
     {
+        FadeRoutine = null;
         base.Disappear();
         Visuals.color = ogColor;
     }

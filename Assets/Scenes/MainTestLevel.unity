@@ -2245,6 +2245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackDamage: 50
+  Element: 0
+  AttackType: 0
   AbilityCooldown: 3
   abilityDelay: 0.12
   Radius: 2
@@ -5156,6 +5158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92517d0b629cb624599a16e7625402a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TESTINGMODE: 0
   MoveSpeed: 5
   DashDuration: 0.5
   DashSpeed: 10
@@ -5164,7 +5167,6 @@ MonoBehaviour:
   FormSwitchCooldown: 1
   BasicAttackDuration: 0.25
   BasicAttackCooldown: 0.25
-  PlayerAttackForm: 0
   rb: {fileID: 1409708136}
   playerAttack: {fileID: 968923751}
   DunGen: {fileID: 1696567154}
@@ -5652,6 +5654,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 500
+  curHealth: 0
+  CollisionDamage: 1
+  HasCollisionDamage: 0
   PlayerHitbox: {fileID: 1506141338}
   PlayerAnim: {fileID: 130608850}
   input: {fileID: 1409708139}
@@ -6030,7 +6035,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackDamage: 3
-  playerController: {fileID: 1409708138}
+  Element: 0
+  AttackType: 0
 --- !u!1 &1606889584
 GameObject:
   m_ObjectHideFlags: 0
@@ -6311,11 +6317,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dee69f3c57dd4c4b81259f5430570b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Vitality: 3
-  Endurance: 2
-  Strength: 4
-  Dexterity: 1
-  Luck: 7
+  Vitality: 10
+  Endurance: 10
+  Strength: 10
+  Dexterity: 10
+  Luck: 10
   MaxPointsPerStat: 10
   MinPointsPerStat: 1
   PointsSpent: 0
