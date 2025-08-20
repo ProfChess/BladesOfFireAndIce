@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7f63e5fbfe7c6e84a864113bf6259e2b
+guid: db4c0a0fba89df24786f7a30721188fc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Archimage_teleport_1_0
+      name: Archimage_teleport_2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8dc25e1f2abfb642b2e01ba3f9a75f7
-      internalID: -138478772
+      spriteID: bb31ae789f32ba848a549d694c67f26a
+      internalID: 391101290
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_1
+      name: Archimage_teleport_2_1
       rect:
         serializedVersion: 2
         x: 128
@@ -171,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b022e82468595444c8b58fcf6541fed8
-      internalID: -214246541
+      spriteID: 58b0ca7d321c79747b085e64d5a7f354
+      internalID: 30794804
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_2
+      name: Archimage_teleport_2_2
       rect:
         serializedVersion: 2
         x: 256
@@ -192,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b67d17679e127924b86eff5e5da4e9cc
-      internalID: -2048271532
+      spriteID: b7a149c632b279f49985292342a226ad
+      internalID: 889755477
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_3
+      name: Archimage_teleport_2_3
       rect:
         serializedVersion: 2
         x: 384
@@ -213,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4bd37ebe7901e2d42b428b24e19b7ae9
-      internalID: -144953473
+      spriteID: 8da22ddfa413d4043a7f4a2858ec5142
+      internalID: -797644144
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_4
+      name: Archimage_teleport_2_4
       rect:
         serializedVersion: 2
         x: 512
@@ -234,14 +234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0f6d779974029a48884745d8d42a6c7
-      internalID: -1000854294
+      spriteID: e8abd58c157776442b01a8949db34914
+      internalID: -509400532
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_5
+      name: Archimage_teleport_2_5
       rect:
         serializedVersion: 2
         x: 640
@@ -255,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8143a83b061dfeb46973421baa963297
-      internalID: 452007356
+      spriteID: 2d574f39f0a375f4787666923bdd1602
+      internalID: 843069341
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_6
+      name: Archimage_teleport_2_6
       rect:
         serializedVersion: 2
         x: 768
@@ -276,14 +276,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 413803ce9fdadd540a29b5f993331d69
-      internalID: -535883748
+      spriteID: a151374e885001a489b52e6fd69f2899
+      internalID: 954920559
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_7
+      name: Archimage_teleport_2_7
       rect:
         serializedVersion: 2
         x: 896
@@ -297,14 +297,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d38041372bb03fc44b589de3657b14bc
-      internalID: 817383561
+      spriteID: 9f7f85809ff9a3d4681f00fd41f7ffc4
+      internalID: 2008285878
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_8
+      name: Archimage_teleport_2_8
       rect:
         serializedVersion: 2
         x: 0
@@ -318,14 +318,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ed1a94e01af5434ca81ca954d0ffbe2
-      internalID: 1117110434
+      spriteID: f06b782aa0a6058489a04c0810957d15
+      internalID: -2047591608
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_9
+      name: Archimage_teleport_2_9
       rect:
         serializedVersion: 2
         x: 128
@@ -339,14 +339,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 185ee41503cd6ff41b16a89ce4495c21
-      internalID: 1273086022
+      spriteID: 5bb344b52e260ed42a5518d4251045c5
+      internalID: -367725117
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_10
+      name: Archimage_teleport_2_10
       rect:
         serializedVersion: 2
         x: 256
@@ -360,14 +360,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ebb4bb73cafd6e40bc7e3cc7fa94194
-      internalID: -787481624
+      spriteID: e1de3dd0ac26e254fa5ccb77026a1153
+      internalID: 707460983
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_11
+      name: Archimage_teleport_2_11
       rect:
         serializedVersion: 2
         x: 384
@@ -381,14 +381,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9542d744272d4404eac78cb7a6fad676
-      internalID: -627872245
+      spriteID: 38ad16cdb5ab6ff44b2f8e5cd5c4a428
+      internalID: -2061190715
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_12
+      name: Archimage_teleport_2_12
       rect:
         serializedVersion: 2
         x: 512
@@ -402,14 +402,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6232038674f1fdb47b1d4dac21fe0d97
-      internalID: 1930058536
+      spriteID: f40f6324eae6bf64a8435152a14fe835
+      internalID: -1345690371
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_13
+      name: Archimage_teleport_2_13
       rect:
         serializedVersion: 2
         x: 640
@@ -423,14 +423,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f36486feb1bc2604dafcf693ea26536f
-      internalID: 1459455695
+      spriteID: 1af8e8bec66f2dd47897208f83344e43
+      internalID: -1863713158
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Archimage_teleport_1_14
+      name: Archimage_teleport_2_14
       rect:
         serializedVersion: 2
         x: 768
@@ -444,8 +444,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f3ebbe74319afeb4faf240078209e8ac
-      internalID: 514218731
+      spriteID: 66ae87dda3e8ce947a8da5d511e4ba02
+      internalID: -257659946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Archimage_teleport_2_15
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dff5509ec4418654e84fa7a62223c78a
+      internalID: -99505871
       vertices: []
       indices: 
       edges: []
@@ -461,21 +482,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Archimage_teleport_1_0: -138478772
-      Archimage_teleport_1_1: -214246541
-      Archimage_teleport_1_10: -787481624
-      Archimage_teleport_1_11: -627872245
-      Archimage_teleport_1_12: 1930058536
-      Archimage_teleport_1_13: 1459455695
-      Archimage_teleport_1_14: 514218731
-      Archimage_teleport_1_2: -2048271532
-      Archimage_teleport_1_3: -144953473
-      Archimage_teleport_1_4: -1000854294
-      Archimage_teleport_1_5: 452007356
-      Archimage_teleport_1_6: -535883748
-      Archimage_teleport_1_7: 817383561
-      Archimage_teleport_1_8: 1117110434
-      Archimage_teleport_1_9: 1273086022
+      Archimage_teleport_2_0: 391101290
+      Archimage_teleport_2_1: 30794804
+      Archimage_teleport_2_10: 707460983
+      Archimage_teleport_2_11: -2061190715
+      Archimage_teleport_2_12: -1345690371
+      Archimage_teleport_2_13: -1863713158
+      Archimage_teleport_2_14: -257659946
+      Archimage_teleport_2_15: -99505871
+      Archimage_teleport_2_2: 889755477
+      Archimage_teleport_2_3: -797644144
+      Archimage_teleport_2_4: -509400532
+      Archimage_teleport_2_5: 843069341
+      Archimage_teleport_2_6: 954920559
+      Archimage_teleport_2_7: 2008285878
+      Archimage_teleport_2_8: -2047591608
+      Archimage_teleport_2_9: -367725117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

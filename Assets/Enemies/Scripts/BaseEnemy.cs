@@ -81,15 +81,6 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool canAttack = true;
     [HideInInspector] public bool canMove = true;
 
-    //Events
-    protected void OnEnable()
-    {
-        GameManager.Instance.getNavMesh().MeshCreated += CreateAgent;
-    }
-    protected void OnDisable()
-    {
-        GameManager.Instance.getNavMesh().MeshCreated -= CreateAgent;
-    }
 
     //Init
     public void CreateEnemy(Vector2 Position)
@@ -127,7 +118,7 @@ public abstract class BaseEnemy : MonoBehaviour
         EnemyAttackComponent = GetComponent<IEnemyAttackBehaviour>();
         playerLocation = GameManager.Instance.getPlayer().transform;
         enemyTransform = GetComponent<Transform>();
-
+        CreateAgent(); //NOTE --> WILL LIKELY GET CHANGED TO JUST ASSIGNING REFERENCE TO NAVAGENT
     }
 
     //Switches State Based Upon Player Distance to Enemy
@@ -238,7 +229,10 @@ public abstract class BaseEnemy : MonoBehaviour
     protected void CreateAgent() //Setup for adding agent at runtime
     {
         //Pathfinding Settings
-        if (gameObject.GetComponent<NavMeshAgent>() == null) {  gameObject.AddComponent<NavMeshAgent>(); }
+        if (gameObject.GetComponent<NavMeshAgent>() == null) 
+        {  
+            agent = gameObject.AddComponent<NavMeshAgent>(); 
+        }
         agent = GetComponent<NavMeshAgent>();
         agent.agentTypeID = 0;
         agent.updateRotation = false;

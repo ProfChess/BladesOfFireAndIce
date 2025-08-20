@@ -63,24 +63,14 @@ public abstract class BaseBoss : MonoBehaviour
         new Dictionary<BossAttackType, BossAttackOption>();
 
 
-
-    private void OnEnable()
-    {
-        GameManager.Instance.getNavMesh().MeshCreated += CreateBossNavAgent;
-    }
-    private void OnDisable()
-    {
-        GameManager.Instance.getNavMesh().MeshCreated -= CreateBossNavAgent;
-    }
-
     protected virtual void Start()
     {
         playerLocation = GameManager.Instance.getPlayer().transform;
-        CreateBossNavAgent();
         foreach (BossAttackOption Entry in BossAttacks) //Create Dictionary of Attacks for Easy Acces
         {
             AttackDictionary.Add(Entry.AttackType, Entry);
         }
+        CreateBossNavAgent();
     }
 
     private void Update()
@@ -198,7 +188,7 @@ public abstract class BaseBoss : MonoBehaviour
     {
         if (GetComponent<NavMeshAgent>() == null)
         {
-            gameObject.AddComponent<NavMeshAgent>();
+            BossAgent = gameObject.AddComponent<NavMeshAgent>();
         }
         BossAgent = GetComponent<NavMeshAgent>();
         BossAgent.agentTypeID = 0;

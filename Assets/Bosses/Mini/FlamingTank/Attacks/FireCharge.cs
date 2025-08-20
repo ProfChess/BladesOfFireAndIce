@@ -32,20 +32,20 @@ public class FireCharge : BaseBossAttack
     {
         base.Start();
         Player = GameManager.Instance.getPlayer();
-        BossAgent = BossRef.GetAgent();
     }
     //Animation
     private static readonly int ChargeTrigger = Animator.StringToHash("ChargeTrigger");
     private static readonly int ChargeEndTrigger = Animator.StringToHash("ChargeLoopEnd");
     public override void StartAttack(BossAttackOption AttackOption)
     {
+        if (BossAgent == null) { BossAgent = BossRef.GetAgent(); }
+
         //Save Settings
         SaveNavSettings();
 
         //Get Location To Go
         Vector3 TargetToTravel = Player.transform.position;
 
-        if (BossAgent == null) { BossAgent = BossRef.GetAgent(); }
         if (AttackRoutine == null)
         {
             BossAnim.SetTrigger(ChargeTrigger);
