@@ -239,6 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b5179f163258f46be05e600a12883b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 15
+  Duration: 3
   enemyType: 8
   Visuals: {fileID: 3556551335073421279}

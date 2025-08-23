@@ -177,6 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 56789485}
   - component: {fileID: 56789484}
+  - component: {fileID: 56789486}
   m_Layer: 6
   m_Name: BossHitBox
   m_TagString: EnemyHitbox
@@ -196,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d14b466a4eca948b6ab2bc2cf28cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 25
+  MaxHealth: 100
   curHealth: 0
   CollisionDamage: 1
   HasCollisionDamage: 1
@@ -219,6 +220,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 707040341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &56789486
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56789483}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.35, y: 1.5}
+  m_EdgeRadius: 0
 --- !u!1 &57049421
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96842373}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -319,7 +365,7 @@ Transform:
   - {fileID: 135982246}
   - {fileID: 69753974}
   - {fileID: 1977863950}
-  m_Father: {fileID: 190788234}
+  m_Father: {fileID: 1733406487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &120678136
 GameObject:
@@ -573,7 +619,7 @@ GameObject:
   - component: {fileID: 190788234}
   - component: {fileID: 190788233}
   m_Layer: 0
-  m_Name: SavedTeleportPoints
+  m_Name: BossRoomInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -602,6 +648,7 @@ MonoBehaviour:
   - {fileID: 1480933348}
   - {fileID: 1848763996}
   MiddlePoint: {fileID: 873501154}
+  RoomArea: {fileID: 1687341455}
 --- !u!4 &190788234
 Transform:
   m_ObjectHideFlags: 0
@@ -615,9 +662,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 96842374}
-  - {fileID: 1838721248}
-  - {fileID: 873501154}
+  - {fileID: 1733406487}
+  - {fileID: 1687341456}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &204458007
@@ -1155,7 +1201,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1711149276}
   m_Father: {fileID: 707040341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &374085306
@@ -2731,8 +2778,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 361176996}
   - {fileID: 740058364}
+  - {fileID: 361176996}
   - {fileID: 56789485}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2748,10 +2795,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee4e735b642d3e44868f97b825c75b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 2
+  MoveSpeed: 10
   isAttacking: 0
   HealthScript: {fileID: 56789484}
-  BossAttacks: []
+  BossAttacks:
+  - AttackType: 1
+    SelectionChance: 1
+    Duration: 12
+    AttackCooldown: 15
+    OnCooldown: 0
+    AttackRangeTrigger: 0
+    DistanceIsMinimum: 1
+    AttackRef: {fileID: 1711149277}
+  BossAnim: {fileID: 740058365}
+  SpellPlaceHolder: {fileID: 7400000, guid: 8eaebec3f6c7d0643bbd4add812cfa18, type: 2}
 --- !u!114 &707040343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2765,6 +2822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossAnim: {fileID: 740058365}
+  hitbox: {fileID: 56789486}
 --- !u!1 &740058363
 GameObject:
   m_ObjectHideFlags: 0
@@ -2862,7 +2920,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -1450851932, guid: a20a4df629c014c4dae5a27ffe6e5482, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 5.3333335, y: 4.6666665}
@@ -3699,12 +3757,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873501153}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 9, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 190788234}
+  m_Father: {fileID: 1733406487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &891833419
 GameObject:
@@ -6595,6 +6653,83 @@ MonoBehaviour:
   AbilityHolder:
   - AbilityType: 1
     Ability: {fileID: 1852687370}
+--- !u!1 &1687341454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1687341456}
+  - component: {fileID: 1687341455}
+  m_Layer: 0
+  m_Name: BossAreaCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &1687341455
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687341454}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 9, y: 6}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 16, y: 10}
+  m_EdgeRadius: 0
+--- !u!4 &1687341456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687341454}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 190788234}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1694985688
 GameObject:
   m_ObjectHideFlags: 0
@@ -6671,6 +6806,93 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1694985688}
   m_CullTransparentMesh: 1
+--- !u!1 &1711149275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1711149276}
+  - component: {fileID: 1711149277}
+  m_Layer: 6
+  m_Name: FlameSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1711149276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711149275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 361176996}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1711149277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711149275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c99df13e5567ec8429652e2a1d93b07b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackDamage: 1
+  AttackAnimClip: {fileID: 7400000, guid: cdae46974f442eb4e8a2f3817c93422d, type: 2}
+  BossAnimator: {fileID: 740058365}
+  Columns: 5
+  Rows: 4
+  NumberOfWaves: 3
+  FlamesInEachWave: 10
+  timeBetweenWaves: 0.5
+  timeBetweenFlames: 0.25
+--- !u!1 &1733406486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1733406487}
+  m_Layer: 0
+  m_Name: TeleportingPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1733406487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733406486}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 96842374}
+  - {fileID: 1838721248}
+  - {fileID: 873501154}
+  m_Father: {fileID: 190788234}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1736597394
 GameObject:
   m_ObjectHideFlags: 0
@@ -7134,7 +7356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838721247}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7143,7 +7365,7 @@ Transform:
   - {fileID: 1317557980}
   - {fileID: 1480933348}
   - {fileID: 1848763996}
-  m_Father: {fileID: 190788234}
+  m_Father: {fileID: 1733406487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1848758565
 GameObject:

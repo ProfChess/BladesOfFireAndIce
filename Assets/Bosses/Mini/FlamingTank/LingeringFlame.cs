@@ -28,13 +28,25 @@ public class LingeringFlame : BaseLingeringAOE
         }
 
         //return back to pool goes here
-        Disappear();
+        Death();
         FadeRoutine = null;
     }
     protected override void Disappear()
     {
-        FadeRoutine = null;
+        BeginFading();
+    }
+    private void Death()
+    {
         base.Disappear();
+    }
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        if (FadeRoutine != null)
+        {
+            StopCoroutine(FadeRoutine);
+            FadeRoutine = null;
+        }
         Visuals.color = ogColor;
     }
 

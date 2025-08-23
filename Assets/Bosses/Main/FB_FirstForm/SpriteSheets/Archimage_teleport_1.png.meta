@@ -144,7 +144,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,7 +165,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -186,7 +186,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -207,7 +207,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -228,7 +228,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -249,7 +249,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -270,7 +270,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -291,7 +291,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -312,7 +312,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -333,7 +333,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -354,7 +354,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -375,7 +375,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -396,7 +396,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -417,7 +417,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -438,7 +438,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -459,7 +459,7 @@ TextureImporter:
         width: 128
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -467,6 +467,27 @@ TextureImporter:
       bones: []
       spriteID: edf9992919a18f645b1bb12ec6807ca8
       internalID: -183214294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Archimage_teleport_1_16
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 0
+        width: 33
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 567b506fc20e25641919ee51994955ea
+      internalID: -521650623
       vertices: []
       indices: 
       edges: []
@@ -490,6 +511,7 @@ TextureImporter:
       Archimage_teleport_1_13: 1193471920
       Archimage_teleport_1_14: 1306111313
       Archimage_teleport_1_15: -183214294
+      Archimage_teleport_1_16: -521650623
       Archimage_teleport_1_2: -1460061627
       Archimage_teleport_1_3: 432134194
       Archimage_teleport_1_4: -93158721

@@ -20,10 +20,13 @@ public abstract class BaseHealth : MonoBehaviour
     }
     public float GetCollisionDamage() { if (HasCollisionDamage) { return CollisionDamage; } else return 0f; }
 
+    private void Awake()
+    {
+        StorageCollisionBool = HasCollisionDamage;
+    }
     private void Start()
     {
         curHealth = MaxHealth;
-        StorageCollisionBool = HasCollisionDamage;
     }
     private void OnEnable()
     {
