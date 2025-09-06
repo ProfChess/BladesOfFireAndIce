@@ -24,6 +24,7 @@ public enum EnemyType {
     EliteEnemy1, 
     EliteEnemy2,
     Flames,
+    SmallExplosions,
     Invalid
 }
 

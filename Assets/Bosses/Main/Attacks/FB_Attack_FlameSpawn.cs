@@ -52,8 +52,12 @@ public class FB_Attack_FlameSpawn : BaseFinalBossAttack
     }
     private void SpawnFlame(Vector2 Pos)
     {
-        GameObject Flame = PoolManager.Instance.getObjectFromPool(EnemyType.Flames);
-        if (Flame != null) { Flame.transform.position = Pos; }
+        GameObject Boom = PoolManager.Instance.getObjectFromPool(EnemyType.SmallExplosions);
+        if (Boom != null) 
+        {
+            Boom.transform.position = Pos;
+            Boom.GetComponent<SmallExplosion>().StartExplosion(); 
+        }
     }
 
 
