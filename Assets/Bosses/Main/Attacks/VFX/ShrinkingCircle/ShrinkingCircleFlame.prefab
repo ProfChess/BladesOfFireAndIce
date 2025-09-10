@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2363997570883417135}
   - component: {fileID: 4167835096753662814}
   - component: {fileID: 7793694299904280330}
+  - component: {fileID: 5280209784971067421}
   m_Layer: 0
   m_Name: Col18
   m_TagString: EnemyAttack
@@ -130,6 +131,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5280209784971067421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87758018813367753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &119111375219742180
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +155,7 @@ GameObject:
   - component: {fileID: 5445085104518325030}
   - component: {fileID: 1933014169394087406}
   - component: {fileID: 969823468939169557}
+  - component: {fileID: 3258212545949019847}
   m_Layer: 0
   m_Name: Col17
   m_TagString: EnemyAttack
@@ -260,6 +275,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3258212545949019847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119111375219742180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &798828076363806084
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +299,7 @@ GameObject:
   - component: {fileID: 3042874473192474980}
   - component: {fileID: 2098657005981516447}
   - component: {fileID: 8906887728166440908}
+  - component: {fileID: 3240214262721957542}
   m_Layer: 0
   m_Name: Col7
   m_TagString: EnemyAttack
@@ -390,6 +419,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3240214262721957542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798828076363806084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &1318222293393734709
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,6 +443,7 @@ GameObject:
   - component: {fileID: 8536317331103658606}
   - component: {fileID: 7661468341245711350}
   - component: {fileID: 8635898201755738623}
+  - component: {fileID: 2978369559152980968}
   m_Layer: 0
   m_Name: Col14
   m_TagString: EnemyAttack
@@ -520,6 +563,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2978369559152980968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318222293393734709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &1522143744692240030
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +587,7 @@ GameObject:
   - component: {fileID: 4510463022226407685}
   - component: {fileID: 5534082548117133192}
   - component: {fileID: 5458902423219373440}
+  - component: {fileID: 3341447038837133392}
   m_Layer: 0
   m_Name: Col1
   m_TagString: EnemyAttack
@@ -650,6 +707,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3341447038837133392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522143744692240030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &2502446058159112884
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,7 +731,7 @@ GameObject:
   - component: {fileID: 1139351413233539407}
   m_Layer: 0
   m_Name: ColliderList
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -709,9 +779,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5486991485607297421}
+  - component: {fileID: 4943119428333223354}
   m_Layer: 0
   m_Name: ShrinkingCircleFlame
-  m_TagString: Untagged
+  m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -732,6 +803,21 @@ Transform:
   - {fileID: 1139351413233539407}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4943119428333223354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2547353527922536242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21fb754717c3c64a859a77b5a7897bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackDamage: 0
+  RotationSpeed: 3
+  ShrinkDuration: 5
 --- !u!1 &2611215893262116499
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +829,7 @@ GameObject:
   - component: {fileID: 5077936331474566022}
   - component: {fileID: 4490299927910325273}
   - component: {fileID: 8021681265203716539}
+  - component: {fileID: 8780602448023720244}
   m_Layer: 0
   m_Name: Col13
   m_TagString: EnemyAttack
@@ -862,6 +949,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8780602448023720244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611215893262116499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &3040571623882011867
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,6 +973,7 @@ GameObject:
   - component: {fileID: 8253416547178449704}
   - component: {fileID: 4454904849579725654}
   - component: {fileID: 3008688622707859975}
+  - component: {fileID: 5902480390570742044}
   m_Layer: 0
   m_Name: Col15
   m_TagString: EnemyAttack
@@ -992,6 +1093,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5902480390570742044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3040571623882011867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &3546295587887438751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,6 +1117,7 @@ GameObject:
   - component: {fileID: 8206367982586394322}
   - component: {fileID: 8379825621392518708}
   - component: {fileID: 4959854231624911499}
+  - component: {fileID: 9088671003480221440}
   m_Layer: 0
   m_Name: Col16
   m_TagString: EnemyAttack
@@ -1122,6 +1237,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9088671003480221440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3546295587887438751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &3766994968221223063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,6 +1261,7 @@ GameObject:
   - component: {fileID: 5471335611583764477}
   - component: {fileID: 1964000802985246108}
   - component: {fileID: 2587089674522726692}
+  - component: {fileID: 4951718354789678154}
   m_Layer: 0
   m_Name: Col6
   m_TagString: EnemyAttack
@@ -1252,6 +1381,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4951718354789678154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766994968221223063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &3796989239227021032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,6 +1405,7 @@ GameObject:
   - component: {fileID: 7455555463829411067}
   - component: {fileID: 5234126311581075948}
   - component: {fileID: 5465929359929443783}
+  - component: {fileID: 357253737213690175}
   m_Layer: 0
   m_Name: Col4
   m_TagString: EnemyAttack
@@ -1382,6 +1525,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &357253737213690175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796989239227021032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &4490236497113721982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1393,6 +1549,7 @@ GameObject:
   - component: {fileID: 74608986464628427}
   - component: {fileID: 7862766529721823105}
   - component: {fileID: 5342717520496814654}
+  - component: {fileID: 3125067258789821022}
   m_Layer: 0
   m_Name: Col3
   m_TagString: EnemyAttack
@@ -1512,6 +1669,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3125067258789821022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4490236497113721982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &4897265950467080055
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,6 +1693,7 @@ GameObject:
   - component: {fileID: 1233929490535545855}
   - component: {fileID: 8508807514016157160}
   - component: {fileID: 6379791127739329239}
+  - component: {fileID: 2091705487830136807}
   m_Layer: 0
   m_Name: Col11
   m_TagString: EnemyAttack
@@ -1642,6 +1813,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2091705487830136807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4897265950467080055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &5251682446145493381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,6 +1837,7 @@ GameObject:
   - component: {fileID: 1853101500269473172}
   - component: {fileID: 6134005600536167048}
   - component: {fileID: 246167188235956404}
+  - component: {fileID: 5397506538291568916}
   m_Layer: 0
   m_Name: Col19
   m_TagString: EnemyAttack
@@ -1772,6 +1957,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5397506538291568916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5251682446145493381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &5887163831205148099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,6 +1981,7 @@ GameObject:
   - component: {fileID: 4199566306221226021}
   - component: {fileID: 8050436385818831268}
   - component: {fileID: 7171230009275538743}
+  - component: {fileID: 6467837955824283716}
   m_Layer: 0
   m_Name: Col8
   m_TagString: EnemyAttack
@@ -1902,6 +2101,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6467837955824283716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5887163831205148099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &6406956441353315338
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,6 +2125,7 @@ GameObject:
   - component: {fileID: 8019059853974556899}
   - component: {fileID: 4970285208577040177}
   - component: {fileID: 7282894015716451596}
+  - component: {fileID: 6357286864718165547}
   m_Layer: 0
   m_Name: Col10
   m_TagString: EnemyAttack
@@ -2032,6 +2245,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6357286864718165547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406956441353315338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &6618352690212086154
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,6 +2269,7 @@ GameObject:
   - component: {fileID: 6205913774554690955}
   - component: {fileID: 335139263572741517}
   - component: {fileID: 6598041782278891423}
+  - component: {fileID: 5551703708865336046}
   m_Layer: 0
   m_Name: Col5
   m_TagString: EnemyAttack
@@ -2162,6 +2389,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5551703708865336046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618352690212086154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &8161888294147280109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,6 +2413,7 @@ GameObject:
   - component: {fileID: 4377649737443573620}
   - component: {fileID: 6387776809851463927}
   - component: {fileID: 2242049641723042957}
+  - component: {fileID: 6718049493074574356}
   m_Layer: 0
   m_Name: Col9
   m_TagString: EnemyAttack
@@ -2292,6 +2533,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6718049493074574356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8161888294147280109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &8357923050337623771
 GameObject:
   m_ObjectHideFlags: 0
@@ -2303,6 +2557,7 @@ GameObject:
   - component: {fileID: 3404596147582578890}
   - component: {fileID: 8449777018665476504}
   - component: {fileID: 3444478440439291703}
+  - component: {fileID: 1221574816519725234}
   m_Layer: 0
   m_Name: Col2
   m_TagString: EnemyAttack
@@ -2422,6 +2677,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1221574816519725234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8357923050337623771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
 --- !u!1 &8828245783328038065
 GameObject:
   m_ObjectHideFlags: 0
@@ -2433,6 +2701,7 @@ GameObject:
   - component: {fileID: 403007203537799005}
   - component: {fileID: 4846467599144451671}
   - component: {fileID: 3889645423195423658}
+  - component: {fileID: 324583642332487823}
   m_Layer: 0
   m_Name: Col12
   m_TagString: EnemyAttack
@@ -2552,3 +2821,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &324583642332487823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8828245783328038065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db0d22724cdd81d47a0c59b02b4c6b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainDamageScript: {fileID: 0}
