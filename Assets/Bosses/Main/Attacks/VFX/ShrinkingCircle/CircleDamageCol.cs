@@ -6,7 +6,7 @@ public class CircleDamageCol : BaseDamageDetection
 {
     public ShrinkingCircleDamage MainDamageScript;
 
-    private void Start()
+    private void Awake()
     {
         MainDamageScript = transform.parent?.parent?.GetComponent<ShrinkingCircleDamage>();
     }

@@ -1018,8 +1018,8 @@ MonoBehaviour:
     AttackRef: {fileID: 5097254794438003483}
   - AttackType: 2
     SelectionChance: 3
-    Duration: 3
-    AttackCooldown: 8
+    Duration: 4
+    AttackCooldown: 3
     OnCooldown: 0
     AttackRangeTrigger: 7
     DistanceIsMinimum: 1
@@ -1027,7 +1027,7 @@ MonoBehaviour:
   - AttackType: 3
     SelectionChance: 2
     Duration: 2
-    AttackCooldown: 3
+    AttackCooldown: 2
     OnCooldown: 0
     AttackRangeTrigger: 4
     DistanceIsMinimum: 0

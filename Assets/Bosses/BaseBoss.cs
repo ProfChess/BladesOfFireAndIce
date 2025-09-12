@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.VisualScripting;
 
 [System.Serializable]
 public class BossAttackOption
@@ -53,6 +54,7 @@ public abstract class BaseBoss : MonoBehaviour
     protected Transform playerLocation;
     protected Coroutine AttackingDuration;
 
+
     [Header("References")]
     [SerializeField] private BossHealth HealthScript;
     
@@ -73,7 +75,7 @@ public abstract class BaseBoss : MonoBehaviour
         CreateBossNavAgent();
     }
 
-    private void Update()
+    private void Update() //State Updates Every 'Update Delay' Time When not Attacking
     {
         if (Time.time > nextUpdateCheck)
         {
@@ -126,21 +128,29 @@ public abstract class BaseBoss : MonoBehaviour
         else
         {
             BossAttackOption Attack = AttackDictionary[SelectedAttack];
-            Attack.CallAttack(); if (AttackingDuration == null) { NowAttacking(Attack.Duration); };
+            Attack.CallAttack(); if (AttackingDuration == null) { NowAttacking(Attack, Attack.Duration); };
         }
     }
-    protected void NowAttacking(float Duration) //Begins isAttacking State for Specific attack's duration
-    { 
-        AttackingDuration = StartCoroutine(AttackingDurationCoroutine(Duration)); 
+    protected void NowAttacking(BossAttackOption AttackOption, float Duration) //Begins isAttacking State for Specific attack's duration
+    {
+        StartCoroutine(CooldownRoutine(AttackOption, Duration)); 
     }   
-    protected IEnumerator AttackingDurationCoroutine(float Duration)
+    protected IEnumerator AttackingDurationCoroutine(float Duration) //IsAttacking for Duration amount of Time
     {
         isAttacking = true;
         yield return new WaitForSeconds(Duration);
         isAttacking = false;
         AttackingDuration = null;
     }
-    public void NotAttacking() { isAttacking = false; }
+    protected IEnumerator CooldownRoutine(BossAttackOption AttackOption, float Duration) //Begin and Wait for Duration, then Begin Cooldown Count
+    {
+        AttackingDuration = StartCoroutine(AttackingDurationCoroutine(Duration));
+        yield return AttackingDuration;
+
+        AttackOption.OnCooldown = true;
+        yield return new WaitForSeconds(AttackOption.AttackCooldown);
+        AttackOption.OnCooldown = false;
+    }
 
     private BossAttackType SelectRandomAttack(float TotalChance, float DistanceToPlayer)
     {

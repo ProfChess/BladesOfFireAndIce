@@ -28,9 +28,6 @@ public abstract class BaseFinalBossAttack : BaseBossAttack
             }
             AttackRoutine = StartCoroutine(SpellCastRoutine());
         }
-
-        //Cooldown
-        base.StartAttack(AttackOption);
     }
     protected abstract IEnumerator SpellCastRoutine();
 }

@@ -407,6 +407,7 @@ MonoBehaviour:
   - {fileID: 1737752314}
   - {fileID: 444923292}
   - {fileID: 1855708841}
+  - {fileID: 171038766}
 --- !u!4 &120678138
 Transform:
   m_ObjectHideFlags: 0
@@ -428,6 +429,7 @@ Transform:
   - {fileID: 1737752315}
   - {fileID: 444923293}
   - {fileID: 1855708840}
+  - {fileID: 171038767}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &127816382
@@ -562,6 +564,53 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 96842374}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &171038765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 171038767}
+  - component: {fileID: 171038766}
+  m_Layer: 0
+  m_Name: FlameCircles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &171038766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171038765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd140673ddcd874fb387c5e6416b5c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 2547353527922536242, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
+  baseSize: 2
+  poolType: 10
+--- !u!4 &171038767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171038765}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 120678138}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &175944518
 GameObject:
@@ -748,9 +797,10 @@ MonoBehaviour:
   AttackDamage: 1
   AttackAnimClip: {fileID: 7400000, guid: 1bbe9706e0687ac4896a6cf7ad796d12, type: 2}
   BossAnimator: {fileID: 740058365}
+  CircleSpawnAmount: 3
   NextCircleSpawnTime: 2
-  CircleShrinkSpeed: 5
-  CircleRotationSpeed: 5
+  CircleEffectDuration: 5
+  CircleRotationSpeed: 45
 --- !u!1 &234899586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2853,13 +2903,21 @@ MonoBehaviour:
   HealthScript: {fileID: 56789484}
   BossAttacks:
   - AttackType: 1
-    SelectionChance: 1
+    SelectionChance: 0
     Duration: 12
-    AttackCooldown: 15
+    AttackCooldown: 3
     OnCooldown: 0
     AttackRangeTrigger: 0
     DistanceIsMinimum: 1
     AttackRef: {fileID: 1711149277}
+  - AttackType: 2
+    SelectionChance: 1
+    Duration: 12
+    AttackCooldown: 3
+    OnCooldown: 0
+    AttackRangeTrigger: 0
+    DistanceIsMinimum: 1
+    AttackRef: {fileID: 228081921}
   BossAnim: {fileID: 740058365}
   SpellPlaceHolder: {fileID: 7400000, guid: 8eaebec3f6c7d0643bbd4add812cfa18, type: 2}
 --- !u!114 &707040343
@@ -8743,63 +8801,6 @@ MonoBehaviour:
   playerStamina: {fileID: 854432183}
   playerDamage: {fileID: 863321839}
   playerAttackSpeed: {fileID: 854432182}
---- !u!1001 &4503308772044526164
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2547353527922536242, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_Name
-      value: ShrinkingCircleFlame
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5486991485607297421, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0ba3b8820422c7c428d7cce73f0cb3f8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -8815,4 +8816,3 @@ SceneRoots:
   - {fileID: 326580832}
   - {fileID: 707040341}
   - {fileID: 190788234}
-  - {fileID: 4503308772044526164}

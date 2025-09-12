@@ -6,9 +6,10 @@ public class FB_Attack_CircleFlame : BaseFinalBossAttack
 {
     //Stats
     [Header("Attack Specs")]
+    [SerializeField] private int CircleSpawnAmount = 3;
     [SerializeField] private float NextCircleSpawnTime = 2f;
-    [SerializeField] private float CircleShrinkSpeed = 5f;
-    [SerializeField] private float CircleRotationSpeed = 5f;
+    [SerializeField] private float CircleEffectDuration = 5f;
+    [SerializeField] private float CircleRotationSpeed = 90f;
 
 
     //Animation
@@ -25,5 +26,31 @@ public class FB_Attack_CircleFlame : BaseFinalBossAttack
         yield return new WaitForSeconds(animWaitTime);
 
         //Spawn Attack Logic
+        for (int i = 0; i < CircleSpawnAmount; ++i)
+        {
+            SpawnSpell();
+            yield return new WaitForSeconds(NextCircleSpawnTime);
+            BossAnimator.SetTrigger(SpellTrigger);
+            yield return new WaitForSeconds(animWaitTime);
+        }
+        AttackRoutine = null;
+    }
+
+    private void SpawnSpell()
+    {
+        //Get Object
+        GameObject FlameCircle = PoolManager.Instance.getObjectFromPool(EnemyType.CircleFlames);
+
+        //Get Object Script
+        ShrinkingCircleDamage CircleScript = FlameCircle.GetComponent<ShrinkingCircleDamage>();
+
+        //Move Object
+        FlameCircle.transform.position = transform.position;
+
+        //Set Speed and Duration
+        CircleScript.SetStats(CircleRotationSpeed, CircleEffectDuration);
+
+        //Begin Rotation and Shrinking
+        CircleScript.BeginEffect();
     }
 }
