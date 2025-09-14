@@ -10,7 +10,7 @@ public class FB_Attack_CircleFlame : BaseFinalBossAttack
     [SerializeField] private float NextCircleSpawnTime = 2f;
     [SerializeField] private float CircleEffectDuration = 5f;
     [SerializeField] private float CircleRotationSpeed = 90f;
-
+    [SerializeField] private BossShieldCreate ShieldScript;
 
     //Animation
     private const float animWaitTime = 0.5f;
@@ -22,6 +22,7 @@ public class FB_Attack_CircleFlame : BaseFinalBossAttack
     protected override IEnumerator SpellCastRoutine()
     {
         yield return StartCoroutine(BossTeleport.TeleportMiddle());
+        ShieldScript.CreateShield(ElementType.Fire);
         BossAnimator.SetTrigger(SpellTrigger);
         yield return new WaitForSeconds(animWaitTime);
 
