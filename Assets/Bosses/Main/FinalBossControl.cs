@@ -1,13 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FinalBossControl : BaseFinalBoss
 {
     [Header("Animation")]
+    [SerializeField] private SpriteRenderer BossSprite;
     [SerializeField] private Animator BossAnim;
     private AnimatorOverrideController overrideController;
     [SerializeField] private AnimationClip SpellPlaceHolder;
+
+    //Anims
+    private static readonly int StunTrigger = Animator.StringToHash("StunTrigger");
+    private static readonly int StopStunTrigger = Animator.StringToHash("StunStopTrigger");
+
     private void Awake()
     {
         overrideController = new AnimatorOverrideController(BossAnim.runtimeAnimatorController);
@@ -24,6 +28,19 @@ public class FinalBossControl : BaseFinalBoss
     protected override void MoveUpdate()
     {
         //Add Extra Movement Here if Needed
+    }
+
+
+    //Stun Specifics
+    protected override void BossStunExtras()
+    {
+        BossAnim.SetTrigger(StunTrigger);
+        BossSprite.color = Color.grey;
+    }
+    protected override void StopStunExtras()
+    {
+        BossAnim.SetTrigger(StopStunTrigger);
+        BossSprite.color = Color.white;
     }
 
 }

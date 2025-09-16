@@ -15,6 +15,15 @@ public class FB_Attack_CircleFlame : BaseFinalBossAttack
     //Animation
     private const float animWaitTime = 0.5f;
 
+    private void OnEnable()
+    {
+        ShieldScript.ShieldBroken += InterruptCast;
+    }
+    private void OnDisable()
+    {
+        ShieldScript.ShieldBroken -= InterruptCast;
+    }
+
     public override void StartAttack(BossAttackOption AttackOption)
     {
         base.StartAttack(AttackOption);
@@ -35,6 +44,19 @@ public class FB_Attack_CircleFlame : BaseFinalBossAttack
             yield return new WaitForSeconds(animWaitTime);
         }
         AttackRoutine = null;
+    }
+    private void InterruptCast()
+    {
+        if (AttackRoutine != null)
+        {
+            //Stop Casting
+            StopCoroutine(AttackRoutine);
+            AttackRoutine = null;
+
+            //Stun Boss
+            BossRef.InterruptFromStunned(ShieldScript.GetShieldStunDuration);
+        }
+        
     }
 
     private void SpawnSpell()

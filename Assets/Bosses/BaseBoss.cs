@@ -46,6 +46,8 @@ public abstract class BaseBoss : MonoBehaviour
     [SerializeField] protected float MoveSpeed;
     protected NavMeshAgent BossAgent;
     public NavMeshAgent GetAgent() { return BossAgent; }
+    private bool isStunned = false;
+    private Coroutine StunnedRoutine;
 
     //Attacking
     [Header("Attacking")]
@@ -75,8 +77,10 @@ public abstract class BaseBoss : MonoBehaviour
         CreateBossNavAgent();
     }
 
-    private void Update() //State Updates Every 'Update Delay' Time When not Attacking
+    private void Update() //State Updates Every 'Update Delay' Time When not Attacking Unless Stunned
     {
+        if (isStunned) { return; }
+
         if (Time.time > nextUpdateCheck)
         {
             nextUpdateCheck = Time.time + UpdateDelay;
@@ -151,7 +155,30 @@ public abstract class BaseBoss : MonoBehaviour
         yield return new WaitForSeconds(AttackOption.AttackCooldown);
         AttackOption.OnCooldown = false;
     }
-
+    public void InterruptFromStunned(float StunDuration) //Stop Attack and Switch to Stun Timer
+    {
+        if (AttackingDuration != null)
+        {
+            StopCoroutine(AttackingDuration);
+            AttackingDuration = null;
+            isAttacking = false;
+        }
+        if (StunnedRoutine == null)
+        {
+            StunnedRoutine = StartCoroutine(BossStunned(StunDuration));
+            BossStunExtras();
+        }
+    }
+    protected virtual void BossStunExtras() { } //Extra hook for animations, vfx, sounds, etc
+    private IEnumerator BossStunned(float Duration)
+    {
+        isStunned = true;
+        yield return new WaitForSeconds(Duration);
+        isStunned = false;
+        StopStunExtras();
+        StunnedRoutine = null;
+    }
+    protected virtual void StopStunExtras() { } //Extra hook for animations, vfx, sounds, ect
     private BossAttackType SelectRandomAttack(float TotalChance, float DistanceToPlayer)
     {
         if (TotalChance <= 0) { return BossAttackType.None; }  //Return None if No Attacks Were Available

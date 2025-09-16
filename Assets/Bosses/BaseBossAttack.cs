@@ -13,7 +13,6 @@ public abstract class BaseBossAttack : BaseAttackDamage
     }
     protected virtual void Start()
     {
-        Transform tempObject = GetComponent<Transform>();
-        BossRef = tempObject.GetComponentInParent<BaseBoss>();
+        BossRef = gameObject.transform.parent?.GetComponentInParent<BaseBoss>();
     }
 }

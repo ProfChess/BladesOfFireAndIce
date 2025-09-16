@@ -2919,6 +2919,7 @@ MonoBehaviour:
     AttackRangeTrigger: 0
     DistanceIsMinimum: 1
     AttackRef: {fileID: 228081921}
+  BossSprite: {fileID: 740058366}
   BossAnim: {fileID: 740058365}
   SpellPlaceHolder: {fileID: 7400000, guid: 8eaebec3f6c7d0643bbd4add812cfa18, type: 2}
 --- !u!114 &707040343
@@ -5295,7 +5296,9 @@ MonoBehaviour:
   curHealth: 0
   CollisionDamage: 1
   HasCollisionDamage: 1
-  ShieldStrength: 1000
+  ShieldStrength: 100
+  StunnedOnBreak: 1
+  ShieldStunDuration: 3
   MainHitbox: {fileID: 56789484}
   ShieldHitbox: {fileID: 1200480938}
 --- !u!70 &1200480938

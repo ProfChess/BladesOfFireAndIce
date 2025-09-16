@@ -1,14 +1,28 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BossShieldCreate : BaseHealth
 {
     [Header("Shield Stats")]
     [SerializeField] private float ShieldStrength = 100f;
+    [SerializeField] private float ShieldDuration = 6f;
+    [SerializeField] private bool StunnedOnBreak = true;
+    [SerializeField] private float ShieldStunDuration = 3f;
+    //Getters
+    public float GetShieldStunDuration => ShieldStunDuration;
+    public bool GetStunnedOnBreak => StunnedOnBreak;
+
+    //Other Shield
     private float CurrentShieldStrength;
     private ElementType ShieldElement;
     private bool MainHitboxCollisionBool;
+
+    //Events
+    public event Action ShieldBroken;
+
+    //Coroutines
+    private Coroutine ShieldLifeRoutine;
 
     //Layers
     private static class Layers
@@ -35,20 +49,31 @@ public class BossShieldCreate : BaseHealth
 
         ShieldHitbox.enabled = true;
         CurrentShieldStrength = ShieldStrength;
+
+        //Give Lifetime
+        if (ShieldLifeRoutine == null) { ShieldLifeRoutine = StartCoroutine(ShieldLifeTime()); }
     }
     private void DeactivateShield() //Turn off Shield, reactivate normal collisions
     {
+        if (ShieldLifeRoutine != null) { StopCoroutine(ShieldLifeRoutine); ShieldLifeRoutine = null; }
         MainHitbox.gameObject.layer = Layers.StartLayer;
         ShieldHitbox.enabled = false;
         MainHitbox.SetCollisionDamage(MainHitboxCollisionBool);
     }
+    private IEnumerator ShieldLifeTime()
+    {
+        yield return new WaitForSeconds(ShieldDuration);
+        DeactivateShield();
+        ShieldLifeRoutine = null;
+    }
+
 
     //Check if Can Damage Shield, Then check if shield dead
     private void ShieldDamaged(float damage, ElementType Element)
     {
         if (ShieldElement == Element) { return; }
         CurrentShieldStrength -= damage;
-        if (CurrentShieldStrength <= 0) { DeactivateShield(); }
+        if (CurrentShieldStrength <= 0) { DeactivateShield(); ShieldBroken?.Invoke(); }
     }
 
     //Damage Detection
