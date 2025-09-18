@@ -9,6 +9,7 @@ public class BossShieldCreate : BaseHealth
     [SerializeField] private float ShieldDuration = 6f;
     [SerializeField] private bool StunnedOnBreak = true;
     [SerializeField] private float ShieldStunDuration = 3f;
+
     //Getters
     public float GetShieldStunDuration => ShieldStunDuration;
     public bool GetStunnedOnBreak => StunnedOnBreak;
@@ -33,7 +34,9 @@ public class BossShieldCreate : BaseHealth
 
     [Header("References")]
     [SerializeField] private BaseHealth MainHitbox;
-    [SerializeField] private CapsuleCollider2D ShieldHitbox;
+    [SerializeField] private CircleCollider2D ShieldHitbox;
+    [SerializeField] private GameObject ShieldVisual;
+
 
     private void Start()
     {
@@ -44,11 +47,17 @@ public class BossShieldCreate : BaseHealth
     public void CreateShield(ElementType Element) //Assign Shield element, turn off regular collisions, activate col
     {
         ShieldElement = Element;
+        //Assign Color of Shield Based on Element
+        if (Element == ElementType.Ice) { ShieldVisual.GetComponent<SpriteRenderer>().color = Color.blue; }
+        else { ShieldVisual.GetComponent<SpriteRenderer>().color = Color.white;}
+        
         MainHitbox.gameObject.layer = Layers.ShieldLayer;
         MainHitbox.SetCollisionDamage(false);
 
+        //Turn Shield on and Activate Visual
         ShieldHitbox.enabled = true;
         CurrentShieldStrength = ShieldStrength;
+        ShieldVisual.SetActive(true);
 
         //Give Lifetime
         if (ShieldLifeRoutine == null) { ShieldLifeRoutine = StartCoroutine(ShieldLifeTime()); }
@@ -58,6 +67,7 @@ public class BossShieldCreate : BaseHealth
         if (ShieldLifeRoutine != null) { StopCoroutine(ShieldLifeRoutine); ShieldLifeRoutine = null; }
         MainHitbox.gameObject.layer = Layers.StartLayer;
         ShieldHitbox.enabled = false;
+        ShieldVisual.SetActive(false); //Turn off Visual
         MainHitbox.SetCollisionDamage(MainHitboxCollisionBool);
     }
     private IEnumerator ShieldLifeTime()

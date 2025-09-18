@@ -18,6 +18,9 @@ public class ShrinkingCircleDamage : BaseAttackDamage
     private Coroutine ShrinkRoutine;
     private Coroutine SpinRoutine;
 
+    //Anim Curve
+    public AnimationCurve shrinkCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
     //Start and Set Functions
     private void Awake()
     {
@@ -90,7 +93,10 @@ public class ShrinkingCircleDamage : BaseAttackDamage
         float TimePassed = 0f;
         while (TimePassed < EffectDuration)
         {
-            transform.localScale = Vector3.Lerp(startScale, EndScale, TimePassed / EffectDuration);
+            float t = TimePassed / EffectDuration;
+            float curveT = shrinkCurve.Evaluate(t);
+
+            transform.localScale = Vector3.Lerp(startScale, EndScale, curveT);
             TimePassed += Time.deltaTime;
             yield return null;
         }
