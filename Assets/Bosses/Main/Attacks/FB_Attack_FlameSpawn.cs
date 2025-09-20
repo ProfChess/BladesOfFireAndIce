@@ -69,11 +69,11 @@ public class FB_Attack_FlameSpawn : BaseFinalBossAttack
         float RandomOffset = Random.Range(FlameOffsetMin, FlameOffsetMax);
         Vector2 spawnPos = Pos + DirectionSelection * RandomOffset;
 
-        GameObject Boom = PoolManager.Instance.getObjectFromPool(EnemyType.SmallExplosions);
-        if (Boom != null) 
+        GameObject Boom = BossPoolManager.Instance.getObjectFromPool(BossAttackPrefabType.SmallExplosions);
+        if (Boom != null)
         {
             Boom.transform.position = spawnPos;
-            Boom.GetComponent<SmallExplosion>().StartExplosion(); 
+            Boom.GetComponent<SmallExplosion>().StartExplosion(AttackDamage);
         }
     }
 

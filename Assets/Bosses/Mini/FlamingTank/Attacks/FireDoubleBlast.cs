@@ -105,7 +105,7 @@ public class FireDoubleBlast : BaseBossAttack
     {
         for (int i = 0; i < FlameLocations.Length; i++)
         {
-            GameObject FlameObj = PoolManager.Instance.getObjectFromPool(EnemyType.Flames);
+            GameObject FlameObj = BossPoolManager.Instance.getObjectFromPool(BossAttackPrefabType.LingeringFlames);
             FlameObj.transform.position = gameObject.transform.position + FlameLocations[i];
         }
     }

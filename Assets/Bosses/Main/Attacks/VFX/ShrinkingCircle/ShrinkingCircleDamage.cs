@@ -27,10 +27,11 @@ public class ShrinkingCircleDamage : BaseAttackDamage
         ColList = ColliderlistParent.GetComponentsInChildren<BoxCollider2D>().ToList();
         StartingScale = gameObject.transform.localScale;
     }
-    public void SetStats(float Speed, float Duration)
+    public void SetStats(float Speed, float Duration, float Damage)
     {
         RotationSpeed = Speed;
         EffectDuration = Duration;
+        AttackDamage = Damage;
     }
     private void ResetStats() //Set everything back to base form
     {
@@ -39,7 +40,7 @@ public class ShrinkingCircleDamage : BaseAttackDamage
             box.gameObject.SetActive(true);
         }
         ContinueRotating = false;
-        PoolManager.Instance.ReturnObjectToPool(EnemyType.CircleFlames, gameObject);
+        BossPoolManager.Instance.ReturnObjectToPool(BossAttackPrefabType.CircleFlames, gameObject);
         transform.localScale = StartingScale;
         transform.rotation = Quaternion.identity;
 

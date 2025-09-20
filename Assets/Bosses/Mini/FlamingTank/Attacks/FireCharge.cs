@@ -107,7 +107,7 @@ public class FireCharge : BaseBossAttack
     //Spawning Flames
     private void SpawnFlames()
     {
-        GameObject FlameObj = PoolManager.Instance.getObjectFromPool(EnemyType.Flames);
+        GameObject FlameObj = BossPoolManager.Instance.getObjectFromPool(BossAttackPrefabType.LingeringFlames);
         FlameObj.transform.position = gameObject.transform.position;
     }
 }

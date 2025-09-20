@@ -62,7 +62,7 @@ public class FB_Attack_CircleFlame : BaseFinalBossAttack
     private void SpawnSpell()
     {
         //Get Object
-        GameObject FlameCircle = PoolManager.Instance.getObjectFromPool(EnemyType.CircleFlames);
+        GameObject FlameCircle = BossPoolManager.Instance.getObjectFromPool(BossAttackPrefabType.CircleFlames);
 
         //Get Object Script
         ShrinkingCircleDamage CircleScript = FlameCircle.GetComponent<ShrinkingCircleDamage>();
@@ -71,7 +71,7 @@ public class FB_Attack_CircleFlame : BaseFinalBossAttack
         FlameCircle.transform.position = transform.position;
 
         //Set Speed and Duration
-        CircleScript.SetStats(CircleRotationSpeed, CircleEffectDuration);
+        CircleScript.SetStats(CircleRotationSpeed, CircleEffectDuration, AttackDamage);
 
         //Begin Rotation and Shrinking
         CircleScript.BeginEffect();

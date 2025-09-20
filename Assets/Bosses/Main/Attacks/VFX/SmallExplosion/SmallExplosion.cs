@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SmallExplosion : BaseAttackDamage
@@ -21,8 +22,10 @@ public class SmallExplosion : BaseAttackDamage
     private Coroutine BoomRoutine;
 
 
-    public void StartExplosion()
+    public void StartExplosion(float Damage)
     {
+        AttackDamage = Damage;
+
         if (BoomRoutine == null)
         {
             BoomRoutine = StartCoroutine(ExplosionRoutine());
@@ -33,7 +36,7 @@ public class SmallExplosion : BaseAttackDamage
         if (BoomRoutine != null) { StopCoroutine(BoomRoutine); }
         BoomRoutine = null;
         gameObject.SetActive(false);
-        PoolManager.Instance.ReturnObjectToPool(EnemyType.SmallExplosions, gameObject);
+        BossPoolManager.Instance.ReturnObjectToPool(BossAttackPrefabType.SmallExplosions, gameObject);
     }
 
 
@@ -41,7 +44,7 @@ public class SmallExplosion : BaseAttackDamage
     public void ActivateCol()
     {
         col.enabled = true;
-        GameObject FlameSpawn = PoolManager.Instance.getObjectFromPool(EnemyType.Flames);
+        GameObject FlameSpawn = BossPoolManager.Instance.getObjectFromPool(BossAttackPrefabType.LingeringFlames);
         Vector3 Offset = new Vector2(0, 0.25f);
         FlameSpawn.transform.position = gameObject.transform.position + Offset;
     }
