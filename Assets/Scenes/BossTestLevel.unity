@@ -2565,9 +2565,10 @@ MonoBehaviour:
   AttackDamage: 1
   AttackAnimClip: {fileID: 7400000, guid: 34026e4f909dd3148b193197ce94e214, type: 2}
   BossAnimator: {fileID: 740058365}
-  WaveMoveSpeed: 4
+  WaveMoveSpeed: 8
+  WaveMoveDuration: 3
   WaveSpawnNumber: 3
-  WaveInbetweenTime: 1
+  WaveInbetweenTime: 0.5
 --- !u!1 &548258223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3063,13 +3064,21 @@ MonoBehaviour:
     DistanceIsMinimum: 1
     AttackRef: {fileID: 1711149277}
   - AttackType: 2
-    SelectionChance: 1
+    SelectionChance: 0
     Duration: 12
     AttackCooldown: 3
     OnCooldown: 0
     AttackRangeTrigger: 0
     DistanceIsMinimum: 1
     AttackRef: {fileID: 228081921}
+  - AttackType: 3
+    SelectionChance: 1
+    Duration: 6
+    AttackCooldown: 3
+    OnCooldown: 0
+    AttackRangeTrigger: 0
+    DistanceIsMinimum: 1
+    AttackRef: {fileID: 537481366}
   BossSprite: {fileID: 740058366}
   BossAnim: {fileID: 740058365}
   SpellPlaceHolder: {fileID: 7400000, guid: 8eaebec3f6c7d0643bbd4add812cfa18, type: 2}
