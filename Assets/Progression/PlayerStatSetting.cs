@@ -15,11 +15,17 @@ public class PlayerStatSetting : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.Instance.GameStart += AttributeStats;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameStart += AttributeStats;
+        }
     }
     void OnDisable()
     {
-        GameManager.Instance.GameStart -= AttributeStats;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameStart -= AttributeStats;
+        }
     }
 
     private void AttributeStats()

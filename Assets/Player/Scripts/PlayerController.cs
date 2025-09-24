@@ -120,11 +120,17 @@ public class PlayerController : MonoBehaviour
     //ENABLE/DISABLE/EVENTS
     private void OnEnable() 
     {
-        GameManager.Instance.GameStart += GameBeginning;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameStart += GameBeginning;
+        }
     }
     private void OnDisable()
     {
-        GameManager.Instance.GameStart -= GameBeginning;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameStart -= GameBeginning;
+        }
     }
     public void GameBeginning() //Handles Start of Game
     {

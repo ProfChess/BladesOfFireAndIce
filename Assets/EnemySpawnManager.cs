@@ -11,10 +11,15 @@ public class EnemySpawnManager : MonoBehaviour
         new Dictionary<DungeonRoom, List<Vector3Int>>();
     private void Awake()
     {
-        dungeonRooms = DungeonInfo.Instance.GetDungeonRoomList();
+        if (DungeonInfo.Instance != null)
+        {
+            dungeonRooms = DungeonInfo.Instance.GetDungeonRoomList();
+        }
     }
     private void Start()
     {
+        if (dungeonRooms.Count == 0) { return; }
+
         foreach (DungeonRoom room in dungeonRooms)
         {
             BoundsInt reducedBounds = ReduceBounds(room.space, 1);
