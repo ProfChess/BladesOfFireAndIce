@@ -5,9 +5,7 @@ using UnityEngine;
 public class PlayerAttackSpeedManager : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
-    [SerializeField] private Animator playerAnim;
-
-    private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+    [SerializeField] private PlayerAnimations playerAnimations;
 
     private float FireAttackSpeed = 0f;
     private float IceAttackSpeed = 0f;
@@ -22,7 +20,7 @@ public class PlayerAttackSpeedManager : MonoBehaviour
             FireAttackSpeed : IceAttackSpeed;
 
         //Changes anim Speed 
-        playerAnim.SetFloat(AttackSpeed, AttackSpeedSet);
+        playerAnimations.SetAttackSpeed(AttackSpeedSet);
     }
 
 }

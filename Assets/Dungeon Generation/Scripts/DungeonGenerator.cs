@@ -21,8 +21,8 @@ public class DungeonGenerator : MonoBehaviour
     //Room Specifics
     [SerializeField] private int roomBuffer = 1;
 
-    [HideInInspector] public BoundsInt StartingRoom {get; private set;}
-    [HideInInspector] public BoundsInt EndingRoom {get; private set; }
+    private BoundsInt StartingRoom;
+    private BoundsInt EndingRoom;
     private int roomIDGiver = 0;
     private DifficultyManager DM => GameManager.Instance.difficultyManager;
     void Awake()
@@ -49,9 +49,12 @@ public class DungeonGenerator : MonoBehaviour
         CollectLeafRooms(FirstRoom);      //Collect Leaf Nodes
         DungeonInfo.Instance.SetInfo(dungeonRooms);
         SortRoomDistance();               //Sorts out an efficient way to connect rooms
+    }
+    private void Start()
+    {
         AssignStartingEndingRooms();
     }
-    
+
     private void CollectLeafRooms(DungeonRoom room) //Gathers rooms into list
     {
         if (room != null)
@@ -173,16 +176,17 @@ public class DungeonGenerator : MonoBehaviour
 
         for (int i = 0; i < roomList.Count; i++)
         {
-            if (roomList[i].center.x < StartingRoom.center.x && roomList[i].center.y < StartingRoom.center.y)
+            if (roomList[i].center.x < StartingRoom.center.x || roomList[i].center.y < StartingRoom.center.y)
             {
                 StartingRoom = roomList[i];
             }
-            if (roomList[i].center.x > EndingRoom.center.x && roomList[i].center.y > EndingRoom.center.y)
+            if (roomList[i].center.x > EndingRoom.center.x || roomList[i].center.y > EndingRoom.center.y)
             {
                 EndingRoom = roomList[i];
             }
         }
-
+        GameManager.Instance.DungeonStartingRoomCenter = StartingRoom.center;
+        GameManager.Instance.DungeonEndingRoomCenter = EndingRoom.center;
     }
 }
 

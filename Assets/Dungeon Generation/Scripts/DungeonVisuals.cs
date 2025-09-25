@@ -114,7 +114,7 @@ public class DungeonVisuals : MonoBehaviour
     {
         foreach (BoundsInt room in roomList)
         {
-            if (room.center == DG.StartingRoom.center || room.center == DG.EndingRoom.center) { }
+            if (room.center == GameManager.Instance.DungeonStartingRoomCenter || room.center == GameManager.Instance.DungeonEndingRoomCenter) { }
             else
             {
                 DecorationRoomCenters.Add(Vector3Int.RoundToInt(room.center));

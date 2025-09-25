@@ -45,8 +45,7 @@ public class PlayerController : MonoBehaviour
     //Visuals
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer playerSprite;
-    [SerializeField] private Animator playerAnim;
-    [SerializeField] private PlayerAnimationEvent pae;
+    [SerializeField] private PlayerAnimations playerAnimations;
     //Animations
     private static readonly int Run = Animator.StringToHash("Run");
     private static readonly int RollState = Animator.StringToHash("PlayerRoll");
@@ -94,19 +93,19 @@ public class PlayerController : MonoBehaviour
         //Player State
         if (moveDirection == Vector2.zero && !isDashing)
         {
-            playerAnim.SetBool(Run, false);
+            playerAnimations.TurnRunOff();
         }
         else if (moveDirection != Vector2.zero && !isDashing)
         {
-            playerAnim.SetBool(Run, true);
+            playerAnimations.TurnRunOn();
         }
 
         //Flip Sprite
-        if (moveDirection == Vector2.zero && !pae.GetIsAttacking())         //Player is not moving or attacking
+        if (moveDirection == Vector2.zero && !playerAnimations.IsAttacking)         //Player is not moving or attacking
         {
             FlipSpriteByMouse();
         }
-        else if (moveDirection != Vector2.zero && !pae.GetIsAttacking())    //PLayer is moving but not attacking
+        else if (moveDirection != Vector2.zero && !playerAnimations.IsAttacking)    //PLayer is moving but not attacking
         {
             playerSprite.flipX = moveDirection.x < 0;
         }
@@ -136,7 +135,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!TESTINGMODE)
         {
-            transform.position = DunGen.StartingRoom.center;
+            transform.position = GameManager.Instance.DungeonStartingRoomCenter;
         }
     }
 
@@ -163,7 +162,7 @@ public class PlayerController : MonoBehaviour
                 //If not moving, Sets direction based on mouse position
                 else { dashDirection = SnapMousePositionTo8Directions(GetMouseDir()); }
 
-                playerAnim.Play(RollState);
+                playerAnimations.DodgeRoll();
                 playerAttack.UseSkill(PlayerAttack.AttackList.Roll);
                 StartCoroutine(DashCoroutine());
             }
@@ -191,7 +190,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            if (!isDashing && !playerStop && !pae.GetIsAttacking()
+            if (!isDashing && !playerStop && !playerAnimations.IsAttacking
                 && playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerAttackForm))
             {
                 playerAttack.UseSkill(PlayerAttack.AttackList.BasicAttack);
@@ -225,12 +224,12 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerAttackForm == ElementType.Fire)
         {
-            playerAnim.Play(ChangeToIce);
+            playerAnimations.SwitchToIceForm();
             PlayerAttackForm = ElementType.Ice;
         }
         else if (PlayerAttackForm == ElementType.Ice)
         {
-            playerAnim.Play(ChangeToFire);
+            playerAnimations.SwitchToFireForm();
             PlayerAttackForm = ElementType.Fire;
         }
         SetFormStats();

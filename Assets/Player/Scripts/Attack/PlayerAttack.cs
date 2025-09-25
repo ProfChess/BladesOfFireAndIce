@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerStaminaManager playerStamina;
 
     [Header("Visual")]
-    [SerializeField] private Animator playerAnim;
+    [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private Animator attackAnim;
     [SerializeField] private SpriteRenderer attackSprite;
     private const int attackEffectLayer = 3;
@@ -48,7 +48,8 @@ public class PlayerAttack : MonoBehaviour
                     {
                         ConsumeStamina(FireStaminaCost);
                         BasicAttack();
-                        playerAnim.Play("PlayerSlash");
+                        playerAnimations.FireAttack();
+                        Debug.Log("Anim Played");
                     }
                     else { Debug.Log("Not Enough Stamina"); }
                 }
@@ -60,7 +61,7 @@ public class PlayerAttack : MonoBehaviour
                     {
                         ConsumeStamina(IceStaminaCost);
                         BasicAttack();
-                        playerAnim.Play("PlayerStab");
+                        playerAnimations.IceAttack();
                     }
                     else { Debug.Log("Not Enough Stamina"); }
                 }

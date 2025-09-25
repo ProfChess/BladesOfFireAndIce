@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,10 +16,51 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public EnemySpawnManager enemySpawnManager;
     [HideInInspector] public StatManager statManager;
 
+
+    //Dungeon Specifics
+    [HideInInspector] public Vector3 DungeonStartingRoomCenter;
+    [HideInInspector] public Vector3 DungeonEndingRoomCenter;
+    [SerializeField] private GameObject DungeonEndPrefab;
+
+
+    //Very Start Loading 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+
+        //Other Managers
+        difficultyManager = GetComponentInChildren<DifficultyManager>();
+        enemySpawnManager = GetComponentInChildren<EnemySpawnManager>();
+        statManager = GetComponentInChildren<StatManager>();
+
+        //Other Objects Start
+        StartCoroutine(GameBeginningDelayedCall());
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     //Events
     private void OnEnable()
     {
-        Player.GetComponentInChildren<PlayerHealth>().PlayerIsDead += PlayerDeathEvent;
+        if (Player != null)
+        {
+            Player.GetComponentInChildren<PlayerHealth>().PlayerIsDead += PlayerDeathEvent;
+        }
     }
     private void OnDisable()
     {
@@ -35,32 +78,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over");
     }
 
-
-
-    private void Awake()
+    private IEnumerator GameBeginningDelayedCall()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        Player = GameObject.FindGameObjectWithTag("Player");
-
-        //Other Managers
-        difficultyManager = GetComponentInChildren<DifficultyManager>();
-        enemySpawnManager = GetComponentInChildren<EnemySpawnManager>();
-        statManager = GetComponentInChildren<StatManager>();
-    }
-
-    private void Start()
-    {
+        yield return null;
         GameStart?.Invoke();
+        Instantiate(DungeonEndPrefab, DungeonEndingRoomCenter, Quaternion.identity);
     }
+
     public GameObject getPlayer() { return  Player; }
     public NavMeshBaker getNavMesh() {  return MeshBaker; }
 }
