@@ -89,9 +89,6 @@ public class DungeonVisuals : MonoBehaviour
         new Vector3Int(-1, -1, 0),
     };
 
-    //Events
-    public event Action DungeonComplete;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -107,7 +104,7 @@ public class DungeonVisuals : MonoBehaviour
         gatherTiles();
         placeTiles();
 
-        DungeonComplete?.Invoke();
+        GameManager.Instance.DungeonFinished();
     }
 
     private void getRoomCenters()

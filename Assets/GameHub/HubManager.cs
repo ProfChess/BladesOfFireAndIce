@@ -9,7 +9,7 @@ public class HubManager : MonoBehaviour
 
     public void StartRunFunc()
     {
-        SceneManager.LoadScene("MainTestLevel");
+        if (GameManager.Instance != null) { GameManager.Instance.BeginNewLevel(); }
     }
     public void CancelNewRun()
     {

@@ -12,6 +12,7 @@ TagManager:
   - EnemyAttack
   - EnemyHitbox
   - AOEBox
+  - NewLevelPopup
   layers:
   - Default
   - TransparentFX

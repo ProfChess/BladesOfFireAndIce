@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class NextLevelScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.CompareTag("Player"))
+        {
+            if (GameManager.Instance != null)
+            {
+                Debug.Log("Player Found");
+                GameManager.Instance.ActivateUIPopup();
+            }
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        if (collision.CompareTag("Player"))
+        {
+            if (GameManager.Instance != null)
+            {
+                Debug.Log("Player Left");
+                GameManager.Instance.DeactivateUIPopup();
+            }
+        }
     }
 }

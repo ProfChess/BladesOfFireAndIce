@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +23,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Vector3 DungeonEndingRoomCenter;
     [SerializeField] private GameObject DungeonEndPrefab;
 
+    //Events
+    public event Action EndFound;
+    public event Action EndOptionIgnored;
 
     //Very Start Loading 
     private void Awake()
@@ -84,6 +88,28 @@ public class GameManager : MonoBehaviour
         GameStart?.Invoke();
         Instantiate(DungeonEndPrefab, DungeonEndingRoomCenter, Quaternion.identity);
     }
+
+    //New Level
+    public void BeginNewLevel()
+    {
+        SceneManager.LoadScene("MainTestLevel");
+    }
+    public void ActivateUIPopup()
+    {
+        EndFound?.Invoke();
+    }
+    public void DeactivateUIPopup()
+    {
+        EndOptionIgnored?.Invoke();
+    }
+    public void DungeonFinished()
+    {
+        MeshBaker.CreateMesh();
+    }
+
+
+
+
 
     public GameObject getPlayer() { return  Player; }
     public NavMeshBaker getNavMesh() {  return MeshBaker; }

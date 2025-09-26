@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RunStarterScript : MonoBehaviour
 {
-    [SerializeField] private BoxCollider2D EffectBox;
     [SerializeField] private GameObject Popup;
 
     private void ActivatePopup() { Popup.SetActive(true); }

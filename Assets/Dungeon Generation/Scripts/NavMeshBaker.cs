@@ -12,16 +12,7 @@ public class NavMeshBaker : MonoBehaviour
 
 
     //ENABLE/DISABLE/EVENTS
-    private void OnEnable()
-    {
-        visuals.DungeonComplete += CreateMesh;
-    }
-    private void OnDisable()
-    {
-        visuals.DungeonComplete -= CreateMesh;
-    }
-
-    private void CreateMesh()
+    public void CreateMesh()
     {
         navMesh.BuildNavMesh();
         MeshCreated?.Invoke();

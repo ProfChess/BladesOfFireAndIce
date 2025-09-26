@@ -176,11 +176,11 @@ public class DungeonGenerator : MonoBehaviour
 
         for (int i = 0; i < roomList.Count; i++)
         {
-            if (roomList[i].center.x < StartingRoom.center.x || roomList[i].center.y < StartingRoom.center.y)
+            if (roomList[i].center.x <= StartingRoom.center.x && roomList[i].center.y <= StartingRoom.center.y)
             {
                 StartingRoom = roomList[i];
             }
-            if (roomList[i].center.x > EndingRoom.center.x || roomList[i].center.y > EndingRoom.center.y)
+            if (roomList[i].center.x >= EndingRoom.center.x && roomList[i].center.y >= EndingRoom.center.y)
             {
                 EndingRoom = roomList[i];
             }
