@@ -17,15 +17,20 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public EnemySpawnManager enemySpawnManager;
     [HideInInspector] public StatManager statManager;
 
-
     //Dungeon Specifics
     [HideInInspector] public Vector3 DungeonStartingRoomCenter;
     [HideInInspector] public Vector3 DungeonEndingRoomCenter;
     [SerializeField] private GameObject DungeonEndPrefab;
 
-    //Events
-    public event Action EndFound;
-    public event Action EndOptionIgnored;
+    //Room Progression
+    [Header("Floor Progression")]
+    [SerializeField] private float RegularFloorNum = 3f;
+    private float currentFloorNum = 0;
+    private bool inBossRoom = false;
+
+    //UI
+    [Header("UI")]
+    [SerializeField] private GameObject NewRunPopup;
 
     //Very Start Loading 
     private void Awake()
@@ -92,15 +97,27 @@ public class GameManager : MonoBehaviour
     //New Level
     public void BeginNewLevel()
     {
-        SceneManager.LoadScene("MainTestLevel");
+        if (currentFloorNum < RegularFloorNum)
+        {
+            currentFloorNum++;
+            SceneManager.LoadScene("MainTestLevel");
+        }
+        else if (currentFloorNum >= RegularFloorNum)
+        {
+            SceneManager.LoadScene("BossTestLevel");
+            currentFloorNum = 0;
+            inBossRoom = true;
+        }
     }
+    
+    //UI
     public void ActivateUIPopup()
     {
-        EndFound?.Invoke();
+        NewRunPopup.SetActive(true);
     }
     public void DeactivateUIPopup()
     {
-        EndOptionIgnored?.Invoke();
+        NewRunPopup.SetActive(false);
     }
     public void DungeonFinished()
     {

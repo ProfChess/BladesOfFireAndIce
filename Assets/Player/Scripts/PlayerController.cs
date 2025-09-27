@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerAttack playerAttack;
-    [SerializeField] private DungeonGenerator DunGen;
     [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
     [SerializeField] private PlayerAttackSpeedManager attackSpeedManager;
 
@@ -46,11 +45,6 @@ public class PlayerController : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer playerSprite;
     [SerializeField] private PlayerAnimations playerAnimations;
-    //Animations
-    private static readonly int Run = Animator.StringToHash("Run");
-    private static readonly int RollState = Animator.StringToHash("PlayerRoll");
-    private static readonly int ChangeToFire = Animator.StringToHash("PlayerChangeToFire");
-    private static readonly int ChangeToIce = Animator.StringToHash("PlayerChangeToIce");
 
     //Physics 
     private Vector2 moveDirection = Vector2.zero;
