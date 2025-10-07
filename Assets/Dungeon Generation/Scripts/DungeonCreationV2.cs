@@ -20,6 +20,13 @@ public class DungeonCreationV2 : MonoBehaviour
         MinRoomLength = MinRoomLength + RoomBuffer * 2; 
         StartingRoom = new SingleDungeonRoom(TotalDungeonSize);
         SplitSpace(StartingRoom);
+
+        //INSERT RANDOM REPLACING OF SPECIAL ROOMS
+
+        //CONNECT ROOMS WITH CORRIDORS
+
+        //ADD ALL SPACE/POSITIONS TO ADDITIONAL LIST FOR TILE PLACEMENT
+
         for (int i = 0; i < DungeonRooms.Count; i++)
         {
             Debug.Log("Room #" + i + " Width: " +  DungeonRooms[i].Area.width + " Height: " + DungeonRooms[i].Area.height);
@@ -145,12 +152,15 @@ public class DungeonCreationV2 : MonoBehaviour
     }
 }
 
+public enum RoomType { Default, Special }
+public enum SpecialRoomKind { None, Chest, Rest, Buff, Puzzle}
 public class SingleDungeonRoom
 {
     //Room Specifics
     public RectInt Area;
     public SingleDungeonRoom FirstChildRoom;
     public SingleDungeonRoom SecondChildRoom;
+    public RoomType roomType = RoomType.Default;
 
     //Constructor
     public SingleDungeonRoom(RectInt size)
@@ -164,4 +174,25 @@ public class SingleDungeonRoom
         FirstChildRoom = First;
         SecondChildRoom = Second;
     }
+}
+public class SpecialDungeonRoom
+{
+    public RectInt Area;
+    public Vector2Int CenterPoint;
+    public RoomType roomType = RoomType.Special;
+    public SpecialRoomKind SpecialType = SpecialRoomKind.None; //Assigned Upon Creation
+    public SpecialDungeonRoom(RectInt size)
+    {
+        Area = size;
+        CenterPoint = new Vector2Int(size.x + size.width/2, size.y + size.height / 2);
+    }
+
+    //Points for Spawning Objects
+    public Vector2Int[] Corners => new[]
+    {
+        new Vector2Int(Area.xMin + 1, Area.yMin + 1),
+        new Vector2Int(Area.xMin + 1, Area.yMax - 1),
+        new Vector2Int(Area.xMax - 1, Area.yMin + 1),
+        new Vector2Int(Area.xMax - 1, Area.yMax - 1)
+    };
 }
