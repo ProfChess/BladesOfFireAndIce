@@ -3,8 +3,28 @@ using UnityEngine;
 
 public class DungeonCreationV2 : MonoBehaviour
 {
+    //Custom Data
+    //Struct for holding room appearance chances (Might move to Scriptable object with placment details later)
+    [System.Serializable]
+    public struct SpecialRoomTypeChance
+    {
+        public SpecialRoomKind Type;
+        [Range(0f, 1f)] public float Chance;
+    }
+
     //Specific Stats
     public RectInt TotalDungeonSize = new RectInt(0, 0, 65, 65);
+    [SerializeField, Range(0f, 1f)] float BaseSpecialRoomSpawnChance = 0.25f;
+    [SerializeField] int MaxSpecialRooms = 0;
+    [SerializeField]
+    private List<SpecialRoomTypeChance> SpecialRoomChances = new List<SpecialRoomTypeChance>
+    {
+        new SpecialRoomTypeChance{Type = SpecialRoomKind.Chest, Chance = 0.4f },
+        new SpecialRoomTypeChance{Type = SpecialRoomKind.Rest, Chance = 0.15f },
+        new SpecialRoomTypeChance{Type = SpecialRoomKind.Buff, Chance = 0.28f },
+        new SpecialRoomTypeChance{Type = SpecialRoomKind.Puzzle, Chance = 0.35f },
+
+    };
     private int MinRoomLength = 8;
     private int MinRoomHeight = 8;
     private int RoomBuffer = 2;
@@ -12,7 +32,8 @@ public class DungeonCreationV2 : MonoBehaviour
 
     //Rooms 
     private SingleDungeonRoom StartingRoom;
-    private List<SingleDungeonRoom> DungeonRooms = new List<SingleDungeonRoom>();
+    private List<SingleDungeonRoom> BasicDungeonRooms = new List<SingleDungeonRoom>();
+    
 
     private void Awake()
     {
@@ -27,9 +48,9 @@ public class DungeonCreationV2 : MonoBehaviour
 
         //ADD ALL SPACE/POSITIONS TO ADDITIONAL LIST FOR TILE PLACEMENT
 
-        for (int i = 0; i < DungeonRooms.Count; i++)
+        for (int i = 0; i < BasicDungeonRooms.Count; i++)
         {
-            Debug.Log("Room #" + i + " Width: " +  DungeonRooms[i].Area.width + " Height: " + DungeonRooms[i].Area.height);
+            Debug.Log("Room #" + i + " Width: " + BasicDungeonRooms[i].Area.width + " Height: " + BasicDungeonRooms[i].Area.height);
         }
     }
     private void SplitSpace(SingleDungeonRoom Room)
@@ -122,7 +143,6 @@ public class DungeonCreationV2 : MonoBehaviour
 
     private void AddRoomToList(SingleDungeonRoom Room)
     {
-
         RectInt NewSpace = new RectInt(
             Room.Area.xMin + RoomBuffer,
             Room.Area.yMin + RoomBuffer,
@@ -130,13 +150,67 @@ public class DungeonCreationV2 : MonoBehaviour
             Room.Area.height - RoomBuffer*2);
 
         Room.Area = NewSpace;
-        DungeonRooms.Add(Room);
+        BasicDungeonRooms.Add(Room);
+    }
+
+    //Marks some random rooms into special rooms
+    private void InsertSpecialRooms()
+    {
+        int specialRoomCount = 0;
+
+        //Iterate through each room
+        for(int i = 0; i < BasicDungeonRooms.Count; i++)
+        {
+            //Stops too many rooms being marked as special
+            if (specialRoomCount >= MaxSpecialRooms) { break; }
+
+            //Get random chance to change into special room
+            float SRChanceToSpawn = Random.Range(0f, 1f);
+            if (SRChanceToSpawn <= BaseSpecialRoomSpawnChance)
+            {
+                SpecialRoomKind SelectedRoom = GetRandomSpecialRoom();
+                //Reassign room in question to new Special room
+                BasicDungeonRooms[i] = new SpecialDungeonRoom(BasicDungeonRooms[i].Area, SelectedRoom);
+
+            }
+        }
+    }
+    //Get random choice of special room based on weighted chances
+    private SpecialRoomKind GetRandomSpecialRoom()
+    {
+        //Add all Chances
+        float TotalChance = 0f;
+        foreach (var entry in SpecialRoomChances)
+        {
+            TotalChance += entry.Chance;
+        }
+
+        //Select Special Room To Spawn
+        float SelectedSpecial = Random.Range(0f, TotalChance);
+        float CumulativeChance = 0f;
+        foreach (var entry in SpecialRoomChances)
+        {
+            CumulativeChance += entry.Chance;
+            if (SelectedSpecial <= CumulativeChance)
+            {
+                return entry.Type;
+            }
+        }
+        //Fallback
+        return SpecialRoomKind.None;
+    }
+    private void SortRoomsByDistance()
+    {
 
     }
+    
+    
+    
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        foreach (SingleDungeonRoom room in DungeonRooms)
+        foreach (SingleDungeonRoom room in BasicDungeonRooms)
         {
             Vector3 size = new Vector3(room.Area.width, room.Area.height, 0);
             Vector3 center = new Vector3(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f, 0);
@@ -175,15 +249,14 @@ public class SingleDungeonRoom
         SecondChildRoom = Second;
     }
 }
-public class SpecialDungeonRoom
+public class SpecialDungeonRoom : SingleDungeonRoom
 {
-    public RectInt Area;
     public Vector2Int CenterPoint;
-    public RoomType roomType = RoomType.Special;
     public SpecialRoomKind SpecialType = SpecialRoomKind.None; //Assigned Upon Creation
-    public SpecialDungeonRoom(RectInt size)
+    public SpecialDungeonRoom(RectInt size, SpecialRoomKind type) : base(size)
     {
-        Area = size;
+        roomType = RoomType.Special;
+        SpecialType = type;
         CenterPoint = new Vector2Int(size.x + size.width/2, size.y + size.height / 2);
     }
 
