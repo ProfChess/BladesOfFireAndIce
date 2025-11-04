@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DungeonCreationV2 : MonoBehaviour
@@ -43,6 +44,7 @@ public class DungeonCreationV2 : MonoBehaviour
         SplitSpace(StartingRoom);
 
         //INSERT RANDOM REPLACING OF SPECIAL ROOMS
+        InsertSpecialRooms();
 
         //CONNECT ROOMS WITH CORRIDORS
 
@@ -202,6 +204,20 @@ public class DungeonCreationV2 : MonoBehaviour
     private void SortRoomsByDistance()
     {
 
+    }
+    //Get All Room Centers
+    private List<Vector2Int> GetRoomCenters()
+    {
+        List<Vector2Int> centers = new List<Vector2Int>();
+
+        //For all dungeon rooms, calculate centerpoint and add it to the list
+        foreach (var room in BasicDungeonRooms)
+        {
+            RectInt Area = room.Area;
+            Vector2Int Center = new Vector2Int(Area.x + Area.width/2, Area.y + Area.height/2);
+            centers.Add(Center);
+        }
+        return centers;
     }
     
     
