@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DungeonCreationV2 : MonoBehaviour
@@ -34,7 +33,7 @@ public class DungeonCreationV2 : MonoBehaviour
     //Rooms 
     private SingleDungeonRoom StartingRoom;
     private List<SingleDungeonRoom> BasicDungeonRooms = new List<SingleDungeonRoom>();
-    
+    private List<(RectInt, RectInt)> DungeonCorridors = new List<(RectInt, RectInt)>();
 
     private void Awake()
     {
@@ -47,6 +46,7 @@ public class DungeonCreationV2 : MonoBehaviour
         InsertSpecialRooms();
 
         //CONNECT ROOMS WITH CORRIDORS
+        CreateCorridorConnections();
 
         //ADD ALL SPACE/POSITIONS TO ADDITIONAL LIST FOR TILE PLACEMENT
 
@@ -201,9 +201,82 @@ public class DungeonCreationV2 : MonoBehaviour
         //Fallback
         return SpecialRoomKind.None;
     }
-    private void SortRoomsByDistance()
+    
+    private void CreateCorridorConnections()
     {
+        List<Vector2Int> roomCenters = GetRoomCenters();
+        List<(Vector2Int, Vector2Int)> corridorConnections = GetRoomConnections(roomCenters);
 
+        //Corridor Creation
+        foreach (var (a, b) in corridorConnections)
+        {
+            int xStart = Mathf.Min(a.x, b.x);
+            int yStart = Mathf.Min(a.y, b.y);
+            int xEnd = Mathf.Max(a.x, b.x);
+            int yEnd = Mathf.Max(a.y, b.y);
+
+            int xLength = Mathf.Max(1, xEnd - xStart);
+            int yLength = Mathf.Max(1, yEnd - yStart);
+
+            bool horFirst = Random.value < 0.5f; //Determine whether to start with horizontal or vertical corridor
+
+            RectInt XCor;
+            RectInt YCor;
+
+            if (horFirst)
+            {
+                XCor = new RectInt(new Vector2Int(xStart, a.y), new Vector2Int(xLength, 2));
+                YCor = new RectInt(new Vector2Int(b.x, yStart), new Vector2Int(2, yLength));
+            }
+            else
+            {
+                YCor = new RectInt(new Vector2Int(a.x, yStart), new Vector2Int(2, yLength));
+                XCor = new RectInt(new Vector2Int(xStart, b.y), new Vector2Int(xLength, 2));
+            }
+            DungeonCorridors.Add((XCor, YCor));
+        }
+    }
+    //Connects rooms using Prim's Algorithm
+    private List<(Vector2Int, Vector2Int)> GetRoomConnections(List<Vector2Int> roomCenters)
+    {
+        //Rooms that have been connected to another
+        List<Vector2Int> roomsConnected = new List<Vector2Int>();
+        //Start and end points of connections 
+        List<(Vector2Int, Vector2Int)> savedConnections = new List<(Vector2Int, Vector2Int)>();
+
+        roomsConnected.Add(roomCenters[0]); //Start with first room
+
+        //repeat until all rooms are connected
+        while (roomsConnected.Count < roomCenters.Count)
+        {
+            float closestDistance = float.MaxValue;
+            Vector2Int fromRoom = Vector2Int.zero; 
+            Vector2Int toRoom = Vector2Int.zero;
+
+            //each room already connected
+            foreach (var connectedRoom in roomsConnected)
+            {
+                //against every room unconnected
+                foreach (var room in roomCenters)
+                {
+                    if (roomsConnected.Contains(room)) { continue; } // skip if already in connected list
+                    //Distance between connected room and room in decision list
+                    float distance = Vector2Int.Distance(connectedRoom, room);
+
+                    //Save shortest distance
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        fromRoom = connectedRoom;
+                        toRoom = room;
+                    }
+                }
+            }
+            //Connect closest room
+            savedConnections.Add((fromRoom, toRoom));
+            roomsConnected.Add(toRoom);
+        }
+        return savedConnections;
     }
     //Get All Room Centers
     private List<Vector2Int> GetRoomCenters()
@@ -221,17 +294,25 @@ public class DungeonCreationV2 : MonoBehaviour
     }
     
     
-    
-    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         foreach (SingleDungeonRoom room in BasicDungeonRooms)
         {
-            Vector3 size = new Vector3(room.Area.width, room.Area.height, 0);
-            Vector3 center = new Vector3(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f, 0);
+            Vector3 size = new Vector3(room.Area.width, room.Area.height, 0.1f);
+            Vector3 center = new Vector3(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f, 0.1f);
 
             Gizmos.DrawWireCube(center, size);
+        }
+        foreach (var room in DungeonCorridors)
+        {
+            Vector2 size1 = new Vector2(room.Item1.width, room.Item1.height);
+            Vector2 center1 = new Vector2(room.Item1.x + room.Item1.width * 0.5f, room.Item1.y + room.Item1.height * 0.5f);
+            Gizmos.DrawWireCube(center1, size1);
+
+            Vector2 size2 = new Vector2(room.Item2.width, room.Item2.height);
+            Vector2 center2 = new Vector2(room.Item2.x + room.Item2.width * 0.5f, room.Item2.y + room.Item2.height * 0.5f);
+            Gizmos.DrawWireCube(center2, size2);
         }
         Gizmos.color = Color.red;
         Vector3 totalSize = new Vector3(TotalDungeonSize.width, TotalDungeonSize.height);
