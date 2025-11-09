@@ -13,10 +13,15 @@ public class DungeonCreationV2 : MonoBehaviour
     }
 
     //Specific Stats
+    [Header("Dungeon Size")]
     public RectInt TotalDungeonSize = new RectInt(0, 0, 65, 65);
     [SerializeField, Range(0f, 1f)] float BaseSpecialRoomSpawnChance = 0.25f;
+    [SerializeField] private int MinRoomLength = 8;
+    [SerializeField] private int MinRoomHeight = 8;
+    [SerializeField] private int RoomBuffer = 2;
+
+    [Header("Dungeon Changes")]
     [SerializeField] int MaxSpecialRooms = 0;
-    [SerializeField]
     private List<SpecialRoomTypeChance> SpecialRoomChances = new List<SpecialRoomTypeChance>
     {
         new SpecialRoomTypeChance{Type = SpecialRoomKind.Chest, Chance = 0.4f },
@@ -25,9 +30,6 @@ public class DungeonCreationV2 : MonoBehaviour
         new SpecialRoomTypeChance{Type = SpecialRoomKind.Puzzle, Chance = 0.35f },
 
     };
-    private int MinRoomLength = 8;
-    private int MinRoomHeight = 8;
-    private int RoomBuffer = 2;
     private enum SplitAxis { Horizontal, Vertical, Invalid }
 
     //Rooms 
@@ -35,6 +37,9 @@ public class DungeonCreationV2 : MonoBehaviour
     private List<SingleDungeonRoom> BasicDungeonRooms = new List<SingleDungeonRoom>();
     private List<(RectInt, RectInt)> DungeonCorridors = new List<(RectInt, RectInt)>();
 
+    //Positions
+    private HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>();
+    public HashSet<Vector2Int> GetTilePlaces => TilePlacePositions;
     private void Awake()
     {
         MinRoomHeight = MinRoomHeight + RoomBuffer * 2;
@@ -49,11 +54,12 @@ public class DungeonCreationV2 : MonoBehaviour
         CreateCorridorConnections();
 
         //ADD ALL SPACE/POSITIONS TO ADDITIONAL LIST FOR TILE PLACEMENT
+        CollectPositions();
 
-        for (int i = 0; i < BasicDungeonRooms.Count; i++)
-        {
-            Debug.Log("Room #" + i + " Width: " + BasicDungeonRooms[i].Area.width + " Height: " + BasicDungeonRooms[i].Area.height);
-        }
+        //for (int i = 0; i < BasicDungeonRooms.Count; i++)
+        //{
+        //    Debug.Log("Room #" + i + " Width: " + BasicDungeonRooms[i].Area.width + " Height: " + BasicDungeonRooms[i].Area.height);
+        //}
     }
     private void SplitSpace(SingleDungeonRoom Room)
     {
@@ -293,17 +299,75 @@ public class DungeonCreationV2 : MonoBehaviour
         return centers;
     }
     
+
+    //Collect All Tile Positions
+    private void CollectPositions()
+    {
+        //Gather all positions from rooms
+        for (int i = 0; i < BasicDungeonRooms.Count; i++)
+        {
+            for(int x = BasicDungeonRooms[i].Area.xMin; x <= BasicDungeonRooms[i].Area.xMax; x++)
+            {
+                for(int y = BasicDungeonRooms[i].Area.yMin; y <= BasicDungeonRooms[i].Area.yMax; y++)
+                {
+                    Vector2Int Position = new Vector2Int(x, y);
+                    TilePlacePositions.Add(Position);
+                }
+            }
+        }
+        //Gather all positions from corridors
+        for (int i = 0; i < DungeonCorridors.Count; ++i)
+        {
+            RectInt XArea = DungeonCorridors[i].Item1;
+            RectInt YArea = DungeonCorridors[i].Item2;
+
+            //Horizontal Corridor Position Gathering
+            for (int x = XArea.xMin; x <= XArea.xMax; x++)
+            {
+                for (int y = XArea.yMin; y <= XArea.yMax; y++)
+                {
+                    Vector2Int Position = new Vector2Int(x, y);
+                    TilePlacePositions.Add(Position);
+                }
+            }
+            //Vertical Corridor Position Gathering
+            for (int x = YArea.xMin; x <= YArea.xMax; x++)
+            {
+                for (int y = YArea.yMin; y <= YArea.yMax; y++)
+                {
+                    Vector2Int Position = new Vector2Int(x, y);
+                    TilePlacePositions.Add(Position);
+                }
+            }
+        }
+
+    }
     
+
+    //TEMP VISUALIZATION FOR DUNGEON CREATION - GREEN = NORMAL ROOMS - BLUE = SPECIAL ROOMS
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         foreach (SingleDungeonRoom room in BasicDungeonRooms)
         {
-            Vector3 size = new Vector3(room.Area.width, room.Area.height, 0.1f);
-            Vector3 center = new Vector3(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f, 0.1f);
+            if (room.roomType == RoomType.Default)
+            {
+                Gizmos.color = Color.green;
+                Vector3 size = new Vector3(room.Area.width, room.Area.height, 0.1f);
+                Vector3 center = new Vector3(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f, 0.1f);
 
-            Gizmos.DrawWireCube(center, size);
+                Gizmos.DrawWireCube(center, size);
+            }
+            else if (room.roomType == RoomType.Special)
+            {
+                Gizmos.color = Color.blue;
+                Vector3 size = new Vector3(room.Area.width, room.Area.height, 0.1f);
+                Vector3 center = new Vector3(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f, 0.1f);
+
+                Gizmos.DrawWireCube(center, size);
+            }
         }
+        Gizmos.color = Color.green;
         foreach (var room in DungeonCorridors)
         {
             Vector2 size1 = new Vector2(room.Item1.width, room.Item1.height);

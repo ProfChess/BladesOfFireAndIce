@@ -334,16 +334,7 @@ MonoBehaviour:
     width: 65
     height: 65
   BaseSpecialRoomSpawnChance: 0.25
-  MaxSpecialRooms: 0
-  SpecialRoomChances:
-  - Type: 1
-    Chance: 0.4
-  - Type: 2
-    Chance: 0.15
-  - Type: 3
-    Chance: 0.28
-  - Type: 4
-    Chance: 0.35
+  MaxSpecialRooms: 4
 --- !u!4 &2008781826
 Transform:
   m_ObjectHideFlags: 0
