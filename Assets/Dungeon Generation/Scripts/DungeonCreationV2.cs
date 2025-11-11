@@ -16,9 +16,12 @@ public class DungeonCreationV2 : MonoBehaviour
     [Header("Dungeon Size")]
     public RectInt TotalDungeonSize = new RectInt(0, 0, 65, 65);
     [SerializeField, Range(0f, 1f)] float BaseSpecialRoomSpawnChance = 0.25f;
-    [SerializeField] private int MinRoomLength = 8;
-    [SerializeField] private int MinRoomHeight = 8;
+    [SerializeField] private int SetMinRoomLength = 8;
+    [SerializeField] private int SetMinRoomHeight = 8;
+    private int MinRoomLength = 0;
+    private int MinRoomHeight = 0;
     [SerializeField] private int RoomBuffer = 2;
+    private int RoomOffset = 1;
 
     [Header("Dungeon Changes")]
     [SerializeField] int MaxSpecialRooms = 0;
@@ -36,14 +39,23 @@ public class DungeonCreationV2 : MonoBehaviour
     private SingleDungeonRoom StartingRoom;
     private List<SingleDungeonRoom> BasicDungeonRooms = new List<SingleDungeonRoom>();
     private List<(RectInt, RectInt)> DungeonCorridors = new List<(RectInt, RectInt)>();
+    private Vector2Int[] OffsetPositions =
+    {
+        new Vector2Int(0, 0), 
+        new Vector2Int(1, 0),
+        new Vector2Int(-1, 0),
+        new Vector2Int(0, 1),
+        new Vector2Int(0, -1),
+    };
 
     //Positions
-    private HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>();
-    public HashSet<Vector2Int> GetTilePlaces => TilePlacePositions;
+    private static HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>();
+    public static HashSet<Vector2Int> GetTilePlaces => TilePlacePositions;
     private void Awake()
     {
-        MinRoomHeight = MinRoomHeight + RoomBuffer * 2;
-        MinRoomLength = MinRoomLength + RoomBuffer * 2; 
+        RoomOffset = RoomBuffer / 2;
+        MinRoomHeight = SetMinRoomHeight + RoomBuffer * 2;
+        MinRoomLength = SetMinRoomLength + RoomBuffer * 2; 
         StartingRoom = new SingleDungeonRoom(TotalDungeonSize);
         SplitSpace(StartingRoom);
 
@@ -60,6 +72,10 @@ public class DungeonCreationV2 : MonoBehaviour
         //{
         //    Debug.Log("Room #" + i + " Width: " + BasicDungeonRooms[i].Area.width + " Height: " + BasicDungeonRooms[i].Area.height);
         //}
+    }
+    private void Start()
+    {
+        DungeonDataCreated?.Invoke();
     }
     private void SplitSpace(SingleDungeonRoom Room)
     {
@@ -151,9 +167,15 @@ public class DungeonCreationV2 : MonoBehaviour
 
     private void AddRoomToList(SingleDungeonRoom Room)
     {
+        //Apply Offset and Add Room
+        int rand = Random.Range(0, OffsetPositions.Length);
+        Vector2Int ChosenOffset = OffsetPositions[rand];
+        int FinalXOffset = ChosenOffset.x * RoomOffset;
+        int FinalYOffset = ChosenOffset.y * RoomOffset;
+
         RectInt NewSpace = new RectInt(
-            Room.Area.xMin + RoomBuffer,
-            Room.Area.yMin + RoomBuffer,
+            Room.Area.xMin + RoomBuffer + FinalXOffset,
+            Room.Area.yMin + RoomBuffer + FinalYOffset,
             Room.Area.width - RoomBuffer*2,
             Room.Area.height - RoomBuffer*2);
 
@@ -218,11 +240,6 @@ public class DungeonCreationV2 : MonoBehaviour
         {
             int xStart = Mathf.Min(a.x, b.x);
             int yStart = Mathf.Min(a.y, b.y);
-            int xEnd = Mathf.Max(a.x, b.x);
-            int yEnd = Mathf.Max(a.y, b.y);
-
-            int xLength = Mathf.Max(1, xEnd - xStart);
-            int yLength = Mathf.Max(1, yEnd - yStart);
 
             bool horFirst = Random.value < 0.5f; //Determine whether to start with horizontal or vertical corridor
 
@@ -231,13 +248,13 @@ public class DungeonCreationV2 : MonoBehaviour
 
             if (horFirst)
             {
-                XCor = new RectInt(new Vector2Int(xStart, a.y), new Vector2Int(xLength, 2));
-                YCor = new RectInt(new Vector2Int(b.x, yStart), new Vector2Int(2, yLength));
+                XCor = new RectInt(new Vector2Int(xStart, a.y), new Vector2Int(Mathf.Abs(b.x - a.x) + 2, 2));
+                YCor = new RectInt(new Vector2Int(b.x, yStart), new Vector2Int(2, Mathf.Abs(b.y - a.y) + 2));
             }
             else
             {
-                YCor = new RectInt(new Vector2Int(a.x, yStart), new Vector2Int(2, yLength));
-                XCor = new RectInt(new Vector2Int(xStart, b.y), new Vector2Int(xLength, 2));
+                YCor = new RectInt(new Vector2Int(a.x, yStart), new Vector2Int(2, Mathf.Abs(b.y - a.y) + 2));
+                XCor = new RectInt(new Vector2Int(xStart, b.y), new Vector2Int(Mathf.Abs(b.x - a.x) + 2, 2));
             }
             DungeonCorridors.Add((XCor, YCor));
         }
@@ -342,7 +359,12 @@ public class DungeonCreationV2 : MonoBehaviour
         }
 
     }
-    
+
+
+    public static event System.Action DungeonDataCreated;
+
+
+
 
     //TEMP VISUALIZATION FOR DUNGEON CREATION - GREEN = NORMAL ROOMS - BLUE = SPECIAL ROOMS
     private void OnDrawGizmos()
@@ -353,16 +375,16 @@ public class DungeonCreationV2 : MonoBehaviour
             if (room.roomType == RoomType.Default)
             {
                 Gizmos.color = Color.green;
-                Vector3 size = new Vector3(room.Area.width, room.Area.height, 0.1f);
-                Vector3 center = new Vector3(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f, 0.1f);
+                Vector2 size = new Vector2(room.Area.width, room.Area.height);
+                Vector2 center = new Vector2(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f);
 
                 Gizmos.DrawWireCube(center, size);
             }
             else if (room.roomType == RoomType.Special)
             {
                 Gizmos.color = Color.blue;
-                Vector3 size = new Vector3(room.Area.width, room.Area.height, 0.1f);
-                Vector3 center = new Vector3(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f, 0.1f);
+                Vector2 size = new Vector2(room.Area.width, room.Area.height);
+                Vector2 center = new Vector2(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f);
 
                 Gizmos.DrawWireCube(center, size);
             }
