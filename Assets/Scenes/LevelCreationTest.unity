@@ -968,8 +968,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FloorTM: {fileID: 651452455}
   WallTM: {fileID: 1777132176}
-  floorTile: {fileID: 11400000, guid: b98db0861734cc948ba6e7dfa216248f, type: 2}
-  wallTile: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
+  floorTileDefault: {fileID: 11400000, guid: b98db0861734cc948ba6e7dfa216248f, type: 2}
+  wallTileDefault: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
+  FloorTileDecorChance: 0.05
+  ExtraFloorTiles:
+  - Tile: {fileID: 11400000, guid: 3b72f8a07489c7748a000f6542f1154e, type: 2}
+    Chance: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -308,6 +308,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Floor2
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 384
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9346561ef9bab76428615a7173caa8e1
+      internalID: -1191567801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -320,6 +341,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Floor1: 607344536
+      Floor2: -1191567801
       Grate-Large: -1123634616
       Grate-Small-Empty: 477945936
       Grate-Small-Water: -1684425120
