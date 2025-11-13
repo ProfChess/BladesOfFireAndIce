@@ -971,9 +971,17 @@ MonoBehaviour:
   floorTileDefault: {fileID: 11400000, guid: b98db0861734cc948ba6e7dfa216248f, type: 2}
   wallTileDefault: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
   FloorTileDecorChance: 0.05
+  WallTileDecorChance: 0.05
   ExtraFloorTiles:
   - Tile: {fileID: 11400000, guid: 3b72f8a07489c7748a000f6542f1154e, type: 2}
     Chance: 1
+  ExtraWallTiles:
+  - Tile: {fileID: 11400000, guid: 9a8c13d2b020ec94bb1f0319b12ed123, type: 2}
+    Chance: 0.5
+  - Tile: {fileID: 11400000, guid: 801840304f91acb428ccc42a02438dd0, type: 2}
+    Chance: 0.3
+  - Tile: {fileID: 11400000, guid: fa818afaa26e42a4db6ccbf7ef7908a6, type: 2}
+    Chance: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

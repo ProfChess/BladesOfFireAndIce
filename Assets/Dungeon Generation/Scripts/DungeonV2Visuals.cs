@@ -14,7 +14,9 @@ public class DungeonV2Visuals : MonoBehaviour
     //Additional Floor Options
     [Header("Additional Decoration Chances")]
     [SerializeField] private float FloorTileDecorChance = 0f;
+    [SerializeField] private float WallTileDecorChance = 0f;
     [SerializeField] private List<TileWithChance> ExtraFloorTiles = new List<TileWithChance>();
+    [SerializeField] private List<TileWithChance> ExtraWallTiles = new List<TileWithChance>();
 
 
     private static readonly Vector2Int[] CardinalDir = new Vector2Int[]
@@ -23,6 +25,17 @@ public class DungeonV2Visuals : MonoBehaviour
         new Vector2Int(-1, 0),
         new Vector2Int(0, 1),
         new Vector2Int(0, -1),
+    };
+    private static readonly Vector2Int[] AllDirections = new Vector2Int[]
+    {
+        new Vector2Int(1, 0),   //East
+        new Vector2Int(1, -1),  //South East
+        new Vector2Int(0, -1),  //South
+        new Vector2Int(-1, -1), //South West
+        new Vector2Int(-1, 0),  //West
+        new Vector2Int(-1, 1),  //North West
+        new Vector2Int(0, 1),   //North
+        new Vector2Int(1, 1),   //North East
     };
 
 
@@ -39,17 +52,41 @@ public class DungeonV2Visuals : MonoBehaviour
     }
     private void PlaceTiles()
     {
-        HashSet<Vector2Int> PositionSet = DungeonCreationV2.GetTilePlaces;
-        foreach (Vector3Int Position in PositionSet)
+        HashSet<Vector2Int> PositionSet = DungeonCreationV2.Instance.GetTilePlaces;
+        foreach (Vector2Int Position in PositionSet)
         {
             //Place Floor Tiles
             //Place Default
-            FloorTM.SetTile(Position, floorTileDefault);
+            FloorTM.SetTile((Vector3Int)Position, floorTileDefault);
         }
         //Place Decorated Floor Tiles
-        PlaceDecorativePatches(PositionSet, ExtraFloorTiles, FloorTileDecorChance);
+        PlaceDecorativePatches(FloorTM, PositionSet, ExtraFloorTiles, FloorTileDecorChance);
+
+        //Place Walls
+        HashSet<Vector2Int> WallPositions = new HashSet<Vector2Int>();
+        int DirMultipleMax = DungeonCreationV2.Instance.GetRoomBuffer;
+        foreach (Vector2Int Position in PositionSet)
+        {
+            foreach (Vector2Int Dir in AllDirections)
+            {
+                for (int i = 1; i <= DirMultipleMax; i++)
+                {
+                    Vector2Int NewPos = Position + (Dir * i);
+                    if (!PositionSet.Contains(NewPos) && !WallPositions.Contains(NewPos))
+                    {
+                        WallPositions.Add(NewPos);
+                    }
+                }
+            }
+        }
+        foreach (Vector2Int Pos in WallPositions)
+        {
+            WallTM.SetTile((Vector3Int)Pos, wallTileDefault);
+        }
+        //Place Decorated Wall Tiles
+        PlaceDecorativePatches(WallTM, WallPositions, ExtraWallTiles, WallTileDecorChance);
     }
-    private void PlaceDecorativePatches(HashSet<Vector2Int> Positions, List<TileWithChance> TileList, float PercentOfTiles)
+    private void PlaceDecorativePatches(Tilemap TM, HashSet<Vector2Int> Positions, List<TileWithChance> TileList, float PercentOfTiles)
     {
         int patchCount = Mathf.CeilToInt(Positions.Count * PercentOfTiles);
         HashSet<Vector2Int> usedTiles = new HashSet<Vector2Int>();
@@ -74,7 +111,7 @@ public class DungeonV2Visuals : MonoBehaviour
                 Vector2Int cur = frontier.Dequeue();
                 patchSize--;
 
-                FloorTM.SetTile((Vector3Int)cur, SelectedTile);
+                TM.SetTile((Vector3Int)cur, SelectedTile);
 
                 //Expand to Random Neighbours
                 foreach (Vector2Int dir in CardinalDir)

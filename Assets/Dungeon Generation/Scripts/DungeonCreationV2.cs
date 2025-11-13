@@ -12,6 +12,9 @@ public class DungeonCreationV2 : MonoBehaviour
         [Range(0f, 1f)] public float Chance;
     }
 
+    //Instance
+    public static DungeonCreationV2 Instance;
+
     //Specific Stats
     [Header("Dungeon Size")]
     public RectInt TotalDungeonSize = new RectInt(0, 0, 65, 65);
@@ -49,10 +52,13 @@ public class DungeonCreationV2 : MonoBehaviour
     };
 
     //Positions
-    private static HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>();
-    public static HashSet<Vector2Int> GetTilePlaces => TilePlacePositions;
+    private HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>();
+    public HashSet<Vector2Int> GetTilePlaces => TilePlacePositions;
+    public int GetRoomBuffer => RoomBuffer;
     private void Awake()
     {
+        if (Instance == null) { Instance = this; }
+
         RoomOffset = RoomBuffer / 2;
         MinRoomHeight = SetMinRoomHeight + RoomBuffer * 2;
         MinRoomLength = SetMinRoomLength + RoomBuffer * 2; 
