@@ -296,7 +296,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -315,15 +315,39 @@ Tilemap:
   m_Enabled: 1
   m_Tiles: {}
   m_AnimatedTiles: {}
-  m_TileAssetArray: []
-  m_TileSpriteArray: []
-  m_TileMatrixArray: []
-  m_TileColorArray: []
+  m_TileAssetArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  m_TileMatrixArray:
+  - m_RefCount: 0
+    m_Data:
+      e00: 1.509e-42
+      e01: 0
+      e02: -1.1720763e-27
+      e03: -4.5000076
+      e10: 0
+      e11: 0
+      e12: 3.46e-43
+      e13: 9.33e-43
+      e20: -0.00020393427
+      e21: 9.4802855e-14
+      e22: 1.3999633e-28
+      e23: -2.0314827
+      e30: 4.5905e-41
+      e31: 9.37e-43
+      e32: 9.35e-43
+      e33: 9.36e-43
+  m_TileColorArray:
+  - m_RefCount: 0
+    m_Data: {r: 4.4233e-41, g: 4.4233e-41, b: 4.4233e-41, a: 4.4233e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
-  m_Size: {x: 0, y: 0, z: 1}
+  m_Size: {x: 68, y: 62, z: 1}
   m_TileAnchor: {x: 0, y: 0, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -937,7 +961,7 @@ MonoBehaviour:
   BaseSpecialRoomSpawnChance: 0.25
   SetMinRoomLength: 8
   SetMinRoomHeight: 8
-  RoomBuffer: 2
+  RoomBuffer: 3
   MaxSpecialRooms: 4
 --- !u!4 &2008781826
 Transform:
@@ -970,6 +994,14 @@ MonoBehaviour:
   WallTM: {fileID: 1777132176}
   floorTileDefault: {fileID: 11400000, guid: b98db0861734cc948ba6e7dfa216248f, type: 2}
   wallTileDefault: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
+  wallTileTopMiddle: {fileID: 11400000, guid: ea246215db733a041a31859acf33c292, type: 2}
+  wallTileTopMiddleEast: {fileID: 11400000, guid: 344ca2a87a91dc148a587c4c93e54ec9, type: 2}
+  wallTileTopMiddleWest: {fileID: 11400000, guid: e164cb3e026cc1a4fadaeffc529381ad, type: 2}
+  wallTileTopRightCorner: {fileID: 11400000, guid: 4ef6ef48de6b49c45939494ac8bc545b, type: 2}
+  wallTileTopLeftCorner: {fileID: 11400000, guid: e640a6d03fe09b74589a9214b86db955, type: 2}
+  wallTileTopBottomRightCorner: {fileID: 11400000, guid: 44cc874d1d819d142a272e4a44989522, type: 2}
+  wallTileTopBottomLeftCorner: {fileID: 11400000, guid: bdef58527173d214993d00c9e8075865, type: 2}
+  wallTileBottomMiddle: {fileID: 11400000, guid: 562a540b5e8a6a443a888ad8c4dc16fc, type: 2}
   FloorTileDecorChance: 0.05
   WallTileDecorChance: 0.05
   ExtraFloorTiles:

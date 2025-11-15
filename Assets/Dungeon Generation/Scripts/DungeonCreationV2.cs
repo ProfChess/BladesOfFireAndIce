@@ -54,6 +54,7 @@ public class DungeonCreationV2 : MonoBehaviour
     //Positions
     private HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>();
     public HashSet<Vector2Int> GetTilePlaces => TilePlacePositions;
+    public List<SingleDungeonRoom> GetDungeonRooms => BasicDungeonRooms;
     public int GetRoomBuffer => RoomBuffer;
     private void Awake()
     {

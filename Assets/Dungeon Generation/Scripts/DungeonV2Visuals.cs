@@ -9,7 +9,19 @@ public class DungeonV2Visuals : MonoBehaviour
     [SerializeField] private Tilemap FloorTM;
     [SerializeField] private Tilemap WallTM;
     [SerializeField] private RuleTile floorTileDefault;
+
+    [Header("Walls")]
     [SerializeField] private RuleTile wallTileDefault;
+    [SerializeField] private RuleTile wallTileTopMiddle;
+    [SerializeField] private RuleTile wallTileTopMiddleEast;
+    [SerializeField] private RuleTile wallTileTopMiddleWest;
+    [SerializeField] private RuleTile wallTileTopRightCorner;
+    [SerializeField] private RuleTile wallTileTopLeftCorner;
+    [SerializeField] private RuleTile wallTileTopBottomRightCorner;
+    [SerializeField] private RuleTile wallTileTopBottomLeftCorner;
+    [SerializeField] private RuleTile wallTileBottomMiddle;
+
+
 
     //Additional Floor Options
     [Header("Additional Decoration Chances")]
@@ -38,6 +50,7 @@ public class DungeonV2Visuals : MonoBehaviour
         new Vector2Int(1, 1),   //North East
     };
 
+    private HashSet<Vector2Int> FloorPositionSet = new HashSet<Vector2Int>();
 
     [System.Serializable]
     private class TileWithChance
@@ -52,27 +65,27 @@ public class DungeonV2Visuals : MonoBehaviour
     }
     private void PlaceTiles()
     {
-        HashSet<Vector2Int> PositionSet = DungeonCreationV2.Instance.GetTilePlaces;
-        foreach (Vector2Int Position in PositionSet)
+        FloorPositionSet = DungeonCreationV2.Instance.GetTilePlaces;
+        foreach (Vector2Int Position in FloorPositionSet)
         {
             //Place Floor Tiles
             //Place Default
             FloorTM.SetTile((Vector3Int)Position, floorTileDefault);
         }
         //Place Decorated Floor Tiles
-        PlaceDecorativePatches(FloorTM, PositionSet, ExtraFloorTiles, FloorTileDecorChance);
+        PlaceDecorativePatches(FloorTM, FloorPositionSet, ExtraFloorTiles, FloorTileDecorChance);
 
         //Place Walls
         HashSet<Vector2Int> WallPositions = new HashSet<Vector2Int>();
         int DirMultipleMax = DungeonCreationV2.Instance.GetRoomBuffer;
-        foreach (Vector2Int Position in PositionSet)
+        foreach (Vector2Int Position in FloorPositionSet)
         {
             foreach (Vector2Int Dir in AllDirections)
             {
                 for (int i = 1; i <= DirMultipleMax; i++)
                 {
                     Vector2Int NewPos = Position + (Dir * i);
-                    if (!PositionSet.Contains(NewPos) && !WallPositions.Contains(NewPos))
+                    if (!FloorPositionSet.Contains(NewPos) && !WallPositions.Contains(NewPos))
                     {
                         WallPositions.Add(NewPos);
                     }
@@ -85,6 +98,14 @@ public class DungeonV2Visuals : MonoBehaviour
         }
         //Place Decorated Wall Tiles
         PlaceDecorativePatches(WallTM, WallPositions, ExtraWallTiles, WallTileDecorChance);
+
+        HashSet<Vector2Int> AllWallPositions = GetAllRoomWalls(FloorPositionSet);
+        foreach (Vector2Int Pos in WallPositions)
+        {
+            RoomWallSide WallSide = DetermineWallType(Pos);
+            WallTM.SetTile((Vector3Int)Pos, GetWallTile(WallSide));
+        }
+
     }
     private void PlaceDecorativePatches(Tilemap TM, HashSet<Vector2Int> Positions, List<TileWithChance> TileList, float PercentOfTiles)
     {
@@ -152,4 +173,107 @@ public class DungeonV2Visuals : MonoBehaviour
         return GivenList[0].Tile;
         
     }
+    
+    
+    //PLACING WALLS
+    //Gather All Walls from floors
+    private HashSet<Vector2Int> GetAllRoomWalls(HashSet<Vector2Int> FloorPositions)
+    {
+        HashSet<Vector2Int> walls = new HashSet<Vector2Int>();
+
+        //Gather Walls
+        foreach (Vector2Int FloorPosition in FloorPositions)
+        {
+            foreach (var direction in AllDirections)
+            {
+                Vector2Int WallPos = FloorPosition + direction;
+                if (!FloorPositions.Contains(WallPos))
+                {
+                    walls.Add(WallPos);
+                }
+            }
+        }
+        return walls;
+    }
+    
+    //Gather all positions for floor from given room
+    private HashSet<Vector2Int> GetRoomFloorPositions(SingleDungeonRoom room)
+    {
+        HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+        for (int x = room.Area.xMin; x <= room.Area.xMax; x++)
+        {
+            for (int y = room.Area.yMin;  y <= room.Area.yMax; y++)
+            {
+                floor.Add(new Vector2Int(x, y));
+            }
+        }
+        return floor;
+    }
+
+    //Walls Relative Direction Key
+    public enum RoomWallSide { North, South, East, West, CornerNW, CornerNE, CornerSW, CornerSE, WallDefault}
+    public RoomWallSide DetermineWallType(Vector2Int wallPos)
+    {
+        bool up    = FloorPositionSet.Contains(wallPos + Vector2Int.up);
+        bool down  = FloorPositionSet.Contains(wallPos + Vector2Int.down);
+        bool left  = FloorPositionSet.Contains(wallPos + Vector2Int.left);
+        bool right = FloorPositionSet.Contains(wallPos + Vector2Int.right);
+
+        bool upLeft = FloorPositionSet.Contains(wallPos + new Vector2Int(-1, 1));
+        bool upRight = FloorPositionSet.Contains(wallPos + new Vector2Int(1, 1));
+        bool downLeft = FloorPositionSet.Contains(wallPos + new Vector2Int(-1, -1));
+        bool downRight = FloorPositionSet.Contains(wallPos + new Vector2Int(1, -1));
+
+        //Check Room Corners
+        if (!up && !left && !down && !right)//Must be Room Corner
+        {
+            //South East Corner
+            if (upLeft) { return RoomWallSide.CornerSE; }
+            if (upRight) { return RoomWallSide.CornerSW; }
+            if (downLeft) { return RoomWallSide.CornerNE; }
+            if (downRight) { return RoomWallSide.CornerNW; }
+            return RoomWallSide.WallDefault;
+        }
+
+        //Check Corridor Corners
+        if (up && left && upLeft) { return RoomWallSide.CornerNW; }
+        if (up && right && upRight) {  return RoomWallSide.CornerNE; }
+        if (down && left && downLeft) { return RoomWallSide.CornerSW; } 
+        if (down && right && downRight) { return RoomWallSide.CornerSE; }
+
+        //Check Side Walls
+        if (down) { return RoomWallSide.North; }
+        if (up) { return RoomWallSide.South; }
+        if (left) { return RoomWallSide.East; }
+        if (right) { return RoomWallSide.West; }
+
+        //Fallback
+        return RoomWallSide.WallDefault;
+    }
+    private RuleTile GetWallTile(RoomWallSide WallType)
+    {
+        switch(WallType)
+        {
+            default: return wallTileDefault;
+
+            case RoomWallSide.North:
+                return wallTileBottomMiddle;
+            case RoomWallSide.East:
+                return wallTileTopMiddleEast;
+            case RoomWallSide.West:
+                return wallTileTopMiddleWest;
+            case RoomWallSide.South:
+                return wallTileTopMiddle;
+
+            case RoomWallSide.CornerNW:
+                return wallTileTopLeftCorner;
+            case RoomWallSide.CornerNE:
+                return wallTileTopRightCorner;
+            case RoomWallSide.CornerSW:
+                return wallTileTopBottomLeftCorner;
+            case RoomWallSide.CornerSE:
+                return wallTileTopBottomRightCorner;
+        }
+    }
+
 }
