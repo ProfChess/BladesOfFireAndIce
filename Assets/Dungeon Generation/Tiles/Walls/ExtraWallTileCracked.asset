@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: ExtraWallTileCracked
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -786106685, guid: 5a1c10c1c3ace964e8a19f28d03b65c1, type: 3}
+  m_DefaultSprite: {fileID: 1668099112, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 2
   m_TilingRules: []

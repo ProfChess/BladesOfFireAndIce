@@ -12,15 +12,24 @@ public class DungeonV2Visuals : MonoBehaviour
 
     [Header("Walls")]
     [SerializeField] private RuleTile wallTileDefault;
+    [SerializeField] private RuleTile wallTileEmpty;
     [SerializeField] private RuleTile wallTileTopMiddle;
     [SerializeField] private RuleTile wallTileTopMiddleEast;
     [SerializeField] private RuleTile wallTileTopMiddleWest;
+    [SerializeField] private RuleTile wallTileBottomMiddle;
+    [SerializeField] private RuleTile wallTileBottomEast;
+    [SerializeField] private RuleTile wallTileBottomWest;
+
+    [Header("Wall Corners")]
     [SerializeField] private RuleTile wallTileTopRightCorner;
     [SerializeField] private RuleTile wallTileTopLeftCorner;
     [SerializeField] private RuleTile wallTileTopBottomRightCorner;
     [SerializeField] private RuleTile wallTileTopBottomLeftCorner;
-    [SerializeField] private RuleTile wallTileBottomMiddle;
-
+    [Header("Wall Inner Corners")]
+    [SerializeField] private RuleTile wallTileInnerCornerNW;
+    [SerializeField] private RuleTile wallTileInnerCornerNE;
+    [SerializeField] private RuleTile wallTileInnerCornerSW;
+    [SerializeField] private RuleTile wallTileInnerCornerSE;
 
 
     //Additional Floor Options
@@ -211,7 +220,13 @@ public class DungeonV2Visuals : MonoBehaviour
     }
 
     //Walls Relative Direction Key
-    public enum RoomWallSide { North, South, East, West, CornerNW, CornerNE, CornerSW, CornerSE, WallDefault}
+    public enum RoomWallSide 
+    { 
+        North, South, East, West, SEBot, SWBot, 
+        CornerNW, CornerNE, CornerSW, CornerSE, 
+        WallDefault, WallDefaultEmpty, InnerCornerNW, InnerCornerNE, 
+        InnerCornerSW, InnerCornerSE
+    }
     public RoomWallSide DetermineWallType(Vector2Int wallPos)
     {
         bool up    = FloorPositionSet.Contains(wallPos + Vector2Int.up);
@@ -228,18 +243,18 @@ public class DungeonV2Visuals : MonoBehaviour
         if (!up && !left && !down && !right)//Must be Room Corner
         {
             //South East Corner
-            if (upLeft) { return RoomWallSide.CornerSE; }
-            if (upRight) { return RoomWallSide.CornerSW; }
-            if (downLeft) { return RoomWallSide.CornerNE; }
-            if (downRight) { return RoomWallSide.CornerNW; }
-            return RoomWallSide.WallDefault;
+            if (upLeft) { return RoomWallSide.InnerCornerSE; }
+            if (upRight) { return RoomWallSide.InnerCornerSW; }
+            if (downLeft) { return RoomWallSide.InnerCornerNE; }
+            if (downRight) { return RoomWallSide.InnerCornerNW; }
+            return RoomWallSide.WallDefaultEmpty;
         }
 
         //Check Corridor Corners
         if (up && left && upLeft) { return RoomWallSide.CornerNW; }
         if (up && right && upRight) {  return RoomWallSide.CornerNE; }
-        if (down && left && downLeft) { return RoomWallSide.CornerSW; } 
-        if (down && right && downRight) { return RoomWallSide.CornerSE; }
+        if (down && left && downLeft) { return RoomWallSide.SWBot; } 
+        if (down && right && downRight) { return RoomWallSide.SEBot; }
 
         //Check Side Walls
         if (down) { return RoomWallSide.North; }
@@ -255,7 +270,8 @@ public class DungeonV2Visuals : MonoBehaviour
         switch(WallType)
         {
             default: return wallTileDefault;
-
+            case RoomWallSide.WallDefaultEmpty:
+                return wallTileEmpty;
             case RoomWallSide.North:
                 return wallTileBottomMiddle;
             case RoomWallSide.East:
@@ -264,6 +280,10 @@ public class DungeonV2Visuals : MonoBehaviour
                 return wallTileTopMiddleWest;
             case RoomWallSide.South:
                 return wallTileTopMiddle;
+            case RoomWallSide.SEBot:
+                return wallTileBottomEast;
+            case RoomWallSide.SWBot:
+                return wallTileBottomWest;
 
             case RoomWallSide.CornerNW:
                 return wallTileTopLeftCorner;
@@ -273,6 +293,15 @@ public class DungeonV2Visuals : MonoBehaviour
                 return wallTileTopBottomLeftCorner;
             case RoomWallSide.CornerSE:
                 return wallTileTopBottomRightCorner;
+
+            case RoomWallSide.InnerCornerNW:
+                return wallTileInnerCornerNW;
+            case RoomWallSide.InnerCornerNE:
+                return wallTileInnerCornerNE;
+            case RoomWallSide.InnerCornerSW:
+                return wallTileInnerCornerSW;
+            case RoomWallSide.InnerCornerSE:
+                return wallTileInnerCornerSE;
         }
     }
 
