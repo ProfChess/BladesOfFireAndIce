@@ -956,11 +956,11 @@ MonoBehaviour:
   TotalDungeonSize:
     x: 0
     y: 0
-    width: 64
-    height: 64
+    width: 45
+    height: 45
   BaseSpecialRoomSpawnChance: 0.25
-  SetMinRoomLength: 8
-  SetMinRoomHeight: 8
+  SetMinRoomLength: 5
+  SetMinRoomHeight: 5
   RoomBuffer: 3
   MaxSpecialRooms: 4
 --- !u!4 &2008781826
@@ -998,6 +998,7 @@ MonoBehaviour:
   wallTileTopMiddle: {fileID: 11400000, guid: ea246215db733a041a31859acf33c292, type: 2}
   wallTileTopMiddleEast: {fileID: 11400000, guid: 344ca2a87a91dc148a587c4c93e54ec9, type: 2}
   wallTileTopMiddleWest: {fileID: 11400000, guid: e164cb3e026cc1a4fadaeffc529381ad, type: 2}
+  wallTileTopMiddleSouth: {fileID: 11400000, guid: de9d93a9aa329c9498e8bbf660920e5e, type: 2}
   wallTileBottomMiddle: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
   wallTileBottomEast: {fileID: 11400000, guid: 27f13f8101e1f9f42bb64d1324da15d7, type: 2}
   wallTileBottomWest: {fileID: 11400000, guid: 562a540b5e8a6a443a888ad8c4dc16fc, type: 2}

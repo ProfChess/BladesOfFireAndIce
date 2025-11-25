@@ -468,7 +468,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 480
+        y: 481
         width: 32
         height: 32
       alignment: 0
@@ -510,7 +510,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 453
+        y: 449
         width: 32
         height: 32
       alignment: 0
@@ -531,7 +531,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 453
+        y: 449
         width: 32
         height: 32
       alignment: 0
@@ -543,6 +543,132 @@ TextureImporter:
       bones: []
       spriteID: 1f45d8dcb3589f14a91d693ef8108cc8
       internalID: 304088523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallNarrowLeftTop
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf202df9f70e6694c945527e91a3ffab
+      internalID: -789994474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallNarrowRightTop
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f89e49e2a0b99954bbf37365256f894b
+      internalID: -603219228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallNarrowMiddleLR
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af23b8ee0d566ab4d907f7c963ba52ef
+      internalID: -1506039411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallNarrowUpTop
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 512
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b485c5fc8ea811046a6909210525909d
+      internalID: -2024231831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallNarrowDownTop
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58cf474ab5799464da5d632f287a88a0
+      internalID: -1997629199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallNarrowMiddleTD
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 480
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55375295091d34b4a8c60a18dd7bc49b
+      internalID: 208746182
       vertices: []
       indices: 
       edges: []
@@ -570,6 +696,12 @@ TextureImporter:
       WallCorner_SE: 907167340
       WallCorner_SW: -1993006734
       WallDefault_Top: -993901682
+      WallNarrowDownTop: -1997629199
+      WallNarrowLeftTop: -789994474
+      WallNarrowMiddleLR: -1506039411
+      WallNarrowMiddleTD: 208746182
+      WallNarrowRightTop: -603219228
+      WallNarrowUpTop: -2024231831
       WallTop_East: -748023245
       WallTop_NorthMiddle: 1402300733
       WallTop_SouthMiddle: -2007934375
