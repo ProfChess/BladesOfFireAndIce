@@ -23,6 +23,16 @@ public class DungeonV2Visuals : MonoBehaviour
     private HashSet<Vector2Int> BottomWallPositions = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> EmptyWallPositions = new HashSet<Vector2Int>();
 
+    [Header("Narrow Walls")]
+    [SerializeField] private RuleTile wallTileIsolatedBot;
+    [SerializeField] private RuleTile wallTileNarrowT;
+    [SerializeField] private RuleTile wallTileNarrowB;
+    [SerializeField] private RuleTile wallTileNarrowTB;
+    [SerializeField] private RuleTile wallTileNarrowL;
+    [SerializeField] private RuleTile wallTileNarrowR;
+    [SerializeField] private RuleTile wallTileNarrowLR;
+
+
     [Header("Wall Corners")]
     [SerializeField] private RuleTile wallTileTopRightCorner;
     [SerializeField] private RuleTile wallTileTopLeftCorner;
@@ -126,12 +136,22 @@ public class DungeonV2Visuals : MonoBehaviour
         ChangeInnerCornerWall(InnerNECorners, wallTileInnerCornerNE);
 
         //Place Tops of Walls on Corners
-        PlaceWallTop(wallTileTopBottomLeftCorner, BottomLeftWallCorners, SideWallsForReplacement, Vector3Int.up);
-        PlaceWallTop(wallTileTopBottomRightCorner, BottomRightWallCorners, SideWallsForReplacement, Vector3Int.up);
+        PlaceWallTop(wallTileTopBottomLeftCorner, BottomLeftWallCorners, SideWallsForReplacement);
+        PlaceWallTop(wallTileTopBottomRightCorner, BottomRightWallCorners, SideWallsForReplacement);
 
         //Place Normal Wall Tops
-        PlaceWallTop(wallTileTopMiddleSouth, BottomWallPositions, EmptyWallPositions, Vector3Int.up);
+        PlaceWallTop(wallTileTopMiddleSouth, BottomWallPositions, EmptyWallPositions);
 
+
+        //Check for Isolated Walls/Corners
+        foreach (Vector2Int position in WallPositions)
+        {
+            RuleTile Tile = PlaceIsolatedWalls(position);
+            if (Tile != wallTileEmpty)
+            {
+                WallTM.SetTile((Vector3Int)position, Tile);
+            }
+        }
 
         //FINAL FILL FOR EMPTY SPACES
         //Loop through total area, fill in any gaps with blank walls
@@ -339,13 +359,13 @@ public class DungeonV2Visuals : MonoBehaviour
 
 
     //Additional Tile Placement Functions
-    private void PlaceWallTop(RuleTile Tile, HashSet<Vector2Int> PossiblePositions, HashSet<Vector2Int> SafeTiles, Vector3Int AdjacentTile = default)
+    private void PlaceWallTop(RuleTile Tile, HashSet<Vector2Int> PossiblePositions, HashSet<Vector2Int> SafeTiles)
     {
         //Loop Through all Given Positions
         foreach (Vector2Int position in PossiblePositions)
         {
             //Check Adjacent Tile to See if it Can be replaced with given tile
-            Vector3Int NewPosition = (Vector3Int)position + AdjacentTile;
+            Vector3Int NewPosition = (Vector3Int)position + Vector3Int.up;
             if (SafeTiles.Contains((Vector2Int)NewPosition))
             {
                 //Replace with given tile
@@ -362,4 +382,34 @@ public class DungeonV2Visuals : MonoBehaviour
         }
     }
 
+    private RuleTile PlaceIsolatedWalls(Vector2Int Position)
+    {
+        HashSet<Vector2Int> AllBottomWallPositions = new HashSet<Vector2Int>();
+        AllBottomWallPositions.UnionWith(BottomWallPositions);
+        AllBottomWallPositions.UnionWith(BottomRightWallCorners);
+        AllBottomWallPositions.UnionWith(BottomLeftWallCorners);
+        
+        bool FloorAbove = FloorPositionSet.Contains(Position + Vector2Int.up);
+        bool FloorBelow = FloorPositionSet.Contains(Position + Vector2Int.down);
+        bool FloorLeft = FloorPositionSet.Contains(Position + Vector2Int.left);
+        bool FloorRight = FloorPositionSet.Contains(Position + Vector2Int.right);
+        bool aboveWallBottom = AllBottomWallPositions.Contains(Position + Vector2Int.down);
+        
+        //Horizontal Thin Wall
+        if (aboveWallBottom && FloorAbove)
+        {
+            //Left Corner
+            if (FloorLeft && !FloorRight) { return wallTileNarrowL; }
+            if (!FloorLeft && FloorRight) { return wallTileNarrowR; }
+            if (!FloorLeft && !FloorRight) { return wallTileNarrowLR; }
+        }
+
+        //Vertical Thin Wall
+        if (!aboveWallBottom && !FloorAbove && FloorLeft && FloorRight && FloorBelow) { return  wallTileIsolatedBot; }
+        if (aboveWallBottom && FloorLeft && FloorRight && !FloorAbove && !FloorBelow) { return wallTileNarrowB; }
+        if (!aboveWallBottom && FloorLeft && FloorRight && FloorAbove && !FloorBelow) { return wallTileNarrowT; }
+        if (!aboveWallBottom && FloorLeft && FloorRight && !FloorAbove && !FloorBelow) { return wallTileNarrowTB; }
+
+        return wallTileEmpty;
+    }
 }
