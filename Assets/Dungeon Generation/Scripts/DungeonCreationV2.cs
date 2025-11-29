@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class DungeonCreationV2 : MonoBehaviour
@@ -17,14 +18,16 @@ public class DungeonCreationV2 : MonoBehaviour
 
     //Specific Stats
     [Header("Dungeon Size")]
-    public RectInt TotalDungeonSize = new RectInt(0, 0, 65, 65);
+    public RectInt StartingTotalDungeonSize = new RectInt(0, 0, 65, 65);
+    public RectInt FinalTotalDungeonSize => GetMaxDungeonBounds();
     [SerializeField, Range(0f, 1f)] float BaseSpecialRoomSpawnChance = 0.25f;
     [SerializeField] private int SetMinRoomLength = 8;
     [SerializeField] private int SetMinRoomHeight = 8;
     private int MinRoomLength = 0;
     private int MinRoomHeight = 0;
     [SerializeField] private int RoomBuffer = 2;
-    private int RoomOffset = 1;
+    [SerializeField] private int MinOffset = 4;
+    [SerializeField] private int MaxOffset = 10;
 
     [Header("Dungeon Changes")]
     [SerializeField] int MaxSpecialRooms = 0;
@@ -42,14 +45,6 @@ public class DungeonCreationV2 : MonoBehaviour
     private SingleDungeonRoom StartingRoom;
     private List<SingleDungeonRoom> BasicDungeonRooms = new List<SingleDungeonRoom>();
     private List<(RectInt, RectInt)> DungeonCorridors = new List<(RectInt, RectInt)>();
-    private Vector2Int[] OffsetPositions =
-    {
-        new Vector2Int(0, 0), 
-        new Vector2Int(1, 0),
-        new Vector2Int(-1, 0),
-        new Vector2Int(0, 1),
-        new Vector2Int(0, -1),
-    };
 
     //Positions
     private HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>();
@@ -60,11 +55,14 @@ public class DungeonCreationV2 : MonoBehaviour
     {
         if (Instance == null) { Instance = this; }
 
-        RoomOffset = RoomBuffer / 2;
-        MinRoomHeight = SetMinRoomHeight + RoomBuffer * 2;
-        MinRoomLength = SetMinRoomLength + RoomBuffer * 2; 
-        StartingRoom = new SingleDungeonRoom(TotalDungeonSize);
+        //RoomOffset = RoomBuffer / 2;
+        MinRoomHeight = SetMinRoomHeight;
+        MinRoomLength = SetMinRoomLength; 
+        StartingRoom = new SingleDungeonRoom(StartingTotalDungeonSize);
         SplitSpace(StartingRoom);
+
+        //Separate Rooms Based on Room Buffer
+        SeparateAllDungeonRooms();
 
         //INSERT RANDOM REPLACING OF SPECIAL ROOMS
         InsertSpecialRooms();
@@ -174,22 +172,86 @@ public class DungeonCreationV2 : MonoBehaviour
 
     private void AddRoomToList(SingleDungeonRoom Room)
     {
-        //Apply Offset and Add Room
-        int rand = Random.Range(0, OffsetPositions.Length);
-        Vector2Int ChosenOffset = OffsetPositions[rand];
-        int FinalXOffset = ChosenOffset.x * RoomOffset;
-        int FinalYOffset = ChosenOffset.y * RoomOffset;
-
-        RectInt NewSpace = new RectInt(
-            Room.Area.xMin + RoomBuffer + FinalXOffset,
-            Room.Area.yMin + RoomBuffer + FinalYOffset,
-            Room.Area.width - RoomBuffer*2,
-            Room.Area.height - RoomBuffer*2);
-
-        Room.Area = NewSpace;
         BasicDungeonRooms.Add(Room);
     }
+    //Move Rooms Apart 
+    private void SeparateAllDungeonRooms()
+    {
+        Vector2Int CenterOfDungeon = new Vector2Int(StartingTotalDungeonSize.xMin + (StartingTotalDungeonSize.width / 2), StartingTotalDungeonSize.yMin + (StartingTotalDungeonSize.height / 2));
+        bool movedRoom = true;
 
+        while (movedRoom)
+        {
+            movedRoom = false;
+            for (int i = 0; i < BasicDungeonRooms.Count; i++)
+            {
+                for (int j =  i + 1; j < BasicDungeonRooms.Count; j++)
+                {
+                    if (MoveRoomsApart(ref BasicDungeonRooms[i].Area, ref BasicDungeonRooms[j].Area, RoomBuffer * 2))
+                    {
+                        movedRoom = true;
+                    }
+                }
+            }
+        }
+
+    }
+    private Vector2Int OverlapNum(RectInt a, RectInt b)
+    {
+        int overlapX = Mathf.Min(a.xMax, b.xMax) - Mathf.Max(a.xMin, b.xMin);
+        int overlapY = Mathf.Min(a.yMax, b.yMax) - Mathf.Max(a.yMin, b.yMin);
+        return new Vector2Int(overlapX, overlapY);
+    }
+    private bool MoveRoomsApart(ref RectInt a, ref RectInt b, int buffer)
+    {
+        //Check if Rooms Overlap -> if They Don't, No Need to Move
+        RectInt BuffedA = new RectInt(a.x + buffer, a.y + buffer, a.width + buffer * 2, a.height + buffer * 2);
+        RectInt BuffedB = new RectInt(b.x + buffer, b.y + buffer, b.width + buffer * 2, b.height + buffer * 2);
+
+        if (!BuffedA.Overlaps(BuffedB)) return false;
+
+        //Get Amount They Overlap
+        Vector2Int OverlapAmount = OverlapNum(BuffedA, BuffedB);
+
+        //Determine How to Separate -> Move Apart Based on Which Axis Overlaps Less
+        bool moveByX = OverlapAmount.x < OverlapAmount.y;
+
+        //Move Along X Plane
+        if (moveByX)
+        {
+            //Move Room With Larger X 
+            if (a.x < b.x) { b.x += OverlapAmount.x + RoomBuffer; OffsetRoom(ref b, false); }
+            else { a.x += OverlapAmount.x + RoomBuffer; OffsetRoom(ref a, false); }
+        }
+        //Move Along Y Plane
+        else
+        {
+            if (a.y < b.y) { b.y += OverlapAmount.y + RoomBuffer; OffsetRoom(ref b, true); }
+            else { a.y += OverlapAmount.y + RoomBuffer; OffsetRoom(ref a, true); }
+        }
+        return true;
+    }
+    private void OffsetRoom(ref RectInt RoomArea, bool horizontal)
+    {
+        //Random Movement Left/Rght
+        float Choice = Random.Range(0.0f, 1.0f);
+        int MovementAmount = Random.Range(MinOffset, MaxOffset + 1);
+        if (horizontal)
+        {
+            //Move Right
+            if (Choice <= 0.35f) { RoomArea.x += MovementAmount; }
+            //Move Left
+            else { RoomArea.x -= MovementAmount; }
+        }
+        //Random Movement Up/Down
+        else
+        {
+            //Move Up
+            if (Choice <= 0.35f) { RoomArea.y += MovementAmount; }
+            //Move Down
+            else { RoomArea.y -= MovementAmount; }
+        }
+    }
     //Marks some random rooms into special rooms
     private void InsertSpecialRooms()
     {
@@ -208,7 +270,7 @@ public class DungeonCreationV2 : MonoBehaviour
                 SpecialRoomKind SelectedRoom = GetRandomSpecialRoom();
                 //Reassign room in question to new Special room
                 BasicDungeonRooms[i] = new SpecialDungeonRoom(BasicDungeonRooms[i].Area, SelectedRoom);
-
+                specialRoomCount++;
             }
         }
     }
@@ -367,6 +429,25 @@ public class DungeonCreationV2 : MonoBehaviour
 
     }
 
+    //Gather Max Bounds Accounting for Room Movement
+    private RectInt GetMaxDungeonBounds()
+    {
+        int minX = 0;
+        int minY = 0;
+        int maxX = 0;
+        int maxY = 0;
+
+        foreach (var Room in BasicDungeonRooms)
+        {
+            RectInt RoomArea = Room.Area;
+            if (RoomArea.xMin < minX) { minX = RoomArea.xMin; }
+            if (RoomArea.yMin < minY) { minY = RoomArea.yMin; }
+            if (RoomArea.xMax > maxX) { maxX = RoomArea.xMax; }
+            if (RoomArea.yMax > maxY) { maxY = RoomArea.yMax; }
+        }
+        RectInt LargestBounds = new RectInt(minX - 2, minY - 2, (maxX - minX) + 4, (maxY - minY) + 4);
+        return LargestBounds;
+    }
 
     public static event System.Action DungeonDataCreated;
 
@@ -408,10 +489,10 @@ public class DungeonCreationV2 : MonoBehaviour
             Gizmos.DrawWireCube(center2, size2);
         }
         Gizmos.color = Color.red;
-        Vector3 totalSize = new Vector3(TotalDungeonSize.width, TotalDungeonSize.height);
+        Vector3 totalSize = new Vector3(StartingTotalDungeonSize.width, StartingTotalDungeonSize.height);
         Vector3 totalcenter = new Vector3(
-            TotalDungeonSize.x + TotalDungeonSize.width * 0.5f,
-            TotalDungeonSize.y + TotalDungeonSize.height * 0.5f, 0);
+            StartingTotalDungeonSize.x + StartingTotalDungeonSize.width * 0.5f,
+            StartingTotalDungeonSize.y + StartingTotalDungeonSize.height * 0.5f, 0);
         Gizmos.DrawWireCube(totalcenter, totalSize);
     }
 }

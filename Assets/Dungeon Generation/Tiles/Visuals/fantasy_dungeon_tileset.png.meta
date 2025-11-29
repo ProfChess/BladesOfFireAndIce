@@ -153,7 +153,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 419
+        y: 416
         width: 32
         height: 32
       alignment: 0
@@ -174,7 +174,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 419
+        y: 416
         width: 32
         height: 32
       alignment: 0
@@ -195,7 +195,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 419
+        y: 416
         width: 32
         height: 32
       alignment: 0
@@ -300,7 +300,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 355
+        y: 352
         width: 32
         height: 32
       alignment: 0
@@ -342,7 +342,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 323
+        y: 320
         width: 32
         height: 32
       alignment: 0
@@ -363,7 +363,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 291
+        y: 288
         width: 32
         height: 32
       alignment: 0
@@ -384,7 +384,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 387
+        y: 384
         width: 32
         height: 32
       alignment: 0
@@ -405,7 +405,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 481
+        y: 480
         width: 32
         height: 32
       alignment: 0
@@ -426,7 +426,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 387
+        y: 384
         width: 32
         height: 32
       alignment: 0
@@ -447,7 +447,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 387
+        y: 384
         width: 32
         height: 32
       alignment: 0
@@ -510,7 +510,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 451
+        y: 448
         width: 32
         height: 32
       alignment: 0
@@ -531,7 +531,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 451
+        y: 448
         width: 32
         height: 32
       alignment: 0
@@ -694,6 +694,237 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: WallCornerDoubleLeft
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4628a6bfb68249c47817fa487d939322
+      internalID: 1298544179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallCornerDoubleRight
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 972cfa4afce6f544399bf5d70a75b178
+      internalID: 1742950429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallCorner_NW_Xtra
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 512
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee4e4d049f864b94ca4cea0cfcceee60
+      internalID: -1585076596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallCorner_NE_Xtra
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 512
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52d2612ffb2322c4d8d80f7c83c6a420
+      internalID: 223041527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallTop_East_Xtra
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 480
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44bea53f283db964e91ab93eb8ac8085
+      internalID: -1673007381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallTop_West_Xtra
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 480
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d3579b4eff81e943bfe8d6dfc4577b8
+      internalID: 1588742294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallCorner_SW_Xtra
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9891f2c1b0d34e14fb61178eadb94e77
+      internalID: -1225636257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallCorner_SE_Xtra
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15757177267d42a4f9cfdbe569875139
+      internalID: 1158463338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallTop_NorthMiddle_XtraLeft
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 480
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9fb2ed2bd5607e448638402139e48b9
+      internalID: -1551156568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallTop_NorthMiddle_XtraMid
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 480
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91ed9a0e5566cf94e9305dd2568ddfbe
+      internalID: -577969901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WallTop_NorthMiddle_XtraRight
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 480
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8693f53670d89f74a8ce89d322d74622
+      internalID: -284929065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -709,14 +940,20 @@ TextureImporter:
       WallBottom_LeftSide: 1731335127
       WallBottom_Middle: 843422664
       WallBottom_RightSide: 1142991400
+      WallCornerDoubleLeft: -1793690864
+      WallCornerDoubleRight: 1742950429
       WallCorner_EmptyNE: -121818897
       WallCorner_EmptyNW: 304088523
       WallCorner_EmptySE: 237799662
       WallCorner_EmptySW: -1752491648
       WallCorner_NE: -170677994
+      WallCorner_NE_Xtra: 223041527
       WallCorner_NW: -1370672119
+      WallCorner_NW_Xtra: -1585076596
       WallCorner_SE: 907167340
+      WallCorner_SE_Xtra: 1158463338
       WallCorner_SW: -1993006734
+      WallCorner_SW_Xtra: -1225636257
       WallDefault_Top: -993901682
       WallNarrowDownTop: -1997629199
       WallNarrowLeftTop: -789994474
@@ -725,13 +962,17 @@ TextureImporter:
       WallNarrowRightTop: -603219228
       WallNarrowUpTop: -2024231831
       WallTop_East: -748023245
+      WallTop_East_Xtra: -1673007381
       WallTop_NorthMiddle: 1402300733
+      WallTop_NorthMiddle_XtraLeft: -1551156568
+      WallTop_NorthMiddle_XtraMid: -577969901
+      WallTop_NorthMiddle_XtraRight: -284929065
       WallTop_SouthMiddle: -2007934375
       WallTop_West: -216242774
+      WallTop_West_Xtra: 1588742294
       Wall_MiddleCracked: -1983265340
       Wall_MiddleDefault: 1668099112
       Wall_MiddleHoles: -61849556
-      fantasy_dungeon_tileset_0: -1793690864
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -953,15 +953,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e57464116a250e40b793278f41bd78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotalDungeonSize:
+  StartingTotalDungeonSize:
     x: 0
     y: 0
-    width: 55
-    height: 55
+    width: 40
+    height: 40
   BaseSpecialRoomSpawnChance: 0.25
-  SetMinRoomLength: 5
-  SetMinRoomHeight: 5
-  RoomBuffer: 3
+  SetMinRoomLength: 8
+  SetMinRoomHeight: 8
+  RoomBuffer: 2
+  MinOffset: 4
+  MaxOffset: 10
   MaxSpecialRooms: 4
 --- !u!4 &2008781826
 Transform:
