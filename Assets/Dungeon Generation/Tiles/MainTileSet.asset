@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5028abac94703eb4ead5326a8ca81de7, type: 3}
+  m_Name: MainTileSet
+  m_EditorClassIdentifier: 
+  DefaultFloor: {fileID: 11400000, guid: b98db0861734cc948ba6e7dfa216248f, type: 2}
+  WallEmpty: {fileID: 11400000, guid: c36d535e52e73ef48a309c18b0d5d8ab, type: 2}
+  WallBottomMid: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
+  WallBottomRight: {fileID: 11400000, guid: 27f13f8101e1f9f42bb64d1324da15d7, type: 2}
+  WallBottomLeft: {fileID: 11400000, guid: 562a540b5e8a6a443a888ad8c4dc16fc, type: 2}
+  WallOuterCornerNE: {fileID: 11400000, guid: 4ef6ef48de6b49c45939494ac8bc545b, type: 2}
+  WallOuterCornerNW: {fileID: 11400000, guid: e640a6d03fe09b74589a9214b86db955, type: 2}
+  WallOuterCornerSW: {fileID: 11400000, guid: bdef58527173d214993d00c9e8075865, type: 2}
+  WallOuterCornerSE: {fileID: 11400000, guid: 44cc874d1d819d142a272e4a44989522, type: 2}
+  WallInnerCornerNE: {fileID: 11400000, guid: f905368e2213fd646be3570f4a068d35, type: 2}
+  WallInnerCornerNW: {fileID: 11400000, guid: a292aa3c13c11d84db09fffdf38dc897, type: 2}
+  WallInnerCornerSW: {fileID: 11400000, guid: 5b228b46d7a231147bf9da4a3296b23f, type: 2}
+  WallInnerCornerSE: {fileID: 11400000, guid: a4634e57062e1844eb881c53645bedcb, type: 2}
+  WallTopN: {fileID: 11400000, guid: de9d93a9aa329c9498e8bbf660920e5e, type: 2}
+  WallTopE: {fileID: 11400000, guid: 344ca2a87a91dc148a587c4c93e54ec9, type: 2}
+  WallTopS: {fileID: 11400000, guid: ea246215db733a041a31859acf33c292, type: 2}
+  WallTopW: {fileID: 11400000, guid: e164cb3e026cc1a4fadaeffc529381ad, type: 2}
+  WallTopNarrowN: {fileID: 11400000, guid: 38937ee88949b4142bed41a7bea27bcb, type: 2}
+  WallTopNarrowS: {fileID: 11400000, guid: 4daefd5eca860a443a74da26c708d814, type: 2}
+  WallTopNarrowNS: {fileID: 11400000, guid: 719d53f9041105048897e738113a8ab2, type: 2}
+  WallNarrowE: {fileID: 11400000, guid: 24f8acd9e6e6a4a4a9ba87c4860f8520, type: 2}
+  WallNarrowW: {fileID: 11400000, guid: 973945abd67e34b428863b3a0c46c670, type: 2}
+  WallNarrowEW: {fileID: 11400000, guid: 9b198d93a9f16ff478a52a1fac032c19, type: 2}
+  WallNarrowBase: {fileID: 11400000, guid: b98b3db9f5e2393488b6ad13bca257f8, type: 2}

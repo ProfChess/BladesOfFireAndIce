@@ -2,59 +2,33 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class DungeonV2Visuals : MonoBehaviour
 {
     [Header("Tiles")]
     [SerializeField] private Tilemap FloorTM;
     [SerializeField] private Tilemap WallTM;
-    [SerializeField] private RuleTile floorTileDefault;
+    [SerializeField] private TileSet ChosenTileSet;
 
-    [Header("Walls")]
-    [SerializeField] private RuleTile wallTileDefault;
-    [SerializeField] private RuleTile wallTileEmpty;
-    [SerializeField] private RuleTile wallTileTopMiddle;
-    [SerializeField] private RuleTile wallTileTopMiddleEast;
-    [SerializeField] private RuleTile wallTileTopMiddleWest;
-    [SerializeField] private RuleTile wallTileTopMiddleSouth;
-    [SerializeField] private RuleTile wallTileBottomMiddle;
-    [SerializeField] private RuleTile wallTileBottomEast;
-    [SerializeField] private RuleTile wallTileBottomWest;
+    //Floors And Base
     private HashSet<Vector2Int> WallPositions = new HashSet<Vector2Int>();
-    private HashSet<Vector2Int> PositionsToRemove = new HashSet<Vector2Int>(); //Error Position List
+    private HashSet<Vector2Int> AdditionalFloorSpaces = new HashSet<Vector2Int>(); //For walls that must turn into floor
     private HashSet<Vector2Int> EmptyWallPositions = new HashSet<Vector2Int>();
     
+    //Tops
     private HashSet<Vector2Int> BottomWallPositions = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> EastWallTopPositions = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> WestWallTopPositons = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> SouthWallTopPositions = new HashSet<Vector2Int>();
 
-    [Header("Narrow Walls")]
-    [SerializeField] private RuleTile wallTileIsolatedBot;
-    [SerializeField] private RuleTile wallTileNarrowT;
-    [SerializeField] private RuleTile wallTileNarrowB;
-    [SerializeField] private RuleTile wallTileNarrowTB;
-    [SerializeField] private RuleTile wallTileNarrowL;
-    [SerializeField] private RuleTile wallTileNarrowR;
-    [SerializeField] private RuleTile wallTileNarrowLR;
-
-
-    [Header("Wall Corners")]
-    [SerializeField] private RuleTile wallTileTopRightCorner;
-    [SerializeField] private RuleTile wallTileTopLeftCorner;
-    [SerializeField] private RuleTile wallTileTopBottomRightCorner;
-    [SerializeField] private RuleTile wallTileTopBottomLeftCorner;
+    //Outer Corners
     private HashSet<Vector2Int> BottomLeftWallCorners = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> BottomRightWallCorners = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> TopRightWallCorners = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> TopLeftWallCorners = new HashSet<Vector2Int>();
 
-    [Header("Wall Inner Corners")]
-    [SerializeField] private RuleTile wallTileInnerCornerNW;
-    [SerializeField] private RuleTile wallTileInnerCornerNE;
-    [SerializeField] private RuleTile wallTileInnerCornerSW;
-    [SerializeField] private RuleTile wallTileInnerCornerSE;
-
+    //Inner Corners
     private HashSet<Vector2Int> SideWallsForReplacement = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> InnerNECorners = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> InnerNWCorners = new HashSet<Vector2Int>();
@@ -108,7 +82,7 @@ public class DungeonV2Visuals : MonoBehaviour
         {
             //Place Floor Tiles
             //Place Default
-            FloorTM.SetTile((Vector3Int)Position, floorTileDefault);
+            FloorTM.SetTile((Vector3Int)Position, ChosenTileSet.DefaultFloor);
         }
         //Place Decorated Floor Tiles
         PlaceDecorativePatches(FloorTM, FloorPositionSet, ExtraFloorTiles, FloorTileDecorChance);
@@ -116,38 +90,14 @@ public class DungeonV2Visuals : MonoBehaviour
 
         //WALLS
         //Get Walls
-        int DirMultipleMax = DungeonCreationV2.Instance.GetRoomBuffer;
-        foreach (Vector2Int Position in FloorPositionSet)
-        {
-            foreach (Vector2Int Dir in AllDirections)
-            {
-                for (int i = 1; i <= DirMultipleMax; i++)
-                {
-                    Vector2Int NewPos = Position + (Dir * i);
-                    if (!FloorPositionSet.Contains(NewPos) && !WallPositions.Contains(NewPos))
-                    {
-                        //Check to See if Wall is Valid
-                        if (FloorPositionSet.Contains(NewPos + Vector2Int.up) && FloorPositionSet.Contains(NewPos + Vector2Int.down))
-                        {
-                            PositionsToRemove.Add(NewPos);
-                        }
-                        else
-                        {
-                            WallPositions.Add(NewPos);
-                        }
-                    }
-                }
-            }
-        }
+        WallPositions.UnionWith(GetAllRoomWalls(FloorPositionSet));
         
 
         //Remove Error Walls
-        foreach (Vector2Int Pos in PositionsToRemove)
+        foreach (Vector2Int Pos in AdditionalFloorSpaces)
         {
-            WallTM.SetTile((Vector3Int)Pos, null);
-            WallPositions.Remove(Pos);
             FloorPositionSet.Add(Pos);
-            FloorTM.SetTile((Vector3Int)Pos, floorTileDefault);
+            FloorTM.SetTile((Vector3Int)Pos, ChosenTileSet.DefaultFloor);
         }
         //Sort Walls
         foreach (Vector2Int Pos in WallPositions)
@@ -155,36 +105,38 @@ public class DungeonV2Visuals : MonoBehaviour
             SortWallTile(Pos);
         }
 
-        //Place Walls
-        PlaceAllWallTilesInList(EastWallTopPositions, wallTileTopMiddleEast);
-        PlaceAllWallTilesInList(WestWallTopPositons, wallTileTopMiddleWest);
-        PlaceAllWallTilesInList(SouthWallTopPositions, wallTileTopMiddle);
-        PlaceAllWallTilesInList(BottomWallPositions, wallTileBottomMiddle);
+        //Place Inner Corners
+        PlaceAllWallTilesInList(InnerNWCorners, ChosenTileSet.WallInnerCornerNW);
+        PlaceAllWallTilesInList(InnerNECorners, ChosenTileSet.WallInnerCornerNE);
+        PlaceAllWallTilesInList(InnerSWCorners, ChosenTileSet.WallInnerCornerSW);
+        PlaceAllWallTilesInList(InnerSECorners, ChosenTileSet.WallInnerCornerSE);
 
-        //Place Corners
-        PlaceAllWallTilesInList(TopRightWallCorners, wallTileTopRightCorner);
-        PlaceAllWallTilesInList(TopLeftWallCorners, wallTileTopLeftCorner);
-        PlaceAllWallTilesInList(BottomLeftWallCorners, wallTileBottomWest);
-        PlaceAllWallTilesInList(BottomRightWallCorners, wallTileBottomEast);
+        //Place Wall Tops
+        PlaceAllWallTilesInList(EastWallTopPositions, ChosenTileSet.WallTopE);
+        PlaceAllWallTilesInList(WestWallTopPositons, ChosenTileSet.WallTopW);
+        PlaceAllWallTilesInList(SouthWallTopPositions, ChosenTileSet.WallTopS);
+        PlaceWallTop(ChosenTileSet.WallTopN, BottomWallPositions, EmptyWallPositions);
 
-        //Move Inner Corners and Place New Walls
-        PlaceAllWallTilesInList(InnerNWCorners, wallTileInnerCornerNW);
-        PlaceAllWallTilesInList(InnerNECorners, wallTileInnerCornerNE);
-        PlaceAllWallTilesInList(InnerSWCorners, wallTileInnerCornerSW);
-        PlaceAllWallTilesInList(InnerSECorners, wallTileInnerCornerSE);
+        //Place Base Walls
+        PlaceAllWallTilesInList(BottomLeftWallCorners, ChosenTileSet.WallBottomLeft);
+        PlaceAllWallTilesInList(BottomRightWallCorners, ChosenTileSet.WallBottomRight);
+        PlaceAllWallTilesInList(BottomWallPositions, ChosenTileSet.WallBottomMid);
 
-        //Place Tops of Walls on Corners
-        PlaceWallTop(wallTileTopBottomLeftCorner, BottomLeftWallCorners, SideWallsForReplacement);
-        PlaceWallTop(wallTileTopBottomRightCorner, BottomRightWallCorners, SideWallsForReplacement);
+
+        //Place Outer Corners
+        PlaceAllWallTilesInList(TopRightWallCorners, ChosenTileSet.WallOuterCornerNE);
+        PlaceAllWallTilesInList(TopLeftWallCorners, ChosenTileSet.WallOuterCornerNW);
+        PlaceWallTop(ChosenTileSet.WallOuterCornerSW, BottomLeftWallCorners, SideWallsForReplacement);
+        PlaceWallTop(ChosenTileSet.WallOuterCornerSE, BottomRightWallCorners, SideWallsForReplacement);
+
 
         //Place Normal Wall Tops
-        PlaceWallTop(wallTileTopMiddleSouth, BottomWallPositions, EmptyWallPositions);
 
         //Check for Isolated Walls/Corners
         foreach (Vector2Int position in WallPositions)
         {
             RuleTile Tile = PlaceIsolatedWalls(position);
-            if (Tile != wallTileEmpty)
+            if (Tile != ChosenTileSet.WallEmpty)
             {
                 WallTM.SetTile((Vector3Int)position, Tile);
             }
@@ -271,32 +223,30 @@ public class DungeonV2Visuals : MonoBehaviour
         HashSet<Vector2Int> walls = new HashSet<Vector2Int>();
 
         //Gather Walls
+        int DirMultipleMax = DungeonCreationV2.Instance.GetRoomBuffer + 1;
         foreach (Vector2Int FloorPosition in FloorPositions)
         {
-            foreach (var direction in AllDirections)
+            foreach (Vector2Int direction in AllDirections)
             {
-                Vector2Int WallPos = FloorPosition + direction;
-                if (!FloorPositions.Contains(WallPos))
+                for (int i = 1; i <= DirMultipleMax; i++)
                 {
-                    walls.Add(WallPos);
+                    Vector2Int NewPos = FloorPosition + (direction * i);
+                    if (!FloorPositionSet.Contains(NewPos))
+                    {
+                        //Check to See if Wall is Valid
+                        if (FloorPositionSet.Contains(NewPos + Vector2Int.up) && FloorPositionSet.Contains(NewPos + Vector2Int.down))
+                        {
+                            AdditionalFloorSpaces.Add(NewPos);
+                        }
+                        else
+                        {
+                            WallPositions.Add(NewPos);
+                        }
+                    }
                 }
             }
         }
         return walls;
-    }
-    
-    //Gather all positions for floor from given room
-    private HashSet<Vector2Int> GetRoomFloorPositions(SingleDungeonRoom room)
-    {
-        HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
-        for (int x = room.Area.xMin; x <= room.Area.xMax; x++)
-        {
-            for (int y = room.Area.yMin;  y <= room.Area.yMax; y++)
-            {
-                floor.Add(new Vector2Int(x, y));
-            }
-        }
-        return floor;
     }
 
     //Walls Relative Direction Key
@@ -312,7 +262,7 @@ public class DungeonV2Visuals : MonoBehaviour
         bool downLeft = FloorPositionSet.Contains(wallPos + new Vector2Int(-1, -1));
         bool downRight = FloorPositionSet.Contains(wallPos + new Vector2Int(1, -1));
 
-        //Check Room Corners
+        //Check Inner Corners
         if (!up && !left && !down && !right)//Must be Room Corner
         {
             //South East Corner
@@ -367,29 +317,32 @@ public class DungeonV2Visuals : MonoBehaviour
         AllBottomWallPositions.UnionWith(BottomWallPositions);
         AllBottomWallPositions.UnionWith(BottomRightWallCorners);
         AllBottomWallPositions.UnionWith(BottomLeftWallCorners);
-        
+
         bool FloorAbove = FloorPositionSet.Contains(Position + Vector2Int.up);
         bool FloorBelow = FloorPositionSet.Contains(Position + Vector2Int.down);
         bool FloorLeft = FloorPositionSet.Contains(Position + Vector2Int.left);
         bool FloorRight = FloorPositionSet.Contains(Position + Vector2Int.right);
         bool aboveWallBottom = AllBottomWallPositions.Contains(Position + Vector2Int.down);
-        
+        bool wallBotLeftorRight = AllBottomWallPositions.Contains(Position + Vector2Int.left) || AllBottomWallPositions.Contains(Position + Vector2Int.right);
+        bool floorLeftOrRight = FloorLeft || FloorRight;
+
         //Horizontal Thin Wall
         if (aboveWallBottom && FloorAbove)
         {
             //Left Corner
-            if (FloorLeft && !FloorRight) { return wallTileNarrowL; }
-            if (!FloorLeft && FloorRight) { return wallTileNarrowR; }
-            if (!FloorLeft && !FloorRight) { return wallTileNarrowLR; }
+            if (FloorLeft && !FloorRight) { return ChosenTileSet.WallNarrowW; }
+            if (!FloorLeft && FloorRight) { return ChosenTileSet.WallNarrowE; }
+            if (!FloorLeft && !FloorRight) { return ChosenTileSet.WallNarrowEW; }
         }
 
         //Vertical Thin Wall
-        if (!aboveWallBottom && !FloorAbove && FloorLeft && FloorRight && FloorBelow) { return  wallTileIsolatedBot; }
-        if (aboveWallBottom && FloorLeft && FloorRight && !FloorAbove && !FloorBelow) { return wallTileNarrowB; }
-        if (!aboveWallBottom && FloorLeft && FloorRight && FloorAbove && !FloorBelow) { return wallTileNarrowT; }
-        if (!aboveWallBottom && FloorLeft && FloorRight && !FloorAbove && !FloorBelow) { return wallTileNarrowTB; }
+        if (!aboveWallBottom && !FloorAbove && FloorLeft && FloorRight && FloorBelow) { return ChosenTileSet.WallNarrowBase; }
+        if (aboveWallBottom && FloorLeft && FloorRight && !FloorAbove && !FloorBelow) { return ChosenTileSet.WallTopNarrowS; }
+        if (!aboveWallBottom && FloorLeft && FloorRight && FloorAbove && !FloorBelow) { return ChosenTileSet.WallTopNarrowN; }
+        if (!aboveWallBottom && FloorLeft && FloorRight && !FloorAbove && !FloorBelow) { return ChosenTileSet.WallTopNarrowNS; }
+        if (!aboveWallBottom && wallBotLeftorRight && !FloorAbove && !FloorBelow && floorLeftOrRight) { return ChosenTileSet.WallTopNarrowNS; }
 
-        return wallTileEmpty;
+        return ChosenTileSet.WallEmpty;
     }
 
     private void FinalFill(RectInt Area)
@@ -401,7 +354,7 @@ public class DungeonV2Visuals : MonoBehaviour
                 Vector3Int Position = new Vector3Int(x, y);
                 if (WallTM.GetTile(Position) == null)
                 {
-                    WallTM.SetTile(Position, wallTileEmpty);
+                    WallTM.SetTile(Position, ChosenTileSet.WallEmpty);
                 }
             }
         }

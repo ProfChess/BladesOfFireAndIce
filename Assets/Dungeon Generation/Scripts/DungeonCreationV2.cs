@@ -55,7 +55,7 @@ public class DungeonCreationV2 : MonoBehaviour
     {
         if (Instance == null) { Instance = this; }
 
-        //RoomOffset = RoomBuffer / 2;
+        if (RoomBuffer == 0) { RoomBuffer = 1; }
         MinRoomHeight = SetMinRoomHeight;
         MinRoomLength = SetMinRoomLength; 
         StartingRoom = new SingleDungeonRoom(StartingTotalDungeonSize);

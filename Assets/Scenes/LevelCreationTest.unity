@@ -961,8 +961,8 @@ MonoBehaviour:
   BaseSpecialRoomSpawnChance: 0.25
   SetMinRoomLength: 8
   SetMinRoomHeight: 8
-  RoomBuffer: 2
-  MinOffset: 4
+  RoomBuffer: 1
+  MinOffset: 5
   MaxOffset: 10
   MaxSpecialRooms: 4
 --- !u!4 &2008781826
@@ -994,31 +994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FloorTM: {fileID: 651452455}
   WallTM: {fileID: 1777132176}
-  floorTileDefault: {fileID: 11400000, guid: b98db0861734cc948ba6e7dfa216248f, type: 2}
-  wallTileDefault: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
-  wallTileEmpty: {fileID: 11400000, guid: c36d535e52e73ef48a309c18b0d5d8ab, type: 2}
-  wallTileTopMiddle: {fileID: 11400000, guid: ea246215db733a041a31859acf33c292, type: 2}
-  wallTileTopMiddleEast: {fileID: 11400000, guid: 344ca2a87a91dc148a587c4c93e54ec9, type: 2}
-  wallTileTopMiddleWest: {fileID: 11400000, guid: e164cb3e026cc1a4fadaeffc529381ad, type: 2}
-  wallTileTopMiddleSouth: {fileID: 11400000, guid: de9d93a9aa329c9498e8bbf660920e5e, type: 2}
-  wallTileBottomMiddle: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
-  wallTileBottomEast: {fileID: 11400000, guid: 27f13f8101e1f9f42bb64d1324da15d7, type: 2}
-  wallTileBottomWest: {fileID: 11400000, guid: 562a540b5e8a6a443a888ad8c4dc16fc, type: 2}
-  wallTileIsolatedBot: {fileID: 11400000, guid: b98b3db9f5e2393488b6ad13bca257f8, type: 2}
-  wallTileNarrowT: {fileID: 11400000, guid: 38937ee88949b4142bed41a7bea27bcb, type: 2}
-  wallTileNarrowB: {fileID: 11400000, guid: 4daefd5eca860a443a74da26c708d814, type: 2}
-  wallTileNarrowTB: {fileID: 11400000, guid: 719d53f9041105048897e738113a8ab2, type: 2}
-  wallTileNarrowL: {fileID: 11400000, guid: 973945abd67e34b428863b3a0c46c670, type: 2}
-  wallTileNarrowR: {fileID: 11400000, guid: 24f8acd9e6e6a4a4a9ba87c4860f8520, type: 2}
-  wallTileNarrowLR: {fileID: 11400000, guid: 9b198d93a9f16ff478a52a1fac032c19, type: 2}
-  wallTileTopRightCorner: {fileID: 11400000, guid: 4ef6ef48de6b49c45939494ac8bc545b, type: 2}
-  wallTileTopLeftCorner: {fileID: 11400000, guid: e640a6d03fe09b74589a9214b86db955, type: 2}
-  wallTileTopBottomRightCorner: {fileID: 11400000, guid: 44cc874d1d819d142a272e4a44989522, type: 2}
-  wallTileTopBottomLeftCorner: {fileID: 11400000, guid: bdef58527173d214993d00c9e8075865, type: 2}
-  wallTileInnerCornerNW: {fileID: 11400000, guid: a292aa3c13c11d84db09fffdf38dc897, type: 2}
-  wallTileInnerCornerNE: {fileID: 11400000, guid: f905368e2213fd646be3570f4a068d35, type: 2}
-  wallTileInnerCornerSW: {fileID: 11400000, guid: 5b228b46d7a231147bf9da4a3296b23f, type: 2}
-  wallTileInnerCornerSE: {fileID: 11400000, guid: a4634e57062e1844eb881c53645bedcb, type: 2}
+  ChosenTileSet: {fileID: 11400000, guid: 276a6f65d3abadc43bc007aca9fb7988, type: 2}
   FloorTileDecorChance: 0.05
   WallTileDecorChance: 0.05
   ExtraFloorTiles:
