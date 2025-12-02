@@ -10,6 +10,8 @@ public class DungeonV2Visuals : MonoBehaviour
     [SerializeField] private Tilemap FloorTM;
     [SerializeField] private Tilemap WallTM;
     [SerializeField] private TileSet ChosenTileSet;
+    [SerializeField] private List<Tilemap> DecorationTileMaps;
+    
 
     //Floors And Base
     private HashSet<Vector2Int> WallPositions = new HashSet<Vector2Int>();
@@ -29,7 +31,6 @@ public class DungeonV2Visuals : MonoBehaviour
     private HashSet<Vector2Int> TopLeftWallCorners = new HashSet<Vector2Int>();
 
     //Inner Corners
-    private HashSet<Vector2Int> SideWallsForReplacement = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> InnerNECorners = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> InnerNWCorners = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> InnerSECorners = new HashSet<Vector2Int>();
@@ -106,28 +107,30 @@ public class DungeonV2Visuals : MonoBehaviour
         }
 
         //Place Inner Corners
-        PlaceAllWallTilesInList(InnerNWCorners, ChosenTileSet.WallInnerCornerNW);
-        PlaceAllWallTilesInList(InnerNECorners, ChosenTileSet.WallInnerCornerNE);
-        PlaceAllWallTilesInList(InnerSWCorners, ChosenTileSet.WallInnerCornerSW);
-        PlaceAllWallTilesInList(InnerSECorners, ChosenTileSet.WallInnerCornerSE);
+        DetermineInnerCornerLocations();
+        PlaceAllWallTilesInList(InnerNWCorners, ChosenTileSet.WallInnerCornerNW, DecorationTileMaps[0]);
+        PlaceAllWallTilesInList(InnerNECorners, ChosenTileSet.WallInnerCornerNE, DecorationTileMaps[1]);
+        PlaceAllWallTilesInList(InnerSWCorners, ChosenTileSet.WallInnerCornerSW, DecorationTileMaps[2]);
+        PlaceAllWallTilesInList(InnerSECorners, ChosenTileSet.WallInnerCornerSE, DecorationTileMaps[3]);
+
 
         //Place Wall Tops
-        PlaceAllWallTilesInList(EastWallTopPositions, ChosenTileSet.WallTopE);
-        PlaceAllWallTilesInList(WestWallTopPositons, ChosenTileSet.WallTopW);
-        PlaceAllWallTilesInList(SouthWallTopPositions, ChosenTileSet.WallTopS);
-        PlaceWallTop(ChosenTileSet.WallTopN, BottomWallPositions, EmptyWallPositions);
+        PlaceAllWallTilesInList(EastWallTopPositions, ChosenTileSet.WallTopE, WallTM);
+        PlaceAllWallTilesInList(WestWallTopPositons, ChosenTileSet.WallTopW, WallTM);
+        PlaceAllWallTilesInList(SouthWallTopPositions, ChosenTileSet.WallTopS, WallTM);
+        PlaceWallTop(ChosenTileSet.WallTopN, BottomWallPositions);
 
         //Place Base Walls
-        PlaceAllWallTilesInList(BottomLeftWallCorners, ChosenTileSet.WallBottomLeft);
-        PlaceAllWallTilesInList(BottomRightWallCorners, ChosenTileSet.WallBottomRight);
-        PlaceAllWallTilesInList(BottomWallPositions, ChosenTileSet.WallBottomMid);
+        PlaceAllWallTilesInList(BottomLeftWallCorners, ChosenTileSet.WallBottomLeft, WallTM);
+        PlaceAllWallTilesInList(BottomRightWallCorners, ChosenTileSet.WallBottomRight, WallTM);
+        PlaceAllWallTilesInList(BottomWallPositions, ChosenTileSet.WallBottomMid, WallTM);
 
 
         //Place Outer Corners
-        PlaceAllWallTilesInList(TopRightWallCorners, ChosenTileSet.WallOuterCornerNE);
-        PlaceAllWallTilesInList(TopLeftWallCorners, ChosenTileSet.WallOuterCornerNW);
-        PlaceWallTop(ChosenTileSet.WallOuterCornerSW, BottomLeftWallCorners, SideWallsForReplacement);
-        PlaceWallTop(ChosenTileSet.WallOuterCornerSE, BottomRightWallCorners, SideWallsForReplacement);
+        PlaceAllWallTilesInList(TopRightWallCorners, ChosenTileSet.WallOuterCornerNE, WallTM);
+        PlaceAllWallTilesInList(TopLeftWallCorners, ChosenTileSet.WallOuterCornerNW, WallTM);
+        PlaceWallTop(ChosenTileSet.WallOuterCornerSW, BottomLeftWallCorners);
+        PlaceWallTop(ChosenTileSet.WallOuterCornerSE, BottomRightWallCorners);
 
 
         //Place Normal Wall Tops
@@ -265,12 +268,12 @@ public class DungeonV2Visuals : MonoBehaviour
         //Check Inner Corners
         if (!up && !left && !down && !right)//Must be Room Corner
         {
-            //South East Corner
-            if (upLeft) { InnerSECorners.Add(wallPos); return; }
-            if (upRight) { InnerSWCorners.Add(wallPos); return; }
-            if (downLeft) { InnerNECorners.Add(wallPos + Vector2Int.up); SideWallsForReplacement.Add(wallPos); EastWallTopPositions.Add(wallPos); return; }  //Adds Position above for corner, returns side
-            if (downRight) { InnerNWCorners.Add(wallPos + Vector2Int.up); SideWallsForReplacement.Add(wallPos); WestWallTopPositons.Add(wallPos); return; } //Adds Position above for corner, returns side
-            EmptyWallPositions.Add(wallPos); return;
+            if (!upLeft &&  !downLeft && !downRight && !upRight)
+            {
+                EmptyWallPositions.Add(wallPos); return;
+            }
+            if (downRight) { WestWallTopPositons.Add(wallPos); return; }
+            if (downLeft) { EastWallTopPositions.Add(wallPos); return; }
         }
 
         //Check Corridor Corners
@@ -282,32 +285,69 @@ public class DungeonV2Visuals : MonoBehaviour
         //Check Side Walls
         if (down) { BottomWallPositions.Add(wallPos); return; }
         if (up) { SouthWallTopPositions.Add(wallPos); return; }
-        if (left) { EastWallTopPositions.Add(wallPos); SideWallsForReplacement.Add(wallPos); return; }   //Stores position for later safety check
-        if (right) { WestWallTopPositons.Add(wallPos); SideWallsForReplacement.Add(wallPos); return; }  //Stores position for later safety check
+        if (left) { EastWallTopPositions.Add(wallPos); return; }   //Stores position for later safety check
+        if (right) { WestWallTopPositons.Add(wallPos); return; }  //Stores position for later safety check
 
     }
-    private void PlaceAllWallTilesInList(HashSet<Vector2Int> List, RuleTile tile)
+    private void PlaceAllWallTilesInList(HashSet<Vector2Int> List, RuleTile tile, Tilemap map)
     {
         foreach (Vector2Int wallPos in List)
         {
-            WallTM.SetTile((Vector3Int)wallPos, tile);
+            map.SetTile((Vector3Int)wallPos, tile);
         }
     }
 
+    private void DetermineInnerCornerLocations()
+    {
+        //South Wall
+        //Take All Locations Along Wall -> Check upLeft and upRight -> If not Floor, Needs Inner Wall
+        HashSet<Vector2Int> AllSouthWallPositions = new HashSet<Vector2Int>();
+        AllSouthWallPositions.UnionWith(SouthWallTopPositions);
+        AllSouthWallPositions.UnionWith(TopRightWallCorners);
+        AllSouthWallPositions.UnionWith(TopLeftWallCorners);
+        foreach (Vector2Int Position in AllSouthWallPositions)
+        {
+            Vector2Int left = Position + Vector2Int.left;
+            Vector2Int right = Position + Vector2Int.right;
+            if (!FloorPositionSet.Contains(left + Vector2Int.up))
+            {
+                InnerSWCorners.Add(left);
+            }
+            if (!FloorPositionSet.Contains(right + Vector2Int.up))
+            {
+                InnerSECorners.Add(right);
+            }
+        }
 
+        //Bottom Wall
+        HashSet<Vector2Int> AllBottomWallPositions = new HashSet<Vector2Int>();
+        AllBottomWallPositions.UnionWith(BottomWallPositions);
+        AllBottomWallPositions.UnionWith(BottomRightWallCorners);
+        AllBottomWallPositions.UnionWith(BottomLeftWallCorners);
+        foreach (Vector2Int Position in AllBottomWallPositions)
+        {
+            Vector2Int left = Position + Vector2Int.left;
+            Vector2Int right = Position + Vector2Int.right;
+            if (!FloorPositionSet.Contains(left + Vector2Int.down))
+            {
+                InnerNWCorners.Add(left + Vector2Int.up);
+            }
+            if (!FloorPositionSet.Contains(right + Vector2Int.down))
+            {
+                InnerNECorners.Add(right + Vector2Int.up);
+            }
+        }
+    }
     //Additional Tile Placement Functions
-    private void PlaceWallTop(RuleTile Tile, HashSet<Vector2Int> PossiblePositions, HashSet<Vector2Int> SafeTiles)
+    private void PlaceWallTop(RuleTile Tile, HashSet<Vector2Int> PossiblePositions)
     {
         //Loop Through all Given Positions
         foreach (Vector2Int position in PossiblePositions)
         {
             //Check Adjacent Tile to See if it Can be replaced with given tile
             Vector3Int NewPosition = (Vector3Int)position + Vector3Int.up;
-            if (SafeTiles.Contains((Vector2Int)NewPosition))
-            {
-                //Replace with given tile
-                WallTM.SetTile(NewPosition, Tile);
-            }
+            //Replace with given tile
+            WallTM.SetTile(NewPosition, Tile);
         }
     }
 
