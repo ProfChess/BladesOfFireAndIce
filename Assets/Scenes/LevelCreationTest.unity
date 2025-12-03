@@ -721,7 +721,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1069512701
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -1511,16 +1511,22 @@ MonoBehaviour:
   FloorTM: {fileID: 651452455}
   WallTM: {fileID: 1777132176}
   ChosenTileSet: {fileID: 11400000, guid: 276a6f65d3abadc43bc007aca9fb7988, type: 2}
-  DecorationTileMaps:
+  ExtraWallsTileMaps:
   - {fileID: 1791484412}
   - {fileID: 789121243}
   - {fileID: 1094619211}
   - {fileID: 1337354114}
+  DecorTiles: {fileID: 11400000, guid: 1127a6bd402e1c44aad3eef51716b802, type: 2}
+  DecorationParent: {fileID: 1059050630}
   FloorTileDecorChance: 0.05
   WallTileDecorChance: 0.05
   ExtraFloorTiles:
   - Tile: {fileID: 11400000, guid: 3b72f8a07489c7748a000f6542f1154e, type: 2}
-    Chance: 1
+    Chance: 0.5
+  - Tile: {fileID: 11400000, guid: c342710824271f84891744881e44154d, type: 2}
+    Chance: 0.25
+  - Tile: {fileID: 11400000, guid: a61ae187b32f8c24daf5a2a71e6148da, type: 2}
+    Chance: 0.1
   ExtraWallTiles:
   - Tile: {fileID: 11400000, guid: 9a8c13d2b020ec94bb1f0319b12ed123, type: 2}
     Chance: 0.5
