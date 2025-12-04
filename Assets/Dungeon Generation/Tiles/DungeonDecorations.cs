@@ -20,9 +20,6 @@ public class DungeonDecor
     [Tooltip("Chance for Object to Be Placed in Each Instance Where There is Room")]
     public float SpawnChance = 0f;
 
-    [Tooltip("Amount of Room Needed to Place the Decoration in (x,y)")]
-    public Vector2Int RequiredSpace = new Vector2Int(1, 1);
-
-    [Tooltip("Decorations That are not Breakable Will not be Placed Near Entrances/Exits")]
-    public bool isBreakable = false;
+    [Tooltip("Controls if Decoration can Spawn Along any Wall or Only at Upper Corners")]
+    public bool cornerOnly = false;
 }

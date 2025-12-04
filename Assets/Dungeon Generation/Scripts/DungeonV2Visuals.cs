@@ -3,6 +3,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class DungeonV2Visuals : MonoBehaviour
 {
@@ -44,7 +45,9 @@ public class DungeonV2Visuals : MonoBehaviour
     [SerializeField] private float WallTileDecorChance = 0f;
     [SerializeField] private List<TileWithChance> ExtraFloorTiles = new List<TileWithChance>();
     [SerializeField] private List<TileWithChance> ExtraWallTiles = new List<TileWithChance>();
-
+    private List<(GameObject, Vector2Int)> CornerDecorationPlacements = new List<(GameObject, Vector2Int)>();
+    private List<(GameObject, Vector2Int)> AlongWallDecorationPlacements = new List<(GameObject, Vector2Int)>();
+    private List<(GameObject, Vector2Int)> WallDecorationPlacements = new List<(GameObject, Vector2Int)>();
 
     private static readonly Vector2Int[] CardinalDir = new Vector2Int[]
     {
@@ -424,22 +427,78 @@ public class DungeonV2Visuals : MonoBehaviour
         AllBottomWallPositions.UnionWith(GetAllBottomWalls());
         foreach (Vector2Int Position in AllBottomWallPositions)
         {
-            float DecorSpawnDecision = Random.Range(0f, 1f);
-            if (DecorSpawnDecision <= DecorTiles.BaseChanceToDecorateWall)
-            {
-                //Spawns Random Decoration
-                GameObject ChosenDecor = DecideDecoration(DecorTiles.WallDecorations, TotalWallDecorSpawnChance);
-                Instantiate(ChosenDecor, (Vector3Int)Position, Quaternion.identity, DecorationParent.transform);
-            }
-            //Fails To Spawn Decoration
+            SpawnDecorObject(DecorTiles.BaseChanceToDecorateWall, DecorTiles.WallDecorations,
+                TotalWallDecorSpawnChance, Position, WallDecorationPlacements);
         }
 
 
-        foreach (var Entry in DecorTiles.WallDecorations)
-        {
-
-        }
         //Floor
+        float TotalFloorDecorSpawnChanceCorner = 0f;
+        float TotalFloorDecorSpawnChanceNormal = 0f;
+        //Sort Based On Corner Only or Not
+        List<DungeonDecor> CornerFloorObjects = new List<DungeonDecor>();
+        List<DungeonDecor> OtherFloorObjects = new List<DungeonDecor>();
+        foreach (var Entry in DecorTiles.FloorDecorations)
+        {
+            if (Entry.cornerOnly)
+            {
+                CornerFloorObjects.Add(Entry);
+                TotalFloorDecorSpawnChanceCorner += Entry.SpawnChance; 
+            }
+            else
+            {
+                OtherFloorObjects.Add(Entry);
+                TotalFloorDecorSpawnChanceNormal += Entry.SpawnChance;
+            }
+        }
+
+        //Get Corner Locations
+        HashSet<Vector2Int> CornerLocations = new HashSet<Vector2Int>();
+        if (CornerFloorObjects.Count > 0)
+        {
+            foreach (SingleDungeonRoom room in DungeonCreationV2.Instance.GetDungeonRooms)
+            {
+                Vector2Int[] RoomCorners = room.Corners;
+                foreach (Vector2Int corner in RoomCorners)
+                {
+                    CornerLocations.Add(corner);
+                }
+            }
+        }
+
+        //Get Normal Locations
+        HashSet<Vector2Int> AdjacentWallLocations = new HashSet<Vector2Int>();
+        if (OtherFloorObjects.Count > 0)
+        {
+            foreach (Vector2Int Position in FloorPositionSet)
+            {
+                if (!WallPositions.Contains(Position + Vector2Int.down))
+                {
+                    //Not Adjacent to Bottom Wall so Can Place
+                    if (WallPositions.Contains(Position + Vector2Int.left) ||
+                        WallPositions.Contains(Position + Vector2Int.right) ||
+                        WallPositions.Contains(Position + Vector2Int.up))
+                    {
+                        //Floor is Adjacent to Other Walls
+                        AdjacentWallLocations.Add(Position);
+                    }
+                }
+            }
+        }
+        
+        //Place Normal Objects
+        foreach (Vector2Int Position in AdjacentWallLocations)
+        {
+            SpawnDecorObject(DecorTiles.BaseChanceToDecorateFloor, OtherFloorObjects, 
+                TotalFloorDecorSpawnChanceNormal, Position, AlongWallDecorationPlacements);
+        }
+        //Place Corner Objects
+        foreach (Vector2Int Position in CornerLocations)
+        {
+            SpawnDecorObject(DecorTiles.BaseChanceToDecorateFloor, CornerFloorObjects,
+                TotalFloorDecorSpawnChanceCorner, Position, CornerDecorationPlacements);
+        }
+
     }
     private GameObject DecideDecoration(List<DungeonDecor> DecorList, float TotalSpawnChance)
     {
@@ -456,5 +515,17 @@ public class DungeonV2Visuals : MonoBehaviour
         }
         //Returns First Element As Default
         return DecorList[0].Object;
+    }
+    private void SpawnDecorObject(float ComparedSpawnChance, List<DungeonDecor> DecorList, 
+        float TotalSpawnChance, Vector2Int Pos, List<(GameObject, Vector2Int)> DecorPlacementList)
+    {
+        float DecorSpawnDecision = Random.Range(0f, 1f);
+        if (DecorSpawnDecision <= ComparedSpawnChance)
+        {
+            //Success
+            GameObject ChosenDecor = DecideDecoration(DecorList, TotalSpawnChance);
+            GameObject Object = Instantiate(ChosenDecor, (Vector3Int)Pos, Quaternion.identity, DecorationParent.transform);
+            DecorPlacementList.Add((Object, Pos));
+        }
     }
 }

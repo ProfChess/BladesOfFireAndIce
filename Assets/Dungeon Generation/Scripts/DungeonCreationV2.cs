@@ -519,6 +519,15 @@ public class SingleDungeonRoom
         FirstChildRoom = First;
         SecondChildRoom = Second;
     }
+
+    //Points for Spawning Objects
+    public Vector2Int[] Corners => new[]
+    {
+        new Vector2Int(Area.xMin + 1, Area.yMin + 1),
+        new Vector2Int(Area.xMin + 1, Area.yMax - 1),
+        new Vector2Int(Area.xMax - 1, Area.yMin + 1),
+        new Vector2Int(Area.xMax - 1, Area.yMax - 1)
+    };
 }
 public class SpecialDungeonRoom : SingleDungeonRoom
 {
@@ -531,12 +540,4 @@ public class SpecialDungeonRoom : SingleDungeonRoom
         CenterPoint = new Vector2Int(size.x + size.width/2, size.y + size.height / 2);
     }
 
-    //Points for Spawning Objects
-    public Vector2Int[] Corners => new[]
-    {
-        new Vector2Int(Area.xMin + 1, Area.yMin + 1),
-        new Vector2Int(Area.xMin + 1, Area.yMax - 1),
-        new Vector2Int(Area.xMax - 1, Area.yMin + 1),
-        new Vector2Int(Area.xMax - 1, Area.yMax - 1)
-    };
 }

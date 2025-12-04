@@ -16,7 +16,9 @@ MonoBehaviour:
   WallDecorations:
   - Object: {fileID: 6518921550976308954, guid: 0c64ae6dcd38d50488fbd4878827e034, type: 3}
     SpawnChance: 1
-    RequiredSpace: {x: 1, y: 1}
-    isBreakable: 0
+    cornerOnly: 0
   BaseChanceToDecorateFloor: 0.1
-  FloorDecorations: []
+  FloorDecorations:
+  - Object: {fileID: 7370534633112702600, guid: ac08f5b42a764e541b855244827f84e0, type: 3}
+    SpawnChance: 1
+    cornerOnly: 1
