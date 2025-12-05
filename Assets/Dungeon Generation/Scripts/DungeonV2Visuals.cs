@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class DungeonV2Visuals : MonoBehaviour
 {
@@ -40,14 +38,14 @@ public class DungeonV2Visuals : MonoBehaviour
     //Additional Floor Options
     [Header("Additional Decoration Chances")]
     [SerializeField] private DungeonDecorations DecorTiles;
-    [SerializeField] private GameObject DecorationParent;
+    [SerializeField] private DecorationParentSet DecorationParent;
     [SerializeField] private float FloorTileDecorChance = 0f;
     [SerializeField] private float WallTileDecorChance = 0f;
     [SerializeField] private List<TileWithChance> ExtraFloorTiles = new List<TileWithChance>();
     [SerializeField] private List<TileWithChance> ExtraWallTiles = new List<TileWithChance>();
-    private List<(GameObject, Vector2Int)> CornerDecorationPlacements = new List<(GameObject, Vector2Int)>();
-    private List<(GameObject, Vector2Int)> AlongWallDecorationPlacements = new List<(GameObject, Vector2Int)>();
-    private List<(GameObject, Vector2Int)> WallDecorationPlacements = new List<(GameObject, Vector2Int)>();
+    private List<(GameObject, Vector2)> CornerDecorationPlacements = new List<(GameObject, Vector2)>();
+    private List<(GameObject, Vector2)> AlongWallDecorationPlacements = new List<(GameObject, Vector2)>();
+    private List<(GameObject, Vector2)> WallDecorationPlacements = new List<(GameObject, Vector2)>();
 
     private static readonly Vector2Int[] CardinalDir = new Vector2Int[]
     {
@@ -395,7 +393,7 @@ public class DungeonV2Visuals : MonoBehaviour
             for (int y = Area.yMin; y <= Area.yMax; y++)
             {
                 Vector3Int Position = new Vector3Int(x, y);
-                if (WallTM.GetTile(Position) == null)
+                if (WallTM.GetTile(Position) == null && !FloorPositionSet.Contains((Vector2Int)Position))
                 {
                     WallTM.SetTile(Position, ChosenTileSet.WallEmpty);
                 }
@@ -500,7 +498,7 @@ public class DungeonV2Visuals : MonoBehaviour
         }
 
     }
-    private GameObject DecideDecoration(List<DungeonDecor> DecorList, float TotalSpawnChance)
+    private DungeonDecor DecideDecoration(List<DungeonDecor> DecorList, float TotalSpawnChance)
     {
         float ChosenDecoration = Random.Range(0f, TotalSpawnChance);
         float chance = 0f;
@@ -510,22 +508,36 @@ public class DungeonV2Visuals : MonoBehaviour
             if (ChosenDecoration <= chance)
             {
                 //Selected Decoration
-                return Entry.Object;
+                return Entry;
             }
         }
         //Returns First Element As Default
-        return DecorList[0].Object;
+        return DecorList[0];
     }
     private void SpawnDecorObject(float ComparedSpawnChance, List<DungeonDecor> DecorList, 
-        float TotalSpawnChance, Vector2Int Pos, List<(GameObject, Vector2Int)> DecorPlacementList)
+        float TotalSpawnChance, Vector2Int Pos, List<(GameObject, Vector2)> DecorPlacementList)
     {
         float DecorSpawnDecision = Random.Range(0f, 1f);
         if (DecorSpawnDecision <= ComparedSpawnChance)
         {
             //Success
-            GameObject ChosenDecor = DecideDecoration(DecorList, TotalSpawnChance);
-            GameObject Object = Instantiate(ChosenDecor, (Vector3Int)Pos, Quaternion.identity, DecorationParent.transform);
-            DecorPlacementList.Add((Object, Pos));
+            DungeonDecor ChosenDecor = DecideDecoration(DecorList, TotalSpawnChance);
+            Transform Tparent = DecorationParent.GetDecorParent(ChosenDecor.ParentType);
+            GameObject Obj = Instantiate(ChosenDecor.Object, (Vector3Int)Pos, Quaternion.identity, Tparent);
+            Obj.isStatic = true;
+
+            //Apply Offset
+            Vector2 NewPosition = Obj.transform.position + (Vector3)OffsetPosition(ChosenDecor.GetPotentialOffset);
+            Obj.transform.position = NewPosition;
+            DecorPlacementList.Add((Obj, NewPosition));
         }
+    }
+    private Vector2 OffsetPosition(Vector2 Offset)
+    {
+        //Decide Random Amount Within Limit
+        float x = Random.Range(-Offset.x, Offset.x);
+        float y = Random.Range(-Offset.y, Offset.y);
+
+        return new Vector2(x, y);
     }
 }

@@ -523,10 +523,10 @@ public class SingleDungeonRoom
     //Points for Spawning Objects
     public Vector2Int[] Corners => new[]
     {
-        new Vector2Int(Area.xMin + 1, Area.yMin + 1),
-        new Vector2Int(Area.xMin + 1, Area.yMax - 1),
-        new Vector2Int(Area.xMax - 1, Area.yMin + 1),
-        new Vector2Int(Area.xMax - 1, Area.yMax - 1)
+        new Vector2Int(Area.xMin, Area.yMin),
+        new Vector2Int(Area.xMin, Area.yMax),
+        new Vector2Int(Area.xMax, Area.yMin),
+        new Vector2Int(Area.xMax, Area.yMax)
     };
 }
 public class SpecialDungeonRoom : SingleDungeonRoom

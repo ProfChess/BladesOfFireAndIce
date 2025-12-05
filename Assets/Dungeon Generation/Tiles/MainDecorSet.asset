@@ -12,13 +12,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea51300beeca89d448ae4f21ce68f2d8, type: 3}
   m_Name: MainDecorSet
   m_EditorClassIdentifier: 
-  BaseChanceToDecorateWall: 0.1
+  BaseChanceToDecorateWall: 0.25
   WallDecorations:
   - Object: {fileID: 6518921550976308954, guid: 0c64ae6dcd38d50488fbd4878827e034, type: 3}
-    SpawnChance: 1
+    SpawnChance: 0.85
+    PotentialOffset: {x: 0.3, y: 0}
     cornerOnly: 0
-  BaseChanceToDecorateFloor: 0.1
+    ParentType: 0
+  - Object: {fileID: 6275595536723318592, guid: 562059f8a34b5574d8a29dd83d02441f, type: 3}
+    SpawnChance: 0.75
+    PotentialOffset: {x: 0.25, y: 0}
+    cornerOnly: 0
+    ParentType: 1
+  - Object: {fileID: 7885474338047050083, guid: ffc37138f6143cc42a6233fedde72663, type: 3}
+    SpawnChance: 0.8
+    PotentialOffset: {x: 0.2, y: 0}
+    cornerOnly: 0
+    ParentType: 2
+  - Object: {fileID: 3762488472726955660, guid: 6c4d108fedaf1304f97d46e9f382b323, type: 3}
+    SpawnChance: 0.25
+    PotentialOffset: {x: 0.15, y: 0}
+    cornerOnly: 0
+    ParentType: 1
+  - Object: {fileID: 3333593519168029472, guid: dd863c71a4b6dd249b73f1da578ec346, type: 3}
+    SpawnChance: 0.1
+    PotentialOffset: {x: 0.15, y: 0}
+    cornerOnly: 0
+    ParentType: 2
+  BaseChanceToDecorateFloor: 0.85
   FloorDecorations:
   - Object: {fileID: 7370534633112702600, guid: ac08f5b42a764e541b855244827f84e0, type: 3}
-    SpawnChance: 1
+    SpawnChance: 0.2
+    PotentialOffset: {x: 0.4, y: 0.2}
+    cornerOnly: 0
+    ParentType: 6
+  - Object: {fileID: 6288338903908180926, guid: 72138847207e0f94f9f00fe7e5f9ef9d, type: 3}
+    SpawnChance: 0.2
+    PotentialOffset: {x: 0.2, y: 0.2}
+    cornerOnly: 0
+    ParentType: 7
+  - Object: {fileID: 1429286515227782907, guid: d25aa8be6d8091b468458bc38657fd2e, type: 3}
+    SpawnChance: 0.4
+    PotentialOffset: {x: 0.2, y: 0.2}
+    cornerOnly: 0
+    ParentType: 8
+  - Object: {fileID: 796815236659194788, guid: 1155b3603f2e1cc4a9fd0d036db7bf26, type: 3}
+    SpawnChance: 0.3
+    PotentialOffset: {x: 0.15, y: 0.1}
     cornerOnly: 1
+    ParentType: 9
+  - Object: {fileID: 4734154571438731508, guid: 5c8309a5dcb4c034aad4beda58298e36, type: 3}
+    SpawnChance: 0.12
+    PotentialOffset: {x: 0.4, y: 0.3}
+    cornerOnly: 0
+    ParentType: 3
+  - Object: {fileID: 8652575918279448733, guid: 8d30dbed95fdc1841b981fd8f0c39308, type: 3}
+    SpawnChance: 0.2
+    PotentialOffset: {x: 0.4, y: 0.3}
+    cornerOnly: 0
+    ParentType: 4
+  - Object: {fileID: 6171399364279778203, guid: 3d183ff9f05670345b90c308b87beddc, type: 3}
+    SpawnChance: 0.18
+    PotentialOffset: {x: 0.25, y: 0.25}
+    cornerOnly: 0
+    ParentType: 5
