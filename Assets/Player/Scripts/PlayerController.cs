@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
     [SerializeField] private PlayerAttackSpeedManager attackSpeedManager;
+    [SerializeField] private BoxCollider2D playerInteractBox;
 
     //Visuals and Animations
     //Visuals
@@ -295,6 +296,23 @@ public class PlayerController : MonoBehaviour
         float AngleInRadians = snappedAngle * Mathf.Deg2Rad;
         Vector2 snappedDirection = new Vector2(Mathf.Cos(AngleInRadians), Mathf.Sin(AngleInRadians)).normalized;
         return snappedDirection;
+    }
+
+
+    //Interacting
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            playerInteractBox.bounds.center,
+            playerInteractBox.bounds.size, 0f); 
+
+        foreach (Collider2D hit in hits)
+        {
+            InteractableObject hitObj = hit.GetComponent<InteractableObject>();
+            if (hitObj != null) { hitObj.Interact();
+                break;
+            }
+        }
     }
 
 }

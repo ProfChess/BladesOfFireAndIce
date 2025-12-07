@@ -1165,7 +1165,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1186,7 +1186,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1207,7 +1207,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1215,6 +1215,48 @@ TextureImporter:
       bones: []
       spriteID: c97a8cc629b0f964bbb1cf23ee27f094
       internalID: 2121074007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chest_Closed
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 211
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fba1f743abbe6a54ca19841739fe3d61
+      internalID: 1891770134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chest_Opened
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 211
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20d09bb57ae140540ad7f1d2c8e8f68f
+      internalID: 1072776809
       vertices: []
       indices: 
       edges: []
@@ -1230,6 +1272,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Chest_Closed: 1200275952
+      Chest_Opened: 1072776809
       Floor_Wood_CrackedSlightly: -1000879967
       Floor_Wood_HolesSmall: 1049854236
       Floor_Wood_Normal: 581128859
@@ -1279,7 +1323,6 @@ TextureImporter:
       boxLarge2: 1127778865
       boxSmall: -2123297266
       boxStack: 2121074007
-      fantasy_dungeon_tileset_0: 1200275952
       wallGrate_Small_Barred: -1345335165
       wallGrate_Small_Empty: 1667322631
   mipmapLimitGroupName: 

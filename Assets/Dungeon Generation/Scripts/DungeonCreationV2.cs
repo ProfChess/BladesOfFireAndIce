@@ -34,7 +34,7 @@ public class DungeonCreationV2 : MonoBehaviour
     private List<SpecialRoomTypeChance> SpecialRoomChances = new List<SpecialRoomTypeChance>
     {
         new SpecialRoomTypeChance{Type = SpecialRoomKind.Chest, Chance = 0.4f },
-        new SpecialRoomTypeChance{Type = SpecialRoomKind.Rest, Chance = 0.15f },
+        new SpecialRoomTypeChance{Type = SpecialRoomKind.Challenge, Chance = 0.15f },
         new SpecialRoomTypeChance{Type = SpecialRoomKind.Buff, Chance = 0.28f },
         new SpecialRoomTypeChance{Type = SpecialRoomKind.Puzzle, Chance = 0.35f },
 
@@ -498,7 +498,7 @@ public class DungeonCreationV2 : MonoBehaviour
 }
 
 public enum RoomType { Default, Special }
-public enum SpecialRoomKind { None, Chest, Rest, Buff, Puzzle}
+public enum SpecialRoomKind { None, Chest, Challenge, Buff, Puzzle}
 public class SingleDungeonRoom
 {
     //Room Specifics

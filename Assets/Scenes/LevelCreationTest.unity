@@ -1018,6 +1018,7 @@ Transform:
   - {fileID: 1777132169}
   - {fileID: 381091394}
   - {fileID: 1059050631}
+  - {fileID: 1697362598}
   m_Father: {fileID: 864789698}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &1217885590
@@ -1200,7 +1201,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1388316209
 Transform:
@@ -1231,7 +1232,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1594356147
 Transform:
@@ -1265,7 +1266,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1623247977
 Transform:
@@ -1281,6 +1282,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1594356147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1697362597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1697362598}
+  m_Layer: 0
+  m_Name: TempSpecialParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1697362598
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697362597}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1217885589}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1773128641
 GameObject:
@@ -1741,7 +1773,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2007425183
 Transform:
@@ -1769,6 +1801,7 @@ GameObject:
   - component: {fileID: 2008781826}
   - component: {fileID: 2008781825}
   - component: {fileID: 2008781827}
+  - component: {fileID: 2008781828}
   m_Layer: 0
   m_Name: DungeonCreator
   m_TagString: Untagged
@@ -1853,6 +1886,20 @@ MonoBehaviour:
     Chance: 0.3
   - Tile: {fileID: 11400000, guid: fa818afaa26e42a4db6ccbf7ef7908a6, type: 2}
     Chance: 0.25
+--- !u!114 &2008781828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008781824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad8db6ea3e1fd24285c2401378b3505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TempParentObject: {fileID: 1697362598}
+  Chest: {fileID: 5786857691763940893, guid: 2f54e54495bf83641a3cf0eda615f7c0, type: 3}
 --- !u!1 &2040558804
 GameObject:
   m_ObjectHideFlags: 0

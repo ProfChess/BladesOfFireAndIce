@@ -155,6 +155,25 @@ public class DungeonV2Visuals : MonoBehaviour
         //DECORATION SPAWNING
         PlaceDecorations();
 
+
+        //Special Room Filling
+        List<SingleDungeonRoom> AllRooms = DungeonCreationV2.Instance.GetDungeonRooms;
+        List<SpecialDungeonRoom> SpecialRooms = new List<SpecialDungeonRoom>();
+        //Filter Out Special Rooms
+        foreach (SingleDungeonRoom room in AllRooms)
+        {
+            if (room.roomType == RoomType.Special)
+            {
+                SpecialRooms.Add(room as SpecialDungeonRoom);
+            }
+        }
+        //Place Special Room Objects
+        SpecialRoomSpecifics roomSpecifics = GetComponent<SpecialRoomSpecifics>();
+        foreach (SpecialDungeonRoom room in SpecialRooms)
+        {
+            roomSpecifics.SpawnSpecialRoomChoice(room.SpecialType, room);
+        }
+
     }
     private void PlaceDecorativePatches(Tilemap TM, HashSet<Vector2Int> Positions, List<TileWithChance> TileList, float PercentOfTiles)
     {

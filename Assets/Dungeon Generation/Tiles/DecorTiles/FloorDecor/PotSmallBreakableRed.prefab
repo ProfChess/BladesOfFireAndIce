@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6520288720248845491}
   - component: {fileID: 7026116949141988020}
   - component: {fileID: 1798883081796094880}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shard3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 9887522025507977}
   - component: {fileID: 1717605062580977962}
   - component: {fileID: 6499397870617251430}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shard4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 5912677844829935733}
   - component: {fileID: 6663230297869010019}
   - component: {fileID: 3701760986704335023}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shard5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 4422810007673350511}
   - component: {fileID: 592162705123390549}
   - component: {fileID: 8220553424016685108}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shard6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,9 +410,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4541171788951540488}
   - component: {fileID: 7285381489224215201}
-  m_Layer: 0
+  - component: {fileID: 5158544934443054060}
+  m_Layer: 11
   m_Name: PotSmallBreakableRed
-  m_TagString: Untagged
+  m_TagString: Decoration
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -455,6 +456,41 @@ MonoBehaviour:
   fadeSpeed: 2
   fadeDelay: 0.4
   shardParent: {fileID: 8385778986051202108}
+--- !u!70 &5158544934443054060
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4991688578794222213}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.01, y: -0.12}
+  m_Size: {x: 0.22, y: 0.22}
+  m_Direction: 0
 --- !u!1 &5462163011568155753
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +502,7 @@ GameObject:
   - component: {fileID: 5648981366088585231}
   - component: {fileID: 6046673788079003814}
   - component: {fileID: 7794401183951221174}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shard2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,7 +602,7 @@ GameObject:
   - component: {fileID: 8574755513552205813}
   - component: {fileID: 5998235452896145047}
   - component: {fileID: 4811712527732462334}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shard1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,7 +701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 817578626061095877}
   - component: {fileID: 8727326523021592165}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PotVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -748,7 +784,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5225454293663879845}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shards
   m_TagString: Untagged
   m_Icon: {fileID: 0}

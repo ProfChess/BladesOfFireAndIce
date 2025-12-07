@@ -104,7 +104,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""94879a17-081d-442f-aa86-c6cbcde94d60"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -122,7 +122,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""name"": ""BasicAttack"",
                     ""type"": ""Button"",
                     ""id"": ""332e1774-f327-4e15-b60b-b11408ae03a3"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -141,6 +141,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""86074195-b9ee-4a42-bd0b-c0e53793c009"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""64db8a29-0a23-4dc7-969f-33303e72ff74"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -256,6 +265,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Ability2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98537218-d116-4d55-9246-fb7018b2326e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -270,6 +290,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_PlayerButtons_BasicAttack = m_PlayerButtons.FindAction("BasicAttack", throwIfNotFound: true);
         m_PlayerButtons_Ability1 = m_PlayerButtons.FindAction("Ability1", throwIfNotFound: true);
         m_PlayerButtons_Ability2 = m_PlayerButtons.FindAction("Ability2", throwIfNotFound: true);
+        m_PlayerButtons_Interact = m_PlayerButtons.FindAction("Interact", throwIfNotFound: true);
     }
 
     ~@PlayerInputs()
@@ -356,6 +377,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerButtons_BasicAttack;
     private readonly InputAction m_PlayerButtons_Ability1;
     private readonly InputAction m_PlayerButtons_Ability2;
+    private readonly InputAction m_PlayerButtons_Interact;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerButtons".
     /// </summary>
@@ -391,6 +413,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerButtons/Ability2".
         /// </summary>
         public InputAction @Ability2 => m_Wrapper.m_PlayerButtons_Ability2;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerButtons/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_PlayerButtons_Interact;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -435,6 +461,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Ability2.started += instance.OnAbility2;
             @Ability2.performed += instance.OnAbility2;
             @Ability2.canceled += instance.OnAbility2;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         /// <summary>
@@ -464,6 +493,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Ability2.started -= instance.OnAbility2;
             @Ability2.performed -= instance.OnAbility2;
             @Ability2.canceled -= instance.OnAbility2;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         /// <summary>
@@ -546,5 +578,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAbility2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

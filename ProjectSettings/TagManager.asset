@@ -13,6 +13,8 @@ TagManager:
   - EnemyHitbox
   - AOEBox
   - NewLevelPopup
+  - Decoration
+  - Interactable
   layers:
   - Default
   - TransparentFX
@@ -28,8 +30,8 @@ TagManager:
   - Decorations
   - Player
   - ShieldedLayer
-  - 
-  - 
+  - PlayerWalkLayer
+  - PlayerInteractLayer
   - 
   - 
   - 
