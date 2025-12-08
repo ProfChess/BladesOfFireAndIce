@@ -55,17 +55,8 @@ TagManager:
   - name: Floor
     uniqueID: 1808187813
     locked: 0
-  - name: Decoration Layer
-    uniqueID: 3225454595
-    locked: 0
-  - name: Walls
-    uniqueID: 3045922381
-    locked: 0
-  - name: EnemyLayer
-    uniqueID: 73624549
-    locked: 0
   - name: Player
-    uniqueID: 2327706175
+    uniqueID: 3225454595
     locked: 0
   - name: PlayerAbilities
     uniqueID: 3360347465
@@ -73,9 +64,9 @@ TagManager:
   - name: EnemyAttack
     uniqueID: 3897588559
     locked: 0
-  - name: Boss
-    uniqueID: 1837733551
-    locked: 0
   - name: BossAttacks
     uniqueID: 522098553
+    locked: 0
+  - name: Walls
+    uniqueID: 3045922381
     locked: 0
