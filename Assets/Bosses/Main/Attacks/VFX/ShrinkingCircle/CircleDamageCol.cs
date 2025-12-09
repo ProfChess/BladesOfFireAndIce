@@ -10,8 +10,8 @@ public class CircleDamageCol : BaseDamageDetection
     {
         MainDamageScript = transform.parent?.parent?.GetComponent<ShrinkingCircleDamage>();
     }
-    public override float GetDamageNumber()
+    public override float GetAttackDamage()
     {
-        return MainDamageScript.GetDamageNumber();
+        return MainDamageScript.GetAttackDamage();
     }
 }

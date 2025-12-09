@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class BaseDamageDetection : MonoBehaviour
 {
-    public abstract float GetDamageNumber();
+    public abstract float GetAttackDamage();
 }

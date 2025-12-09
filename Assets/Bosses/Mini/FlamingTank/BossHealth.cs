@@ -19,7 +19,7 @@ public class BossHealth : BaseHealth
         {
             if(!isDead)
             {
-                float DamageToTake = col.GetComponent<BaseAttackDamage>().GetDamageNumber();
+                float DamageToTake = col.GetComponent<BaseAttackDamage>().GetAttackDamage();
                 if (DamageToTake > 0)
                 {
                     TakeDamage(DamageToTake);

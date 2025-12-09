@@ -94,7 +94,7 @@ public class BossShieldCreate : BaseHealth
         {
             BasePlayerDamage PlayerDamageCode = col.GetComponent<BasePlayerDamage>();
             ElementType PlayerElement = PlayerDamageCode.GetElement();
-            float PlayerDamage = PlayerDamageCode.GetDamageNumber();
+            float PlayerDamage = PlayerDamageCode.GetAttackDamage();
             ShieldDamaged(PlayerDamage, PlayerElement);
         }
     }

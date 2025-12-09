@@ -34,7 +34,7 @@ public class PlayerHealth : BaseHealth
             if (collision.CompareTag("EnemyAttack")) 
             {
                 BaseDamageDetection DamageInstance = collision.GetComponent<BaseDamageDetection>();
-                PlayerDamage(DamageInstance.GetDamageNumber());
+                PlayerDamage(DamageInstance.GetAttackDamage());
             }
             //Collision Damage Interaction
             if (collision.CompareTag("EnemyHitbox"))

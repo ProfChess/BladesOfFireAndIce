@@ -7,6 +7,6 @@ public class BaseAttackDamage : BaseDamageDetection
     //Basic Storage for an attack or abilities damage stat
     [Header("Damage Stats")]
     [SerializeField] protected float AttackDamage;
-    public override float GetDamageNumber() { return AttackDamage; }
+    public override float GetAttackDamage() { return AttackDamage; }
 
 }

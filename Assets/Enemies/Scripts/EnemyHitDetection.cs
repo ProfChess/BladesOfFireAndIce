@@ -29,15 +29,15 @@ public class EnemyHitDetection : BaseHealth
                 BasePlayerDamage DamageScript = collision.GetComponent<BasePlayerDamage>();
                 if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.NormalAttack)
                 {
-                    TakeDamage(DamageScript.GetDamageNumber());
+                    TakeDamage(DamageScript.GetAttackDamage(this));
                 }
                 else if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.Ability)
                 {
-                    TakeDamage(DamageScript.GetDamageWithoutCrit());
+                    TakeDamage(DamageScript.GetAbilityDamage(this));
                 }
 
-                if (curHealth > 0) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }
-                else
+                if (curHealth > 0 && MainEnemyScript != null) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }
+                else if (MainEnemyScript != null)
                 {
                     MainEnemyScript.GetAnimator().Play(EnemyDeath, 1);
                     MainEnemyScript.canMove = false;
@@ -68,6 +68,9 @@ public class EnemyHitDetection : BaseHealth
 
     private void TurnOff()
     {
-        MainEnemyScript.DeactivateEnemy();
+        if (MainEnemyScript != null)
+        {
+            MainEnemyScript.DeactivateEnemy();
+        }
     }
 }

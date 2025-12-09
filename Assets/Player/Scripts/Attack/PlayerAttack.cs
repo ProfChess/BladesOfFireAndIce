@@ -110,6 +110,7 @@ public class PlayerAttack : MonoBehaviour
 
         //Collider on and Start Coroutine
         attackBox.enabled = true;
+
         StartCoroutine(BaseAttackStay());
     }
     public Vector2 GetMouseDirection() {return MouseDirection;}

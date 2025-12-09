@@ -1,15 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PlayerAttackCalcs : BasePlayerDamage
-{    
+{
+    //Events For Damaging
+    public event Action<ElementType, BaseHealth> OnEnemyHitNormalAttack;
+    public event Action<ElementType, BaseHealth> OnEnemyDeathNormalAttack;
+    public event Action<ElementType, BaseHealth> OnCriticalHitNormalAttack;
+
     //Quick References
     protected ElementType attackForm => PlayerController.PlayerAttackForm;
     
-    private float FireAttackDamage;
+    private float FireAttackDamage = 1f;
     public void SetFireDamage(float num) {  FireAttackDamage = num; }
-    private float IceAttackDamage;
+    private float IceAttackDamage = 1f;
     public void SetIceDamage(float num) {  IceAttackDamage = num; }
 
 
@@ -17,7 +21,7 @@ public class PlayerAttackCalcs : BasePlayerDamage
     public void SetCritChance(float num) { crit = num; }
     public void SetDamage(float num) { AttackDamage = num; }
 
-    public override float GetDamageNumber()
+    public override float GetAttackDamage(BaseHealth EnemyHealth)
     {
         ElementType Form = attackForm;
         if (Form == ElementType.Fire)
@@ -29,9 +33,15 @@ public class PlayerAttackCalcs : BasePlayerDamage
             AttackDamage = IceAttackDamage;
         }
 
-        float CritChance = Random.value;
+
+        //Trigger Events
+        OnEnemyHitNormalAttack?.Invoke(GetElement(), EnemyHealth);
+        if (EnemyHealth.CurrentHealth <= AttackDamage) { OnEnemyDeathNormalAttack?.Invoke(GetElement(), EnemyHealth); }
+
+            float CritChance = UnityEngine.Random.value;
         if (CritChance < crit)
         {
+            OnCriticalHitNormalAttack?.Invoke(GetElement(), EnemyHealth);
             return (AttackDamage * 2);
         }
         else
@@ -40,12 +50,4 @@ public class PlayerAttackCalcs : BasePlayerDamage
         }
     }
 
-    public override float GetDamageWithoutCrit()
-    {
-        if (attackForm == ElementType.Fire)
-        {
-            return FireAttackDamage;
-        }
-        else { return IceAttackDamage; }
-    }
 }

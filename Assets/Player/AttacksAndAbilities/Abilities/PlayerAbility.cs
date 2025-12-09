@@ -8,9 +8,9 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     [SerializeField] protected float abilityDelay = 0.5f; //Delay for animation Startup
     protected bool AbilityOffCooldown = true;
 
-    public override float GetDamageWithoutCrit()
+    public override float GetAbilityDamage(BaseHealth EnemyHealth)
     {
-        return GetDamageNumber();
+        return AttackDamage;
     }
     public void UseAbility()
     {

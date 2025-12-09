@@ -19,7 +19,7 @@ public abstract class BaseAOEHealth : BaseHealth
         {
             BasePlayerDamage attackScript = col.GetComponent<BasePlayerDamage>();
             ElementType elementHit = attackScript.GetElement();
-            float Damage = attackScript.GetDamageWithoutCrit();
+            float Damage = attackScript.GetAttackDamage();
 
             ReactToElement(elementHit, Damage);
         }
