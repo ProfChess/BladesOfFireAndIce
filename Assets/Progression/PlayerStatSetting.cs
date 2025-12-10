@@ -28,14 +28,40 @@ public class PlayerStatSetting : MonoBehaviour
         }
     }
 
+
+    private float HealthBonus = 0f;
+    private float StaminaBonus = 0f;
+    private float FireDamageBonus = 0f;
+    private float IceDamageBonus = 0f;
+    private float FireSpeedBonus = 0f;
+    private float IceSpeedBonus = 0f;
+    private float CriticalChanceBonus = 0f;
+    public void ApplyBonusStat(StatType Stat, float Bonus)
+    {
+        switch (Stat)
+        {
+            case StatType.Vitality:       HealthBonus += Bonus;         break;
+            case StatType.Endurance:      StaminaBonus += Bonus;        break;
+            case StatType.StrengthFire:   FireDamageBonus += Bonus;     break;
+            case StatType.StrengthIce:    IceDamageBonus += Bonus;      break;
+            case StatType.DexterityFire:  FireSpeedBonus += Bonus;      break;
+            case StatType.DexterityIce:   IceSpeedBonus += Bonus;       break;
+            case StatType.Luck:           CriticalChanceBonus += Bonus; break;
+        }
+        AttributeStats();
+    }
+
     private void AttributeStats()
     {
-        playerHealth.SetMaxHealth(Stats.Health);
-        playerStamina.SetMaxStamina(Stats.Stamina);
-        playerDamage.SetFireDamage(Stats.FireDamage);
-        playerDamage.SetIceDamage(Stats.IceDamage);
-        playerDamage.SetCritChance(Stats.CriticalChance);
-        playerAttackSpeed.SetFireSpeed(Stats.AttackSpeedFire);
-        playerAttackSpeed.SetIceSpeed(Stats.AttackSpeedIce);
+        playerHealth.SetMaxHealth(Stats.Health + HealthBonus);
+        playerStamina.SetMaxStamina(Stats.Stamina + StaminaBonus);
+        playerDamage.SetFireDamage(Stats.FireDamage + FireDamageBonus);
+        playerDamage.SetIceDamage(Stats.IceDamage + IceDamageBonus);
+        playerDamage.SetCritChance(Stats.CriticalChance + CriticalChanceBonus);
+        playerAttackSpeed.SetFireSpeed(Stats.AttackSpeedFire + FireSpeedBonus);
+        playerAttackSpeed.SetIceSpeed(Stats.AttackSpeedIce + IceSpeedBonus);
     }
+
+    //Stat Types
 }
+public enum StatType { Vitality, Endurance, StrengthFire, StrengthIce, DexterityFire, DexterityIce, Luck };

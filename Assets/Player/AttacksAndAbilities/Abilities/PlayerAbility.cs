@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,8 +9,16 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     [SerializeField] protected float abilityDelay = 0.5f; //Delay for animation Startup
     protected bool AbilityOffCooldown = true;
 
+
+    //Events for Boons
+    public static event Action<ElementType> OnAbilityUse;
+    public static event Action<ElementType, BaseHealth> OnAbilityDamage;
+    public static event Action<ElementType, BaseHealth> OnAbilityKill;
+
     public override float GetAbilityDamage(BaseHealth EnemyHealth)
     {
+        OnAbilityDamage?.Invoke(GetElement(), EnemyHealth);
+        if(EnemyHealth.CurrentHealth <= AttackDamage) { OnAbilityKill?.Invoke(GetElement(), EnemyHealth); }
         return AttackDamage;
     }
     public void UseAbility()
@@ -35,6 +44,7 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     private IEnumerator AbilityDelayCo(float Delay) //Starts ability effect and damage after delay
     {
         yield return new WaitForSeconds(Delay);
+        OnAbilityUse?.Invoke(GetElement());
         AbilityEffect();
     }
     protected virtual IEnumerator Cooldown() //Basic cooldown for each ability
