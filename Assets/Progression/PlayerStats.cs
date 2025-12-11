@@ -49,6 +49,6 @@ public class PlayerStats : ScriptableObject
     public float IceDamage => BaseDamageIce + (SM.StrengthPoints * StrengthScaleIce);
     public float AttackSpeedFire => BaseAttackSpeedFire + (SM.DexterityPoints * (DexterityScaleFire/100f));
     public float AttackSpeedIce => BaseAttackSpeedIce + (SM.DexterityPoints * (DexterityScaleIce / 100f));
-    public float CriticalChance => BaseCriticalChance + (SM.LuckPoints * (LuckScale/100f)); 
+    public float CriticalChance => (BaseCriticalChance/100f) + (SM.LuckPoints * (LuckScale/100f)); 
 
 }

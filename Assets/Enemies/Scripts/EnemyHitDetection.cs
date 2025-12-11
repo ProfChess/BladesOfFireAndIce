@@ -29,6 +29,7 @@ public class EnemyHitDetection : BaseHealth
                 BasePlayerDamage DamageScript = collision.GetComponent<BasePlayerDamage>();
                 if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.NormalAttack)
                 {
+                    Debug.Log("Got Hit");
                     TakeDamage(DamageScript.GetAttackDamage(this));
                 }
                 else if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.Ability)

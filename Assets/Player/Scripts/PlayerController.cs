@@ -302,17 +302,23 @@ public class PlayerController : MonoBehaviour
     //Interacting
     public void OnInteract(InputAction.CallbackContext ctx)
     {
-        Collider2D[] hits = Physics2D.OverlapBoxAll(
-            playerInteractBox.bounds.center,
-            playerInteractBox.bounds.size, 0f); 
-
-        foreach (Collider2D hit in hits)
+        if (ctx.performed)
         {
-            InteractableObject hitObj = hit.GetComponent<InteractableObject>();
-            if (hitObj != null) { hitObj.Interact();
-                break;
+            Collider2D[] hits = Physics2D.OverlapBoxAll(
+            playerInteractBox.bounds.center,
+            playerInteractBox.bounds.size, 0f);
+
+            foreach (Collider2D hit in hits)
+            {
+                InteractableObject hitObj = hit.GetComponent<InteractableObject>();
+                if (hitObj != null)
+                {
+                    hitObj.Interact();
+                    break;
+                }
             }
         }
+
     }
 
 }

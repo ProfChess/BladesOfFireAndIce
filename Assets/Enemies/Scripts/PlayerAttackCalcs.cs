@@ -38,9 +38,11 @@ public class PlayerAttackCalcs : BasePlayerDamage
         OnEnemyHitNormalAttack?.Invoke(GetElement(), EnemyHealth);
         if (EnemyHealth.CurrentHealth <= AttackDamage) { OnEnemyDeathNormalAttack?.Invoke(GetElement(), EnemyHealth); }
 
-            float CritChance = UnityEngine.Random.value;
+        float CritChance = UnityEngine.Random.value;
         if (CritChance < crit)
         {
+            Debug.Log("Crit");
+            Debug.Log("Chance: " + crit);
             OnCriticalHitNormalAttack?.Invoke(GetElement(), EnemyHealth);
             return (AttackDamage * 2);
         }

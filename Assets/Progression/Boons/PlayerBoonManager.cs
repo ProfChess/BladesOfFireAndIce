@@ -5,6 +5,19 @@ using UnityEngine;
 
 public class PlayerBoonManager : MonoBehaviour
 {
+    //Accessable Instance
+    public static PlayerBoonManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+
     //Events Locations
     [SerializeField] private PlayerStatSetting PlayerStatModding;
     [SerializeField] private PlayerAttackCalcs AttackEvents;
