@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: MainStorage
   m_EditorClassIdentifier: 
   AllBoons:
-  - {fileID: 11400000, guid: d8162b392edeef543996280956f99ac1, type: 2}
+  - {fileID: 11400000, guid: 2d9297493b37eb245a42167e0465a321, type: 2}
+  - {fileID: 11400000, guid: 4596224a53509db4c8a801620e6646c3, type: 2}
+  - {fileID: 11400000, guid: b158876a63639cb40a40f4bc2c61e8f6, type: 2}

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public DifficultyManager difficultyManager;
     [HideInInspector] public EnemySpawnManager enemySpawnManager;
     [HideInInspector] public StatManager statManager;
+    [HideInInspector] public BoonSelection boonOptions;
 
     //Dungeon Specifics
     [HideInInspector] public Vector3 DungeonStartingRoomCenter;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
         difficultyManager = GetComponentInChildren<DifficultyManager>();
         enemySpawnManager = GetComponentInChildren<EnemySpawnManager>();
         statManager = GetComponentInChildren<StatManager>();
+        boonOptions = GetComponentInChildren<BoonSelection>();
 
         //Other Objects Start
         StartCoroutine(GameBeginningDelayedCall());
