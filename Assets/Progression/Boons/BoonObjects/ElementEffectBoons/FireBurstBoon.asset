@@ -15,4 +15,4 @@ MonoBehaviour:
   boonName: Fire Burst
   boonDescription: Create a Burst of Fire Upon Using an Ability
   EffectType: 0
-  EventToAttach: 0
+  EventToAttach: 3

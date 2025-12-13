@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BoonSelection : MonoBehaviour
 {
@@ -12,25 +14,30 @@ public class BoonSelection : MonoBehaviour
     public void PlayerSelectBoonChoices()
     {
         //Update UI
+        List<BaseBoon> AvailableBoons = BoonCollection.AllBoons.ToList();
         foreach (BoonChoiceUI boonUI in BoonChoicesUI)
         {
-            BaseBoon RandomBoon = GetBoon();
+            BaseBoon RandomBoon = GetBoon(AvailableBoons);
+            AvailableBoons.Remove(RandomBoon);
             boonUI.AssignBoonVisuals(RandomBoon);
         }
+
         //Display UI
+        GameManager.Instance.getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
         BoonSelectionPopup.SetActive(true);
 
     }
     public void BoonChoiceMade(BaseBoon ChoiceMade)
     {
+        GameManager.Instance.getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerButtons");
         BoonSelectionPopup.SetActive(false);
         ChoiceMade.BoonSelected();
     }
-    private BaseBoon GetBoon()
+    private BaseBoon GetBoon(List<BaseBoon> Boons)
     {
-        if (BoonCollection == null || BoonCollection.AllBoons.Length == 0) { return null; }
-        int chosen = Random.Range(0, BoonCollection.AllBoons.Length);
-        return BoonCollection.AllBoons[chosen];
+        if (BoonCollection == null || BoonCollection.AllBoons.Length == 0 || Boons.Count == 0) { return null; }
+        int chosen = Random.Range(0, Boons.Count);
+        return Boons[chosen];
     }
 
 }

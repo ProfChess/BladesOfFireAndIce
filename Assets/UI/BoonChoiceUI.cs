@@ -22,7 +22,7 @@ public class BoonChoiceUI : MonoBehaviour
         //iconImage.sprite = boon.Icon;
     }
 
-    public void OnChoose()
+    public void Select()
     {
         GameManager.Instance.boonOptions.BoonChoiceMade(displayedBoon);
     }
