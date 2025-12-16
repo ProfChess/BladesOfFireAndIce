@@ -12,18 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00f5b4a09ba8a64885fda2dc4d52533, type: 3}
   m_Name: PlayerStatsObject
   m_EditorClassIdentifier: 
-  Vitality: 1
   VitalityScale: 15
   BaseHealth: 20
-  Endurance: 1
   EnduranceScale: 10
   BaseStamina: 15
-  Strength: 1
-  StrengthScale: 5
-  BaseDamage: 8
-  Dexterity: 1
-  DexterityScale: 3
-  BaseAttackSpeed: 1
-  Luck: 1
+  StrengthScaleFire: 5
+  BaseDamageFire: 10
+  StrengthScaleIce: 4
+  BaseDamageIce: 5
+  DexterityScaleFire: 3
+  BaseAttackSpeedFire: 1
+  DexterityScaleIce: 5
+  BaseAttackSpeedIce: 1.25
   LuckScale: 3
   BaseCriticalChance: 10

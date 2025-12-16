@@ -8,6 +8,10 @@ public abstract class BaseBoon : ScriptableObject
     public string boonName;
     [TextArea] public string boonDescription;
     //public Sprite Icon;
+
+    //Accessing Boon Level
+    protected RunDataManager runData => GameManager.Instance.runData;
+    protected int Level => runData.GetBoonLevel(this);
     public abstract void BoonSelected();
     public abstract void BoonRemoved();
 }

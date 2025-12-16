@@ -45,7 +45,7 @@ public class BoonSelection : MonoBehaviour
 
     }
 
-
+    //UI Display Functions
     private void DisplayUIBasedOnBoonsAvailable(List<BaseBoon> FilteredBoons)
     {
         //Turn off All UI
@@ -87,7 +87,6 @@ public class BoonSelection : MonoBehaviour
         GM.getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerButtons");
         BoonSelectionPopup.SetActive(false);
         GM.runData.AddBoon(ChoiceMade);
-        ChoiceMade.BoonSelected();
     }
     private BaseBoon GetBoon(List<BaseBoon> Boons)
     {
@@ -95,8 +94,6 @@ public class BoonSelection : MonoBehaviour
         int chosen = Random.Range(0, Boons.Count);
         return Boons[chosen];
     }
-
-
 
 
 
@@ -112,7 +109,12 @@ public class BoonSelection : MonoBehaviour
     }
     private bool IsBoonSelectable(BaseBoon Boon)
     {
-        return !GM.runData.IsBoonCollected(Boon);
+        if (GM.runData.IsBoonCollected(Boon))
+        {
+            int BoonLevel = GM.runData.GetBoonLevel(Boon);
+            if(BoonLevel == 2) { return false; }
+        }
+        return true;
     }
 
 }

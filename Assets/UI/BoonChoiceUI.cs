@@ -12,6 +12,7 @@ public class BoonChoiceUI : MonoBehaviour
     //Fields for Visual Elements
     [SerializeField] private Text TitleText;
     [SerializeField] private Text DescriptionText;
+    [SerializeField] private Text LevelNumText;
     //[SerializeField] private Image iconImage;
 
     public void AssignBoonVisuals(BaseBoon boon)
@@ -20,6 +21,10 @@ public class BoonChoiceUI : MonoBehaviour
         TitleText.text = boon.boonName;
         DescriptionText.text = boon.boonDescription;
         //iconImage.sprite = boon.Icon;
+
+        bool collected = GameManager.Instance.runData.IsBoonCollected(boon);
+        if (!collected) { LevelNumText.text = "1"; }
+        else { LevelNumText.text = "2"; }
     }
 
     public void Select()

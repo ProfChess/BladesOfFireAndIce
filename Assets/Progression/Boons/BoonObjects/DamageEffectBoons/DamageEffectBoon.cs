@@ -28,7 +28,7 @@ public class DamageEffectBoon : BaseBoon
     }
     public virtual void Effect(ElementType Element, BaseHealth target)
     {
-        BoonEffectLibrary.PlayDamageEffectBoon(EffectType, Element, target);
+        BoonEffectLibrary.PlayDamageEffectBoon(this, EffectType, Element, target);
     }
 }
 //Boon Type Specific Enum

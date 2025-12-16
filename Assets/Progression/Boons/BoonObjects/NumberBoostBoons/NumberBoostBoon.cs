@@ -6,14 +6,42 @@ using UnityEngine;
 public class NumberBoostBoon : BaseBoon
 {
     public StatType Stat;
-    public float BoonValue;
+    public int BoonValueLevel1 = 0;
+    public int BoonValueLevel2 = 0;
+    protected int appliedValue = 0;
     public override void BoonSelected()
     {
-        PlayerBoonManager.Instance.ChangeBonus(Stat, BoonValue);
+        if(Level == 1) 
+        { 
+            PlayerBoonManager.Instance.ChangeBonus(Stat, BoonValueLevel1); 
+        }
+        else if (Level == 2) 
+        { 
+            float Value = BoonValueLevel2 - BoonValueLevel1;
+            PlayerBoonManager.Instance.ChangeBonus(Stat, Value);
+        }
     }
     public override void BoonRemoved()
     {
-        PlayerBoonManager.Instance.UndoChange(Stat, BoonValue);
+        if (Level == 1)
+        {
+            PlayerBoonManager.Instance.UndoChange(Stat, BoonValueLevel1);
+        }
+        else if (Level == 2)
+        {
+            PlayerBoonManager.Instance.UndoChange(Stat, BoonValueLevel2);
+        }
     }
+    //private void ReApply()
+    //{
+    //    if (Level == 1)
+    //    {
+    //        PlayerBoonManager.Instance.ChangeBonus(Stat, BoonValueLevel1);
+    //    }
+    //    else if (Level == 2)
+    //    {
+    //        PlayerBoonManager.Instance.ChangeBonus(Stat, BoonValueLevel2);
+    //    }
+    //}
 }
 

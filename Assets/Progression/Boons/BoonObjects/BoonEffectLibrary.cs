@@ -1,14 +1,14 @@
 
 public static class BoonEffectLibrary
 {
-    public static void PlayElementEffectBoon(ElementBoonEffectType effectType, ElementType Element)
+    public static void PlayElementEffectBoon(BaseBoon Boon, ElementBoonEffectType effectType, ElementType Element)
     {
         switch (effectType)
         {
             case ElementBoonEffectType.FireBurst: ElementEffect_FireBurst(Element); break;
         }
     }
-    public static void PlayDamageEffectBoon(DamageBoonEffectType effectType, ElementType Element, BaseHealth EnemyHealth)
+    public static void PlayDamageEffectBoon(BaseBoon Boon, DamageBoonEffectType effectType, ElementType Element, BaseHealth EnemyHealth)
     {
         switch (effectType)
         {

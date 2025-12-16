@@ -26,7 +26,7 @@ public class ElementEffectBoon : BaseBoon
     }
     public virtual void Effect(ElementType Element)
     {
-        BoonEffectLibrary.PlayElementEffectBoon(EffectType, Element);
+        BoonEffectLibrary.PlayElementEffectBoon(this, EffectType, Element);
     }
 }
 

@@ -61,7 +61,6 @@ public class PlayerStatSetting : MonoBehaviour
         playerAttackSpeed.SetFireSpeed(Stats.AttackSpeedFire + FireSpeedBonus);
         playerAttackSpeed.SetIceSpeed(Stats.AttackSpeedIce + IceSpeedBonus);
     }
-
     //Stat Types
 }
 public enum StatType { Vitality, Endurance, StrengthFire, StrengthIce, DexterityFire, DexterityIce, Luck };
