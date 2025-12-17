@@ -4,6 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = ("Boons/ElementEffectBoon"))]
 public class ElementEffectBoon : BaseBoon
 {
+    //Damage of Effect
+    public float Damage = 0f;
+
     [Tooltip("Effect of This Boon")]
     public ElementBoonEffectType EffectType;
 

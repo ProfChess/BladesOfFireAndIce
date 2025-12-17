@@ -15,6 +15,7 @@ TagManager:
   - NewLevelPopup
   - Decoration
   - Interactable
+  - PlayerBoonEffect
   layers:
   - Default
   - TransparentFX

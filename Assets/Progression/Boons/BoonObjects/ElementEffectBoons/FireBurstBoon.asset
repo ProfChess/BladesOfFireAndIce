@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boonName: Fire Burst
   boonDescription: Create a Burst of Fire Upon Using an Ability
+  Damage: 2
   EffectType: 0
   EventToAttach: 3

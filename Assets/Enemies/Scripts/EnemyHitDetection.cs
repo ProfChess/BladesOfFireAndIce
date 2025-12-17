@@ -36,15 +36,24 @@ public class EnemyHitDetection : BaseHealth
                 {
                     TakeDamage(DamageScript.GetAbilityDamage(this));
                 }
-
-                if (curHealth > 0 && MainEnemyScript != null) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }
-                else if (MainEnemyScript != null)
-                {
-                    MainEnemyScript.GetAnimator().Play(EnemyDeath, 1);
-                    MainEnemyScript.canMove = false;
-                    Invoke(nameof(TurnOff), 1.2f);
-                }
+                EvaluateDeath();
             }
+            else if (collision.CompareTag("PlayerBoonEffect"))
+            {
+                BaseEffectSpawn EffectScript = collision.GetComponent<BaseEffectSpawn>();
+                if (EffectScript != null) { TakeDamage(EffectScript.GetDamage());}
+                EvaluateDeath();
+            }
+        }
+    }
+    private void EvaluateDeath()
+    {
+        if (curHealth > 0 && MainEnemyScript != null) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }
+        else if (MainEnemyScript != null)
+        {
+            MainEnemyScript.GetAnimator().Play(EnemyDeath, 1);
+            MainEnemyScript.canMove = false;
+            Invoke(nameof(TurnOff), 1.2f);
         }
     }
 
