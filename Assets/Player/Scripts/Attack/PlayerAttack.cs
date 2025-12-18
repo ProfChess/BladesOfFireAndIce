@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,10 @@ public class PlayerAttack : MonoBehaviour
     private float offsetDistance = 1f;
     private float attackDuration;
     private ElementType attackForm;
+
+
+    //Events for Extra Effects
+    public event Action<AttackEventDetails> OnNormalAttack;
 
     public enum AttackList { BasicAttack, Roll };
     private void Start()
@@ -104,6 +109,15 @@ public class PlayerAttack : MonoBehaviour
         float rotateAngle = Mathf.Atan2(attackDirection.y, attackDirection.x) * Mathf.Rad2Deg;                //Angle
         attackBox.transform.localPosition = attackDirection;
         attackBox.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
+
+        //Fire Event
+        AttackEventDetails Details = new AttackEventDetails
+        {
+            Element = controls.GetAttackForm(),
+            AttackOrigin = attackBox.transform.position,
+            Direction = attackDirection.normalized,
+        };
+        OnNormalAttack?.Invoke(Details);
 
         //Hit Effect
         AttackHitAnimation();

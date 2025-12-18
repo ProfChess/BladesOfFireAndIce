@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = ("Boons/DamageEffectBoon"))]
+[CreateAssetMenu(menuName = ("Boons/EventBoon"))]
 public class DamageEffectBoon : BaseBoon
 {
     //Damage of Effect
@@ -15,25 +15,25 @@ public class DamageEffectBoon : BaseBoon
     [Tooltip("Event That Will Trigger This Boons Effect")]
     public BoonEventType EventToAttach;
 
-    private Action<ElementType, BaseHealth> effectDelegate;
+    private Action<AttackEventDetails> effectDelegate;
 
     public override void BoonSelected()
     {
         effectDelegate = Effect;
-        PlayerBoonManager.Instance.SubscribeToDamageEvent(effectDelegate, EventToAttach);
+        PlayerBoonManager.Instance.SubscribeToPlayerEvent(effectDelegate, EventToAttach);
     }
     public override void BoonRemoved()
     {
         if (effectDelegate != null)
         {
-            PlayerBoonManager.Instance.UnSubscribeFromDamageEvent(effectDelegate, EventToAttach);
+            PlayerBoonManager.Instance.UnSubscribeFromPlayerEvent(effectDelegate, EventToAttach);
         }
     }
-    public virtual void Effect(ElementType Element, BaseHealth target)
+    public virtual void Effect(AttackEventDetails AttackDetails)
     {
-        BoonEffectLibrary.PlayDamageEffectBoon(this, EffectType, Element, target);
+        BoonEffectLibrary.PlayBoonEffect(this, EffectType, AttackDetails);
     }
 }
 //Boon Type Specific Enum
-public enum DamageBoonEffectType { FireBoom, IceBoom}
+public enum DamageBoonEffectType { FireBoom, FireBurst, IceBoom}
 

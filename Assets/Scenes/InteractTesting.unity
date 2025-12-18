@@ -3541,9 +3541,9 @@ MonoBehaviour:
   AttackType: 1
   AbilityCooldown: 3
   abilityDelay: 0.12
+  hitbox: {fileID: 6520359444284385526}
   Radius: 2
   Duration: 0.25
-  Hitbox: {fileID: 6520359444284385526}
   EffectAnim: {fileID: 6703002476544449975}
   EffectSprite: {fileID: 649689736088679772}
 --- !u!4 &2015433576516012595
@@ -3798,8 +3798,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa796b56b908479409d910638eb2b9f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerStatModding: {fileID: 1011610308630517592}
-  AttackEvents: {fileID: 8059005099015457334}
+  playerStatModding: {fileID: 1011610308630517592}
+  attackEvents: {fileID: 8059005099015457334}
+  playerAttack: {fileID: 8495426166272574569}
 --- !u!114 &4323146209644290720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4560,6 +4561,7 @@ MonoBehaviour:
   AttackDamage: 3
   Element: 0
   AttackType: 0
+  AttackBox: {fileID: 7123796456672720301}
 --- !u!114 &8495426166272574569
 MonoBehaviour:
   m_ObjectHideFlags: 0

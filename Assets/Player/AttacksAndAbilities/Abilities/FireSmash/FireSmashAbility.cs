@@ -7,8 +7,7 @@ public class FireSmashAbility : BasePlayerAbility
     [SerializeField] private float Radius;
     [SerializeField] private float Duration;
 
-    [Header("References")]
-    [SerializeField] private CircleCollider2D Hitbox;
+    [Header("Visuals")]
     [SerializeField] private Animator EffectAnim;
     [SerializeField] private SpriteRenderer EffectSprite;
 
@@ -17,8 +16,7 @@ public class FireSmashAbility : BasePlayerAbility
 
     private void Start()
     {
-        Hitbox.enabled = false;
-        Hitbox.radius = Radius;
+        hitbox.enabled = false;
     }
     protected override void AbilityEffect()
     {
@@ -30,9 +28,9 @@ public class FireSmashAbility : BasePlayerAbility
     }
     private IEnumerator AbilityDuration()
     {
-        Hitbox.enabled = true;
+        hitbox.enabled = true;
         yield return new WaitForSeconds(Duration);
-        Hitbox.enabled = false;
+        hitbox.enabled = false;
     }
 
 }

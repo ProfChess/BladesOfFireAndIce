@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHitDetection : BaseHealth
@@ -24,12 +22,11 @@ public class EnemyHitDetection : BaseHealth
     {
         if (HitBox != null)
         {
-            if (collision.CompareTag("PlayerAttack"))
+            //Detect Which Damage Component Is Hurting the Enemy
+            if (collision.TryGetComponent<BasePlayerDamage>(out BasePlayerDamage DamageScript))
             {
-                BasePlayerDamage DamageScript = collision.GetComponent<BasePlayerDamage>();
                 if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.NormalAttack)
                 {
-                    Debug.Log("Got Hit");
                     TakeDamage(DamageScript.GetAttackDamage(this));
                 }
                 else if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.Ability)
@@ -38,14 +35,14 @@ public class EnemyHitDetection : BaseHealth
                 }
                 EvaluateDeath();
             }
-            else if (collision.CompareTag("PlayerBoonEffect"))
+            else if (collision.TryGetComponent<BaseEffectSpawn>(out BaseEffectSpawn EffectScript))
             {
-                BaseEffectSpawn EffectScript = collision.GetComponent<BaseEffectSpawn>();
-                if (EffectScript != null) { TakeDamage(EffectScript.GetDamage());}
+                TakeDamage(EffectScript.GetDamage());
                 EvaluateDeath();
             }
         }
     }
+    //Checks if the enemy is dead or still alive -> Plays animation accordingly
     private void EvaluateDeath()
     {
         if (curHealth > 0 && MainEnemyScript != null) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }

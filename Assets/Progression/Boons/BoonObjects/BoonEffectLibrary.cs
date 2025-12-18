@@ -3,20 +3,13 @@ using UnityEngine;
 
 public static class BoonEffectLibrary
 {
-    public static void PlayElementEffectBoon(ElementEffectBoon Boon, ElementBoonEffectType effectType, ElementType Element)
+    public static void PlayBoonEffect(DamageEffectBoon Boon, DamageBoonEffectType effectType, AttackEventDetails Details)
     {
         float Damage = Boon.Damage;
         switch (effectType)
         {
-            case ElementBoonEffectType.FireBurst: ElementEffect_FireBurst(Element, Damage); break;
-        }
-    }
-    public static void PlayDamageEffectBoon(DamageEffectBoon Boon, DamageBoonEffectType effectType, ElementType Element, BaseHealth EnemyHealth)
-    {
-        float Damage = Boon.Damage;
-        switch (effectType)
-        {
-            case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Element, EnemyHealth, Damage); break;
+            case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Details.Element, Details.Target, Damage); break;
+            case DamageBoonEffectType.FireBurst: ElementEffect_FireBurst(Details.Element, Damage); break;
         }
     }
 

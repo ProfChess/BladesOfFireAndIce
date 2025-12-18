@@ -15,20 +15,33 @@ public class BossHealth : BaseHealth
 
     protected virtual void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("PlayerAttack"))
+        if (!isDead)
         {
-            if(!isDead)
+            //Detect Which Damage Component Is Hurting the Enemy
+            if (col.TryGetComponent<BasePlayerDamage>(out BasePlayerDamage DamageScript))
             {
-                float DamageToTake = col.GetComponent<BaseAttackDamage>().GetAttackDamage();
-                if (DamageToTake > 0)
+                if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.NormalAttack)
                 {
-                    TakeDamage(DamageToTake);
-                    int Trigger = curHealth <= 0? DeathTrig : HurtTrig;
-                    BossAnim.SetTrigger(Trigger);
-                    if (curHealth <= 0) { isDead = true; }
-                } 
+                    TakeDamage(DamageScript.GetAttackDamage(this));
+                }
+                else if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.Ability)
+                {
+                    TakeDamage(DamageScript.GetAbilityDamage(this));
+                }
+                EvaluateDeath();
+            }
+            else if (col.TryGetComponent<BaseEffectSpawn>(out BaseEffectSpawn EffectScript))
+            {
+                TakeDamage(EffectScript.GetDamage());
+                EvaluateDeath();
             }
         }
+    }
+    protected void EvaluateDeath()
+    {
+        int Trigger = curHealth <= 0 ? DeathTrig : HurtTrig;
+        BossAnim.SetTrigger(Trigger);
+        if (curHealth <= 0) { isDead = true; }
     }
 
 }

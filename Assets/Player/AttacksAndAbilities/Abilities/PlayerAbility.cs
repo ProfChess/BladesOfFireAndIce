@@ -9,17 +9,31 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     [SerializeField] protected float abilityDelay = 0.5f; //Delay for animation Startup
     protected bool AbilityOffCooldown = true;
 
+    [Header("References")]
+    [SerializeField] protected Collider2D hitbox;
 
     //Events for Boons
-    public static event Action<ElementType> OnAbilityUse;
-    public static event Action<ElementType, BaseHealth> OnAbilityDamage;
-    public static event Action<ElementType, BaseHealth> OnAbilityKill;
+    public static event Action<AttackEventDetails> OnAbilityUse;
+    public static event Action<AttackEventDetails> OnAbilityDamage;
+    public static event Action<AttackEventDetails> OnAbilityKill;
 
     public override float GetAbilityDamage(BaseHealth EnemyHealth)
     {
-        OnAbilityDamage?.Invoke(GetElement(), EnemyHealth);
-        if(EnemyHealth.CurrentHealth <= AttackDamage) { OnAbilityKill?.Invoke(GetElement(), EnemyHealth); }
+        AttackEventDetails details = new AttackEventDetails
+        {
+            Element = GetElement(),
+            Target = EnemyHealth,
+            AttackOrigin = GetAttackOrigin(EnemyHealth),
+            Direction = EnemyHealth.transform.position - gameObject.transform.position,
+        };
+        OnAbilityDamage?.Invoke(details);
+        if(EnemyHealth.CurrentHealth <= AttackDamage) { OnAbilityKill?.Invoke(details); }
         return AttackDamage;
+    }
+    private Vector2 GetAttackOrigin(BaseHealth Enemy) 
+    { 
+        if (hitbox == null) { return Enemy.transform.position; } 
+        else { return gameObject.transform.position; }
     }
     public void UseAbility()
     {
@@ -44,7 +58,7 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     private IEnumerator AbilityDelayCo(float Delay) //Starts ability effect and damage after delay
     {
         yield return new WaitForSeconds(Delay);
-        OnAbilityUse?.Invoke(GetElement());
+        OnAbilityUse?.Invoke(new AttackEventDetails { Element = GetElement()});
         AbilityEffect();
     }
     protected virtual IEnumerator Cooldown() //Basic cooldown for each ability

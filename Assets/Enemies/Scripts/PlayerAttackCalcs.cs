@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class PlayerAttackCalcs : BasePlayerDamage
 {
+    [SerializeField] private Collider2D AttackBox;
+
     //Events For Damaging
-    public event Action<ElementType, BaseHealth> OnEnemyHitNormalAttack;
-    public event Action<ElementType, BaseHealth> OnEnemyDeathNormalAttack;
-    public event Action<ElementType, BaseHealth> OnCriticalHitNormalAttack;
+    public event Action<AttackEventDetails> OnEnemyHitNormalAttack;
+    public event Action<AttackEventDetails> OnEnemyDeathNormalAttack;
+    public event Action<AttackEventDetails> OnCriticalHitNormalAttack;
 
     //Quick References
     protected ElementType attackForm => PlayerController.PlayerAttackForm;
@@ -35,15 +37,24 @@ public class PlayerAttackCalcs : BasePlayerDamage
 
 
         //Trigger Events
-        OnEnemyHitNormalAttack?.Invoke(GetElement(), EnemyHealth);
-        if (EnemyHealth.CurrentHealth <= AttackDamage) { OnEnemyDeathNormalAttack?.Invoke(GetElement(), EnemyHealth); }
+
+        AttackEventDetails details = new AttackEventDetails
+        {
+            Target = EnemyHealth,
+            Element = GetElement(),
+            AttackOrigin = gameObject.transform.position,
+            Direction = gameObject.transform.forward
+        };
+
+        OnEnemyHitNormalAttack?.Invoke(details);
+        if (EnemyHealth.CurrentHealth <= AttackDamage) { OnEnemyDeathNormalAttack?.Invoke(details); }
 
         float CritChance = UnityEngine.Random.value;
         if (CritChance < crit)
         {
             Debug.Log("Crit");
             Debug.Log("Chance: " + crit);
-            OnCriticalHitNormalAttack?.Invoke(GetElement(), EnemyHealth);
+            OnCriticalHitNormalAttack?.Invoke(details);
             return (AttackDamage * 2);
         }
         else
