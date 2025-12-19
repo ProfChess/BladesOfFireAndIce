@@ -17,16 +17,17 @@ public class RunDataManager : MonoBehaviour
     public bool IsBoonCollected(BaseBoon Boon) { return BoonLevels.ContainsKey(Boon); }
     public void AddBoon(BaseBoon Boon) 
     {
+        //If We Have Not Collected the Boon So Far, Add it And Attach the Effect to the Event
         if (!IsBoonCollected(Boon))
         {
             BoonLevels.Add(Boon, 1);
+            Boon.BoonSelected();
         }
         else if (BoonLevels[Boon] < MaxBoonLevel)
         {
             BoonLevels[Boon] = 2;
             Debug.Log("Boon Level Increased To: " +  BoonLevels[Boon]);
         }
-        Boon.BoonSelected();
     }
     public void ClearRunData()
     {

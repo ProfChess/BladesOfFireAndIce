@@ -58,7 +58,7 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     private IEnumerator AbilityDelayCo(float Delay) //Starts ability effect and damage after delay
     {
         yield return new WaitForSeconds(Delay);
-        OnAbilityUse?.Invoke(new AttackEventDetails { Element = GetElement()});
+        OnAbilityUse?.Invoke(new AttackEventDetails { Element = GetElement(), AttackOrigin = gameObject.transform.position});
         AbilityEffect();
     }
     protected virtual IEnumerator Cooldown() //Basic cooldown for each ability

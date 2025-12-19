@@ -9,10 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fde1c724840d94a41890b5f5123eaaa0, type: 3}
+  m_Script: {fileID: 11500000, guid: df3b337f2229c9247b67826cf0e64713, type: 3}
   m_Name: FireBoomBoon
   m_EditorClassIdentifier: 
-  boonName: Fire Boom
-  boonDescription: Create a Burst of Fire
+  boonName: 
+  boonDescription: 
+  BaseDamage: 0
+  LevelScalers:
+    DamageScale: 1
+    FrequencyScale: 1
+    AreaScale: 1
+    DurationScale: 1
+    EffectNumberScale: 1
   EffectType: 0
   EventToAttach: 0

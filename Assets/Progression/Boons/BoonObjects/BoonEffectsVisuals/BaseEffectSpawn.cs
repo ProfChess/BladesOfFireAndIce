@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseEffectSpawn : MonoBehaviour
@@ -25,13 +24,17 @@ public class BaseEffectSpawn : MonoBehaviour
     protected Coroutine DamageRoutine = null;
     private static readonly int AnimTrig = Animator.StringToHash("AnimStart");
 
-
     //This is called whenever the effect library needs to place and start and object
     public virtual void Spawn(Vector2 Location, float Dam)
+    {
+        Spawn(Location, Vector2.one, Dam);
+    }
+    public virtual void Spawn(Vector2 Location, Vector2 Scaler, float Dam, int Freq = 1, float Duration = 1f, int EffectNum = 1)
     {
         Damage = Dam;
         anim.gameObject.SetActive(false);
         gameObject.transform.position = Location;
+        transform.localScale = Scaler;
         if (DamageRoutine == null) { DamageRoutine = StartCoroutine(DamageEffect()); }
     }
 

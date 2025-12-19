@@ -3,29 +3,44 @@ using UnityEngine;
 
 public static class BoonEffectLibrary
 {
-    public static void PlayBoonEffect(DamageEffectBoon Boon, DamageBoonEffectType effectType, AttackEventDetails Details)
+    public static void PlayBoonEffect(EventBoon Boon, DamageBoonEffectType effectType, AttackEventDetails Details)
     {
-        float Damage = Boon.Damage;
         switch (effectType)
         {
-            case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Details.Element, Details.Target, Damage); break;
-            case DamageBoonEffectType.FireBurst: ElementEffect_FireBurst(Details.Element, Damage); break;
+            case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Boon, Details.Element, Details.AttackOrigin); break;
+            case DamageBoonEffectType.FireBurst: ElementEffect_FireBurst(Boon, Details.Element, Details.AttackOrigin); break;
         }
     }
 
-
     //ELEMENT EFFECTS
-    private static void ElementEffect_FireBurst(ElementType Element, float DamageOfEffect = 0)
+    private static void ElementEffect_FireBurst(EventBoon Boon, ElementType Element, Vector2 Position)
     {
+        //Get Level
+        int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
+
+
+        //Effect
         if (PlayerEffectPoolManager.Instance == null) { return; }
         GameObject Explosion = PlayerEffectPoolManager.Instance.getObjectFromPool(PlayerEffectObjectType.FlameExplosion);
-        Explosion.GetComponent<BaseEffectSpawn>().Spawn(GameManager.Instance.getPlayer().transform.position, DamageOfEffect);
-    }
-    
+        
+        if (Explosion != null)
+        {
+            Debug.Log($"BaseDamage={Boon.BaseStats.Damage}, DamageScale={Boon.LevelScalers.DamageScale}");
+            BoonLeveledStats Stats = Boon.GetLeveledStats(Boon, Level);
+            Explosion.GetComponent<BaseEffectSpawn>().Spawn(Position, 
+                Stats.FinalArea, 
+                Stats.FinalDamage,
+                Stats.FinalFrequency, 
+                Stats.FinalDuration, 
+                Stats.FinalEffectNumber);
 
-    //DAMAGE EFFECTS
-    private static void DamageEffect_FireBoom(ElementType Element, BaseHealth EnemyHealth, float DamageOfEffect)
+            Debug.Log($"Spawn Damage={Stats.FinalDamage}");
+        }
+    }
+
+    private static void DamageEffect_FireBoom(EventBoon Boon, ElementType Element, Vector2 Position)
     {
 
     }
+
 }
