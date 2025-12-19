@@ -26,6 +26,8 @@ public class RunDataManager : MonoBehaviour
         else if (BoonLevels[Boon] < MaxBoonLevel)
         {
             BoonLevels[Boon] = 2;
+            //Increases Bonus Gained From Stat-Increasing Boons
+            if (Boon is NumberBoostBoon StatBoon) { StatBoon.IncreaseBonus(); }
             Debug.Log("Boon Level Increased To: " +  BoonLevels[Boon]);
         }
     }

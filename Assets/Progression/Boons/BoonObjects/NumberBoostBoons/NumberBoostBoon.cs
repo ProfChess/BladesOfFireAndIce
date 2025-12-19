@@ -9,7 +9,7 @@ public class NumberBoostBoon : BaseBoon
     public int BoonValueLevel1 = 0;
     public int BoonValueLevel2 = 0;
     protected int appliedValue = 0;
-    public override void BoonSelected()
+    public override void BoonSelected() //Only Called When Boon is New
     {
         if(Level == 1) 
         { 
@@ -17,8 +17,7 @@ public class NumberBoostBoon : BaseBoon
         }
         else if (Level == 2) 
         { 
-            float Value = BoonValueLevel2 - BoonValueLevel1;
-            PlayerBoonManager.Instance.ChangeBonus(Stat, Value);
+            PlayerBoonManager.Instance.ChangeBonus(Stat, BoonValueLevel2);
         }
     }
     public override void BoonRemoved()
@@ -31,6 +30,11 @@ public class NumberBoostBoon : BaseBoon
         {
             PlayerBoonManager.Instance.UndoChange(Stat, BoonValueLevel2);
         }
+    }
+    public void IncreaseBonus()
+    {
+        float value = BoonValueLevel2 - BoonValueLevel1;
+        PlayerBoonManager.Instance.ChangeBonus(Stat, value);
     }
     //private void ReApply()
     //{
