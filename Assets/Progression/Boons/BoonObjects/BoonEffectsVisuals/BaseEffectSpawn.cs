@@ -7,6 +7,8 @@ public class BaseEffectSpawn : MonoBehaviour
     [Header("References")]
     [SerializeField] protected Collider2D hitbox;
     [SerializeField] protected Animator anim;
+    [SerializeField] protected AnimationClip EffectAnimation;
+    private AnimatorOverrideController overrideAnimController;
 
     //Effect Details
     [Header("Anim Details")]
@@ -17,12 +19,17 @@ public class BaseEffectSpawn : MonoBehaviour
     //Pool
     protected PlayerEffectObjectType Pool;
 
-    //Damage 
+    //Provided Stats -> Given From EffectLibrary
     protected float Damage = 1f;
+    protected Vector2 AreaScaler = Vector2.one; //Makes the Effect Larger
+    protected int EffectFreq = 1;               //How Many Times the Effect Goes off Per Triggered Event
+    protected float EffectDuration = 0f;        //Only Used By Boons that Apply Status Effects
+    protected int EffectNumber = 1;             //Effects how many Effects are Spawned per each Freq (Only Used in Children)
+
+    protected Coroutine LoopedEffectRoutine;
 
     //Visuals
-    protected Coroutine DamageRoutine = null;
-    private static readonly int AnimTrig = Animator.StringToHash("AnimStart");
+    private static readonly int EffectAnimTrig = Animator.StringToHash("EffectTrigger");
 
     //This is called whenever the effect library needs to place and start and object
     public virtual void Spawn(Vector2 Location, float Dam)
@@ -31,17 +38,28 @@ public class BaseEffectSpawn : MonoBehaviour
     }
     public virtual void Spawn(Vector2 Location, Vector2 Scaler, float Dam, int Freq = 1, float Duration = 1f, int EffectNum = 1)
     {
+        //Assign 
         Damage = Dam;
+        AreaScaler = Scaler;
+        EffectFreq = Freq;
+        EffectDuration = Duration;
+        EffectNumber = EffectNum;
+
+        //Prep Beginning of Effect
         anim.gameObject.SetActive(false);
         gameObject.transform.position = Location;
-        transform.localScale = Scaler;
-        if (DamageRoutine == null) { DamageRoutine = StartCoroutine(DamageEffect()); }
+        transform.localScale = AreaScaler;
+
+        if (LoopedEffectRoutine == null)
+        {
+            LoopedEffectRoutine = StartCoroutine(EffectRoutine());
+        }
     }
 
     //Cleans up the object and sends it back to the pool for reuse
     protected virtual void End()
     {
-        DamageRoutine = null;
+        LoopedEffectRoutine = null;
         if (hitbox != null) { hitbox.enabled = false; }
         gameObject.SetActive(false);
         if (PlayerEffectPoolManager.Instance != null)
@@ -51,22 +69,48 @@ public class BaseEffectSpawn : MonoBehaviour
         else { Debug.Log("Could Not Return to: " + Pool.ToString() + " Pool"); }
     }
 
-    //Goes through animation, playing effects and activating damage collider
+    protected virtual IEnumerator EffectRoutine()
+    {
+        yield return new WaitForSeconds(Delay);
+        for (int i = 0; i < EffectFreq; i++)
+        {
+            yield return StartCoroutine(DamageEffect());
+        }
+        End();
+    }
+
     protected virtual IEnumerator DamageEffect()
     {
         float timeToFinish = 1f - AnimWarmupDuration - DamageDuration;
-        yield return new WaitForSeconds(Delay);
         anim.gameObject.SetActive(true);
-        anim.SetTrigger(AnimTrig);
+        anim.SetTrigger(EffectAnimTrig);
         yield return new WaitForSeconds(AnimWarmupDuration);
         hitbox.enabled = true;
         yield return new WaitForSeconds(DamageDuration);
         hitbox.enabled = false;
         yield return new WaitForSeconds(timeToFinish);
-        End();
     }
+
+
+
+
+    //Damage to Be Found by Enemies
     public virtual float GetDamage()
     {
         return Damage;
+    }
+
+
+
+    private void Awake()
+    {
+        overrideAnimController = new AnimatorOverrideController(anim.runtimeAnimatorController);
+        anim.runtimeAnimatorController = overrideAnimController;
+    }
+
+    private void Start()
+    {
+        //Setup Animation Upon Beginning
+        overrideAnimController["DefaultEffect"] = EffectAnimation;
     }
 }

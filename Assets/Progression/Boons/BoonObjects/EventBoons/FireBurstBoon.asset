@@ -16,13 +16,13 @@ MonoBehaviour:
   boonDescription: Releases Explosion Upon Using an Ability
   BaseStats:
     Damage: 3
-    Freq: 1
+    Freq: 2
     Area: {x: 1, y: 1}
     Duration: 1
     EffectNum: 1
   LevelScalers:
     DamageScale: 1.5
-    FrequencyScale: 1
+    FrequencyScale: 1.5
     AreaScale: {x: 1.5, y: 1.5}
     DurationScale: 1
     EffectNumberScale: 1

@@ -49,8 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitbox: {fileID: 2335756310834111829}
   anim: {fileID: 3002947875764405268}
+  EffectAnimation: {fileID: 7400000, guid: 500f23dff66cbe044a56fe148f25c20f, type: 2}
   Delay: 1
-  AnimWarmupDuration: 0.15
+  AnimWarmupDuration: 0.05
   DamageDuration: 0.1
 --- !u!58 &2335756310834111829
 CircleCollider2D:
@@ -193,7 +194,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 8, y: 8}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0

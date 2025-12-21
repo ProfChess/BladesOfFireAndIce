@@ -54,7 +54,7 @@ public class EventBoon : BaseBoon
             return new BoonLeveledStats
             {
                 FinalDamage = Boon.BaseStats.Damage * Boon.LevelScalers.DamageScale,
-                FinalFrequency = Boon.BaseStats.Freq * Boon.LevelScalers.FrequencyScale,
+                FinalFrequency = (int)(Boon.BaseStats.Freq * Boon.LevelScalers.FrequencyScale),
                 FinalArea = Boon.BaseStats.Area * Boon.LevelScalers.AreaScale,
                 FinalDuration = Boon.BaseStats.Duration * Boon.LevelScalers.DurationScale,
                 FinalEffectNumber = Boon.BaseStats.EffectNum * Boon.LevelScalers.EffectNumberScale,
@@ -67,17 +67,7 @@ public class EventBoon : BaseBoon
 //Boon Type Specific Enum
 public enum DamageBoonEffectType { FireBoom, FireBurst, IceBoom}
 
-//Leveling Values
-[System.Serializable]
-public class BoonLevelScalers
-{
-    //Multipliers on Base Values
-    public float DamageScale = 1f;
-    public int FrequencyScale = 1;
-    public Vector2 AreaScale = new Vector2(1, 1);
-    public float DurationScale = 1f;
-    public int EffectNumberScale = 1;
-}
+//Base Stats
 [System.Serializable]
 public class BoonBaseStats
 {
@@ -92,6 +82,17 @@ public class BoonBaseStats
     public float Duration = 1f;
     [Tooltip("Number of Effect Objects For Each Effect Triggered")]
     public int EffectNum = 1;
+}
+//Leveling Values
+[System.Serializable]
+public class BoonLevelScalers
+{
+    //Multipliers on Base Values
+    public float DamageScale = 1f;
+    public float FrequencyScale = 1;
+    public Vector2 AreaScale = new Vector2(1, 1);
+    public float DurationScale = 1f;
+    public int EffectNumberScale = 1;
 }
 public class BoonLeveledStats
 {
