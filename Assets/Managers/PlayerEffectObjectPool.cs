@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public enum PlayerEffectObjectType { FlameExplosion, IceExplosion}
+public enum PlayerEffectObjectType { FlameExplosion, IceExplosion, IceProj}
 
 public class PlayerEffectObjectPool : MonoBehaviour
 {

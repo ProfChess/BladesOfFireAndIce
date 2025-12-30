@@ -31,8 +31,7 @@ public static class BoonEffectLibrary
                 Stats.FinalArea, 
                 Stats.FinalDamage,
                 Stats.FinalFrequency, 
-                Stats.FinalDuration, 
-                Stats.FinalEffectNumber);
+                Stats.FinalDuration);
 
             Debug.Log($"Spawn Damage={Stats.FinalDamage}");
         }
