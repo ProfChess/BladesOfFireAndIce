@@ -1689,6 +1689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pools:
   - {fileID: 1451678855}
+  - {fileID: 351377155}
 --- !u!4 &1161771330
 Transform:
   m_ObjectHideFlags: 0

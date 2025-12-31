@@ -9,10 +9,11 @@ public static class BoonEffectLibrary
         {
             case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Boon, Details.Element, Details.AttackOrigin); break;
             case DamageBoonEffectType.FireBurst: ElementEffect_FireBurst(Boon, Details.Element, Details.AttackOrigin); break;
+            case DamageBoonEffectType.IceBoom: Projectile_IceCircle(Boon, Details.Element, Details.Target.transform.position, Details.Direction); break;
         }
     }
 
-    //ELEMENT EFFECTS
+    //Effect List
     private static void ElementEffect_FireBurst(EventBoon Boon, ElementType Element, Vector2 Position)
     {
         //Get Level
@@ -25,21 +26,53 @@ public static class BoonEffectLibrary
         
         if (Explosion != null)
         {
-            Debug.Log($"BaseDamage={Boon.BaseStats.Damage}, DamageScale={Boon.LevelScalers.DamageScale}");
             BoonLeveledStats Stats = Boon.GetLeveledStats(Boon, Level);
             Explosion.GetComponent<BaseEffectSpawn>().Spawn(Position, 
                 Stats.FinalArea, 
                 Stats.FinalDamage,
                 Stats.FinalFrequency, 
                 Stats.FinalDuration);
-
-            Debug.Log($"Spawn Damage={Stats.FinalDamage}");
         }
     }
 
     private static void DamageEffect_FireBoom(EventBoon Boon, ElementType Element, Vector2 Position)
     {
 
+    }
+
+
+    //Projectile
+    private static void Projectile_IceCircle(EventBoon Boon, ElementType Element, Vector2 SpawnPos, Vector2 StartDirection)
+    {
+        //Get Level and Stats
+        int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
+        BoonLeveledStats Stats = Boon.GetLeveledStats(Boon, Level);
+
+        //Effect
+        if (PlayerEffectPoolManager.Instance == null) { return; }
+
+        for (int i = 0; i < Stats.FinalFrequency; i++)
+        {
+            for (int a = 0; a < Stats.FinalEffectNumber; a++)
+            {
+                GameObject Proj = PlayerEffectPoolManager.Instance.getObjectFromPool(PlayerEffectObjectType.IceProj);
+                Vector2 RandDirection = GetRandomDirectionAroundObject(StartDirection, 180);
+                Proj.GetComponent<BaseProjectileEffectSpawn>().Spawn(
+                    SpawnPos,
+                    RandDirection,
+                    Stats.FinalArea,
+                    Stats.FinalDamage,
+                    Stats.FinalDuration,
+                    Stats.FinalProjTravelDuration,
+                    Stats.FinalProjSpeed
+                    );
+            }
+        }
+    }
+    private static Vector2 GetRandomDirectionAroundObject(Vector2 StartingDir, float maxAngleDegrees)
+    {
+        float angle = Random.Range(-maxAngleDegrees, maxAngleDegrees);
+        return Quaternion.Euler(0, 0, angle) * StartingDir.normalized;
     }
 
 }

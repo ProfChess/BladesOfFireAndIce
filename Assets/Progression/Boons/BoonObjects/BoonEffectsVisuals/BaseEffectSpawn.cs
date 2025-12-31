@@ -17,7 +17,7 @@ public class BaseEffectSpawn : MonoBehaviour
     [SerializeField] protected float DamageDuration = 0.1f;    //Time that damage collider lasts
 
     //Pool
-    protected PlayerEffectObjectType Pool;
+    [SerializeField] protected PlayerEffectObjectType Pool;
 
     //Provided Stats -> Given From EffectLibrary
     protected float Damage = 1f;

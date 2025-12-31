@@ -38,6 +38,34 @@ public class BaseProjectileEffectSpawn : BaseEffectSpawn
         gameObject.transform.position = Location;
         transform.localScale = AreaScaler;
 
+        float rotateAngle = Mathf.Atan2(MoveDirection.y, MoveDirection.x) * Mathf.Rad2Deg;
+        gameObject.transform.rotation = Quaternion.Euler(0f, 0f, rotateAngle);
+
+
+        if (LoopedEffectRoutine == null)
+        {
+            LoopedEffectRoutine = StartCoroutine(EffectRoutine());
+        }
+    }
+    public void Spawn(Vector2 Location, Vector2 Direction, Vector2 Scaler, float Dam, float StatDuration = 1, float TravelDuration = 2f, float Speed = 1f)
+    {
+        //Assign 
+        Damage = Dam;
+        AreaScaler = Scaler;
+        EffectStatusDuration = StatDuration;
+        MoveDirection = Direction;
+        ProjSpeed = Speed;
+        ProjDuration = TravelDuration;
+        isMoving = false;
+
+        //Prep Beginning of Effect
+        anim.gameObject.SetActive(false);
+        gameObject.transform.position = Location;
+        transform.localScale = AreaScaler;
+
+        float rotateAngle = Mathf.Atan2(MoveDirection.y, MoveDirection.x) * Mathf.Rad2Deg;
+        rb.rotation = rotateAngle;
+
         if (LoopedEffectRoutine == null)
         {
             LoopedEffectRoutine = StartCoroutine(EffectRoutine());
@@ -71,6 +99,5 @@ public class BaseProjectileEffectSpawn : BaseEffectSpawn
         if (isMoving) { rb.velocity = MoveDirection * ProjSpeed; }
         else { rb.velocity = Vector2.zero; }
     }
-
 
 }

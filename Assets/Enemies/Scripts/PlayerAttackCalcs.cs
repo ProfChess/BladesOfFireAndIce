@@ -43,7 +43,7 @@ public class PlayerAttackCalcs : BasePlayerDamage
             Target = EnemyHealth,
             Element = GetElement(),
             AttackOrigin = gameObject.transform.position,
-            Direction = gameObject.transform.forward
+            Direction = gameObject.transform.right
         };
 
         OnEnemyHitNormalAttack?.Invoke(details);

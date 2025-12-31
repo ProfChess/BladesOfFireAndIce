@@ -7,8 +7,8 @@ public class EventBoon : BaseBoon
     //Damage of Effect
     [Header("Boon Attributes")]
     public BoonBaseStats BaseStats;
+    [Header("")]
     public BoonLevelScalers LevelScalers;
-    
 
     [Header("Effect and Event")]
     [Tooltip("Effect of This Boon")]
@@ -47,6 +47,8 @@ public class EventBoon : BaseBoon
                 FinalArea = Boon.BaseStats.Area,
                 FinalDuration = Boon.BaseStats.Duration,
                 FinalEffectNumber = Boon.BaseStats.EffectNum,
+                FinalProjSpeed = Boon.BaseStats.ProjSpeed,
+                FinalProjTravelDuration = Boon.BaseStats.ProjTravelTime
             };
         }
         else
@@ -57,7 +59,9 @@ public class EventBoon : BaseBoon
                 FinalFrequency = (int)(Boon.BaseStats.Freq * Boon.LevelScalers.FrequencyScale),
                 FinalArea = Boon.BaseStats.Area * Boon.LevelScalers.AreaScale,
                 FinalDuration = Boon.BaseStats.Duration * Boon.LevelScalers.DurationScale,
-                FinalEffectNumber = Boon.BaseStats.EffectNum * Boon.LevelScalers.EffectNumberScale,
+                FinalEffectNumber = (int)(Boon.BaseStats.EffectNum * Boon.LevelScalers.EffectNumberScale),
+                FinalProjSpeed = Boon.BaseStats.ProjSpeed * Boon.LevelScalers.ProjSpeedScale,
+                FinalProjTravelDuration = Boon.BaseStats.ProjTravelTime * Boon.LevelScalers.ProjTravelTimeScale,
             };
         }
 
@@ -72,16 +76,23 @@ public enum DamageBoonEffectType { FireBoom, FireBurst, IceBoom}
 public class BoonBaseStats
 {
     //Base Values Each Boon Might Use
+    [Header("All Boons")]
     [Tooltip("Base Damage of Boon Effect")]
     public float Damage = 0f;
-    [Tooltip("Number of Times Effect is Triggered After Event")]
-    public int Freq = 1;
     [Tooltip("Size of Effect")]
     public Vector2 Area = new Vector2(1, 1);
+    [Tooltip("Number of Times Effect is Triggered After Event")]
+    public int Freq = 1;
     [Tooltip("Duration of Timed Effects")]
     public float Duration = 1f;
     [Tooltip("Number of Effect Objects For Each Effect Triggered")]
     public int EffectNum = 1;
+
+    [Header("Projectile Specific")]
+    [Tooltip("Speed the Projectile Travels")]
+    public float ProjSpeed = 1f;
+    [Tooltip("Time the Proj Lasts")]
+    public float ProjTravelTime = 1f;
 }
 //Leveling Values
 [System.Serializable]
@@ -89,10 +100,12 @@ public class BoonLevelScalers
 {
     //Multipliers on Base Values
     public float DamageScale = 1f;
-    public float FrequencyScale = 1;
+    public float FrequencyScale = 1f;
     public Vector2 AreaScale = new Vector2(1, 1);
     public float DurationScale = 1f;
-    public int EffectNumberScale = 1;
+    public float EffectNumberScale = 1;
+    public float ProjSpeedScale = 1f;
+    public float ProjTravelTimeScale = 1f;
 }
 public class BoonLeveledStats
 {
@@ -102,4 +115,6 @@ public class BoonLeveledStats
     public Vector2 FinalArea;
     public float FinalDuration;
     public int FinalEffectNumber;
+    public float FinalProjSpeed;
+    public float FinalProjTravelDuration;
 }

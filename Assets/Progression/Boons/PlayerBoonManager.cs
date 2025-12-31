@@ -77,7 +77,7 @@ public enum BoonEventType { OnNormalEnemyHit, OnNormalDamageEnemyDeath, OnNormal
 public class AttackEventDetails
 {
     public BaseHealth Target;          //Target Getting Attacked
-    public Vector2 AttackOrigin;       //location of Attack 
+    public Vector2 AttackOrigin;       //Player Location
     public Vector2 Direction;          //Direction of Attack
     public ElementType Element;        //Element of Attack
 }
