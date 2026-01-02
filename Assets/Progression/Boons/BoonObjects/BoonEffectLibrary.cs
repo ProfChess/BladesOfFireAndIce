@@ -9,7 +9,7 @@ public static class BoonEffectLibrary
         {
             case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Boon, Details.Element, Details.AttackOrigin); break;
             case DamageBoonEffectType.FireBurst: ElementEffect_FireBurst(Boon, Details.Element, Details.AttackOrigin); break;
-            case DamageBoonEffectType.IceBoom: Projectile_IceCircle(Boon, Details.Element, Details.Target.transform.position, Details.Direction); break;
+            case DamageBoonEffectType.IceBoom: Projectile_IceCircle(Boon, Details); break;
         }
     }
 
@@ -18,7 +18,6 @@ public static class BoonEffectLibrary
     {
         //Get Level
         int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
-
 
         //Effect
         if (PlayerEffectPoolManager.Instance == null) { return; }
@@ -42,7 +41,7 @@ public static class BoonEffectLibrary
 
 
     //Projectile
-    private static void Projectile_IceCircle(EventBoon Boon, ElementType Element, Vector2 SpawnPos, Vector2 StartDirection)
+    private static void Projectile_IceCircle(EventBoon Boon, AttackEventDetails AttackDetails)
     {
         //Get Level and Stats
         int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
@@ -56,16 +55,16 @@ public static class BoonEffectLibrary
             for (int a = 0; a < Stats.FinalEffectNumber; a++)
             {
                 GameObject Proj = PlayerEffectPoolManager.Instance.getObjectFromPool(PlayerEffectObjectType.IceProj);
-                Vector2 RandDirection = GetRandomDirectionAroundObject(StartDirection, 180);
-                Proj.GetComponent<BaseProjectileEffectSpawn>().Spawn(
-                    SpawnPos,
-                    RandDirection,
-                    Stats.FinalArea,
-                    Stats.FinalDamage,
-                    Stats.FinalDuration,
-                    Stats.FinalProjTravelDuration,
-                    Stats.FinalProjSpeed
-                    );
+                Vector2 RandDirection = GetRandomDirectionAroundObject(AttackDetails.Direction, 180);
+                BaseProjectileEffectSpawn ProfRef = Proj.GetComponent<BaseProjectileEffectSpawn>();
+                Vector2 SpawnLocation = AttackDetails.AttackOrigin;
+                if (AttackDetails.Target != null)
+                {
+                    ProfRef.ignoredEnemy = AttackDetails.Target.gameObject;
+                    SpawnLocation = AttackDetails.Target.transform.position;
+                }
+                ProfRef.Spawn(SpawnLocation, RandDirection, Stats.FinalArea,
+                    Stats.FinalDamage, Stats.FinalDuration, Stats.FinalProjTravelDuration, Stats.FinalProjSpeed);
             }
         }
     }

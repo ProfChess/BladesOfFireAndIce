@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IceCircleBoon
   m_EditorClassIdentifier: 
   boonName: Circle of Ice
-  boonDescription: Spawns a Circle of Icicles Around Player Upon Hitting an Enemy
+  boonDescription: Spawns a Circle of Icicles Around Player Upon Striking an Enemy
   BaseStats:
     Damage: 1
     Area: {x: 1, y: 1}

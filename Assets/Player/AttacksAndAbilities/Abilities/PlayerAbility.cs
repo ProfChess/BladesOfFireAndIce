@@ -23,17 +23,12 @@ public abstract class BasePlayerAbility : BasePlayerDamage
         {
             Element = GetElement(),
             Target = EnemyHealth,
-            AttackOrigin = GetAttackOrigin(EnemyHealth),
+            AttackOrigin = gameObject.transform.position,
             Direction = EnemyHealth.transform.position - gameObject.transform.position,
         };
         OnAbilityDamage?.Invoke(details);
         if(EnemyHealth.CurrentHealth <= AttackDamage) { OnAbilityKill?.Invoke(details); }
         return AttackDamage;
-    }
-    private Vector2 GetAttackOrigin(BaseHealth Enemy) 
-    { 
-        if (hitbox == null) { return Enemy.transform.position; } 
-        else { return gameObject.transform.position; }
     }
     public void UseAbility()
     {
@@ -58,7 +53,15 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     private IEnumerator AbilityDelayCo(float Delay) //Starts ability effect and damage after delay
     {
         yield return new WaitForSeconds(Delay);
-        OnAbilityUse?.Invoke(new AttackEventDetails { Element = GetElement(), AttackOrigin = gameObject.transform.position});
+
+        //Details
+        AttackEventDetails details = new AttackEventDetails
+        {
+            Element = GetElement(),
+            AttackOrigin = gameObject.transform.position,
+            Direction = Vector2.right
+        };
+        OnAbilityUse?.Invoke(details);
         AbilityEffect();
     }
     protected virtual IEnumerator Cooldown() //Basic cooldown for each ability

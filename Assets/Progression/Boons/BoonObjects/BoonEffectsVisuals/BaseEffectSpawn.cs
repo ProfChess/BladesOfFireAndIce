@@ -25,7 +25,11 @@ public class BaseEffectSpawn : MonoBehaviour
     protected int EffectFreq = 1;               //How Many Times the Effect Goes off Per Triggered Event
     protected float EffectStatusDuration = 0f;  //Only Used By Boons that apply Statuses
 
+    //Routine
     protected Coroutine LoopedEffectRoutine;
+
+    //Ignore Enemy (In Case it Spawns on an Enemy and I want to Ignore Collisions on it)
+    [HideInInspector] public GameObject ignoredEnemy;
 
     //Visuals
     protected static readonly int EffectAnimTrig = Animator.StringToHash("EffectTrigger");
@@ -60,6 +64,7 @@ public class BaseEffectSpawn : MonoBehaviour
         LoopedEffectRoutine = null;
         if (hitbox != null) { hitbox.enabled = false; }
         gameObject.SetActive(false);
+        ignoredEnemy = null;
         if (PlayerEffectPoolManager.Instance != null)
         {
             PlayerEffectPoolManager.Instance.ReturnObjectToPool(Pool, gameObject);
