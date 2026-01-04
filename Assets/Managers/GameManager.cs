@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     //UI
     [Header("UI")]
     [SerializeField] private GameObject NewRunPopup;
+    [SerializeField] private GameObject ShopSelectionUI;
 
     //Very Start Loading 
     private void Awake()
@@ -115,21 +116,32 @@ public class GameManager : MonoBehaviour
     }
     
     //UI
-    public void ActivateUIPopup()
+    //New Run
+    public void ActivateUIPopup_NewRun() { NewRunPopup.SetActive(true); }
+    public void DeactivateUIPopup_NewRun() { NewRunPopup.SetActive(false); }
+    //Shop
+    public void InputUIPopup_Shop(List<ShopOption> options) { ShopSelectionUI.GetComponent<ShopUI>().PopulateShopOptions(options); }
+    public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); }
+    public void DeactivateUIPopup_Shop() { ShopSelectionUI.SetActive(false); }
+    public void MakeShopDecision(ShopOption ChosenItem)
     {
-        NewRunPopup.SetActive(true);
+        if (ChosenItem != null)
+        {
+            if (ChosenItem is ShopOptionBoon)
+            {
+                //Boon Selected
+            }
+            if (ChosenItem is ShopOptionItem)
+            {
+                //Item Selected
+            }
+        }
     }
-    public void DeactivateUIPopup()
-    {
-        NewRunPopup.SetActive(false);
-    }
+
     public void DungeonFinished()
     {
         MeshBaker.CreateMesh();
     }
-
-
-
 
 
     public GameObject getPlayer() { return  Player; }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,12 +5,19 @@ public class DifficultyManager : MonoBehaviour
 {
 
     //Difficulty Settings
+    [Header("Base Settings")]
     [SerializeField, Range(0, 3)] private int DifficultyLevel = 0;
-    [SerializeField] private Vector2Int RoomSize = new Vector2Int(0, 0);
-    [SerializeField] private Vector3Int MapSize = new Vector3Int(0, 0, 0);
     [SerializeField] private bool TestingMode = false;
     public bool isTesting => TestingMode;
 
+
+    [Header("Map")]
+    [SerializeField] private Vector2Int RoomSize = new Vector2Int(0, 0);
+    [SerializeField] private Vector3Int MapSize = new Vector3Int(0, 0, 0);
+
+    [Header("Special Room Settings")]
+    private int SizeOfShop = 3;
+    public int ShopSize => SizeOfShop;
     private void Awake()
     {
         DifficultyLevel = Mathf.Clamp(DifficultyLevel, 0, GlobalEnemySpawnChance.Length - 1);

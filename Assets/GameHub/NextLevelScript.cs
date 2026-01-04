@@ -11,7 +11,7 @@ public class NextLevelScript : MonoBehaviour
             if (GameManager.Instance != null)
             {
                 Debug.Log("Player Found");
-                GameManager.Instance.ActivateUIPopup();
+                GameManager.Instance.ActivateUIPopup_NewRun();
             }
         }
     }
@@ -22,7 +22,7 @@ public class NextLevelScript : MonoBehaviour
             if (GameManager.Instance != null)
             {
                 Debug.Log("Player Left");
-                GameManager.Instance.DeactivateUIPopup();
+                GameManager.Instance.DeactivateUIPopup_NewRun();
             }
         }
     }
