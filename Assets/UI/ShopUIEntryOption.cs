@@ -14,12 +14,14 @@ public class ShopUIEntryOption : MonoBehaviour
         ShopItemName.text = Option.Description.ItemName;
         ShopItemCostTextField.text = Option.Description.ItemCost.ToString();
         Icon = Option.Description.Icon;
+        CurrentOption = Option;
         gameObject.SetActive(true);
     }
 
     public void Select()
     {
         GameManager.Instance.MakeShopDecision(CurrentOption);
+        gameObject.SetActive(false);
     }
 
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     //UI
     [Header("UI")]
     [SerializeField] private GameObject NewRunPopup;
+    [SerializeField] private GameObject ShopGetter;
     [SerializeField] private GameObject ShopSelectionUI;
 
     //Very Start Loading 
@@ -120,8 +122,8 @@ public class GameManager : MonoBehaviour
     public void ActivateUIPopup_NewRun() { NewRunPopup.SetActive(true); }
     public void DeactivateUIPopup_NewRun() { NewRunPopup.SetActive(false); }
     //Shop
-    public void InputUIPopup_Shop(List<ShopOption> options) { ShopSelectionUI.GetComponent<ShopUI>().PopulateShopOptions(options); }
-    public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); }
+    public void InputUIPopup_Shop(List<ShopOption> options) { ShopGetter.GetComponent<ShopUI>().PopulateShopOptions(options); }
+    public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("UI"); }
     public void DeactivateUIPopup_Shop() { ShopSelectionUI.SetActive(false); }
     public void MakeShopDecision(ShopOption ChosenItem)
     {

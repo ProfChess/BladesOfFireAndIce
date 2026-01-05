@@ -284,7 +284,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             ""id"": ""8bd2da42-7746-44e7-9ff1-afeeaa377cb8"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""CloseMenu"",
                     ""type"": ""Button"",
                     ""id"": ""4ab8546b-84f6-493b-a737-9ad732ddcfad"",
                     ""expectedControlType"": """",
@@ -297,11 +297,11 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f3dbd44e-c443-4c0d-a184-584d4e4c232e"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""CloseMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -321,7 +321,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_PlayerButtons_Interact = m_PlayerButtons.FindAction("Interact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
+        m_UI_CloseMenu = m_UI.FindAction("CloseMenu", throwIfNotFound: true);
     }
 
     ~@PlayerInputs()
@@ -565,7 +565,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_Newaction;
+    private readonly InputAction m_UI_CloseMenu;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -578,9 +578,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// </summary>
         public UIActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "UI/Newaction".
+        /// Provides access to the underlying input action "UI/CloseMenu".
         /// </summary>
-        public InputAction @Newaction => m_Wrapper.m_UI_Newaction;
+        public InputAction @CloseMenu => m_Wrapper.m_UI_CloseMenu;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -607,9 +607,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @CloseMenu.started += instance.OnCloseMenu;
+            @CloseMenu.performed += instance.OnCloseMenu;
+            @CloseMenu.canceled += instance.OnCloseMenu;
         }
 
         /// <summary>
@@ -621,9 +621,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UIActions" />
         private void UnregisterCallbacks(IUIActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @CloseMenu.started -= instance.OnCloseMenu;
+            @CloseMenu.performed -= instance.OnCloseMenu;
+            @CloseMenu.canceled -= instance.OnCloseMenu;
         }
 
         /// <summary>
@@ -722,11 +722,11 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         /// <summary>
-        /// Method invoked when associated input action "New action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "CloseMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnCloseMenu(InputAction.CallbackContext context);
     }
 }

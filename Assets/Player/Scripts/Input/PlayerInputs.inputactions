@@ -198,7 +198,7 @@
             "id": "8bd2da42-7746-44e7-9ff1-afeeaa377cb8",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "CloseMenu",
                     "type": "Button",
                     "id": "4ab8546b-84f6-493b-a737-9ad732ddcfad",
                     "expectedControlType": "",
@@ -211,11 +211,11 @@
                 {
                     "name": "",
                     "id": "f3dbd44e-c443-4c0d-a184-584d4e4c232e",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "CloseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

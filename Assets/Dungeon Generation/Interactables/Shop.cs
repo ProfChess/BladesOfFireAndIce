@@ -13,13 +13,13 @@ public class Shop : InteractableObject
 
         //Get Set of Items for The Shop
         List<ShopOption> itemsForSale = new List<ShopOption>();
-        itemsForSale = GetSetOfItems(ShopSize);
+        itemsForSale = GetSetOfItems(ShopSize, shopOptions);
 
         //Create Shop
         GameManager.Instance.InputUIPopup_Shop(itemsForSale);
         GameManager.Instance.ActivateUIPopup_Shop();
     }
-    private void Start()
+    private void Awake()
     {
         shopOptions = CreateShopOptionList();
     }
@@ -29,13 +29,12 @@ public class Shop : InteractableObject
     [SerializeField] private List<ShopOptionBoon> boonShopOptions = new List<ShopOptionBoon>();
     [SerializeField] private List<ShopOptionItem> relicShopOptions = new List<ShopOptionItem>();
 
-    private List<ShopOption> GetSetOfItems(int num)
+    private List<ShopOption> GetSetOfItems(int num, List<ShopOption> options)
     {
-        if (shopOptions.Count < num) { Debug.Log("Insufficient Number of Items in Lists"); }
+        if (options.Count < num) { Debug.Log("Insufficient Number of Items in Lists"); }
 
         List<ShopOption> ItemSet = new List<ShopOption>();
-        List<ShopOption> TempOptions = shopOptions;
-
+        List<ShopOption> TempOptions = options;
 
         for (int i = 0; i < num; i++)
         {
