@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class BoonPickup : InteractableObject
 {
+    private List<BaseBoon> SelectedBoons = new List<BaseBoon>();
+    private bool boonListCreated = false;
     public override void Interact()
     {
         base.Interact();
-        if (GameManager.Instance != null)
+        if (!boonListCreated)
         {
-            if (GameManager.Instance.boonOptions != null)
+            if (GameManager.Instance != null)
             {
-                GameManager.Instance.boonOptions.PlayerSelectBoonChoices();
+                SelectedBoons = new List<BaseBoon>(GameManager.Instance.boonOptions.PlayerSelectBoonChoices(this));
             }
-            else { Debug.Log("Game Manager's Boon Options is Null"); }
+            boonListCreated = true;
         }
-        else { Debug.Log("Game Manager is Null"); }
+        else
+        {
+            GameManager.Instance.boonOptions.DisplayUIBasedOnBoonsAvailable(SelectedBoons, this);
+        }
     }
 
 

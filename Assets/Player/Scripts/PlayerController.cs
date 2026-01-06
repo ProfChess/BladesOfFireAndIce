@@ -322,4 +322,16 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //UI 
+    public void OnESC(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            if(GameManager.Instance != null)
+            {
+                GameManager.Instance.CloseMenus();
+            }
+        }
+    }
+
 }

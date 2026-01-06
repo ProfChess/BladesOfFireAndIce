@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class ShopUI : MonoBehaviour
 {
-
     [SerializeField] private Transform AllShopOptionsObject;
     [SerializeField] private List<ShopUIEntryOption> shopUIOptions = new List<ShopUIEntryOption>();
 

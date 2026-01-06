@@ -118,6 +118,17 @@ public class GameManager : MonoBehaviour
     }
     
     //UI
+    //Close All Menus
+    public void CloseMenus() 
+    {
+        //Close UI 
+        NewRunPopup.SetActive(false);
+        ShopSelectionUI.SetActive(false);
+        boonOptions.BoonSelectionPopup.SetActive(false);
+
+        //Change Action Map
+        getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerButtons");
+    }
     //New Run
     public void ActivateUIPopup_NewRun() { NewRunPopup.SetActive(true); }
     public void DeactivateUIPopup_NewRun() { NewRunPopup.SetActive(false); }
@@ -125,18 +136,11 @@ public class GameManager : MonoBehaviour
     public void InputUIPopup_Shop(List<ShopOption> options) { ShopGetter.GetComponent<ShopUI>().PopulateShopOptions(options); }
     public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("UI"); }
     public void DeactivateUIPopup_Shop() { ShopSelectionUI.SetActive(false); }
-    public void MakeShopDecision(ShopOption ChosenItem)
+    public void MakeShopDecision(ShopOption ChosenShopItem)
     {
-        if (ChosenItem != null)
+        if (ChosenShopItem != null)
         {
-            if (ChosenItem is ShopOptionBoon)
-            {
-                //Boon Selected
-            }
-            if (ChosenItem is ShopOptionItem)
-            {
-                //Item Selected
-            }
+            ChosenShopItem.ApplyChoice();
         }
     }
 

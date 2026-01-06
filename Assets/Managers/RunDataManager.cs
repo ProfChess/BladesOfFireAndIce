@@ -7,7 +7,7 @@ public class RunDataManager : MonoBehaviour
     //TEMPORARY DATA FOR EACH RUN THROUGH THE DUNGEON
     //Boons
     [SerializeField] private int MaxBoonLevel;
-    //[SerializeField] private List<BaseBoon> BoonsCollected = new List<BaseBoon>();
+    public int GetMaxBoonLevel => MaxBoonLevel;
     //Relics
     //Currency
     private Dictionary<BaseBoon, int> BoonLevels = new Dictionary<BaseBoon, int>();
