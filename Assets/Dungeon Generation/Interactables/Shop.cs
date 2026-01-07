@@ -134,7 +134,7 @@ public class ShopOptionBoon : ShopOption
         if (GM_Rundata.IsBoonCollected(BoonRef))
         {
             //Boon is Collected
-            if (GM_Rundata.GetBoonLevel(BoonRef) == GM_Rundata.GetMaxBoonLevel) { return false; }
+            if (GM_Rundata.GetBoonLevel(BoonRef) == GM_Rundata.MaxBoonLevel) { return false; }
         }
         return true;
     }

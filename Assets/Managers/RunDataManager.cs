@@ -5,13 +5,10 @@ using UnityEngine;
 public class RunDataManager : MonoBehaviour
 {
     //TEMPORARY DATA FOR EACH RUN THROUGH THE DUNGEON
-    //Boons
-    [SerializeField] private int MaxBoonLevel;
-    public int GetMaxBoonLevel => MaxBoonLevel;
+    [field: SerializeField] public int MaxBoonLevel {  get; private set; }
     //Relics
-    //Currency
+    //BOONS
     private Dictionary<BaseBoon, int> BoonLevels = new Dictionary<BaseBoon, int>();
-
     public int GetBoonLevel(BaseBoon Boon) {  return BoonLevels[Boon]; }
     //Does The Player Already Have This Boon
     public bool IsBoonCollected(BaseBoon Boon) { return BoonLevels.ContainsKey(Boon); }
@@ -31,8 +28,18 @@ public class RunDataManager : MonoBehaviour
             Debug.Log("Boon Level Increased To: " +  BoonLevels[Boon]);
         }
     }
+
+    //CURRENCY
+    [field: SerializeField] public float ShopCurrencyCollected { get; private set; } = 100f;
+    //private float StatCurrencyCollected = 0f;
+    public void AddShopCurrency(float num) {  ShopCurrencyCollected += num; }
+    public void SubShopCurrency(float num) { ShopCurrencyCollected -= num; }
+    public bool CanPayItemCost(float num) { return ShopCurrencyCollected >= num; }
+
+
     public void ClearRunData()
     {
-        BoonLevels.Clear(); 
+        BoonLevels.Clear();
+        ShopCurrencyCollected = 0f;
     }
 }
