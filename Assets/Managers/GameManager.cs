@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
     public void DeactivateUIPopup_Shop() { ShopSelectionUI.SetActive(false); }
     public void MakeShopDecision(ShopOption ChosenShopItem)
     {
-        runData.SubShopCurrency(ChosenShopItem.Description.ItemCost);
+        runData.AddShopCurrency(-ChosenShopItem.Description.ItemCost);
         ShopGetter.ReEvalutateShop();
         if (ChosenShopItem != null)
         {

@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1609,11 +1608,15 @@ MonoBehaviour:
   difficultyManager: {fileID: 1910467742}
   enemySpawnManager: {fileID: 0}
   statManager: {fileID: 0}
+  boonOptions: {fileID: 0}
+  runData: {fileID: 0}
   DungeonStartingRoomCenter: {x: 0, y: 0, z: 0}
   DungeonEndingRoomCenter: {x: 0, y: 0, z: 0}
   DungeonEndPrefab: {fileID: 0}
   RegularFloorNum: 3
   NewRunPopup: {fileID: 0}
+  ShopGetter: {fileID: 0}
+  ShopSelectionUI: {fileID: 0}
 --- !u!4 &453664775
 Transform:
   m_ObjectHideFlags: 0
@@ -1976,7 +1979,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1069512701
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -2373,7 +2376,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 522098553
-  m_SortingLayer: 7
+  m_SortingLayer: 5
   m_SortingOrder: 3
   m_Sprite: {fileID: 326548575, guid: f65a74f450c6a384fb6757a81ffe41d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2751,7 +2754,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1837733551
-  m_SortingLayer: 6
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -1450851932, guid: a20a4df629c014c4dae5a27ffe6e5482, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7555,9 +7558,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DifficultyLevel: 0
+  TestingMode: 1
   RoomSize: {x: 18, y: 12}
   MapSize: {x: 18, y: 12, z: 0}
-  TestingMode: 1
 --- !u!4 &1910467743
 Transform:
   m_ObjectHideFlags: 0
@@ -8474,7 +8477,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -934619831
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -8519,6 +8522,7 @@ MonoBehaviour:
   AttackDamage: 3
   Element: 0
   AttackType: 0
+  AttackBox: {fileID: 0}
 --- !u!114 &2923745128113888029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8748,7 +8752,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1967261121
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 2060704323, guid: 4de21350a73f8d84387baa67f15c0b10, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -8896,9 +8900,9 @@ MonoBehaviour:
   AttackType: 0
   AbilityCooldown: 3
   abilityDelay: 0.12
+  hitbox: {fileID: 0}
   Radius: 2
   Duration: 0.25
-  Hitbox: {fileID: 8017646408458811332}
   EffectAnim: {fileID: 3701316932702574013}
   EffectSprite: {fileID: 7862310056512997111}
 --- !u!1 &7258962417362587325
@@ -8979,6 +8983,7 @@ MonoBehaviour:
   playerAttack: {fileID: 7947944207095162014}
   playerAttackCalcs: {fileID: 2563618818905659623}
   attackSpeedManager: {fileID: 8005904856212943724}
+  playerInteractBox: {fileID: 0}
   playerSprite: {fileID: 5339922583991556765}
   playerAnimations: {fileID: 3674860438877361184}
 --- !u!212 &7862310056512997111
@@ -9020,7 +9025,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -934619831
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

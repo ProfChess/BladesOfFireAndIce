@@ -31,15 +31,18 @@ public class RunDataManager : MonoBehaviour
 
     //CURRENCY
     [field: SerializeField] public float ShopCurrencyCollected { get; private set; } = 100f;
-    //private float StatCurrencyCollected = 0f;
+    [field: SerializeField] public float StatCurrencyCollected { get; private set; } = 0f;
+    //Shop Functions
     public void AddShopCurrency(float num) {  ShopCurrencyCollected += num; }
-    public void SubShopCurrency(float num) { ShopCurrencyCollected -= num; }
     public bool CanPayItemCost(float num) { return ShopCurrencyCollected >= num; }
 
+    //Stat Functions
+    public void AddStatCurrency(float num) { StatCurrencyCollected += num; }
 
     public void ClearRunData()
     {
         BoonLevels.Clear();
         ShopCurrencyCollected = 0f;
+        StatCurrencyCollected = 0f;
     }
 }
