@@ -74,7 +74,7 @@ public class BoonSelection : MonoBehaviour
         //Display UI
         if (FilteredBoons.Count > 0)
         {
-            GM.getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
+            GM.ChangePlayerToUIActions();
             BoonSelectionPopup.SetActive(true);
         }
     }
@@ -88,7 +88,7 @@ public class BoonSelection : MonoBehaviour
     //Getting And Applying Boons
     public void BoonChoiceMade(BaseBoon ChoiceMade)
     {
-        GM.getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerButtons");
+        GM.ChangePlayerToPlayerActions();
         BoonSelectionPopup.SetActive(false);
         Pickup.gameObject.SetActive(false);
         GM.runData.AddBoon(ChoiceMade);

@@ -1094,14 +1094,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dee69f3c57dd4c4b81259f5430570b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Vitality: 0
-  Endurance: 0
-  Strength: 0
-  Dexterity: 0
-  Luck: 0
-  MaxPointsPerStat: 10
-  MinPointsPerStat: 1
-  PointsSpent: 0
+  Vitality: 1
+  Endurance: 1
+  Strength: 1
+  Dexterity: 1
+  Luck: 1
 --- !u!1 &406027024
 GameObject:
   m_ObjectHideFlags: 0
@@ -5589,6 +5586,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StatMenu: {fileID: 4181664527443602215}
+  MaxPointsPerStat: 10
+  MinPointsPerStat: 1
+  PointsSpent: 0
 --- !u!61 &1944272937
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10346,6 +10346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5446cbd0748624b9a8f3b65abc854b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StatAllocation: {fileID: 1944272936}
   vitalityNum: {fileID: 835933100999844921}
   enduranceNum: {fileID: 5065903349516854936}
   strengthNum: {fileID: 2745372000806760112}

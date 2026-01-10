@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ShopUI ShopGetter;
     [Tooltip("Main Shop Menu Object to Turn On/Off")]
     [SerializeField] private GameObject ShopSelectionUI;
+    public event Action MenuClosed;
 
     //Very Start Loading 
     private void Awake()
@@ -121,6 +122,15 @@ public class GameManager : MonoBehaviour
     }
     
     //UI
+    public void ChangePlayerToUIActions()
+    {
+        getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
+    }
+    public void ChangePlayerToPlayerActions()
+    {
+        getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerButtons");
+    }
+
     //Close All Menus
     public void CloseMenus() 
     {
@@ -128,17 +138,17 @@ public class GameManager : MonoBehaviour
         NewRunPopup.SetActive(false);
         ShopSelectionUI.SetActive(false);
         boonOptions.BoonSelectionPopup.SetActive(false);
-
+        MenuClosed?.Invoke();
 
         //Change Action Map
-        getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerButtons");
+        ChangePlayerToPlayerActions();
     }
     //New Run
     public void ActivateUIPopup_NewRun() { NewRunPopup.SetActive(true); }
     public void DeactivateUIPopup_NewRun() { NewRunPopup.SetActive(false); }
     //Shop
     public void InputUIPopup_Shop(List<ShopOption> options) { ShopGetter.PopulateShopOptions(options); }
-    public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("UI"); }
+    public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); ChangePlayerToUIActions(); }
     public void DeactivateUIPopup_Shop() { ShopSelectionUI.SetActive(false); }
     public void MakeShopDecision(ShopOption ChosenShopItem)
     {
