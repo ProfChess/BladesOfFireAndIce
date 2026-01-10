@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour
         ShopSelectionUI.SetActive(false);
         boonOptions.BoonSelectionPopup.SetActive(false);
 
+
         //Change Action Map
         getPlayer().GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerButtons");
     }

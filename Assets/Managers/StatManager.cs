@@ -20,7 +20,7 @@ public class StatManager : MonoBehaviour
 
     [Header("Total Points to Spend")]
     [SerializeField] private int PointsSpent = 0;
-    private const int SpendablePoints = 35;
+    private const int SpendablePoints = 27;
 
     //Getting 
     public int VitalityPoints => Vitality;
