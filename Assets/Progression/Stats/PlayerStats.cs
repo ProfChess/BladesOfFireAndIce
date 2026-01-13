@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerStats", menuName = "Game/Player Stats")]
@@ -50,5 +46,4 @@ public class PlayerStats : ScriptableObject
     public float AttackSpeedFire => BaseAttackSpeedFire + (SM.DexterityPoints * (DexterityScaleFire/100f));
     public float AttackSpeedIce => BaseAttackSpeedIce + (SM.DexterityPoints * (DexterityScaleIce / 100f));
     public float CriticalChance => (BaseCriticalChance/100f) + (SM.LuckPoints * (LuckScale/100f)); 
-
 }

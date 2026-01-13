@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStatSetting : MonoBehaviour
@@ -36,6 +34,7 @@ public class PlayerStatSetting : MonoBehaviour
     private float FireSpeedBonus = 0f;
     private float IceSpeedBonus = 0f;
     private float CriticalChanceBonus = 0f;
+    private float ArmorBonus = 0f;
     public void ApplyBonusStat(StatType Stat, float Bonus)
     {
         switch (Stat)
@@ -47,6 +46,7 @@ public class PlayerStatSetting : MonoBehaviour
             case StatType.DexterityFire:  FireSpeedBonus += Bonus;      break;
             case StatType.DexterityIce:   IceSpeedBonus += Bonus;       break;
             case StatType.Luck:           CriticalChanceBonus += Bonus; break;
+            case StatType.Armor:          ArmorBonus += Bonus;          break;
         }
         AttributeStats();
     }
@@ -60,7 +60,8 @@ public class PlayerStatSetting : MonoBehaviour
         playerDamage.SetCritChance(Stats.CriticalChance + CriticalChanceBonus);
         playerAttackSpeed.SetFireSpeed(Stats.AttackSpeedFire + FireSpeedBonus);
         playerAttackSpeed.SetIceSpeed(Stats.AttackSpeedIce + IceSpeedBonus);
+        playerHealth.AddDamageResistance(ArmorBonus);
     }
     //Stat Types
 }
-public enum StatType { Vitality, Endurance, StrengthFire, StrengthIce, DexterityFire, DexterityIce, Luck };
+public enum StatType { Vitality, Endurance, StrengthFire, StrengthIce, DexterityFire, DexterityIce, Luck, Armor};

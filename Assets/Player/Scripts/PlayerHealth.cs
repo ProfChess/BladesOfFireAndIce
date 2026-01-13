@@ -11,6 +11,7 @@ public class PlayerHealth : BaseHealth
     [SerializeField] private PlayerInput input;
 
     private bool isFalling = false;
+    private float damageResist = 0;
 
     //Events
     //Event for player death
@@ -23,6 +24,7 @@ public class PlayerHealth : BaseHealth
     private static readonly int FallState = Animator.StringToHash("PlayerFall");
 
     public void SetMaxHealth(float num) { MaxHealth = num; }
+    public void AddDamageResistance(float num) { damageResist += num; }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -60,7 +62,12 @@ public class PlayerHealth : BaseHealth
     //DAMAGE
     private void PlayerDamage(float damage)
     {
-        if (damage > 0) { TakeDamage(damage); }
+        if (damage > 0) 
+        { 
+            float totaldamage = damage - damageResist;
+            if (totaldamage <= 0) {/* Insert Player Blocking or Resisting Animation Here */ return; }
+            TakeDamage(totaldamage); 
+        }
         if (curHealth > 0) { PlayerAnim.Play(Hurt, 1); }
         else { PlayerAnim.Play(Death, 1); }
     }
