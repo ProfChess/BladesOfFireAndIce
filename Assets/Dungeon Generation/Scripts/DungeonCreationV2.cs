@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class DungeonCreationV2 : MonoBehaviour
 {
-    //Custom Data
-    //Struct for holding room appearance chances (Might move to Scriptable object with placment details later)
-    [System.Serializable]
-    public struct SpecialRoomTypeChance
-    {
-        public SpecialRoomKind Type;
-        [Range(0f, 1f)] public float Chance;
-    }
-
     //Instance
     public static DungeonCreationV2 Instance;
 
@@ -30,15 +21,8 @@ public class DungeonCreationV2 : MonoBehaviour
     [SerializeField] private int MaxOffset = 10;
 
     [Header("Dungeon Changes")]
-    [SerializeField] int MaxSpecialRooms = 0;
-    private List<SpecialRoomTypeChance> SpecialRoomChances = new List<SpecialRoomTypeChance>
-    {
-        new SpecialRoomTypeChance{Type = SpecialRoomKind.Chest, Chance = 0.4f },
-        new SpecialRoomTypeChance{Type = SpecialRoomKind.Challenge, Chance = 0.15f },
-        new SpecialRoomTypeChance{Type = SpecialRoomKind.Buff, Chance = 0.28f },
-        new SpecialRoomTypeChance{Type = SpecialRoomKind.Puzzle, Chance = 0.35f },
-
-    };
+    [SerializeField] int MaxSpecialRooms = 4;
+    [SerializeField] SpecRoomTypeChances SpecialRoomChances;
     private enum SplitAxis { Horizontal, Vertical, Invalid }
 
     //Rooms 
@@ -256,6 +240,7 @@ public class DungeonCreationV2 : MonoBehaviour
     private void InsertSpecialRooms()
     {
         int specialRoomCount = 0;
+        Dictionary<SpecialRoomKind, int> specialRoomCounts = new(); //keeps track of all special room amounts
 
         //Iterate through each room
         for(int i = 0; i < BasicDungeonRooms.Count; i++)
@@ -267,19 +252,39 @@ public class DungeonCreationV2 : MonoBehaviour
             float SRChanceToSpawn = Random.Range(0f, 1f);
             if (SRChanceToSpawn <= BaseSpecialRoomSpawnChance)
             {
-                SpecialRoomKind SelectedRoom = GetRandomSpecialRoom();
+                SpecialRoomKind SelectedRoom = GetRandomSpecialRoom(specialRoomCounts);
+                if (SelectedRoom == SpecialRoomKind.None) { continue; }
+
                 //Reassign room in question to new Special room
                 BasicDungeonRooms[i] = new SpecialDungeonRoom(BasicDungeonRooms[i].Area, SelectedRoom);
                 specialRoomCount++;
+
+                //Track Special Room Type Amounts
+                specialRoomCounts.TryGetValue(SelectedRoom, out int count);
+                specialRoomCounts[SelectedRoom] = ++count;
             }
         }
     }
-    //Get random choice of special room based on weighted chances
-    private SpecialRoomKind GetRandomSpecialRoom()
+    private bool CanSpecialRoomAppear(SpecialRoomTypeChance roomChance, Dictionary<SpecialRoomKind, int> counts)
     {
+        if (roomChance.AppearanceLimit <= 0) { return true; }
+        counts.TryGetValue(roomChance.Type, out int currentCount);
+        return currentCount < roomChance.AppearanceLimit;
+    }
+    //Get random choice of special room based on weighted chances
+    private SpecialRoomKind GetRandomSpecialRoom(Dictionary<SpecialRoomKind, int> counts)
+    {
+        //Filter out Rooms That Have Appeared Too Much
+        List<SpecialRoomTypeChance> validRooms = new();
+        foreach (var room in SpecialRoomChances.RoomChances)
+        {
+            if(CanSpecialRoomAppear(room, counts)) {validRooms.Add(room);}
+        }
+        if (validRooms.Count == 0) { return SpecialRoomKind.None; }
+
         //Add all Chances
         float TotalChance = 0f;
-        foreach (var entry in SpecialRoomChances)
+        foreach (var entry in validRooms)
         {
             TotalChance += entry.Chance;
         }
@@ -287,7 +292,7 @@ public class DungeonCreationV2 : MonoBehaviour
         //Select Special Room To Spawn
         float SelectedSpecial = Random.Range(0f, TotalChance);
         float CumulativeChance = 0f;
-        foreach (var entry in SpecialRoomChances)
+        foreach (var entry in SpecialRoomChances.RoomChances)
         {
             CumulativeChance += entry.Chance;
             if (SelectedSpecial <= CumulativeChance)
@@ -498,7 +503,7 @@ public class DungeonCreationV2 : MonoBehaviour
 }
 
 public enum RoomType { Default, Special }
-public enum SpecialRoomKind { None, Chest, Challenge, Buff, Puzzle}
+public enum SpecialRoomKind { None, Chest, Challenge, Buff, Puzzle, Shop}
 public class SingleDungeonRoom
 {
     //Room Specifics

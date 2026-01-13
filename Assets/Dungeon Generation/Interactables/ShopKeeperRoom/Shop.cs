@@ -6,6 +6,7 @@ public class Shop : InteractableObject
     private int baseShopSize = 2;
     private bool shopCreated = false;
     private List<ShopOption> cachedShopSelection;
+    [SerializeField] ShopDataCreation ShopData;
     public override void Interact()
     {
         //Create Shop if First Interaction
@@ -17,7 +18,7 @@ public class Shop : InteractableObject
             if (ShopSize == 0) { ShopSize = baseShopSize; }
 
             //Create Selection
-            cachedShopSelection = GetSetOfItems(ShopSize, shopOptions);
+            cachedShopSelection = GetSetOfItems(ShopSize, ShopData.ShopOptions);
 
             shopCreated = true;
         }
@@ -33,17 +34,8 @@ public class Shop : InteractableObject
         GameManager.Instance.InputUIPopup_Shop(cachedShopSelection);
         GameManager.Instance.ActivateUIPopup_Shop();
     }
-    private void Awake()
-    {
-        shopOptions = CreateShopOptionList();
-    }
 
-    //Items That Can be Sold
-    private List<ShopOption> shopOptions;
-    [SerializeField] private List<ShopOptionBoon> boonShopOptions = new List<ShopOptionBoon>();
-    [SerializeField] private List<ShopOptionItem> relicShopOptions = new List<ShopOptionItem>();
-
-    private List<ShopOption> GetSetOfItems(int num, List<ShopOption> options)
+    private List<ShopOption> GetSetOfItems(int num, IReadOnlyList<ShopOption> options)
     {
         if (options.Count < num) { Debug.Log("Insufficient Number of Items in Lists"); }
 
@@ -57,19 +49,6 @@ public class Shop : InteractableObject
             ItemSet.Add(item);
         }
         return ItemSet;
-    }
-    private List<ShopOption> CreateShopOptionList()
-    {
-        List<ShopOption> FullOptions = new List<ShopOption>();
-        foreach (ShopOptionBoon item in boonShopOptions)
-        {
-            FullOptions.Add(item);
-        }
-        foreach (ShopOptionItem item in relicShopOptions)
-        {
-            FullOptions.Add(item);
-        }
-        return FullOptions;
     }
     private ShopOption GetRandomItem(List<ShopOption> Options)
     {
@@ -107,7 +86,7 @@ public abstract class ShopOption
     protected RunDataManager GM_Rundata => GameManager.Instance.runData;
     public ShopDescription Description;
     public float ChanceToAppear;
-    public bool isSold = false;
+    [HideInInspector] public bool isSold = false;
     //Application Function
     public abstract void ApplyChoice();
     public abstract bool CanBeSold();
