@@ -8,10 +8,12 @@ public class TempBuff_Vitality : BaseTempBuff
     public override void ApplyBuff(PlayerStatSetting Stats)
     {
         Stats.ApplyBonusStat(StatType.Armor, DamageResistance);
+        Debug.Log("Buff Applied");
     }
 
     public override void DeactivateBuff(PlayerStatSetting Stats)
     {
         Stats.ApplyBonusStat(StatType.Armor, -DamageResistance);
+        Debug.Log("Buff Removed");
     }
 }
