@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = ("Shop/ShopData"))]
+[CreateAssetMenu(menuName = ("LevelObjects/ShopData"))]
 public class ShopDataCreation : ScriptableObject
 {
     private List<ShopOption> shopOptions = new List<ShopOption>();
