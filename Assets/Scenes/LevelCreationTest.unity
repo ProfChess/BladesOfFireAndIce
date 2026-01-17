@@ -1934,6 +1934,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Chest: {fileID: 5786857691763940893, guid: 2f54e54495bf83641a3cf0eda615f7c0, type: 3}
   ChestParent: {fileID: 1836886434}
+  BuffInventory: {fileID: 11400000, guid: 991e020d88c492944b8bcb6462b137b0, type: 2}
   ShopKeeper: {fileID: 7722371341501631507, guid: 347eb0308f79d9d40bebe08bd08f35f3, type: 3}
   ShopParent: {fileID: 2071208758}
 --- !u!1 &2040558804

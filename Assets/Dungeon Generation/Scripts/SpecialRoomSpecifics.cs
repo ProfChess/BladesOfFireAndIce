@@ -7,6 +7,11 @@ public class SpecialRoomSpecifics : MonoBehaviour
     [Header("Chest Room Objects")]
     [SerializeField] private GameObject Chest;
     [SerializeField] private Transform ChestParent;
+    [Header("Inventories")]
+    [SerializeField] private ChestInventory BuffInventory;
+    //[SerializeField] private ChestInventory ChallengeInventory;
+    //[SerializeField] private ChestInventory PuzzleInventory;
+
 
     [Header("Shop Room Object")]
     [SerializeField] private GameObject ShopKeeper;
@@ -26,7 +31,8 @@ public class SpecialRoomSpecifics : MonoBehaviour
     }
     private void ChestRoom(SpecialDungeonRoom room)
     {
-        Instantiate(Chest, (Vector3Int)room.CenterPoint, Quaternion.identity, ChestParent);
+        GameObject ChestObj = Instantiate(Chest, (Vector3Int)room.CenterPoint, Quaternion.identity, ChestParent);
+        ChestObj.GetComponent<Chest>().AssignLoottable(BuffInventory);
     }
     private void ShopRoom(SpecialDungeonRoom room)
     {

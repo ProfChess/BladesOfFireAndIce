@@ -15,11 +15,18 @@ public class ChestInventory : ScriptableObject
         ChestLootComplete.AddRange(ChestBoons);
         ChestLootComplete.AddRange(ChestBuffs);
     }
+
+    public ChestLoot GetRandomLootFromInventory()
+    {
+        int Choice = Random.Range(0, ChestLootComplete.Count);
+        return ChestLootComplete[Choice];
+    }
 }
 [System.Serializable]
 public class ChestLoot
 {
     public float chanceToAppear = 0f;
+    public void PickupLoot() { }
 }
 [System.Serializable]
 public class ChestLoot_Boon : ChestLoot
