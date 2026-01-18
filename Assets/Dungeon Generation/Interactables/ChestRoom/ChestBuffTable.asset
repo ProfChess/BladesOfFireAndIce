@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b7f88447e0719a498c76093c13ddb75, type: 3}
-  m_Name: BuffInventory
+  m_Name: ChestBuffTable
   m_EditorClassIdentifier: 
-  ChestBoons: []
-  ChestBuffs:
-  - chanceToAppear: 1
-    TempBuffRef: {fileID: 5092984304341514899, guid: bfd0179b2b8fc984a99520e8091c1909, type: 3}
+  ChestLootComplete:
+  - chanceToAppear: 0
+    ChestLootObject: {fileID: 5092984304341514899, guid: bfd0179b2b8fc984a99520e8091c1909, type: 3}

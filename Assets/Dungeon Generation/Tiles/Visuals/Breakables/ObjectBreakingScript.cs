@@ -22,6 +22,11 @@ public class ObjectBreakingScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Break on Colliding With Player Damage Goes Here
+        if (other.TryGetComponent<BasePlayerDamage>(out BasePlayerDamage hit))
+        {
+            BreakPot();
+            ObjectVisual.SetActive(false);
+        }
     }
 
     private void BreakPot()

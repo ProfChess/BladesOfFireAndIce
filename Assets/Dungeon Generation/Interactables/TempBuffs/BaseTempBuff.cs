@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class BaseTempBuff : InteractableObject
+public abstract class BaseTempBuff : LootBase
 {
     //Buff Duration
     public float BuffDuration = 0f;

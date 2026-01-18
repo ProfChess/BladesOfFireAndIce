@@ -302,3 +302,4 @@ MonoBehaviour:
   sr: {fileID: 6412722719789063361}
   OpenedChest: {fileID: 1072776809, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
   UnopenedChest: {fileID: 1891770134, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
+  inventory: {fileID: 11400000, guid: f5c41ba96505f5c48a28cfdd92a200d8, type: 2}
