@@ -1,24 +1,17 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public enum PlayerEffectObjectType { FlameExplosion, IceExplosion, IceProj}
-
-public class PlayerEffectObjectPool : MonoBehaviour
+public class ObjectPool<TKey> : MonoBehaviour where TKey : Enum
 {
-    [SerializeField] private GameObject prefab; //Object kept in the pool
-    [SerializeField] private int baseSize = 3;  //Number of objects to pre-instantiate
+    [SerializeField] protected GameObject prefab; //Object kept in the pool
+    [SerializeField] protected int baseSize = 3;  //Number of objects to pre-instantiate
 
-    private List<GameObject> pool; //Pool of objects
+    protected List<GameObject> pool = new(); //Pool of objects
+    public TKey poolType;
 
-    public PlayerEffectObjectType poolType;
-
-    private void Awake()
+    protected void Awake()
     {
-        pool = new List<GameObject>();
-
         //Instantiate/disable base number of objects 
         for (int i = 0; i < baseSize; i++)
         {
@@ -60,3 +53,5 @@ public class PlayerEffectObjectPool : MonoBehaviour
     }
 
 }
+
+

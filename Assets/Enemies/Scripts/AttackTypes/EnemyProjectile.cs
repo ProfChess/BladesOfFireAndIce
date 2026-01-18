@@ -45,7 +45,7 @@ public class EnemyProjectile : EnemyDamage
         isMoving = false;
         HasHit = false;
         gameObject.SetActive(false);
-        PoolManager.Instance.ReturnObjectToPool(poolType, gameObject);
+        PM.ReturnObjectToPool(poolType, gameObject);
     }
 
     //Routinely moves along set direction at set speed 

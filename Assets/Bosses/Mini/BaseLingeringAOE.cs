@@ -5,7 +5,7 @@ public abstract class BaseLingeringAOE : MonoBehaviour
 {
     [SerializeField] protected float Duration = 5f;
     private float timeForVanish;
-    [SerializeField] private EnemyType enemyType;
+    [SerializeField] private BossAttackPrefabType effectType;
     protected virtual void OnEnable()
     {
         timeForVanish = Time.time + Duration;
@@ -21,7 +21,7 @@ public abstract class BaseLingeringAOE : MonoBehaviour
     }
     protected virtual void Disappear()
     {
-        PoolManager.Instance.ReturnObjectToPool(enemyType, gameObject);
+        BossPoolManager.Instance.ReturnObjectToPool(effectType, gameObject);
     }
 
 }

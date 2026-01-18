@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,17 +15,6 @@ public interface IEnemyAttackBehaviour
     void Attack(float Range, int Cooldown, float Offset, Transform playerTransform);
 }
 
-public enum EnemyType { 
-    Slime, 
-    Ranged, 
-    ArrowProjectile, 
-    Charger, 
-    Caster, 
-    FireProjectile, 
-    EliteEnemy1, 
-    EliteEnemy2,
-    Invalid
-}
 
 public abstract class BaseEnemy : MonoBehaviour
 {
@@ -80,6 +70,8 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool canAttack = true;
     [HideInInspector] public bool canMove = true;
 
+    //Access to Pool
+    BasePoolManager<EnemyType> PM => EnemyPoolManager.Instance;
 
     //Init
     public void CreateEnemy(Vector2 Position)
@@ -97,7 +89,7 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         CustomEnemyDeathLogic();
         gameObject.SetActive(false);
-        PoolManager.Instance.ReturnObjectToPool(EnemyPoolType, gameObject);
+        PM.ReturnObjectToPool(EnemyPoolType, gameObject);
     }
     protected virtual void CustomEnemyDeathLogic() { }
     

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class EnemySpawnManager : MonoBehaviour
 {
     //Ref to PoolManager
+    BasePoolManager<EnemyType> PM => EnemyPoolManager.Instance;
+
     private List<DungeonRoom> dungeonRooms = new List<DungeonRoom>();
     private Dictionary<DungeonRoom, List<Vector3Int>> roomSpawnPos = 
         new Dictionary<DungeonRoom, List<Vector3Int>>();
@@ -67,7 +70,7 @@ public class EnemySpawnManager : MonoBehaviour
     }
     private void PlaceEnemy(EnemyType Enemy, Vector3Int Location)
     {
-        GameObject EnemyObject = PoolManager.Instance.getObjectFromPool(Enemy);
+        GameObject EnemyObject = PM.getObjectFromPool(Enemy);
         EnemyObject.transform.position = Location;
         //Generic Enemy Starting Function
     }

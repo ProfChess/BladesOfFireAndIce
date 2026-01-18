@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class BaseEffectSpawn : MonoBehaviour
 {
+    //Pool Access
+    BasePoolManager<PlayerEffectObjectType> PM => PlayerEffectPoolManager.Instance;
+
     //Object Details
     [Header("References")]
     [SerializeField] protected Collider2D hitbox;
@@ -65,9 +69,9 @@ public class BaseEffectSpawn : MonoBehaviour
         if (hitbox != null) { hitbox.enabled = false; }
         gameObject.SetActive(false);
         ignoredEnemy = null;
-        if (PlayerEffectPoolManager.Instance != null)
+        if (PM != null)
         {
-            PlayerEffectPoolManager.Instance.ReturnObjectToPool(Pool, gameObject);
+            PM.ReturnObjectToPool(Pool, gameObject);
         }
         else { Debug.Log("Could Not Return to: " + Pool.ToString() + " Pool"); }
     }

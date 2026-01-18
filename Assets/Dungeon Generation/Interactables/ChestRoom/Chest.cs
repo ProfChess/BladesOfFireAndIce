@@ -8,9 +8,13 @@ public class Chest : InteractableObject
     [SerializeField] private Sprite OpenedChest;
     [SerializeField] private Sprite UnopenedChest;
     [SerializeField] private ChestInventory inventory;
+    private bool isOpened = false;
     
     public override void Interact()
     {
+        if(isOpened) return;
+
+        isOpened = true;
         if (sr.sprite == UnopenedChest) { sr.sprite = OpenedChest; }
         ChestLoot loot = inventory.GetRandomLootFromInventory();
         LootBase LootObject = Instantiate(loot.ChestLootObject, transform.position, Quaternion.identity);
@@ -19,6 +23,7 @@ public class Chest : InteractableObject
     public void AssignLoottable(ChestInventory Inventory)
     {
         inventory = Inventory;
+        isOpened = false;
     }
 
     //Throwing Loot
