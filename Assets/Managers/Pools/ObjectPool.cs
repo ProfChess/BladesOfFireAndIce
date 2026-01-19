@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<TKey> : MonoBehaviour where TKey : Enum
+public abstract class ObjectPool<TKey> : MonoBehaviour where TKey : Enum
 {
     [SerializeField] protected GameObject prefab; //Object kept in the pool
     [SerializeField] protected int baseSize = 3;  //Number of objects to pre-instantiate

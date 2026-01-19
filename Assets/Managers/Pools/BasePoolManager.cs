@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasePoolManager<TKey> : MonoBehaviour where TKey : Enum
+public abstract class BasePoolManager<TKey> : MonoBehaviour where TKey : Enum
 {
     public static BasePoolManager<TKey> Instance { get; private set; }
 
