@@ -5,18 +5,18 @@ using UnityEngine;
 public class Chest : InteractableObject
 {
     [Header("Chest Specifics")]
-    [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private Sprite OpenedChest;
-    [SerializeField] private Sprite UnopenedChest;
-    [SerializeField] private ChestInventory inventory;
-    [SerializeField] private ChestInventory guaranteedInventory;
-    private bool isOpened = false;
+    [SerializeField] protected SpriteRenderer sr;
+    [SerializeField] protected Sprite OpenedChest;
+    [SerializeField] protected Sprite UnopenedChest;
+    [SerializeField] protected ChestInventory inventory;
+    [SerializeField] protected ChestInventory guaranteedInventory;
+    protected bool isOpened = false;
 
     [Header("Loot Spawning")]
-    [SerializeField] private float minSpawnRange = 1.35f;
-    [SerializeField] private float maxSpawnRange = 2.5f;
-    [SerializeField] private float timeBetweenLootSpawn = 0.25f;
-    private List<ChestLoot> LootToSpawn = new();
+    [SerializeField] protected float minSpawnRange = 1.35f;
+    [SerializeField] protected float maxSpawnRange = 2.5f;
+    [SerializeField] protected float timeBetweenLootSpawn = 0.25f;
+    protected List<ChestLoot> LootToSpawn = new();
     public override void Interact()
     {
         if(isOpened) return;
@@ -45,14 +45,14 @@ public class Chest : InteractableObject
         isOpened = false;
     }
 
-    private void SpawnAndThrowLoot(ChestLoot ChestEntry)
+    protected void SpawnAndThrowLoot(ChestLoot ChestEntry)
     {
         LootBase Loot = Instantiate(ChestEntry.ChestLootObject, transform.position, Quaternion.identity);
         ThrowLootRandomDirection(Loot.gameObject);
     }
 
     //Throwing Loot
-    private void ThrowLootRandomDirection(GameObject LootObject)
+    protected void ThrowLootRandomDirection(GameObject LootObject)
     {
         Vector2 Dir = GetRandomDirection();
         float Power = Random.Range(minSpawnRange, maxSpawnRange);
@@ -63,7 +63,7 @@ public class Chest : InteractableObject
             loot.beginMove(gameObject.transform.position, TargetLocation);
         }
     }
-    private Vector2 GetRandomDirection()
+    protected Vector2 GetRandomDirection()
     {
         float RandomAngle = Random.Range(0f, 360f);
         float angleInRad = RandomAngle * Mathf.Deg2Rad;
@@ -74,7 +74,7 @@ public class Chest : InteractableObject
     }
 
     //Coroutine for Loot Spawning
-    private IEnumerator LootSpawnRoutine()
+    protected IEnumerator LootSpawnRoutine()
     {
         foreach (ChestLoot ChestEntry in LootToSpawn)
         {
