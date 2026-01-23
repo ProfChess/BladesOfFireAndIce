@@ -7,7 +7,7 @@ public class PuzzleChest_Rune : BasePuzzleChest
 {
     private List<PuzzlePart_Rune> puzzleParts = new();
     private List<PuzzlePart_Rune> puzzlePartCopy = new();
-    public int currentOrder = 0;
+    public int currentOrder { get; private set; } = 0;
 
     public override void SetupChest()
     {

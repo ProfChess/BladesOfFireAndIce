@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,10 +19,10 @@ public class BasePuzzleChest : Chest
         //Spawn Loot as Normal
         base.Interact();
     }
+
+    //Checks all Parts in list to see if chest can be opened
     public void canOpen()
     {
-        if (!isLocked) { return; }
-
         foreach (BasePuzzlePart part in puzzlePartList)
         {
             if (!part.isCorrect) return;
