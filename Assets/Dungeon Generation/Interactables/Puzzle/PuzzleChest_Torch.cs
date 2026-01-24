@@ -11,11 +11,6 @@ public class PuzzleChest_Torch : BasePuzzleChest
         puzzleParts.AddRange(GetComponentsInChildren<PuzzlePart_Torch>());
         PartSetup();
     }
-    private void Start()
-    {
-        puzzleParts.AddRange(GetComponentsInChildren<PuzzlePart_Torch>());
-        PartSetup();
-    }
     private void PartSetup()
     {
         foreach (PuzzlePart_Torch part in puzzleParts)

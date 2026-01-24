@@ -39,11 +39,6 @@ public class Chest : InteractableObject
         //Start Coroutine to Spawn Loot
         StartCoroutine(LootSpawnRoutine());
     }
-    public void AssignLoottable(ChestInventory Inventory)
-    {
-        inventory = Inventory;
-        isOpened = false;
-    }
 
     protected void SpawnAndThrowLoot(ChestLoot ChestEntry)
     {

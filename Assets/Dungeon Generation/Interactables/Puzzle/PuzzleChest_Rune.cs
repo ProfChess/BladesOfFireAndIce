@@ -14,11 +14,6 @@ public class PuzzleChest_Rune : BasePuzzleChest
         puzzleParts.AddRange(GetComponentsInChildren<PuzzlePart_Rune>());
         DecidePuzzleOrder();
     }
-    private void Start()
-    {
-        puzzleParts.AddRange(GetComponentsInChildren<PuzzlePart_Rune>());
-        DecidePuzzleOrder();
-    }
     private void DecidePuzzleOrder()
     {
         puzzlePartCopy.Clear();

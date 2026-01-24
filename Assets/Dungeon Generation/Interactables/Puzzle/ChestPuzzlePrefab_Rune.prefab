@@ -123,9 +123,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1808187813
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0.07524917, g: 0.58177793, b: 0.8396226, a: 1}
   m_FlipX: 0
@@ -260,9 +260,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1808187813
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0.9245283, g: 0.35017073, b: 0.22241008, a: 1}
   m_FlipX: 0
@@ -428,9 +428,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1808187813
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0.07524917, g: 0.58177793, b: 0.8396226, a: 1}
   m_FlipX: 0
@@ -699,9 +699,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1808187813
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0.9245283, g: 0.35017073, b: 0.22241008, a: 1}
   m_FlipX: 0
@@ -809,7 +809,7 @@ MonoBehaviour:
   sr: {fileID: 4851017059996102470}
   OpenedChest: {fileID: 1072776809, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
   UnopenedChest: {fileID: 1891770134, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
-  inventory: {fileID: 11400000, guid: f5c41ba96505f5c48a28cfdd92a200d8, type: 2}
+  inventory: {fileID: 11400000, guid: 02a80218ad05929419dc95bd41c8ac5d, type: 2}
   guaranteedInventory: {fileID: 11400000, guid: 96c9132b0f5b72543a3097dfb49057f8, type: 2}
   minSpawnRange: 1.35
   maxSpawnRange: 2.5
@@ -819,7 +819,6 @@ MonoBehaviour:
   - {fileID: 7691193536080684371}
   - {fileID: 2101257069003332636}
   - {fileID: 1938622195481390823}
-  currentOrder: 0
 --- !u!1 &7037249880333012456
 GameObject:
   m_ObjectHideFlags: 0

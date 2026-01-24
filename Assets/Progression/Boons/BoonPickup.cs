@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoonPickup : InteractableObject
+public class BoonPickup : LootBase
 {
     private List<BaseBoon> SelectedBoons = new List<BaseBoon>();
     private bool boonListCreated = false;
