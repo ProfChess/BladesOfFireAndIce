@@ -29,7 +29,7 @@ public class PlayerAttack : MonoBehaviour
 
 
     //Events for Extra Effects
-    public event Action<AttackEventDetails> OnNormalAttack;
+    public event Action<PlayerEventContext> OnNormalAttack;
 
     public enum AttackList { BasicAttack, Roll };
     private void Start()
@@ -111,10 +111,10 @@ public class PlayerAttack : MonoBehaviour
         attackBox.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
 
         //Fire Event
-        AttackEventDetails Details = new AttackEventDetails
+        AttackEventContext Details = new AttackEventContext
         {
             Element = controls.GetAttackForm(),
-            AttackOrigin = attackBox.transform.position,
+            AttackBoxOrigin = attackBox.transform.position,
             Direction = attackDirection.normalized,
         };
         OnNormalAttack?.Invoke(Details);

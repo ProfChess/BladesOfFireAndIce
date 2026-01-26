@@ -6,9 +6,9 @@ public class PlayerAttackCalcs : BasePlayerDamage
     [SerializeField] private Collider2D AttackBox;
 
     //Events For Damaging
-    public event Action<AttackEventDetails> OnEnemyHitNormalAttack;
-    public event Action<AttackEventDetails> OnEnemyDeathNormalAttack;
-    public event Action<AttackEventDetails> OnCriticalHitNormalAttack;
+    public event Action<PlayerEventContext> OnEnemyHitNormalAttack;
+    public event Action<PlayerEventContext> OnEnemyDeathNormalAttack;
+    public event Action<PlayerEventContext> OnCriticalHitNormalAttack;
 
     //Quick References
     protected ElementType attackForm => PlayerController.PlayerAttackForm;
@@ -38,11 +38,11 @@ public class PlayerAttackCalcs : BasePlayerDamage
 
         //Trigger Events
 
-        AttackEventDetails details = new AttackEventDetails
+        AttackEventContext details = new AttackEventContext
         {
             Target = EnemyHealth,
             Element = GetElement(),
-            AttackOrigin = gameObject.transform.position,
+            AttackBoxOrigin = AttackBox.transform.position,
             Direction = gameObject.transform.right
         };
 

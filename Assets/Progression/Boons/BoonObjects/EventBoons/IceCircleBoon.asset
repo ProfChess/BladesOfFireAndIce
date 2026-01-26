@@ -32,3 +32,4 @@ MonoBehaviour:
     ProjTravelTimeScale: 1.5
   EffectType: 2
   EventToAttach: 0
+  EffectOrigin: 2

@@ -3,18 +3,47 @@ using UnityEngine;
 
 public static class BoonEffectLibrary
 {
-    public static void PlayBoonEffect(EventBoon Boon, DamageBoonEffectType effectType, AttackEventDetails Details)
+    public static void PlayBoonEffect(EventBoon Boon, DamageBoonEffectType effectType, PlayerEventContext Details)
     {
+        //Clarify Location
+        Vector2 Location = GetEffectLocation(Boon, Details);
+
         switch (effectType)
         {
-            case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Boon, Details.Element, Details.AttackOrigin); break;
-            case DamageBoonEffectType.FireBurst: ElementEffect_FireBurst(Boon, Details.Element, Details.AttackOrigin); break;
-            case DamageBoonEffectType.IceBoom: Projectile_IceCircle(Boon, Details); break;
+            case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Boon, Location); break;
+            case DamageBoonEffectType.FireBurst: ElementEffect_FireBurst(Boon, Location); break;
+            case DamageBoonEffectType.IceBoom: Projectile_IceCircle(Boon, Details, Location); break;
         }
+    }
+    private static Vector2 GetEffectLocation(EventBoon Boon, PlayerEventContext ctx)
+    {
+        switch (Boon.EffectOrigin)
+        {
+            case EffectOriginType.Player: 
+                return ctx.player.transform.position;
+            
+            case EffectOriginType.Target:   
+                if (ctx is AttackEventContext atkCxt && atkCxt.Target != null)
+                { return atkCxt.Target.transform.position; }
+                
+                //Target Was not Given or Context is Incorrect
+                Debug.Log("Target Not Found"); 
+                return ctx.player.transform.position;
+
+            case EffectOriginType.Attack:
+                if (ctx is AttackEventContext atk)
+                { return atk.AttackBoxOrigin; }
+                
+                //Context is Incorrect
+                Debug.Log("Incorrect Event Context"); 
+                return ctx.player.transform.position;
+        }
+        //Fallback
+        return ctx.player.transform.position;
     }
 
     //Effect List
-    private static void ElementEffect_FireBurst(EventBoon Boon, ElementType Element, Vector2 Position)
+    private static void ElementEffect_FireBurst(EventBoon Boon, Vector2 Position)
     {
         //Get Level
         int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
@@ -34,14 +63,14 @@ public static class BoonEffectLibrary
         }
     }
 
-    private static void DamageEffect_FireBoom(EventBoon Boon, ElementType Element, Vector2 Position)
+    private static void DamageEffect_FireBoom(EventBoon Boon, Vector2 Position)
     {
 
     }
 
 
     //Projectile
-    private static void Projectile_IceCircle(EventBoon Boon, AttackEventDetails AttackDetails)
+    private static void Projectile_IceCircle(EventBoon Boon, PlayerEventContext ctx, Vector2 SpawnLocation)
     {
         //Get Level and Stats
         int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
@@ -55,13 +84,12 @@ public static class BoonEffectLibrary
             for (int a = 0; a < Stats.FinalEffectNumber; a++)
             {
                 GameObject Proj = PlayerEffectPoolManager.Instance.getObjectFromPool(PlayerEffectObjectType.IceProj);
-                Vector2 RandDirection = GetRandomDirectionAroundObject(AttackDetails.Direction, 180);
+                Vector2 RandDirection = GetRandomDirectionAroundObject(ctx.Direction, 180);
                 BaseProjectileEffectSpawn ProfRef = Proj.GetComponent<BaseProjectileEffectSpawn>();
-                Vector2 SpawnLocation = AttackDetails.AttackOrigin;
-                if (AttackDetails.Target != null)
+                
+                if (Boon.EffectOrigin == EffectOriginType.Target && ctx is AttackEventContext attackCtx)
                 {
-                    ProfRef.ignoredEnemy = AttackDetails.Target.gameObject;
-                    SpawnLocation = AttackDetails.Target.transform.position;
+                    ProfRef.ignoredEnemy = attackCtx.Target.gameObject;
                 }
                 ProfRef.Spawn(SpawnLocation, RandDirection, Stats.FinalArea,
                     Stats.FinalDamage, Stats.FinalDuration, Stats.FinalProjTravelDuration, Stats.FinalProjSpeed);

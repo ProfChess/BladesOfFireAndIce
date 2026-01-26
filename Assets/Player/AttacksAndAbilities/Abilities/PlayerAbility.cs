@@ -13,17 +13,17 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     [SerializeField] protected Collider2D hitbox;
 
     //Events for Boons
-    public static event Action<AttackEventDetails> OnAbilityUse;
-    public static event Action<AttackEventDetails> OnAbilityDamage;
-    public static event Action<AttackEventDetails> OnAbilityKill;
+    public static event Action<PlayerEventContext> OnAbilityUse;
+    public static event Action<PlayerEventContext> OnAbilityDamage;
+    public static event Action<PlayerEventContext> OnAbilityKill;
 
     public override float GetAbilityDamage(BaseHealth EnemyHealth)
     {
-        AttackEventDetails details = new AttackEventDetails
+        AttackEventContext details = new AttackEventContext
         {
             Element = GetElement(),
             Target = EnemyHealth,
-            AttackOrigin = gameObject.transform.position,
+            AttackBoxOrigin = hitbox.transform.position,
             Direction = EnemyHealth.transform.position - gameObject.transform.position,
         };
         OnAbilityDamage?.Invoke(details);
@@ -55,10 +55,9 @@ public abstract class BasePlayerAbility : BasePlayerDamage
         yield return new WaitForSeconds(Delay);
 
         //Details
-        AttackEventDetails details = new AttackEventDetails
+        PlayerEventContext details = new PlayerEventContext
         {
             Element = GetElement(),
-            AttackOrigin = gameObject.transform.position,
             Direction = Vector2.right
         };
         OnAbilityUse?.Invoke(details);

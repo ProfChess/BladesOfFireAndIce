@@ -17,7 +17,9 @@ public class EventBoon : BaseBoon
     [Tooltip("Event That Will Trigger This Boons Effect")]
     public BoonEventType EventToAttach;
 
-    private Action<AttackEventDetails> effectDelegate;
+    public EffectOriginType EffectOrigin;
+
+    private Action<PlayerEventContext> effectDelegate;
 
     public override void BoonSelected()
     {
@@ -31,7 +33,7 @@ public class EventBoon : BaseBoon
             PlayerBoonManager.Instance.UnSubscribeFromPlayerEvent(effectDelegate, EventToAttach);
         }
     }
-    public virtual void Effect(AttackEventDetails AttackDetails)
+    public virtual void Effect(PlayerEventContext AttackDetails)
     {
         BoonEffectLibrary.PlayBoonEffect(this, EffectType, AttackDetails);
     }
@@ -70,6 +72,7 @@ public class EventBoon : BaseBoon
 }
 //Boon Type Specific Enum
 public enum DamageBoonEffectType { FireBoom, FireBurst, IceBoom}
+public enum EffectOriginType { Player, Target, Attack}
 
 //Base Stats
 [System.Serializable]

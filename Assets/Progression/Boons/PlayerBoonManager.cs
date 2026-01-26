@@ -25,7 +25,7 @@ public class PlayerBoonManager : MonoBehaviour
     [SerializeField] private PlayerAttack playerAttack;
 
     //Subscribing to Events
-    public void SubscribeToPlayerEvent(Action<AttackEventDetails> BoonEffect, BoonEventType Event)
+    public void SubscribeToPlayerEvent(Action<PlayerEventContext> BoonEffect, BoonEventType Event)
     {
         switch (Event)
         {
@@ -42,7 +42,7 @@ public class PlayerBoonManager : MonoBehaviour
     }
 
     //Unsubscribing From Events
-    public void UnSubscribeFromPlayerEvent(Action<AttackEventDetails> BoonEffect, BoonEventType Event)
+    public void UnSubscribeFromPlayerEvent(Action<PlayerEventContext> BoonEffect, BoonEventType Event)
     {
         switch (Event)
         {
@@ -74,10 +74,21 @@ public enum BoonEventType { OnNormalEnemyHit, OnNormalDamageEnemyDeath, OnNormal
     OnAbilityUse, OnAbilityDamage, OnAbilityKill, OnNormalAttack}
 
 //Attack Information Given to Each Boon Effect
-public class AttackEventDetails
+public class PlayerEventContext
+{
+    public PlayerController player => GameManager.Instance.getPlayer().GetComponent<PlayerController>();
+    public Vector2 Direction;          //Direction of Attack or Mouse Location upon Event Fire
+    public ElementType Element;        //Element of Attack or Current Stance of Player
+}
+public class AttackEventContext : PlayerEventContext
 {
     public BaseHealth Target;          //Target Getting Attacked
-    public Vector2 AttackOrigin;       //Player Location
-    public Vector2 Direction;          //Direction of Attack
-    public ElementType Element;        //Element of Attack
+    public Vector2 AttackBoxOrigin;    //Location of Hitbox
+    public bool isCritical;
+}
+public class StatChangeEventContext : PlayerEventContext
+{
+    public StatType stat;
+    public float oldValue;
+    public float newValue;
 }
