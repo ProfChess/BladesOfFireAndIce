@@ -79,16 +79,37 @@ public class PlayerEventContext
     public PlayerController player => GameManager.Instance.getPlayer().GetComponent<PlayerController>();
     public Vector2 Direction;          //Direction of Attack or Mouse Location upon Event Fire
     public ElementType Element;        //Element of Attack or Current Stance of Player
+
+    public void Setup(ElementType Ele, Vector2 Dir)
+    {
+        Element = Ele;
+        Direction = Dir;
+    }
 }
 public class AttackEventContext : PlayerEventContext
 {
     public BaseHealth Target;          //Target Getting Attacked
     public Vector2 AttackBoxOrigin;    //Location of Hitbox
-    public bool isCritical;
+
+    public void Setup(ElementType Ele, Vector2 Dir, BaseHealth Enemy, Vector2 AttackBox)
+    {
+        Element = Ele;
+        Direction = Dir;
+        Target = Enemy;
+        AttackBoxOrigin = AttackBox;
+    }
 }
 public class StatChangeEventContext : PlayerEventContext
 {
     public StatType stat;
     public float oldValue;
     public float newValue;
+
+    public void Setup(ElementType Ele, StatType Stat, float OldValue, float NewValue)
+    {
+        Element = Ele;
+        stat = Stat;
+        oldValue = OldValue;
+        newValue = NewValue;
+    }
 }

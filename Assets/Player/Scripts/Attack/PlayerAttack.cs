@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -30,7 +31,7 @@ public class PlayerAttack : MonoBehaviour
 
     //Events for Extra Effects
     public event Action<PlayerEventContext> OnNormalAttack;
-
+    private AttackEventContext NormalAttackContext = new();
     public enum AttackList { BasicAttack, Roll };
     private void Start()
     {
@@ -111,13 +112,8 @@ public class PlayerAttack : MonoBehaviour
         attackBox.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
 
         //Fire Event
-        AttackEventContext Details = new AttackEventContext
-        {
-            Element = controls.GetAttackForm(),
-            AttackBoxOrigin = attackBox.transform.position,
-            Direction = attackDirection.normalized,
-        };
-        OnNormalAttack?.Invoke(Details);
+        NormalAttackContext.Setup(controls.GetAttackForm(), attackDirection.normalized, null, attackBox.transform.position);
+        OnNormalAttack?.Invoke(NormalAttackContext);
 
         //Hit Effect
         AttackHitAnimation();

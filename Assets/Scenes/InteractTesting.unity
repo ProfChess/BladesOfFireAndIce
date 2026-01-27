@@ -3084,7 +3084,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1274442216
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7140,7 +7140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackDamage: 50
-  Element: 0
+  Element: 1
   AttackType: 1
   AbilityCooldown: 3
   abilityDelay: 0.12

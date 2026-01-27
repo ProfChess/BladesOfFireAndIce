@@ -7,6 +7,8 @@ public static class BoonEffectLibrary
     {
         //Clarify Location
         Vector2 Location = GetEffectLocation(Boon, Details);
+        bool canBoonTrigger = (Boon.ElementRestriction == ElementType.None || Boon.ElementRestriction == Details.Element);
+        if (!canBoonTrigger) return;
 
         switch (effectType)
         {

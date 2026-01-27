@@ -33,3 +33,4 @@ MonoBehaviour:
   EffectType: 2
   EventToAttach: 0
   EffectOrigin: 2
+  ElementRestriction: 0

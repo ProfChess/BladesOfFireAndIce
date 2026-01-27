@@ -7,6 +7,8 @@ public class PlayerAttackCalcs : BasePlayerDamage
 
     //Events For Damaging
     public event Action<PlayerEventContext> OnEnemyHitNormalAttack;
+    private AttackEventContext EnemyHitContext = new();
+
     public event Action<PlayerEventContext> OnEnemyDeathNormalAttack;
     public event Action<PlayerEventContext> OnCriticalHitNormalAttack;
 
@@ -36,25 +38,18 @@ public class PlayerAttackCalcs : BasePlayerDamage
         }
 
 
-        //Trigger Events
+        //Setup Context and Trigger Events
+        EnemyHitContext.Setup(GetElement(), gameObject.transform.right, EnemyHealth, AttackBox.transform.position);
 
-        AttackEventContext details = new AttackEventContext
-        {
-            Target = EnemyHealth,
-            Element = GetElement(),
-            AttackBoxOrigin = AttackBox.transform.position,
-            Direction = gameObject.transform.right
-        };
-
-        OnEnemyHitNormalAttack?.Invoke(details);
-        if (EnemyHealth.CurrentHealth <= AttackDamage) { OnEnemyDeathNormalAttack?.Invoke(details); }
+        OnEnemyHitNormalAttack?.Invoke(EnemyHitContext);
+        if (EnemyHealth.CurrentHealth <= AttackDamage) { OnEnemyDeathNormalAttack?.Invoke(EnemyHitContext); }
 
         float CritChance = UnityEngine.Random.value;
         if (CritChance < crit)
         {
             Debug.Log("Crit");
             Debug.Log("Chance: " + crit);
-            OnCriticalHitNormalAttack?.Invoke(details);
+            OnCriticalHitNormalAttack?.Invoke(EnemyHitContext);
             return (AttackDamage * 2);
         }
         else

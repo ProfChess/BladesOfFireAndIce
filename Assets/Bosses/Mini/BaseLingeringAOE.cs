@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum ElementType { Fire, Ice, }
+public enum ElementType { None, Fire, Ice}
 public abstract class BaseLingeringAOE : MonoBehaviour
 {
     [SerializeField] protected float Duration = 5f;

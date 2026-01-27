@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public abstract class BasePlayerAbility : BasePlayerDamage
@@ -14,20 +15,22 @@ public abstract class BasePlayerAbility : BasePlayerDamage
 
     //Events for Boons
     public static event Action<PlayerEventContext> OnAbilityUse;
+    private PlayerEventContext AbilityUseDetails = new();
+
     public static event Action<PlayerEventContext> OnAbilityDamage;
+    private AttackEventContext AbilityDamageDetails = new();
+
     public static event Action<PlayerEventContext> OnAbilityKill;
+
 
     public override float GetAbilityDamage(BaseHealth EnemyHealth)
     {
-        AttackEventContext details = new AttackEventContext
-        {
-            Element = GetElement(),
-            Target = EnemyHealth,
-            AttackBoxOrigin = hitbox.transform.position,
-            Direction = EnemyHealth.transform.position - gameObject.transform.position,
-        };
-        OnAbilityDamage?.Invoke(details);
-        if(EnemyHealth.CurrentHealth <= AttackDamage) { OnAbilityKill?.Invoke(details); }
+        AbilityDamageDetails.Setup(GetElement(), 
+            EnemyHealth.transform.position - gameObject.transform.position, 
+            EnemyHealth, hitbox.transform.position);
+
+        OnAbilityDamage?.Invoke(AbilityDamageDetails);
+        if(EnemyHealth.CurrentHealth <= AttackDamage) { OnAbilityKill?.Invoke(AbilityDamageDetails); }
         return AttackDamage;
     }
     public void UseAbility()
@@ -55,12 +58,8 @@ public abstract class BasePlayerAbility : BasePlayerDamage
         yield return new WaitForSeconds(Delay);
 
         //Details
-        PlayerEventContext details = new PlayerEventContext
-        {
-            Element = GetElement(),
-            Direction = Vector2.right
-        };
-        OnAbilityUse?.Invoke(details);
+        AbilityUseDetails.Setup(GetElement(), Vector2.right);
+        OnAbilityUse?.Invoke(AbilityUseDetails);
         AbilityEffect();
     }
     protected virtual IEnumerator Cooldown() //Basic cooldown for each ability

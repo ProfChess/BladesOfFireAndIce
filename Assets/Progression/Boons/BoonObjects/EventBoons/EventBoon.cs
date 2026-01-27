@@ -17,7 +17,11 @@ public class EventBoon : BaseBoon
     [Tooltip("Event That Will Trigger This Boons Effect")]
     public BoonEventType EventToAttach;
 
+    [Tooltip("Effect will Use This value for Spawning so Long as It is Available")]
     public EffectOriginType EffectOrigin;
+
+    [Tooltip("Effect can Only be Triggered by Events Passing This Element Type (None = All Elements)")]
+    public ElementType ElementRestriction;
 
     private Action<PlayerEventContext> effectDelegate;
 
