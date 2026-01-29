@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boonName: Burst of Flame
   boonDescription: Releases Explosion Upon Using an Ability
+  EventToAttach: 3
+  ElementRestriction: 1
+  EffectType: 1
+  EffectOrigin: 0
   BaseStats:
     Damage: 3
     Area: {x: 1, y: 1}
@@ -30,7 +34,3 @@ MonoBehaviour:
     EffectNumberScale: 1
     ProjSpeedScale: 1
     ProjTravelTimeScale: 1
-  EffectType: 1
-  EventToAttach: 3
-  EffectOrigin: 0
-  ElementRestriction: 1

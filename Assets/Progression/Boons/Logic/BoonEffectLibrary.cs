@@ -56,7 +56,7 @@ public static class BoonEffectLibrary
         
         if (Explosion != null)
         {
-            BoonLeveledStats Stats = Boon.GetLeveledStats(Boon, Level);
+            BoonLeveledStats Stats = Boon.GetLeveledStats(Level);
             Explosion.GetComponent<BaseEffectSpawn>().Spawn(Position, 
                 Stats.FinalArea, 
                 Stats.FinalDamage,
@@ -76,7 +76,7 @@ public static class BoonEffectLibrary
     {
         //Get Level and Stats
         int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
-        BoonLeveledStats Stats = Boon.GetLeveledStats(Boon, Level);
+        BoonLeveledStats Stats = Boon.GetLeveledStats(Level);
 
         //Effect
         if (PlayerEffectPoolManager.Instance == null) { return; }

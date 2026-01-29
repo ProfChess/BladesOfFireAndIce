@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
-public class PlayerBoonManager : MonoBehaviour
+public class PlayerEffectSubscriptionManager : MonoBehaviour
 {
     //Accessable Instance
-    public static PlayerBoonManager Instance { get; private set; }
+    public static PlayerEffectSubscriptionManager Instance { get; private set; }
     private void Awake()
     {
         if (Instance != null && Instance != this)

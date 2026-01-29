@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseBoon : ScriptableObject
@@ -10,11 +8,38 @@ public abstract class BaseBoon : ScriptableObject
     [TextArea] public string boonDescription;
     //public Sprite Icon;
 
+    //Restrictions and Specifics
+    [Header("Event and Restrictions")]
+    [Tooltip("Event That Will Trigger This Boons Effect")]
+    public BoonEventType EventToAttach;
+
+    [Tooltip("Effect can Only be Triggered by Events Passing This Element Type (None = All Elements)")]
+    public ElementType ElementRestriction;
+
+    private Action<PlayerEventContext> effectDelegate;
+
+
+    public virtual void Effect(PlayerEventContext context)
+    {
+        //OVERRIDE WITH SPECIFIC EFFECT LIBRARY
+    }
+
+
     //Accessing Boon Level
     protected RunDataManager runData => GameManager.Instance.runData;
     protected int Level => runData.GetBoonLevel(this);
-    public abstract void BoonSelected();
-    public abstract void BoonRemoved();
+    
+    
+    public virtual void BoonSelected()
+    {
+        effectDelegate = Effect;
+        PlayerEffectSubscriptionManager.Instance.SubscribeToPlayerEvent(effectDelegate, EventToAttach);
+    }
+    public virtual void BoonRemoved()
+    {
+        effectDelegate = Effect;
+        PlayerEffectSubscriptionManager.Instance.SubscribeToPlayerEvent(effectDelegate, EventToAttach);
+    }
 
 }
 
