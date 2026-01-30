@@ -16,7 +16,9 @@ public class PlayerHealth : BaseHealth
     //Events
     //Event for player death
     public event Action PlayerIsDead;
-
+    //Event for Damage
+    public event Action<PlayerEventContext> PlayerHealthChange;
+    private StatChangeEventContext healthChangeContext = new();
 
     //Animations
     private static readonly int Hurt = Animator.StringToHash("PlayerHurt");
@@ -66,13 +68,29 @@ public class PlayerHealth : BaseHealth
         { 
             float totaldamage = damage - damageResist;
             if (totaldamage <= 0) {/* Insert Player Blocking or Resisting Animation Here */ return; }
-            TakeDamage(totaldamage); 
+            TakeDamage(totaldamage);
+
+            //Fire Event for Health Changing
+            healthChangeContext.Setup(PlayerController.PlayerAttackForm, curHealth + totaldamage, curHealth, MaxHealth);
+            PlayerHealthChange?.Invoke(healthChangeContext);
         }
         if (curHealth > 0) { PlayerAnim.Play(Hurt, 1); }
         else { PlayerAnim.Play(Death, 1); }
     }
     public void CallPlayerDeathEvent() { PlayerIsDead?.Invoke(); }
-
+    //HEAL
+    public void PlayerHeal(float amount)
+    {
+        if (curHealth + amount > MaxHealth) curHealth = MaxHealth;
+        else
+        {
+            curHealth += amount;
+        }
+        healthChangeContext.Setup(PlayerController.PlayerAttackForm, curHealth - amount, curHealth, MaxHealth);
+        PlayerHealthChange?.Invoke(healthChangeContext);
+    }
+    
+    
     //HOLE HAZARD
     private void FallInHole(Vector3 HoleSpot)
     {

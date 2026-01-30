@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class BoonEffectLibrary
 {
-    public static void PlayBoonEffect(EventBoon Boon, DamageBoonEffectType effectType, PlayerEventContext Details)
+    public static void PlayBoonEffect(Virtue Boon, DamageBoonEffectType effectType, PlayerEventContext Details)
     {
         //Clarify Location
         Vector2 Location = GetEffectLocation(Boon, Details);
@@ -17,7 +17,7 @@ public static class BoonEffectLibrary
             case DamageBoonEffectType.IceBoom: Projectile_IceCircle(Boon, Details, Location); break;
         }
     }
-    private static Vector2 GetEffectLocation(EventBoon Boon, PlayerEventContext ctx)
+    private static Vector2 GetEffectLocation(Virtue Boon, PlayerEventContext ctx)
     {
         switch (Boon.EffectOrigin)
         {
@@ -45,7 +45,7 @@ public static class BoonEffectLibrary
     }
 
     //Effect List
-    private static void ElementEffect_FireBurst(EventBoon Boon, Vector2 Position)
+    private static void ElementEffect_FireBurst(Virtue Boon, Vector2 Position)
     {
         //Get Level
         int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
@@ -65,14 +65,14 @@ public static class BoonEffectLibrary
         }
     }
 
-    private static void DamageEffect_FireBoom(EventBoon Boon, Vector2 Position)
+    private static void DamageEffect_FireBoom(Virtue Boon, Vector2 Position)
     {
 
     }
 
 
     //Projectile
-    private static void Projectile_IceCircle(EventBoon Boon, PlayerEventContext ctx, Vector2 SpawnLocation)
+    private static void Projectile_IceCircle(Virtue Boon, PlayerEventContext ctx, Vector2 SpawnLocation)
     {
         //Get Level and Stats
         int Level = GameManager.Instance.runData.GetBoonLevel(Boon);

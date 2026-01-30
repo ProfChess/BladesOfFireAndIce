@@ -9,28 +9,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df3b337f2229c9247b67826cf0e64713, type: 3}
+  m_Script: {fileID: 11500000, guid: d605d5924d3c26847bf298cf30e64c33, type: 3}
   m_Name: IceCircleBoon
   m_EditorClassIdentifier: 
-  boonName: Circle of Ice
-  boonDescription: Spawns a Circle of Icicles Around Player Upon Striking an Enemy
+  boonName: 
+  boonDescription: 
+  EventToAttach: 0
+  ElementRestriction: 0
+  EffectType: 2
+  EffectOrigin: 0
   BaseStats:
     Damage: 1
     Area: {x: 1, y: 1}
-    Freq: 2
+    Freq: 1
     Duration: 1
-    EffectNum: 5
-    ProjSpeed: 3
-    ProjTravelTime: 5
+    EffectNum: 1
+    ProjSpeed: 1
+    ProjTravelTime: 1
   LevelScalers:
-    DamageScale: 2
-    FrequencyScale: 1.5
+    DamageScale: 1
+    FrequencyScale: 1
     AreaScale: {x: 1, y: 1}
     DurationScale: 1
-    EffectNumberScale: 1.75
-    ProjSpeedScale: 2
-    ProjTravelTimeScale: 1.5
-  EffectType: 2
-  EventToAttach: 0
-  EffectOrigin: 2
-  ElementRestriction: 0
+    EffectNumberScale: 1
+    ProjSpeedScale: 1
+    ProjTravelTimeScale: 1

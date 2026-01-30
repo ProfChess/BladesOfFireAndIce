@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAttackSpeedManager : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController;
     [SerializeField] private PlayerAnimations playerAnimations;
 
     private float FireAttackSpeed = 0f;
@@ -16,7 +15,7 @@ public class PlayerAttackSpeedManager : MonoBehaviour
     public void SetAttackSpeed()
     {
         //Changes attack speed based on Attack Form
-        float AttackSpeedSet = (playerController.GetAttackForm() == ElementType.Fire)? 
+        float AttackSpeedSet = (PlayerController.PlayerAttackForm == ElementType.Fire)? 
             FireAttackSpeed : IceAttackSpeed;
 
         //Changes anim Speed 

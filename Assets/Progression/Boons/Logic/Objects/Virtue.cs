@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = ("Effect/Boon"))]
-public class EventBoon : BaseBoon
+public class Virtue : BaseBoon
 {
     [Tooltip("Effect of This Boon")]
     public DamageBoonEffectType EffectType;

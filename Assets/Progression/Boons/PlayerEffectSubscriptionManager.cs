@@ -20,6 +20,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     [SerializeField] private PlayerStatSetting playerStatModding;
     [SerializeField] private PlayerAttackCalcs attackEvents;
     [SerializeField] private PlayerAttack playerAttack;
+    [SerializeField] private PlayerHealth playerHealth;
 
     //Subscribing to Events
     public void SubscribeToPlayerEvent(Action<PlayerEventContext> BoonEffect, BoonEventType Event)
@@ -33,6 +34,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnAbilityUse: BasePlayerAbility.OnAbilityUse += BoonEffect; break;
             case BoonEventType.OnAbilityDamage: BasePlayerAbility.OnAbilityDamage += BoonEffect; break;
             case BoonEventType.OnAbilityKill: BasePlayerAbility.OnAbilityKill += BoonEffect; break;
+            case BoonEventType.OnHealthChange:  break;
 
             default: Debug.Log("Incorrect Event Given"); break;
         }
@@ -67,8 +69,12 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     }
 }
 
-public enum BoonEventType { OnNormalEnemyHit, OnNormalDamageEnemyDeath, OnNormalCriticalHit, 
-    OnAbilityUse, OnAbilityDamage, OnAbilityKill, OnNormalAttack}
+public enum BoonEventType 
+{ 
+    OnNormalAttack = 0, OnNormalEnemyHit = 1, OnNormalDamageEnemyDeath = 2, OnNormalCriticalHit = 3, 
+    OnAbilityUse = 10, OnAbilityDamage = 11, OnAbilityKill = 12,
+    OnHealthChange = 20,
+}
 
 //Attack Information Given to Each Boon Effect
 public class PlayerEventContext
@@ -98,15 +104,17 @@ public class AttackEventContext : PlayerEventContext
 }
 public class StatChangeEventContext : PlayerEventContext
 {
-    public StatType stat;
     public float oldValue;
     public float newValue;
+    public float maxValue;
 
-    public void Setup(ElementType Ele, StatType Stat, float OldValue, float NewValue)
+    public void Setup(ElementType Ele, float OldValue, float NewValue, float MaxValue)
     {
         Element = Ele;
-        stat = Stat;
         oldValue = OldValue;
         newValue = NewValue;
+        maxValue = MaxValue;
     }
 }
+
+

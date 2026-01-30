@@ -55,6 +55,7 @@ public class BoonSelection : MonoBehaviour
             case 1: //Activate Middle UI Only
                 BoonChoicesUI[1].AssignBoonVisuals(FilteredBoons[0]);
                 BoonChoicesUI[1].gameObject.SetActive(true);
+                ActivateBoonSelectionUI();
                 return;
 
             case 2: //Disable Middle UI Only
@@ -63,6 +64,7 @@ public class BoonSelection : MonoBehaviour
 
                 BoonChoicesUI[0].gameObject.SetActive(true);
                 BoonChoicesUI[2].gameObject.SetActive(true);
+                ActivateBoonSelectionUI();
                 return;
         }
 
@@ -74,9 +76,13 @@ public class BoonSelection : MonoBehaviour
         //Display UI
         if (FilteredBoons.Count > 0)
         {
-            GM.ChangePlayerToUIActions();
-            BoonSelectionPopup.SetActive(true);
+            ActivateBoonSelectionUI();
         }
+    }
+    private void ActivateBoonSelectionUI()
+    {
+        GM.ChangePlayerToUIActions();
+        BoonSelectionPopup.SetActive(true);
     }
     private void DisableAllBoonUI()
     {

@@ -99,7 +99,7 @@ public class PlayerAttack : MonoBehaviour
     private void BasicAttack()
     {
         //Animation
-        attackForm = controls.GetAttackForm();
+        attackForm = PlayerController.PlayerAttackForm;
         Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
         MouseDirection = (MouseLocation - controls.transform.position).normalized;
     }
@@ -112,7 +112,7 @@ public class PlayerAttack : MonoBehaviour
         attackBox.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
 
         //Fire Event
-        NormalAttackContext.Setup(controls.GetAttackForm(), attackDirection.normalized, null, attackBox.transform.position);
+        NormalAttackContext.Setup(PlayerController.PlayerAttackForm, attackDirection.normalized, null, attackBox.transform.position);
         OnNormalAttack?.Invoke(NormalAttackContext);
 
         //Hit Effect

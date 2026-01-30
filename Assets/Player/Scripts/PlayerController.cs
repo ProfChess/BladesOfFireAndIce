@@ -242,11 +242,6 @@ public class PlayerController : MonoBehaviour
         }
         attackSpeedManager.SetAttackSpeed();
     }
-    //Get Form
-    public ElementType GetAttackForm()
-    {
-        return PlayerAttackForm;
-    }
     
     public void SetPlayerStop()
     {
