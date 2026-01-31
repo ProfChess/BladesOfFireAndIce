@@ -29,7 +29,10 @@ public abstract class BaseBoon : ScriptableObject
     protected RunDataManager runData => GameManager.Instance.runData;
     protected int Level => runData.GetBoonLevel(this);
     
-    
+    public virtual void BoonCollected()
+    {
+        //OVERRIDE AND ADD COMMAND FOR PLACING BOON/RELIC/OTHER COLLECTABLE INTO CORRECT STORAGE
+    }
     public virtual void BoonSelected()
     {
         effectDelegate = Effect;

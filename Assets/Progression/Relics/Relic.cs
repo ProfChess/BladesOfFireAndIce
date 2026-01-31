@@ -1,17 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName =("Effect/Relic"))]
 public class Relic : BaseBoon
 {
     public RelicEffectType EffectType;
+    public PlayerStateCheckType PlayerStateNeeded;
+
     [Header("Attributes")]
     public RelicBaseStats BaseStats;
 
     public override void Effect(PlayerEventContext context)
     {
-        RelicEffectLibrary.PlayBoonEffect(this, EffectType, context);
+        RelicEffectLibrary.PlayRelicEffect(this, EffectType, context);
+    }
+    public override void BoonCollected()
+    {
+        runData.AddRelic(this);
+        StatChangeEventContext StartContext = PlayerEffectSubscriptionManager.Instance.GetPlayerState(PlayerStateNeeded);
+        RelicEffectLibrary.PlayRelicEffect(this, EffectType, StartContext);
     }
 }
 public enum RelicEffectType { HealthBuff, DamageBuff, AttackSpeedBuff, MoveSpeedBuff}

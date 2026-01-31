@@ -7,8 +7,34 @@ public class RunDataManager : MonoBehaviour
     //TEMPORARY DATA FOR EACH RUN THROUGH THE DUNGEON
     [field: SerializeField] public int MaxBoonLevel {  get; private set; }
     //Relics
+    private Dictionary<Relic, bool> AppliedRelics = new();
+    public bool isRelicApplied(Relic relic) { return AppliedRelics[relic]; }
+    public bool isRelicCollected(Relic relic) { return AppliedRelics.ContainsKey(relic); }
+    public void AddRelic(Relic relic)
+    {
+        if (!isRelicCollected(relic))
+        {
+            AppliedRelics.Add(relic, false);
+        }
+    }
+    public void RelicActivated(Relic relic)
+    {
+        if (isRelicCollected(relic) && !isRelicApplied(relic))
+        {
+            AppliedRelics[relic] = true;
+            Debug.Log("Relic Bonus Activated");
+        }
+    }
+    public void RelicDeactivated(Relic relic)
+    {
+        if (isRelicCollected(relic) && isRelicApplied(relic))
+        {
+            AppliedRelics[relic] = false;
+            Debug.Log("Relic Bonus Deactivated");
+        }
+    }
     //BOONS
-    private Dictionary<BaseBoon, int> BoonLevels = new Dictionary<BaseBoon, int>();
+    private Dictionary<BaseBoon, int> BoonLevels = new();
     public int GetBoonLevel(BaseBoon Boon) {  return BoonLevels[Boon]; }
     //Does The Player Already Have This Boon
     public bool IsBoonCollected(BaseBoon Boon) { return BoonLevels.ContainsKey(Boon); }
@@ -27,6 +53,8 @@ public class RunDataManager : MonoBehaviour
             Debug.Log("Boon Level Increased To: " +  BoonLevels[Boon]);
         }
     }
+
+
 
     //CURRENCY
     [field: SerializeField] public float ShopCurrencyCollected { get; private set; } = 100f;

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStatSetting : MonoBehaviour
@@ -35,6 +36,7 @@ public class PlayerStatSetting : MonoBehaviour
     private float IceSpeedBonus = 0f;
     private float CriticalChanceBonus = 0f;
     private float ArmorBonus = 0f;
+    private float GetBonusAsMultiplier(float num) { return 1f + (num / 100); }
     public void ApplyBonusStat(StatType Stat, float Bonus)
     {
         switch (Stat)
@@ -53,13 +55,13 @@ public class PlayerStatSetting : MonoBehaviour
 
     private void AttributeStats()
     {
-        playerHealth.SetMaxHealth(Stats.Health + HealthBonus);
-        playerStamina.SetMaxStamina(Stats.Stamina + StaminaBonus);
-        playerDamage.SetFireDamage(Stats.FireDamage + FireDamageBonus);
-        playerDamage.SetIceDamage(Stats.IceDamage + IceDamageBonus);
-        playerDamage.SetCritChance(Stats.CriticalChance + CriticalChanceBonus);
-        playerAttackSpeed.SetFireSpeed(Stats.AttackSpeedFire + FireSpeedBonus);
-        playerAttackSpeed.SetIceSpeed(Stats.AttackSpeedIce + IceSpeedBonus);
+        playerHealth.SetMaxHealth(Stats.Health * GetBonusAsMultiplier(HealthBonus));
+        playerStamina.SetMaxStamina(Stats.Stamina * GetBonusAsMultiplier(StaminaBonus));
+        playerDamage.SetFireDamage(Stats.FireDamage * GetBonusAsMultiplier(FireDamageBonus));
+        playerDamage.SetIceDamage(Stats.IceDamage * GetBonusAsMultiplier(IceDamageBonus));
+        playerDamage.SetCritChance(Stats.CriticalChance * GetBonusAsMultiplier(CriticalChanceBonus));
+        playerAttackSpeed.SetFireSpeed(Stats.AttackSpeedFire * GetBonusAsMultiplier(FireSpeedBonus));
+        playerAttackSpeed.SetIceSpeed(Stats.AttackSpeedIce * GetBonusAsMultiplier(IceSpeedBonus));
         playerHealth.AddDamageResistance(ArmorBonus);
     }
     //Stat Types

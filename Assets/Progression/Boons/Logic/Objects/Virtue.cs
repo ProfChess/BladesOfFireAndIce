@@ -20,6 +20,10 @@ public class Virtue : BaseBoon
     {
         BoonEffectLibrary.PlayBoonEffect(this, EffectType, AttackDetails);
     }
+    public override void BoonCollected()
+    {
+        runData.AddBoon(this);
+    }
 
     public BoonLeveledStats GetLeveledStats(int Level)
     {

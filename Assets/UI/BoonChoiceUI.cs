@@ -26,6 +26,6 @@ public class BoonChoiceUI : MonoBehaviour
 
     public void Select()
     {
-        GameManager.Instance.boonOptions.BoonChoiceMade(displayedBoon);
+        GameManager.Instance.boonOptions.ChoiceMade(displayedBoon);
     }
 }

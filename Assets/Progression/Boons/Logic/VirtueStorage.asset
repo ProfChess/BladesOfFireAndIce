@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4fa918077628d14e80424a4f1edc344, type: 3}
+  m_Name: VirtueStorage
+  m_EditorClassIdentifier: 
+  AllBoons:
+  - {fileID: 11400000, guid: 3a65fd79672cdd74aa31d660c3686f8a, type: 2}
+  - {fileID: 11400000, guid: 73a1edf0586c17344ab1672fa8d6e877, type: 2}

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public EnemySpawnManager enemySpawnManager;
     [HideInInspector] public StatManager statManager;
     [HideInInspector] public BoonSelection boonOptions;
+    [HideInInspector] public RelicSelection relicOptions;
     [HideInInspector] public RunDataManager runData;
 
     //Dungeon Specifics
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
         enemySpawnManager = GetComponentInChildren<EnemySpawnManager>();
         statManager = GetComponentInChildren<StatManager>();
         boonOptions = GetComponentInChildren<BoonSelection>();
+        relicOptions = GetComponentInChildren<RelicSelection>();
         runData = GetComponentInChildren<RunDataManager>();
 
         //Other Objects Start
@@ -135,7 +137,7 @@ public class GameManager : MonoBehaviour
         //Close UI 
         NewRunPopup.SetActive(false);
         ShopSelectionUI.SetActive(false);
-        boonOptions.BoonSelectionPopup.SetActive(false);
+        boonOptions.SelectionPopup.SetActive(false);
         MenuClosed?.Invoke();
 
         //Change Action Map

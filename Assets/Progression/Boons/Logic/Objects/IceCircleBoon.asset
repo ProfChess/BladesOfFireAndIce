@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d605d5924d3c26847bf298cf30e64c33, type: 3}
   m_Name: IceCircleBoon
   m_EditorClassIdentifier: 
-  boonName: 
-  boonDescription: 
-  EventToAttach: 0
+  boonName: Circle of Ice
+  boonDescription: Release Ice in Every Direction Upon Striking an Enemy
+  EventToAttach: 1
   ElementRestriction: 0
   EffectType: 2
   EffectOrigin: 0
   BaseStats:
     Damage: 1
     Area: {x: 1, y: 1}
-    Freq: 1
+    Freq: 6
     Duration: 1
     EffectNum: 1
-    ProjSpeed: 1
-    ProjTravelTime: 1
+    ProjSpeed: 5
+    ProjTravelTime: 4
   LevelScalers:
     DamageScale: 1
     FrequencyScale: 1

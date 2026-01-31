@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d605d5924d3c26847bf298cf30e64c33, type: 3}
   m_Name: FireBurstBoon
   m_EditorClassIdentifier: 
-  boonName: 
-  boonDescription: 
-  EventToAttach: 3
+  boonName: Fire Burst Virtue
+  boonDescription: Create Burst of Flame around Player upon Ability Use
+  EventToAttach: 10
   ElementRestriction: 0
   EffectType: 1
   EffectOrigin: 0

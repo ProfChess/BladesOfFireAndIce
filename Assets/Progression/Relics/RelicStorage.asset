@@ -10,8 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4fa918077628d14e80424a4f1edc344, type: 3}
-  m_Name: MainStorage
+  m_Name: RelicStorage
   m_EditorClassIdentifier: 
   AllBoons:
-  - {fileID: 11400000, guid: 3a65fd79672cdd74aa31d660c3686f8a, type: 2}
-  - {fileID: 11400000, guid: 73a1edf0586c17344ab1672fa8d6e877, type: 2}
+  - {fileID: 11400000, guid: b895355e41ba4c54aad8ac9e2eee0315, type: 2}

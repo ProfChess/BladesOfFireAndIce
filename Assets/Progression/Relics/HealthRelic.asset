@@ -17,6 +17,7 @@ MonoBehaviour:
   EventToAttach: 20
   ElementRestriction: 0
   EffectType: 0
+  PlayerStateNeeded: 1
   BaseStats:
-    PercentageIncrease: 0
-    Duration: 0
+    PercentageIncrease: 10
+    Duration: 99

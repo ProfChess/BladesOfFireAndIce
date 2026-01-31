@@ -58,14 +58,33 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     }
 
 
-    //Numbers Going Up From Boons
-    public void ChangeBonus(StatType stat, float Amount)
+    //Numbers Going Up From Relics
+    public void AddBonus(StatType stat, float AmountAsPercentage)
     {
-        playerStatModding.ApplyBonusStat(stat, Amount);
+        playerStatModding.ApplyBonusStat(stat, AmountAsPercentage);
     }
-    public void UndoChange(StatType stat, float Amount)
+    public void RemoveBonus(StatType stat, float AmountAsPercentage)
     {
-        playerStatModding.ApplyBonusStat(stat, -Amount);
+        playerStatModding.ApplyBonusStat(stat, -AmountAsPercentage);
+    }
+
+    //State Checking For Relics
+    public StatChangeEventContext GetPlayerState(PlayerStateCheckType StateCheckType)
+    {
+        if (StateCheckType == PlayerStateCheckType.None) return null;
+
+        //Create Pickup Context
+        StatChangeEventContext tempCtx = new();
+        switch (StateCheckType)
+        {
+            case PlayerStateCheckType.Health: 
+                tempCtx.Setup(PlayerController.PlayerAttackForm, 
+                    playerHealth.CurrentHealth, 
+                    playerHealth.CurrentHealth, 
+                    playerHealth.GetPlayerMaxHealth);
+                break;
+        }
+        return tempCtx;
     }
 }
 
@@ -75,6 +94,7 @@ public enum BoonEventType
     OnAbilityUse = 10, OnAbilityDamage = 11, OnAbilityKill = 12,
     OnHealthChange = 20,
 }
+public enum PlayerStateCheckType { None = 0, Health = 1}
 
 //Attack Information Given to Each Boon Effect
 public class PlayerEventContext

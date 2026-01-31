@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoonPickup : BaseBonusSelectionPickup
+public class RelicPickup : BaseBonusSelectionPickup
 {
     protected override List<BaseBoon> GetRelevantBonusListInfo()
     {
-        return GameManager.Instance.boonOptions.PlayerSelectBoonChoices();
+        return GameManager.Instance.relicOptions.PlayerSelectRelicChoices();
     }
 }
