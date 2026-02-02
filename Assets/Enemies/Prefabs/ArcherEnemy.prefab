@@ -96,6 +96,9 @@ MonoBehaviour:
   HasCollisionDamage: 1
   HitBox: {fileID: 7879989837797992243}
   MainEnemyScript: {fileID: 6746069334155164018}
+  SR: {fileID: 0}
+  hitFlashMat: {fileID: 0}
+  hitFlashTime: 0
 --- !u!1 &3228458347048174961
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +172,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 73624549
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 1433889078, guid: b236b52130f10054ca16a4d49c543f02, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

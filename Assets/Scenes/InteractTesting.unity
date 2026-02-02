@@ -3211,6 +3211,7 @@ GameObject:
   - component: {fileID: 1274442218}
   - component: {fileID: 1274442217}
   - component: {fileID: 1274442216}
+  - component: {fileID: 1274442220}
   m_Layer: 6
   m_Name: TestEnemy
   m_TagString: Enemy
@@ -3259,7 +3260,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 467892243, guid: b236b52130f10054ca16a4d49c543f02, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3288,6 +3289,7 @@ MonoBehaviour:
   HasCollisionDamage: 0
   HitBox: {fileID: 1274442218}
   MainEnemyScript: {fileID: 0}
+  HF: {fileID: 1274442220}
 --- !u!61 &1274442218
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3324,7 +3326,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 6.25, y: 6.25}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -3348,6 +3350,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1274442220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274442215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c831d8fffb6eac14e8817d124655d884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitFlashMat: {fileID: 2100000, guid: 822938936c5abf1459b9567519a936b9, type: 2}
+  hitFlashTime: 0.05
 --- !u!1 &1278929992
 GameObject:
   m_ObjectHideFlags: 0
@@ -11139,6 +11155,7 @@ GameObject:
   - component: {fileID: 2347284861202497728}
   - component: {fileID: 5194393555748875835}
   - component: {fileID: 7262165189738278139}
+  - component: {fileID: 8503079766111897771}
   m_Layer: 12
   m_Name: PlayerVisual
   m_TagString: Untagged
@@ -11996,6 +12013,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8503079766111897771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7382117441870048835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c831d8fffb6eac14e8817d124655d884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitFlashMat: {fileID: 2100000, guid: 822938936c5abf1459b9567519a936b9, type: 2}
+  hitFlashTime: 0.025
 --- !u!222 &8542455502417487259
 CanvasRenderer:
   m_ObjectHideFlags: 0

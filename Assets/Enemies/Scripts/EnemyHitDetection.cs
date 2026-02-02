@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyHitDetection : BaseHealth
@@ -6,6 +8,7 @@ public class EnemyHitDetection : BaseHealth
     
     [Header("References")]
     [SerializeField] private BaseEnemy MainEnemyScript;
+    [SerializeField] private HitFlash HF;
 
 
     //Box Flipping
@@ -47,7 +50,7 @@ public class EnemyHitDetection : BaseHealth
     //Checks if the enemy is dead or still alive -> Plays animation accordingly
     private void EvaluateDeath()
     {
-        if (curHealth > 0 && MainEnemyScript != null) { MainEnemyScript.GetAnimator().Play(EnemyHurt, 1); }
+        if (curHealth > 0) { HF.Flash(); }
         else if (MainEnemyScript != null)
         {
             MainEnemyScript.GetAnimator().Play(EnemyDeath, 1);
@@ -82,4 +85,6 @@ public class EnemyHitDetection : BaseHealth
             MainEnemyScript.DeactivateEnemy();
         }
     }
+
+
 }
