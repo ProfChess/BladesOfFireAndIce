@@ -20,8 +20,12 @@ public class PlayerController : MonoBehaviour
     [Header("Player Attack")]
     [Header("Fire Stats")]
     [SerializeField] private float FireRollCooldown;
+    public static float FireStanceHitStopScale { get; private set; } = 0.08f;
+    public static float FireStanceHitStopDuration { get; private set; } = 0.08f;
     [Header("Ice Stats")]
     [SerializeField] private float IceRollCooldown;
+    public static float IceStanceHitStopScale { get; private set; } = 0.18f;
+    public static float IceStanceHitStopTime { get; private set; } = 0.06f;
     [Header("General")]
     [SerializeField] private float FormSwitchCooldown;
     [SerializeField] private float BasicAttackDuration;
@@ -168,6 +172,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(DashDuration);
         isDashing = false;
     }
+
     //SWITCH ATTACK FORM
     public void OnFormSwitch(InputAction.CallbackContext ctx)
     {
@@ -180,7 +185,8 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    //ATTACK
+
+    //ATTACK AND ABILITIES
     public void OnBasicAttack(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
@@ -193,7 +199,6 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    //ABILITIES
     public void OnAbilityOne(InputAction.CallbackContext ctx)
     {
         if (ctx.started)

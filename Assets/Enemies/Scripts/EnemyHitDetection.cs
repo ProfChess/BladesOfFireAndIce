@@ -26,7 +26,7 @@ public class EnemyHitDetection : BaseHealth
         if (HitBox != null)
         {
             //Detect Which Damage Component Is Hurting the Enemy
-            if (collision.TryGetComponent<BasePlayerDamage>(out BasePlayerDamage DamageScript))
+            if (collision.TryGetComponent(out BasePlayerDamage DamageScript))
             {
                 if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.NormalAttack)
                 {
@@ -38,7 +38,7 @@ public class EnemyHitDetection : BaseHealth
                 }
                 EvaluateDeath();
             }
-            else if (collision.TryGetComponent<BaseEffectSpawn>(out BaseEffectSpawn EffectScript))
+            else if (collision.TryGetComponent(out BaseEffectSpawn EffectScript))
             {
                 //Checks Colliding Object if This Collision Should be Ignored
                 if(EffectScript.ignoredEnemy == gameObject) { return; }
@@ -50,13 +50,17 @@ public class EnemyHitDetection : BaseHealth
     //Checks if the enemy is dead or still alive -> Plays animation accordingly
     private void EvaluateDeath()
     {
-        if (curHealth > 0) { HF.Flash(); }
+        if (curHealth > 0) { HF.Flash(); GameManager.Instance.hitStopManager.BeginHitStop(); }
         else if (MainEnemyScript != null)
         {
             MainEnemyScript.GetAnimator().Play(EnemyDeath, 1);
             MainEnemyScript.canMove = false;
             Invoke(nameof(TurnOff), 1.2f);
         }
+    }
+    private void CallHitStop()
+    {
+
     }
 
     private void Update()

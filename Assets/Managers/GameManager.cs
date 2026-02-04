@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public DifficultyManager difficultyManager;
     [HideInInspector] public EnemySpawnManager enemySpawnManager;
     [HideInInspector] public StatManager statManager;
+    [HideInInspector] public HitStopManager hitStopManager;
     [HideInInspector] public BoonSelection boonOptions;
     [HideInInspector] public RelicSelection relicOptions;
     [HideInInspector] public RunDataManager runData;
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
         difficultyManager = GetComponentInChildren<DifficultyManager>();
         enemySpawnManager = GetComponentInChildren<EnemySpawnManager>();
         statManager = GetComponentInChildren<StatManager>();
+        hitStopManager = GetComponentInChildren<HitStopManager>();
         boonOptions = GetComponentInChildren<BoonSelection>();
         relicOptions = GetComponentInChildren<RelicSelection>();
         runData = GetComponentInChildren<RunDataManager>();

@@ -55,7 +55,6 @@ public class PlayerAttack : MonoBehaviour
                         ConsumeStamina(FireStaminaCost);
                         BasicAttack();
                         playerAnimations.FireAttack();
-                        Debug.Log("Anim Played");
                     }
                     else { Debug.Log("Not Enough Stamina"); }
                 }
