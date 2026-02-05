@@ -278,7 +278,6 @@ MonoBehaviour:
   HitBox: {fileID: 2273477896166827226}
   MainEnemyScript: {fileID: 2174794487145067413}
   HF: {fileID: 8872761858661013811}
-  Knockback: {fileID: 7662212515198993327}
 --- !u!114 &7662212515198993327
 MonoBehaviour:
   m_ObjectHideFlags: 0

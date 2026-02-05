@@ -45,7 +45,7 @@ public class EnemyHitDetection : BaseHealth
                 if (collision.transform.parent.TryGetComponent(out PlayerAttack attack))
                 {
                     HitData data = attack.hitData;
-                    knockback.KnockbackObject(data.KnockBackDirection, data.KnockBackPower); 
+                    knockback.KnockbackObject(data.KnockBackDirection, data.KnockBackPower, data.KnockBackDuration, data.Curve);
                 }
             }
         }
@@ -100,9 +100,13 @@ public struct HitData
 {
     public Vector2 KnockBackDirection;
     public float KnockBackPower;
-    public void SetData(Vector2 KnockDir, float KnockPower) 
+    public float KnockBackDuration;
+    public AnimationCurve Curve;
+    public void SetData(Vector2 KnockDir, float KnockPower, float KnockDuration, AnimationCurve curve) 
     { 
         KnockBackDirection = KnockDir;
         KnockBackPower = KnockPower;
+        KnockBackDuration = KnockDuration;
+        Curve = curve;
     }
 }

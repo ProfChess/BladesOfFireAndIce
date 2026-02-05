@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 348891563}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.49, y: -2, z: 0}
+  m_LocalPosition: {x: -0.36, y: -2.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -628,7 +628,7 @@ Transform:
   m_GameObject: {fileID: 1274442215}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.44, y: 2, z: 0}
+  m_LocalPosition: {x: 3.65, y: 1.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -887,7 +887,7 @@ Transform:
   m_GameObject: {fileID: 1526568266}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.38, y: 1.23, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 12, y: 12, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -961,6 +961,63 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1001 &1698099156
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1631260252677130111, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_Name
+      value: SlimeEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999902374723645422, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f13206a65d52d34aa586a43423b4577, type: 3}
 --- !u!1 &1944272935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1106,7 @@ Transform:
   m_GameObject: {fileID: 1944272935}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.49, y: 3.47, z: 0}
+  m_LocalPosition: {x: 2.82, y: 4.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1239,7 +1296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5977760012342221046, guid: 347eb0308f79d9d40bebe08bd08f35f3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.24
+      value: 3.54
       objectReference: {fileID: 0}
     - target: {fileID: 5977760012342221046, guid: 347eb0308f79d9d40bebe08bd08f35f3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1926,11 +1983,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3303729036357796555, guid: 149c8a09a6f11464b8f82d5388c447f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.02
+      value: 1.9599998
       objectReference: {fileID: 0}
     - target: {fileID: 3303729036357796555, guid: 149c8a09a6f11464b8f82d5388c447f0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.35
+      value: -1.59
       objectReference: {fileID: 0}
     - target: {fileID: 3303729036357796555, guid: 149c8a09a6f11464b8f82d5388c447f0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3535,6 +3592,8 @@ MonoBehaviour:
   Element: 0
   AttackType: 0
   AttackBox: {fileID: 5940867768249803888}
+  FireAttackDamage: 1
+  IceAttackDamage: 1
 --- !u!114 &1828245458863591551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6074,9 +6133,59 @@ MonoBehaviour:
   DashDuration: 0.5
   DashSpeed: 10
   FireRollCooldown: 3
-  FireStanceKnockback: 2.5
+  FireKnockbackStrength: 1.15
+  FireKnockbackDuration: 0.12
+  FireKnockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.3364596
+      outSlope: 3.3364596
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.026352352
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   IceRollCooldown: 1.5
-  IceStanceKnockback: 1.5
+  IceKnockbackStrength: 0.75
+  IceKnockbackDuration: 0.2
+  IceKnockbackCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.312305
+      outSlope: 1.312305
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04754358
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   FormSwitchCooldown: 1
   BasicAttackDuration: 0.12
   BasicAttackCooldown: 0.25
@@ -9262,7 +9371,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.75, y: 1.75, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5099319888263375858}
@@ -10433,11 +10542,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2380048802983291728, guid: bfd0179b2b8fc984a99520e8091c1909, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.82
+      value: -3.66
       objectReference: {fileID: 0}
     - target: {fileID: 2380048802983291728, guid: bfd0179b2b8fc984a99520e8091c1909, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.39
+      value: 2.68
       objectReference: {fileID: 0}
     - target: {fileID: 2380048802983291728, guid: bfd0179b2b8fc984a99520e8091c1909, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11212,7 +11321,7 @@ Transform:
   m_GameObject: {fileID: 1900721440653782412}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.39, y: -1.75, z: 0}
+  m_LocalPosition: {x: -3.26, y: -2.02, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11229,7 +11338,7 @@ Transform:
   m_GameObject: {fileID: 2526042590874417277}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 2, z: 0}
+  m_LocalPosition: {x: -0.61, y: 1.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12741,3 +12850,4 @@ SceneRoots:
   - {fileID: 348891564}
   - {fileID: 1526568268}
   - {fileID: 1492981222}
+  - {fileID: 1698099156}

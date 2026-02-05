@@ -119,7 +119,8 @@ public class PlayerAttack : MonoBehaviour
         AttackHitAnimation();
 
         //Collider on and Start Coroutine
-        hitData.SetData(attackDirection, controls.GetKnockback());
+        var KnockbackDurAndStr = controls.GetKnockbackStrAndDur();
+        hitData.SetData(attackDirection, KnockbackDurAndStr.Item1, KnockbackDurAndStr.Item2, controls.GetKnockbackCurve());
         attackBox.enabled = true;
 
 
