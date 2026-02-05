@@ -20,14 +20,7 @@ public class BossHealth : BaseHealth
             //Detect Which Damage Component Is Hurting the Enemy
             if (col.TryGetComponent<BasePlayerDamage>(out BasePlayerDamage DamageScript))
             {
-                if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.NormalAttack)
-                {
-                    TakeDamage(DamageScript.GetAttackDamage(this));
-                }
-                else if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.Ability)
-                {
-                    TakeDamage(DamageScript.GetAbilityDamage(this));
-                }
+                TakeDamage(DamageScript.GetAttackDamage());
                 EvaluateDeath();
             }
             else if (col.TryGetComponent<BaseEffectSpawn>(out BaseEffectSpawn EffectScript))

@@ -49,8 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a93c01ff3502f4abad93a81109966c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IdleSpeed: 2
-  ChaseSpeed: 4
+  IdleSpeed: 1
+  ChaseSpeed: 2
   ChaseRange: 4
   AttackCooldown: 1
   AttackOffset: 1.25
@@ -156,7 +156,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -397378737
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 3
   m_Sprite: {fileID: 1437441639, guid: ce32cd20fb8087a4181b9c7079dffcea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 3489863196013656183}
   - component: {fileID: 2273477896166827226}
   - component: {fileID: 2807073766202386398}
+  - component: {fileID: 7662212515198993327}
   m_Layer: 6
   m_Name: EnemyHitBox
   m_TagString: EnemyHitbox
@@ -270,12 +271,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b72d49ee02edc8458298f030f9529b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 5
+  MaxHealth: 100
   curHealth: 0
   CollisionDamage: 1
   HasCollisionDamage: 1
   HitBox: {fileID: 2273477896166827226}
   MainEnemyScript: {fileID: 2174794487145067413}
+  HF: {fileID: 8872761858661013811}
+  Knockback: {fileID: 7662212515198993327}
+--- !u!114 &7662212515198993327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855619775770576271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b727406e730efca48b19483f420571e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
 --- !u!1 &2959778175911379652
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,6 +304,7 @@ GameObject:
   - component: {fileID: 4880815376599874024}
   - component: {fileID: 6206820143231138907}
   - component: {fileID: 6630611232484993816}
+  - component: {fileID: 8872761858661013811}
   m_Layer: 6
   m_Name: Visual
   m_TagString: Untagged
@@ -349,7 +366,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 73624549
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: -1280984342, guid: 4eb05393c87d0c840bda1251a838f5a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -396,6 +413,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemy: {fileID: 2174794487145067413}
+--- !u!114 &8872761858661013811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2959778175911379652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c831d8fffb6eac14e8817d124655d884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitFlashMat: {fileID: 2100000, guid: 822938936c5abf1459b9567519a936b9, type: 2}
+  hitFlashTime: 0.05
 --- !u!1 &6766293546627661538
 GameObject:
   m_ObjectHideFlags: 0

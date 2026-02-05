@@ -28,6 +28,7 @@ public class PlayerAttack : MonoBehaviour
     private float attackDuration;
     private ElementType attackForm;
 
+    [HideInInspector] public HitData hitData;
 
     //Events for Extra Effects
     public event Action<PlayerEventContext> OnNormalAttack;
@@ -118,7 +119,9 @@ public class PlayerAttack : MonoBehaviour
         AttackHitAnimation();
 
         //Collider on and Start Coroutine
+        hitData.SetData(attackDirection, controls.GetKnockback());
         attackBox.enabled = true;
+
 
         StartCoroutine(BaseAttackStay());
     }

@@ -20,10 +20,12 @@ public class PlayerController : MonoBehaviour
     [Header("Player Attack")]
     [Header("Fire Stats")]
     [SerializeField] private float FireRollCooldown;
+    [SerializeField] private float FireStanceKnockback = 2.5f;
     public static float FireStanceHitStopScale { get; private set; } = 0.08f;
     public static float FireStanceHitStopDuration { get; private set; } = 0.08f;
     [Header("Ice Stats")]
     [SerializeField] private float IceRollCooldown;
+    [SerializeField] private float IceStanceKnockback = 1.5f;
     public static float IceStanceHitStopScale { get; private set; } = 0.18f;
     public static float IceStanceHitStopTime { get; private set; } = 0.06f;
     [Header("General")]
@@ -31,6 +33,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float BasicAttackDuration;
     [SerializeField] private float BasicAttackCooldown;
     private float playerRollSpeed;
+
+    public float GetKnockback() => PlayerAttackForm == ElementType.Fire ? FireStanceKnockback : IceStanceKnockback;
 
     //Form Enum
     [HideInInspector]

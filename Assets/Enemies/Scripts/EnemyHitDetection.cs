@@ -28,14 +28,7 @@ public class EnemyHitDetection : BaseHealth
             //Detect Which Damage Component Is Hurting the Enemy
             if (collision.TryGetComponent(out BasePlayerDamage DamageScript))
             {
-                if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.NormalAttack)
-                {
-                    TakeDamage(DamageScript.GetAttackDamage(this));
-                }
-                else if (DamageScript.AttackElement == BasePlayerDamage.PlayerAttackType.Ability)
-                {
-                    TakeDamage(DamageScript.GetAbilityDamage(this));
-                }
+                TakeDamage(DamageScript.GetAttackDamage(this));
                 EvaluateDeath();
             }
             else if (collision.TryGetComponent(out BaseEffectSpawn EffectScript))
@@ -45,12 +38,22 @@ public class EnemyHitDetection : BaseHealth
                 TakeDamage(EffectScript.GetDamage());
                 EvaluateDeath();
             }
+
+            //Knockback
+            if (gameObject.TryGetComponent(out Knockback knockback))
+            {
+                if (collision.transform.parent.TryGetComponent(out PlayerAttack attack))
+                {
+                    HitData data = attack.hitData;
+                    knockback.KnockbackObject(data.KnockBackDirection, data.KnockBackPower); 
+                }
+            }
         }
     }
     //Checks if the enemy is dead or still alive -> Plays animation accordingly
     private void EvaluateDeath()
     {
-        if (curHealth > 0) { HF.Flash(); GameManager.Instance.hitStopManager.BeginHitStop(); }
+        if (curHealth > 0) { HitReaction(); }
         else if (MainEnemyScript != null)
         {
             MainEnemyScript.GetAnimator().Play(EnemyDeath, 1);
@@ -58,10 +61,12 @@ public class EnemyHitDetection : BaseHealth
             Invoke(nameof(TurnOff), 1.2f);
         }
     }
-    private void CallHitStop()
+    private void HitReaction()
     {
-
+        HF.Flash();
+        GameManager.Instance.hitStopManager.BeginHitStop();
     }
+    
 
     private void Update()
     {
@@ -90,5 +95,14 @@ public class EnemyHitDetection : BaseHealth
         }
     }
 
-
+}
+public struct HitData
+{
+    public Vector2 KnockBackDirection;
+    public float KnockBackPower;
+    public void SetData(Vector2 KnockDir, float KnockPower) 
+    { 
+        KnockBackDirection = KnockDir;
+        KnockBackPower = KnockPower;
+    }
 }

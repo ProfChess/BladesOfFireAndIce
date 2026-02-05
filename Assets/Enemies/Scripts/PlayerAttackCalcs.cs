@@ -13,11 +13,10 @@ public class PlayerAttackCalcs : BasePlayerDamage
     public event Action<PlayerEventContext> OnCriticalHitNormalAttack;
 
     //Quick References
-    protected ElementType attackForm => PlayerController.PlayerAttackForm;
     
-    private float FireAttackDamage = 1f;
+    public float FireAttackDamage = 1f;
     public void SetFireDamage(float num) {  FireAttackDamage = num; }
-    private float IceAttackDamage = 1f;
+    public float IceAttackDamage = 1f;
     public void SetIceDamage(float num) {  IceAttackDamage = num; }
 
 
@@ -27,8 +26,7 @@ public class PlayerAttackCalcs : BasePlayerDamage
 
     public override float GetAttackDamage(BaseHealth EnemyHealth)
     {
-        ElementType Form = attackForm;
-        if (Form == ElementType.Fire)
+        if (PlayerController.PlayerAttackForm == ElementType.Fire)
         {
             AttackDamage = FireAttackDamage;
         }
@@ -44,6 +42,9 @@ public class PlayerAttackCalcs : BasePlayerDamage
         OnEnemyHitNormalAttack?.Invoke(EnemyHitContext);
         if (EnemyHealth.CurrentHealth <= AttackDamage) { OnEnemyDeathNormalAttack?.Invoke(EnemyHitContext); }
 
+
+
+        //Calculate and Return Crit
         float CritChance = UnityEngine.Random.value;
         if (CritChance < crit)
         {

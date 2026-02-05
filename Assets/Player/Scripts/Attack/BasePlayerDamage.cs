@@ -18,6 +18,5 @@ public abstract class BasePlayerDamage : BaseAttackDamage
         return AttackType == PlayerAttackType.Ability ? Element : PlayerController.PlayerAttackForm;
     }
     public PlayerAttackType AttackElement => AttackType;
-    public virtual float GetAbilityDamage(BaseHealth EnemyHealth) { return AttackDamage; }
     public virtual float GetAttackDamage(BaseHealth EnemyHealth) {  return AttackDamage; }
 }

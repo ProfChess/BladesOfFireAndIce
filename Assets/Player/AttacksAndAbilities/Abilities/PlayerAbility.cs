@@ -23,7 +23,7 @@ public abstract class BasePlayerAbility : BasePlayerDamage
     public static event Action<PlayerEventContext> OnAbilityKill;
 
 
-    public override float GetAbilityDamage(BaseHealth EnemyHealth)
+    public override float GetAttackDamage(BaseHealth EnemyHealth)
     {
         AbilityDamageDetails.Setup(GetElement(), 
             EnemyHealth.transform.position - gameObject.transform.position, 
