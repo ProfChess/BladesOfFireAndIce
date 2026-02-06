@@ -39,7 +39,6 @@ public class PlayerAttack : MonoBehaviour
         attackBox.enabled = false;                      //Turn Collider Off
         attackDuration = controls.GetAttackDuration();  //Assign Duration
         playerStamina = GetComponent<PlayerStaminaManager>();
-        playerAbilityHolder = GetComponentInChildren<PlayerAbilityHolder>();
     }
 
     //Places Attack Box Collider in Direction Player is Moving
@@ -144,40 +143,4 @@ public class PlayerAttack : MonoBehaviour
         playerStamina.DecreaseStamina(Amount);
     }
 
-
-
-    //ABILITIES
-    //Types
-    public enum PlayerAbilityType
-    {
-        None,
-        FireSmash,
-    }
-    //Current Equipped Abilities
-    private PlayerAbilityHolder playerAbilityHolder;
-    public PlayerAbilityType Ability1 = PlayerAbilityType.None; //Will be Set Private later
-    public PlayerAbilityType Ability2 = PlayerAbilityType.None; //Will be Set Private later
-    public PlayerAbilityType GetFirstAbilityType() { return Ability1; }
-    public PlayerAbilityType GetSecondAbilityType() { return Ability2; }
-
-    //Assign and Call abilities by Type (Possibilities for Endless Mode)
-    private void AssignAbility(PlayerAbilityType Type)
-    {
-        if (Ability1 == PlayerAbilityType.None)
-        {
-            Ability1 = Type;
-        }
-        else if (Ability2 == PlayerAbilityType.None)
-        {
-            Ability2 = Type;
-        }
-    }
-    public void CallAbility(PlayerAbilityType Ability)
-    {
-        //Stops if Ability is Unassigned
-        if (Ability != PlayerAbilityType.None)
-        {
-            playerAbilityHolder.GetAbilityFromType(Ability).UseAbility();
-        }
-    }
 }

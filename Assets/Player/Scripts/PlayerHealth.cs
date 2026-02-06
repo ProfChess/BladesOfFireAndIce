@@ -7,6 +7,7 @@ public class PlayerHealth : BaseHealth
     [Header("References")]
     [SerializeField] private BoxCollider2D PlayerHitbox;
     [SerializeField] private Animator PlayerAnim;
+    [SerializeField] private HitFlash HF;
 
     [SerializeField] private PlayerInput input;
 
@@ -35,28 +36,27 @@ public class PlayerHealth : BaseHealth
         {
             //Hazard Interaction
             if (collision.CompareTag("Hazard-Hole") && !isFalling) { FallInHole(collision.transform.position); }
+
             //Attack Damage Interaction
-            if (collision.CompareTag("EnemyAttack")) 
+            if (collision.TryGetComponent(out BaseDamageDetection DamageDetection)) 
             {
-                BaseDamageDetection DamageInstance = collision.GetComponent<BaseDamageDetection>();
-                PlayerDamage(DamageInstance.GetAttackDamage());
+                PlayerDamage(DamageDetection.GetAttackDamage());
             }
             //Collision Damage Interaction
-            if (collision.CompareTag("EnemyHitbox"))
+            if (collision.TryGetComponent(out BaseHealth Health))
             {
-                float CollisionDamage = collision.GetComponent<BaseHealth>().GetCollisionDamage();
+                float CollisionDamage = Health.GetCollisionDamage();
                 if (CollisionDamage > 0) { PlayerDamage(CollisionDamage); }
             }
             //Damage AOE Interaction
-            if (collision.CompareTag("AOEBox"))
+            if (collision.TryGetComponent(out BaseAOEHealth HealthBox))
             {
-                BaseAOEHealth CollidingHealth = collision.GetComponent<BaseAOEHealth>();
-                if (CollidingHealth.collide) { return; }
-                float CollisionDamage = CollidingHealth.GetCollisionDamage();
+                if (HealthBox.collide) { return; }
+                float CollisionDamage = HealthBox.GetCollisionDamage();
                 if (CollisionDamage > 0)
                 {
                     PlayerDamage(CollisionDamage);
-                    CollidingHealth.DieOnCollision();
+                    HealthBox.DieOnCollision();
                 }
             }
         }
@@ -69,7 +69,8 @@ public class PlayerHealth : BaseHealth
         { 
             float totaldamage = damage - damageResist;
             if (totaldamage <= 0) {/* Insert Player Blocking or Resisting Animation Here */ return; }
-            TakeDamage(totaldamage);
+            
+            TakeDamage(totaldamage); HF.Flash();
 
             //Fire Event for Health Changing
             healthChangeContext.Setup(PlayerController.PlayerAttackForm, curHealth + totaldamage, curHealth, MaxHealth);

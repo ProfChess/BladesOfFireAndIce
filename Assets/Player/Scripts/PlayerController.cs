@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 
@@ -58,6 +57,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
+    [SerializeField] private PlayerAbilities playerAbilities;
     [SerializeField] private PlayerAttackSpeedManager attackSpeedManager;
     [SerializeField] private BoxCollider2D playerInteractBox;
 
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            playerAttack.CallAbility(playerAttack.GetFirstAbilityType());
+            playerAbilities.CallAbility(playerAbilities.GetFirstAbilityType());
             Debug.Log("First Ability Pressed");
         }
 
@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            playerAttack.CallAbility(playerAttack.GetFirstAbilityType());
+            playerAbilities.CallAbility(playerAbilities.GetFirstAbilityType());
             Debug.Log("Second Ability Pressed");
         }
     }
