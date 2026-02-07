@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class PlayerAbilities : MonoBehaviour
 {
     //ABILITIES
     //Types
+    private Dictionary<(int AbilityNumber, ElementType BoundElement), Action> ActiveAbilities = new();
 
     //Current Equipped Abilities
     [SerializeField] private PlayerAbilityHolder playerAbilityHolder;
@@ -15,16 +17,19 @@ public class PlayerAbilities : MonoBehaviour
     public PlayerAbilityType GetSecondAbilityType() { return Ability2; }
 
     //Assign and Call abilities by Type (Possibilities for Endless Mode)
-    private void AssignAbility(PlayerAbilityType Type)
+    public void AssignAbility(int AbilityNumber, ElementType Element, Action Effect)
     {
-        if (Ability1 == PlayerAbilityType.None)
+        if (ActiveAbilities.ContainsKey((AbilityNumber, Element)))
         {
-            Ability1 = Type;
+            //REPLACE WITH REPLACING ABILITY LATER MAYBE
+            Debug.Log("Error: Ability Spot Already Taken");
+            return;
         }
-        else if (Ability2 == PlayerAbilityType.None)
-        {
-            Ability2 = Type;
-        }
+        ActiveAbilities.Add((AbilityNumber, Element), Effect);
+    }
+    public void ActivateAbility(int AbilityNumber, ElementType CurretElement)
+    {
+        ActiveAbilities[(AbilityNumber, CurretElement)]?.Invoke();
     }
     public void CallAbility(PlayerAbilityType Ability)
     {

@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            playerAbilities.CallAbility(playerAbilities.GetFirstAbilityType());
+            playerAbilities.ActivateAbility(1, PlayerAttackForm);
             Debug.Log("First Ability Pressed");
         }
 
@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            playerAbilities.CallAbility(playerAbilities.GetFirstAbilityType());
+            playerAbilities.ActivateAbility(2, PlayerAttackForm);
             Debug.Log("Second Ability Pressed");
         }
     }

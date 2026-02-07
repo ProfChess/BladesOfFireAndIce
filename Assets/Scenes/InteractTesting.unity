@@ -5596,28 +5596,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344489992086758132}
   m_CullTransparentMesh: 1
---- !u!114 &3416944016673618161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4993511676993680080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f0a289e8f8d31d4a817c0039269c87d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackDamage: 50
-  Element: 1
-  AttackType: 1
-  AbilityCooldown: 3
-  abilityDelay: 0.12
-  hitbox: {fileID: 4844774751559094624}
-  Radius: 2
-  Duration: 0.25
-  EffectAnim: {fileID: 798110729462478676}
-  EffectSprite: {fileID: 70608589838873383}
 --- !u!1 &3435338527953042514
 GameObject:
   m_ObjectHideFlags: 0
@@ -7355,7 +7333,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8230359252519626009}
-  - component: {fileID: 3416944016673618161}
   - component: {fileID: 4844774751559094624}
   m_Layer: 8
   m_Name: FireSmash
@@ -9027,7 +9004,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5074675505939483419}
-  - component: {fileID: 6619670230379757620}
   - component: {fileID: 7949367611938127807}
   m_Layer: 8
   m_Name: PlayerAbilities
@@ -9484,21 +9460,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6619670230379757620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6369506459793884972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf0a302f845b3844a894a2c6e54b64bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AbilityHolder:
-  - AbilityType: 1
-    Ability: {fileID: 3416944016673618161}
 --- !u!114 &6662028015321026492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11091,7 +11052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d285b5223555149aff16d562197849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAbilityHolder: {fileID: 6619670230379757620}
+  playerAbilityHolder: {fileID: 0}
   Ability1: 1
   Ability2: 0
 --- !u!114 &7956423881623911579

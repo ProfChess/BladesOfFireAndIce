@@ -41,7 +41,7 @@ public abstract class BaseBoon : ScriptableObject
     public virtual void BoonRemoved()
     {
         effectDelegate = Effect;
-        PlayerEffectSubscriptionManager.Instance.SubscribeToPlayerEvent(effectDelegate, EventToAttach);
+        PlayerEffectSubscriptionManager.Instance.UnSubscribeFromPlayerEvent(effectDelegate, EventToAttach);
     }
 
 }
