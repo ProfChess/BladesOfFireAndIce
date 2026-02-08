@@ -7,41 +7,37 @@ public class PlayerAbilities : MonoBehaviour
 {
     //ABILITIES
     //Types
-    private Dictionary<(int AbilityNumber, ElementType BoundElement), Action> ActiveAbilities = new();
-
-    //Current Equipped Abilities
-    [SerializeField] private PlayerAbilityHolder playerAbilityHolder;
-    public PlayerAbilityType Ability1 = PlayerAbilityType.None; //Will be Set Private later
-    public PlayerAbilityType Ability2 = PlayerAbilityType.None; //Will be Set Private later
-    public PlayerAbilityType GetFirstAbilityType() { return Ability1; }
-    public PlayerAbilityType GetSecondAbilityType() { return Ability2; }
+    private Dictionary<(PlayerAbilitySlot AbilitySlot, ElementType BoundElement), Action> ActiveAbilities = new();
 
     //Assign and Call abilities by Type (Possibilities for Endless Mode)
-    public void AssignAbility(int AbilityNumber, ElementType Element, Action Effect)
+    public void AssignAbility(PlayerAbilitySlot SlotNum, ElementType Element, Action Effect)
     {
-        if (ActiveAbilities.ContainsKey((AbilityNumber, Element)))
+        if (ActiveAbilities.ContainsKey((SlotNum, Element)))
         {
             //REPLACE WITH REPLACING ABILITY LATER MAYBE
             Debug.Log("Error: Ability Spot Already Taken");
             return;
         }
-        ActiveAbilities.Add((AbilityNumber, Element), Effect);
+        ActiveAbilities.Add((SlotNum, Element), Effect);
     }
-    public void ActivateAbility(int AbilityNumber, ElementType CurretElement)
+    public bool IsAbilitySlotTaken(PlayerAbilitySlot abilitySlot)
     {
-        ActiveAbilities[(AbilityNumber, CurretElement)]?.Invoke();
+        //SINCE FIRE AND ICE ARE ALWAYS SELECTED TOGETHER, IF NO FIRE -> NO ABILITY HAS BEEN SELECTED
+        return ActiveAbilities.ContainsKey((abilitySlot, ElementType.Fire));
     }
-    public void CallAbility(PlayerAbilityType Ability)
+    public void ActivateAbility(PlayerAbilitySlot abilitySlot, ElementType CurretElement)
     {
-        //Stops if Ability is Unassigned
-        if (Ability != PlayerAbilityType.None)
-        {
-            playerAbilityHolder.GetAbilityFromType(Ability).UseAbility();
-        }
+        ActiveAbilities[(abilitySlot, CurretElement)]?.Invoke();
     }
 }
 public enum PlayerAbilityType
 {
-    None,
-    FireSmash,
+    None = 0,
+    FireSmash = 1,
+}
+public enum PlayerAbilitySlot
+{
+    None = 0,
+    Slot1 = 1,
+    Slot2 = 2
 }

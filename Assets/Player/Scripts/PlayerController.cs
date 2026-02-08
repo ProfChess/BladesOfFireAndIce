@@ -74,6 +74,10 @@ public class PlayerController : MonoBehaviour
     private float FormSwitchCooldownTimer;
     private bool playerStop = false;
 
+    //Abilities
+    private PlayerAbilitySlot AbilitySlot1 = PlayerAbilitySlot.Slot1;
+    private PlayerAbilitySlot AbilitySlot2 = PlayerAbilitySlot.Slot2;
+
     //START/UPDATE/ETC
     private void Start()
     {
@@ -219,7 +223,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            playerAbilities.ActivateAbility(1, PlayerAttackForm);
+            playerAbilities.ActivateAbility(AbilitySlot1, PlayerAttackForm);
             Debug.Log("First Ability Pressed");
         }
 
@@ -228,7 +232,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            playerAbilities.ActivateAbility(2, PlayerAttackForm);
+            playerAbilities.ActivateAbility(AbilitySlot2, PlayerAttackForm);
             Debug.Log("Second Ability Pressed");
         }
     }
