@@ -35,7 +35,7 @@ public class EnemyHitDetection : BaseHealth
             {
                 //Checks Colliding Object if This Collision Should be Ignored
                 if(EffectScript.ignoredEnemy == gameObject) { return; }
-                TakeDamage(EffectScript.GetDamage());
+                TakeDamage(EffectScript.GetDamage(this));
                 EvaluateDeath();
             }
 

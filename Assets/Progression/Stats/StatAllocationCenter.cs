@@ -16,7 +16,6 @@ public class StatAllocationCenter : InteractableObject
     private void CloseMenu()
     {
         StatMenu.SetActive(false);
-        GameManager.Instance.ChangePlayerToPlayerActions();
     }
 
     public override void Interact()

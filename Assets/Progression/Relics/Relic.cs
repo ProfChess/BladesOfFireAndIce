@@ -11,13 +11,13 @@ public class Relic : BaseBoon
 
     public override void Effect(PlayerEventContext context)
     {
-        RelicEffectLibrary.PlayRelicEffect(this, EffectType, context);
+        RelicEffectLibrary.PlayRelicEffect(this, context);
     }
     public override void BoonCollected()
     {
         runData.AddRelic(this);
         StatChangeEventContext StartContext = PlayerEffectSubscriptionManager.Instance.GetPlayerState(PlayerStateNeeded);
-        RelicEffectLibrary.PlayRelicEffect(this, EffectType, StartContext);
+        RelicEffectLibrary.PlayRelicEffect(this, StartContext);
     }
 }
 public enum RelicEffectType { HealthBuff, DamageBuff, AttackSpeedBuff, MoveSpeedBuff}

@@ -16,9 +16,21 @@ public class BaseEffectSpawn : MonoBehaviour
 
     //Effect Details
     [Header("Anim Details")]
-    [SerializeField] protected float Delay = 0f;               //Time between spawning and animation start
-    [SerializeField] protected float AnimWarmupDuration = 0f;  //Time between anim start and damage activates
-    [SerializeField] protected float DamageDuration = 0.1f;    //Time that damage collider lasts
+    [Tooltip("Time Between Spawning and Anim Start")]
+    [SerializeField] protected float Delay = 0f;
+    [Tooltip("Time Between Anim Start and Damage Start")]
+    [SerializeField] protected float AnimWarmupDuration = 0f;
+    [Tooltip("Time That Damage Collider Lasts")]
+    [SerializeField] protected float DamageDuration = 0.1f;    
+
+    //Events and Enums
+    private enum EffectDamageType { Boon = 0, Ability = 1 }
+    [SerializeField] private EffectDamageType damageType;
+
+    public static event Action<PlayerEventContext> OnAbilityDamage;
+    public static event Action<PlayerEventContext> OnAbilityKill;
+    private AttackEventContext AbilityDamageContext = new();
+
 
     //Pool
     [SerializeField] protected PlayerEffectObjectType Pool;
@@ -99,8 +111,25 @@ public class BaseEffectSpawn : MonoBehaviour
     }
 
     //Damage to Be Found by Enemies
-    public virtual float GetDamage()
+    public virtual float GetDamage(BaseHealth EnemyHealth)
     {
+        switch (damageType)
+        {
+            case EffectDamageType.Boon: break;
+            case EffectDamageType.Ability:
+
+                //Set up Damage Settings
+                AbilityDamageContext.Setup(
+                    PlayerController.PlayerAttackForm,
+                    EnemyHealth.transform.position - gameObject.transform.position, 
+                    EnemyHealth, hitbox.transform.position);
+
+                //Trigger Events
+                OnAbilityDamage?.Invoke(AbilityDamageContext);
+                if (EnemyHealth.CurrentHealth <= Damage) { OnAbilityKill?.Invoke(AbilityDamageContext); }
+                break;
+        }
+
         return Damage;
     }
 

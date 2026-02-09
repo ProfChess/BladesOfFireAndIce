@@ -2,13 +2,13 @@
 public static class RelicEffectLibrary
 {
     private static RunDataManager rundata => GameManager.Instance.runData;
-    public static void PlayRelicEffect(Relic relic, RelicEffectType effectType, PlayerEventContext Details)
+    public static void PlayRelicEffect(Relic relic, PlayerEventContext Details)
     {
         //Check if Boon can Trigger in Element
         bool canBoonTrigger = (relic.ElementRestriction == ElementType.None || relic.ElementRestriction == Details.Element);
         if (!canBoonTrigger) return;
 
-        switch (effectType)
+        switch (relic.EffectType)
         {
             case RelicEffectType.HealthBuff: RelicEffect_HealthBuff(relic, Details); break;
 

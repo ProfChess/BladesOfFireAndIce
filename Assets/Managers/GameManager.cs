@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public event Action GameStart;
 
-    private GameObject Player;
+    public GameObject Player;
     [SerializeField] private NavMeshBaker MeshBaker;
 
     //Managers
@@ -141,7 +141,6 @@ public class GameManager : MonoBehaviour
         //Close UI 
         NewRunPopup.SetActive(false);
         ShopSelectionUI.SetActive(false);
-        boonOptions.SelectionPopup.SetActive(false);
         MenuClosed?.Invoke();
 
         //Change Action Map

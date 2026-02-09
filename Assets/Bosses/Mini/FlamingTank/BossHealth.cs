@@ -25,7 +25,7 @@ public class BossHealth : BaseHealth
             }
             else if (col.TryGetComponent<BaseEffectSpawn>(out BaseEffectSpawn EffectScript))
             {
-                TakeDamage(EffectScript.GetDamage());
+                TakeDamage(EffectScript.GetDamage(this));
                 EvaluateDeath();
             }
         }

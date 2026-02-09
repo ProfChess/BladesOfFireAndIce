@@ -8,29 +8,34 @@ public class AbilitySelection : MonoBehaviour
     [SerializeField] AbilityStorage Storage;
     [SerializeField] private List<AbilityChoiceUI> UIOptions = new();
     private AbilityPickup abilityPickup;
+    GameManager GM => GameManager.Instance;
 
     public void AbilitySelected(Ability fireAbility, Ability iceAbility)
     {
         PlayerAbilities playerAbilities = GameManager.Instance.getPlayer().GetComponentInChildren<PlayerAbilities>();
 
-        if (playerAbilities.IsAbilitySlotTaken(PlayerAbilitySlot.Slot1))
+        if (!playerAbilities.IsAbilitySlotTaken(PlayerAbilitySlot.Slot1))
         {
-            //First Ability Slot is Taken -> Place Ability Pair in Slot 2
+            Debug.Log("First Slot Used");
+            //First Ability Slot is Free -> Place Ability
             //Place Fire Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Fire, fireAbility.GetEffect());
+            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Fire, fireAbility.GetEffect(), fireAbility.Cooldown);
             //Place Ice Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Ice, iceAbility.GetEffect());
+            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Ice, iceAbility.GetEffect(), iceAbility.Cooldown);
         }
-        else
+        else if (!playerAbilities.IsAbilitySlotTaken(PlayerAbilitySlot.Slot2))
         {
-            //First Ability Slot is Free -> Place in Ability Slot 1
+            Debug.Log("Second Slot Used");
+            //Second Ability Slot is Free -> Place Ability
             //Place Fire Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Fire, fireAbility.GetEffect());
+            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Fire, fireAbility.GetEffect(), fireAbility.Cooldown);
             //Place Ice Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Ice, iceAbility.GetEffect());
+            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Ice, iceAbility.GetEffect(), iceAbility.Cooldown);
         }
 
         if(abilityPickup != null) { abilityPickup.gameObject.SetActive(false); }
+        SelectionPopup.SetActive(false);
+        GM.ChangePlayerToPlayerActions();
     }
 
     public List<AbilityPair> CreateListofPairs(AbilityPickup pickup)
@@ -61,6 +66,21 @@ public class AbilitySelection : MonoBehaviour
             UIOptions[i].AssignVisuals(abilitiesToDisplay[i].Fire, abilitiesToDisplay[i].Ice);
             UIOptions[i].gameObject.SetActive(true);
         }
+        GM.ChangePlayerToUIActions();
         SelectionPopup.SetActive(true);
+    }
+
+    //Close Menu
+    private void CloseMenu()
+    {
+        SelectionPopup.SetActive(false);
+    }
+    private void OnEnable()
+    {
+        GameManager.Instance.MenuClosed += CloseMenu;
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.MenuClosed -= CloseMenu;
     }
 }

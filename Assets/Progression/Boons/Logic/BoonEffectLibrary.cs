@@ -2,14 +2,14 @@ using UnityEngine;
 
 public static class BoonEffectLibrary
 {
-    public static void PlayBoonEffect(Virtue Boon, DamageBoonEffectType effectType, PlayerEventContext Details)
+    public static void PlayBoonEffect(Virtue Boon, PlayerEventContext Details)
     {
         //Clarify Location
         Vector2 Location = GetEffectLocation(Boon, Details);
         bool canBoonTrigger = (Boon.ElementRestriction == ElementType.None || Boon.ElementRestriction == Details.Element);
         if (!canBoonTrigger) return;
 
-        switch (effectType)
+        switch (Boon.EffectType)
         {
             case DamageBoonEffectType.FireBoom: DamageEffect_FireBoom(Boon, Location); break;
             case DamageBoonEffectType.FireBurst: ElementEffect_FireBurst(Boon, Location); break;

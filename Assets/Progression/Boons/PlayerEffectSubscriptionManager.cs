@@ -31,9 +31,9 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnNormalEnemyHit: attackEvents.OnEnemyHitNormalAttack += BoonEffect; break;
             case BoonEventType.OnNormalDamageEnemyDeath: attackEvents.OnEnemyDeathNormalAttack += BoonEffect; break;
             case BoonEventType.OnNormalCriticalHit: attackEvents.OnCriticalHitNormalAttack += BoonEffect; break;
-            case BoonEventType.OnAbilityUse: BasePlayerAbility.OnAbilityUse += BoonEffect; break;
-            case BoonEventType.OnAbilityDamage: BasePlayerAbility.OnAbilityDamage += BoonEffect; break;
-            case BoonEventType.OnAbilityKill: BasePlayerAbility.OnAbilityKill += BoonEffect; break;
+            case BoonEventType.OnAbilityUse: PlayerAbilities.OnAbilityUse += BoonEffect; break;
+            case BoonEventType.OnAbilityDamage: BaseEffectSpawn.OnAbilityDamage += BoonEffect; break;
+            case BoonEventType.OnAbilityKill: BaseEffectSpawn.OnAbilityKill += BoonEffect; break;
             case BoonEventType.OnHealthChange: playerHealth.PlayerHealthChange += BoonEffect; break;
 
             default: Debug.Log("Incorrect Event Given"); break;
@@ -49,9 +49,9 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnNormalEnemyHit: attackEvents.OnEnemyHitNormalAttack -= BoonEffect; break;
             case BoonEventType.OnNormalDamageEnemyDeath: attackEvents.OnEnemyDeathNormalAttack -= BoonEffect; break;
             case BoonEventType.OnNormalCriticalHit: attackEvents.OnCriticalHitNormalAttack -= BoonEffect; break;
-            case BoonEventType.OnAbilityUse: BasePlayerAbility.OnAbilityUse -= BoonEffect; break;
-            case BoonEventType.OnAbilityDamage: BasePlayerAbility.OnAbilityDamage -= BoonEffect; break;
-            case BoonEventType.OnAbilityKill: BasePlayerAbility.OnAbilityKill -= BoonEffect; break;
+            case BoonEventType.OnAbilityUse: PlayerAbilities.OnAbilityUse -= BoonEffect; break;
+            case BoonEventType.OnAbilityDamage: BaseEffectSpawn.OnAbilityDamage -= BoonEffect; break;
+            case BoonEventType.OnAbilityKill: BaseEffectSpawn.OnAbilityKill -= BoonEffect; break;
 
             default: Debug.Log("Incorrect Event Given"); break;
         }

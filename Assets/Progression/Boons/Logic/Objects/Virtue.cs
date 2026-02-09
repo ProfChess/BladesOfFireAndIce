@@ -12,13 +12,13 @@ public class Virtue : BaseBoon
 
     //Damage of Effect
     [Header("Boon Attributes")]
-    public BoonBaseStats BaseStats;
+    public EffectBaseStats BaseStats;
     [Header("")]
-    public BoonLevelScalers LevelScalers;
+    public EffectLevelScalers LevelScalers;
 
     public override void Effect(PlayerEventContext AttackDetails)
     {
-        BoonEffectLibrary.PlayBoonEffect(this, EffectType, AttackDetails);
+        BoonEffectLibrary.PlayBoonEffect(this, AttackDetails);
     }
     public override void BoonCollected()
     {
@@ -47,7 +47,7 @@ public enum EffectOriginType { Player, Target, Attack}
 
 //Base Stats
 [System.Serializable]
-public class BoonBaseStats
+public class EffectBaseStats
 {
     //Base Values Each Boon Might Use
     [Header("All Boons")]
@@ -70,7 +70,7 @@ public class BoonBaseStats
 }
 //Leveling Values
 [System.Serializable]
-public class BoonLevelScalers
+public class EffectLevelScalers
 {
     //Multipliers on Base Values
     public float DamageScale = 1f;
