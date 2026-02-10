@@ -101,19 +101,18 @@ public class ShopDescription
 [System.Serializable]
 public class ShopOptionBoon : ShopOption
 {
-    public BaseBoon BoonRef;
+    public Virtue virtueRef;
     public override void ApplyChoice()
     {
-        if (GameManager.Instance == null) { return; }
-        GameManager.Instance.runData.AddBoon(BoonRef);
+        virtueRef.BoonCollected();
     }
     public override bool CanBeSold()
     {
-        if (GM_Rundata == null || BoonRef == null) { return false; }
-        if (GM_Rundata.IsBoonCollected(BoonRef))
+        if (GM_Rundata == null || virtueRef == null) { return false; }
+        if (GM_Rundata.IsVirtueCollected(virtueRef))
         {
             //Boon is Collected
-            if (GM_Rundata.GetBoonLevel(BoonRef) == GM_Rundata.MaxBoonLevel) { return false; }
+            if (GM_Rundata.GetVirtueLevel(virtueRef) == GM_Rundata.MaxBoonLevel) { return false; }
         }
         return true;
     }

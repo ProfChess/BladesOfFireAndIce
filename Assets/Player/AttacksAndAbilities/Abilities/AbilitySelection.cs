@@ -19,18 +19,18 @@ public class AbilitySelection : MonoBehaviour
             Debug.Log("First Slot Used");
             //First Ability Slot is Free -> Place Ability
             //Place Fire Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Fire, fireAbility.GetEffect(), fireAbility.Cooldown);
+            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Fire, fireAbility.GetEffect(), fireAbility.BaseStats.Cooldown);
             //Place Ice Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Ice, iceAbility.GetEffect(), iceAbility.Cooldown);
+            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Ice, iceAbility.GetEffect(), iceAbility.BaseStats.Cooldown);
         }
         else if (!playerAbilities.IsAbilitySlotTaken(PlayerAbilitySlot.Slot2))
         {
             Debug.Log("Second Slot Used");
             //Second Ability Slot is Free -> Place Ability
             //Place Fire Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Fire, fireAbility.GetEffect(), fireAbility.Cooldown);
+            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Fire, fireAbility.GetEffect(), fireAbility.BaseStats.Cooldown);
             //Place Ice Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Ice, iceAbility.GetEffect(), iceAbility.Cooldown);
+            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Ice, iceAbility.GetEffect(), iceAbility.BaseStats.Cooldown);
         }
 
         if(abilityPickup != null) { abilityPickup.gameObject.SetActive(false); }

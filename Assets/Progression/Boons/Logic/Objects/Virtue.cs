@@ -1,9 +1,13 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = ("Effect/Boon"))]
+[CreateAssetMenu(menuName = ("Effect/Virtues/Virtue"))]
 public class Virtue : BaseBoon
 {
+    //Access
+    protected int Level => runData.GetVirtueLevel(this);
+
+
     [Tooltip("Effect of This Boon")]
     public DamageBoonEffectType EffectType;
 
@@ -18,11 +22,15 @@ public class Virtue : BaseBoon
 
     public override void Effect(PlayerEventContext AttackDetails)
     {
-        BoonEffectLibrary.PlayBoonEffect(this, AttackDetails);
+        if (runData.CanVirtueTrigger(this))
+        {
+            BoonEffectLibrary.PlayBoonEffect(this, AttackDetails);
+            runData.BeginVirtueCooldown(this);
+        }
     }
     public override void BoonCollected()
     {
-        runData.AddBoon(this);
+        runData.AddVirtue(this);
     }
 
     public BoonLeveledStats GetLeveledStats(int Level)
@@ -61,6 +69,8 @@ public class EffectBaseStats
     public float Duration = 1f;
     [Tooltip("Number of Effect Objects For Each Effect Triggered")]
     public int EffectNum = 1;
+    [Tooltip("Time Before Effect Can be Triggered Again")]
+    public float Cooldown = 0f;
 
     [Header("Projectile Specific")]
     [Tooltip("Speed the Projectile Travels")]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,21 +8,26 @@ public class RunDataManager : MonoBehaviour
     //TEMPORARY DATA FOR EACH RUN THROUGH THE DUNGEON
     [field: SerializeField] public int MaxBoonLevel {  get; private set; }
     //Relics
-    private Dictionary<Relic, bool> AppliedRelics = new();
-    public bool isRelicApplied(Relic relic) { return AppliedRelics[relic]; }
-    public bool isRelicCollected(Relic relic) { return AppliedRelics.ContainsKey(relic); }
+    private Dictionary<Relic, RelicInstance> CurrentRelics = new();
+    public bool isRelicApplied(Relic relic) { return CurrentRelics[relic].isActive; }
+    public bool isRelicCollected(Relic relic) { return CurrentRelics.ContainsKey(relic); }
     public void AddRelic(Relic relic)
     {
         if (!isRelicCollected(relic))
         {
-            AppliedRelics.Add(relic, false);
+            RelicInstance instance = new RelicInstance
+            {
+                RelicRef = relic,
+                isActive = false
+            };
+            CurrentRelics.Add(relic, instance);
         }
     }
     public void RelicActivated(Relic relic)
     {
         if (isRelicCollected(relic) && !isRelicApplied(relic))
         {
-            AppliedRelics[relic] = true;
+            CurrentRelics[relic].isActive = true;
             Debug.Log("Relic Bonus Activated");
         }
     }
@@ -29,28 +35,60 @@ public class RunDataManager : MonoBehaviour
     {
         if (isRelicCollected(relic) && isRelicApplied(relic))
         {
-            AppliedRelics[relic] = false;
+            CurrentRelics[relic].isActive = false;
             Debug.Log("Relic Bonus Deactivated");
         }
     }
+    
+    
     //BOONS
-    private Dictionary<BaseBoon, int> BoonLevels = new();
-    public int GetBoonLevel(BaseBoon Boon) {  return BoonLevels[Boon]; }
+    private Dictionary<Virtue, VirtueInstance> CurrentVirtues = new();
+    public int GetVirtueLevel(Virtue virtue) {  return CurrentVirtues[virtue].Level; }
     //Does The Player Already Have This Boon
-    public bool IsBoonCollected(BaseBoon Boon) { return BoonLevels.ContainsKey(Boon); }
-    public void AddBoon(BaseBoon Boon) 
+    public bool IsVirtueCollected(Virtue virtue) { return CurrentVirtues.ContainsKey(virtue); }
+    public void AddVirtue(Virtue virtue) 
     {
         //If We Have Not Collected the Boon So Far, Add it And Attach the Effect to the Event
-        if (!IsBoonCollected(Boon))
+        if (!IsVirtueCollected(virtue))
         {
-            BoonLevels.Add(Boon, 1);
-            Boon.BoonSelected();
+            VirtueInstance instance = new VirtueInstance
+            {
+                VirtueRef = virtue,
+                Level = 1,
+            };
+            CurrentVirtues.Add(virtue, instance);
+            virtue.BoonSelected();
         }
-        else if (BoonLevels[Boon] < MaxBoonLevel)
+        else if (CurrentVirtues[virtue].Level < MaxBoonLevel)
         {
-            BoonLevels[Boon] = 2;
-            //Increases Bonus Gained From Stat-Increasing Boons
-            Debug.Log("Boon Level Increased To: " +  BoonLevels[Boon]);
+            CurrentVirtues[virtue].Level = 2;
+        }
+    }
+    public void BeginVirtueCooldown(Virtue virtue)
+    {
+        if (!IsVirtueCollected(virtue)) return;
+        CurrentVirtues[virtue].Start(virtue.BaseStats.Cooldown);
+    }
+    public bool CanVirtueTrigger(Virtue virtue)
+    {
+        if (!IsVirtueCollected(virtue)) return false;
+
+        return CurrentVirtues[virtue].CanTrigger;
+    }
+
+    private void Update()
+    {
+        //COOLDOWNS
+        //Virtues
+        CountDownList(CurrentVirtues.Values);
+        //Relics
+        CountDownList(CurrentRelics.Values);
+    }
+    private void CountDownList(IEnumerable<CooldownState> cooldowns)
+    {
+        foreach (CooldownState cooldown in cooldowns)
+        {
+            cooldown.CountDown(GameTimeManager.GameTime);
         }
     }
 
@@ -68,8 +106,48 @@ public class RunDataManager : MonoBehaviour
 
     public void ClearRunData()
     {
-        BoonLevels.Clear();
+        CurrentVirtues.Clear();
+        CurrentRelics.Clear();
         ShopCurrencyCollected = 0f;
         StatCurrencyCollected = 0f;
+    }
+}
+
+//Classes for Boon/Reic/Ability Instances
+public class CooldownState
+{
+    public float RemainingTime = 0f;
+    public bool CanTrigger => RemainingTime <= 0f;
+    public void Start(float Duration)
+    {
+        RemainingTime = Duration;
+    }
+
+    public void CountDown(float dt)
+    {
+        if (RemainingTime > 0f)
+        {
+            RemainingTime -= dt;
+        }
+    }
+}
+public class VirtueInstance : CooldownState
+{
+    public Virtue VirtueRef;
+    public int Level = 0;
+
+    public void StartCooldown()
+    {
+        Start(VirtueRef.BaseStats.Cooldown);
+    }
+}
+public class RelicInstance : CooldownState
+{
+    public Relic RelicRef;
+    public bool isActive = false;
+
+    public void StartCooldown()
+    {
+        Start(RelicRef.BaseStats.Cooldown);
     }
 }

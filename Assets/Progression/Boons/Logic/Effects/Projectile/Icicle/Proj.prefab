@@ -53,7 +53,9 @@ MonoBehaviour:
   Delay: 0
   AnimWarmupDuration: 0
   DamageDuration: 0.1
-  Pool: 2
+  damageType: 0
+  Pool: 11
+  ignoredEnemy: {fileID: 0}
   rb: {fileID: 3685310402723578953}
 --- !u!50 &3685310402723578953
 Rigidbody2D:

@@ -27,7 +27,6 @@ public abstract class BaseBoon : ScriptableObject
 
     //Accessing Boon Level
     protected RunDataManager runData => GameManager.Instance.runData;
-    protected int Level => runData.GetBoonLevel(this);
     
     public virtual void BoonCollected()
     {

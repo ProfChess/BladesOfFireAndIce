@@ -19,9 +19,13 @@ public class BoonChoiceUI : MonoBehaviour
         DescriptionText.text = boon.boonDescription;
         //iconImage.sprite = boon.Icon;
 
-        bool collected = GameManager.Instance.runData.IsBoonCollected(boon);
-        if (!collected) { LevelNumText.text = "1"; }
-        else { LevelNumText.text = "2"; }
+
+        if (boon is Virtue virtue)
+        {
+            bool collected = GameManager.Instance.runData.IsVirtueCollected(virtue);
+            if (!collected) { LevelNumText.text = "1"; }
+            else { LevelNumText.text = "2"; }
+        }
     }
 
     public void Select()

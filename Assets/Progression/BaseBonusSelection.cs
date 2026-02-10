@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BaseBonusSelection : MonoBehaviour
 {
-    [SerializeField] protected BoonStorage Collection;
 
     public GameObject SelectionPopup;
     [SerializeField] protected List<BoonChoiceUI> BoonChoicesUI = new List<BoonChoiceUI>();
@@ -68,15 +67,6 @@ public class BaseBonusSelection : MonoBehaviour
         SelectionPopup.SetActive(false);
         Pickup.gameObject.SetActive(false);
         Choice.BoonCollected();
-    }
-
-
-    //Random Selection From Collection
-    protected BaseBoon GetBoon(List<BaseBoon> Boons)
-    {
-        if (Collection == null || Collection.AllBoons.Length == 0 || Boons.Count == 0) { return null; }
-        int chosen = Random.Range(0, Boons.Count);
-        return Boons[chosen];
     }
 
 }

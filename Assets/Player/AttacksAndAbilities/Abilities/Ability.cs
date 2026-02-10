@@ -17,7 +17,6 @@ public class Ability : ScriptableObject
     //Stats
     [Header("Stats")]
     public EffectBaseStats BaseStats;
-    public float Cooldown = 1f;
 
     public Action GetEffect()
     {

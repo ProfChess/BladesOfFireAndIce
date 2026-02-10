@@ -52,6 +52,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnAbilityUse: PlayerAbilities.OnAbilityUse -= BoonEffect; break;
             case BoonEventType.OnAbilityDamage: BaseEffectSpawn.OnAbilityDamage -= BoonEffect; break;
             case BoonEventType.OnAbilityKill: BaseEffectSpawn.OnAbilityKill -= BoonEffect; break;
+            case BoonEventType.OnHealthChange: playerHealth.PlayerHealthChange -= BoonEffect; break;
 
             default: Debug.Log("Incorrect Event Given"); break;
         }

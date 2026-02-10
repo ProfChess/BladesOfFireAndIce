@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4fa918077628d14e80424a4f1edc344, type: 3}
+  m_Script: {fileID: 11500000, guid: e19ce76f4b5adb9488a28bddf9be9c24, type: 3}
   m_Name: RelicStorage
   m_EditorClassIdentifier: 
-  AllBoons:
+  AllRelics:
   - {fileID: 11400000, guid: b895355e41ba4c54aad8ac9e2eee0315, type: 2}

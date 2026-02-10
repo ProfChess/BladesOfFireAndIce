@@ -24,6 +24,7 @@ MonoBehaviour:
     Freq: 6
     Duration: 1
     EffectNum: 1
+    Cooldown: 5
     ProjSpeed: 5
     ProjTravelTime: 4
   LevelScalers:

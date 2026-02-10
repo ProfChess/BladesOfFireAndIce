@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName =("Effect/Relic"))]
+[CreateAssetMenu(menuName =("Effect/Relics/Relic"))]
 public class Relic : BaseBoon
 {
     public RelicEffectType EffectType;
@@ -30,4 +30,6 @@ public class RelicBaseStats
     public float PercentageIncrease = 0f;
     [Tooltip("Time of Each Instance of Buff")]
     public float Duration = 0f;
+    [Tooltip("Time Before Relic Can Trigger Again")]
+    public float Cooldown = 0f;
 }

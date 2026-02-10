@@ -44,10 +44,10 @@ public static class BoonEffectLibrary
     }
 
     //Effect List
-    private static void ElementEffect_FireBurst(Virtue Boon, Vector2 Position)
+    private static void ElementEffect_FireBurst(Virtue virtue, Vector2 Position)
     {
         //Get Level
-        int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
+        int Level = GameManager.Instance.runData.GetVirtueLevel(virtue);
 
         //Effect
         if (PlayerEffectPoolManager.Instance == null) { return; }
@@ -55,7 +55,7 @@ public static class BoonEffectLibrary
         
         if (Explosion != null)
         {
-            BoonLeveledStats Stats = Boon.GetLeveledStats(Level);
+            BoonLeveledStats Stats = virtue.GetLeveledStats(Level);
             Explosion.GetComponent<BaseEffectSpawn>().Spawn(Position, 
                 Stats.FinalArea, 
                 Stats.FinalDamage,
@@ -71,11 +71,11 @@ public static class BoonEffectLibrary
 
 
     //Projectile
-    private static void Projectile_IceCircle(Virtue Boon, PlayerEventContext ctx, Vector2 SpawnLocation)
+    private static void Projectile_IceCircle(Virtue virtue, PlayerEventContext ctx, Vector2 SpawnLocation)
     {
         //Get Level and Stats
-        int Level = GameManager.Instance.runData.GetBoonLevel(Boon);
-        BoonLeveledStats Stats = Boon.GetLeveledStats(Level);
+        int Level = GameManager.Instance.runData.GetVirtueLevel(virtue);
+        BoonLeveledStats Stats = virtue.GetLeveledStats(Level);
 
         //Effect
         if (PlayerEffectPoolManager.Instance == null) { return; }
@@ -88,7 +88,7 @@ public static class BoonEffectLibrary
                 Vector2 RandDirection = GetRandomDirectionAroundObject(ctx.Direction, 180);
                 BaseProjectileEffectSpawn ProfRef = Proj.GetComponent<BaseProjectileEffectSpawn>();
                 
-                if (Boon.EffectOrigin == EffectOriginType.Target && ctx is AttackEventContext attackCtx)
+                if (virtue.EffectOrigin == EffectOriginType.Target && ctx is AttackEventContext attackCtx)
                 {
                     ProfRef.ignoredEnemy = attackCtx.Target.gameObject;
                 }

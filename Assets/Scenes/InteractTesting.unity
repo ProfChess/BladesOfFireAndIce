@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &348891564
 Transform:
   m_ObjectHideFlags: 0
@@ -220,7 +220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &507458845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2137,7 +2137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3636779564723482098, guid: 149c8a09a6f11464b8f82d5388c447f0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4695,12 +4695,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1170c2e5759de924894475fac09ba665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Collection: {fileID: 11400000, guid: 1b92f47f5fb21a84c98936810cdaeda9, type: 2}
   SelectionPopup: {fileID: 4933296322204354025}
   BoonChoicesUI:
   - {fileID: 7394783987686545221}
   - {fileID: 636897929102629690}
   - {fileID: 6342235433435876374}
+  Collection: {fileID: 11400000, guid: 1b92f47f5fb21a84c98936810cdaeda9, type: 2}
 --- !u!114 &2673499834618297786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5603,12 +5603,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2184342492fd8334298d27d6c91694bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Collection: {fileID: 11400000, guid: b435633f2cda58546bedc79a45c58f65, type: 2}
   SelectionPopup: {fileID: 4933296322204354025}
   BoonChoicesUI:
   - {fileID: 7394783987686545221}
   - {fileID: 636897929102629690}
   - {fileID: 6342235433435876374}
+  Collection: {fileID: 11400000, guid: b435633f2cda58546bedc79a45c58f65, type: 2}
 --- !u!224 &3193490939209510625
 RectTransform:
   m_ObjectHideFlags: 0
