@@ -10,17 +10,22 @@ public class PlayerAnimations : MonoBehaviour
 
     //Anims
     private static readonly int RunToggle = Animator.StringToHash("Run");
+    private static readonly int BlockToggle = Animator.StringToHash("isBlocking");
     private static readonly int AttackSpeedNum = Animator.StringToHash("AttackSpeed");
     private static readonly int FireAttackTrig = Animator.StringToHash("FireAttackTrigger");
     private static readonly int IceAttackTrig = Animator.StringToHash("IceAttackTrigger");
     private static readonly int RollTrigg = Animator.StringToHash("RollTrigger");
-    private static readonly int IceFormTrig = Animator.StringToHash("IceFormTrigger");
-    private static readonly int FireFormTrig = Animator.StringToHash("FireFormTrigger");
+    private static readonly int SwitchElementTrig = Animator.StringToHash("ChangeElementTrigger");
+    private static readonly int ComboIndex = Animator.StringToHash("ComboIndex");
+    private static readonly int HitBlockedTrig = Animator.StringToHash("BlockedHitTrigger");
 
     //ANIMATION PARAMETERS
     //Run Toggling
-    public void TurnRunOn() { PlayerAnimationController.SetBool(RunToggle, true); }
-    public void TurnRunOff() { PlayerAnimationController.SetBool(RunToggle, false); }
+    public void SetRun(bool cond) { PlayerAnimationController.SetBool(RunToggle, cond); }
+
+    //Block
+    public void SetBlock(bool cond) { PlayerAnimationController.SetBool(BlockToggle, cond); }
+    public void HitBlocked() { PlayerAnimationController.SetTrigger(HitBlockedTrig); }
 
     //Attacks
     public void IceAttack() { PlayerAnimationController.SetTrigger(IceAttackTrig); }
@@ -28,11 +33,18 @@ public class PlayerAnimations : MonoBehaviour
     public void SetAttackSpeed(float Num) { PlayerAnimationController.SetFloat(AttackSpeedNum, Num); }
 
     //Element Forms
-    public void SwitchToFireForm() { PlayerAnimationController.SetTrigger(FireFormTrig); }
-    public void SwitchToIceForm() { PlayerAnimationController.SetTrigger(IceFormTrig); }
+    public void SwitchForm() { PlayerAnimationController.SetTrigger(SwitchElementTrig); }
 
     //Rolling
     public void DodgeRoll() { PlayerAnimationController.SetTrigger(RollTrigg); }
+
+    //Combos
+    public void IncreaseCombo() 
+    { 
+        int num = PlayerAnimationController.GetInteger(ComboIndex) + 1; 
+        PlayerAnimationController.SetInteger(ComboIndex, num); 
+    }
+    public void ResetCombo() { PlayerAnimationController.SetInteger(ComboIndex, 0); }
 
 
 
@@ -41,6 +53,7 @@ public class PlayerAnimations : MonoBehaviour
     private PlayerHealth health;
     private PlayerAttack attack;
     private bool isAttacking = false;
+    public bool canReadyNextAttack = false;
     public bool IsAttacking => isAttacking;
     //Physics Lock
     public void StopPlayer()
@@ -64,12 +77,9 @@ public class PlayerAnimations : MonoBehaviour
     public void DesetAttack()
     {
         isAttacking = false;
+        canReadyNextAttack = false;
     }
-
-    public void PlayerDeath()
-    {
-        health.CallPlayerDeathEvent();
-    }
+    public void NextAttackReady() { canReadyNextAttack = true; }
 
     private void Start()
     {
@@ -78,8 +88,6 @@ public class PlayerAnimations : MonoBehaviour
         controls = obj.GetComponent<PlayerController>();
         attack = obj.GetComponentInChildren<PlayerAttack>();
         health = obj.GetComponentInChildren<PlayerHealth>();
-
-        Animator anim = GetComponent<Animator>();
     }
 
 }

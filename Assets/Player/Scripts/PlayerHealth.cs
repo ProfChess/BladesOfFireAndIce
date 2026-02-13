@@ -4,9 +4,14 @@ using UnityEngine.InputSystem;
 using System;
 public class PlayerHealth : BaseHealth
 {
+    [Header("Hitbox Adjustment")]
+    [SerializeField] private Vector2 hitboxFaceLeft = Vector2.zero;
+    private Vector2 hitboxFaceRight = Vector2.zero;
+
     [Header("References")]
     [SerializeField] private BoxCollider2D PlayerHitbox;
     [SerializeField] private Animator PlayerAnim;
+    [SerializeField] private SpriteRenderer playerSprite;
     [SerializeField] private HitFlash HF;
 
     [SerializeField] private PlayerInput input;
@@ -22,8 +27,6 @@ public class PlayerHealth : BaseHealth
     private StatChangeEventContext healthChangeContext = new();
 
     //Animations
-    private static readonly int Hurt = Animator.StringToHash("PlayerHurt");
-    private static readonly int Death = Animator.StringToHash("PlayerDeath");
     private static readonly int FallState = Animator.StringToHash("PlayerFall");
 
     public void SetMaxHealth(float num) { MaxHealth = num; }
@@ -76,8 +79,7 @@ public class PlayerHealth : BaseHealth
             healthChangeContext.Setup(PlayerController.PlayerAttackForm, curHealth + totaldamage, curHealth, MaxHealth);
             PlayerHealthChange?.Invoke(healthChangeContext);
         }
-        if (curHealth > 0) { PlayerAnim.Play(Hurt, 1); }
-        else { PlayerAnim.Play(Death, 1); }
+        //ADD CUSTOM DEATH VISUAL LOGIC, AS ASSET PACK DOES NOT CONTAIN DEATH ANIMATION
     }
     public void CallPlayerDeathEvent() { PlayerIsDead?.Invoke(); }
     //HEAL
@@ -91,8 +93,23 @@ public class PlayerHealth : BaseHealth
         healthChangeContext.Setup(PlayerController.PlayerAttackForm, curHealth - amount, curHealth, MaxHealth);
         PlayerHealthChange?.Invoke(healthChangeContext);
     }
-    
-    
+    private void Update()
+    {
+        //Move Hitbox Depending on Visual of Player
+        if (playerSprite.flipX)
+        {
+            gameObject.transform.localPosition = hitboxFaceLeft;
+        }
+        else if (!playerSprite.flipX)
+        {
+            gameObject.transform.localPosition = hitboxFaceRight;
+        }
+    }
+    private void Start()
+    {
+        hitboxFaceRight = new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y);
+    }
+
     //HOLE HAZARD
     private void FallInHole(Vector3 HoleSpot)
     {

@@ -110,13 +110,10 @@ public class PlayerController : MonoBehaviour
         if (FormSwitchCooldownTimer > 0) { FormSwitchCooldownTimer -= Time.deltaTime; }
 
         //Player State
-        if (moveDirection == Vector2.zero && !isDashing)
+        if (!isDashing)
         {
-            playerAnimations.TurnRunOff();
-        }
-        else if (moveDirection != Vector2.zero && !isDashing)
-        {
-            playerAnimations.TurnRunOn();
+            bool run = moveDirection != Vector2.zero;
+            playerAnimations.SetRun(run);
         }
 
         //Flip Sprite
@@ -211,9 +208,19 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.started)
         {
-            if (!isDashing && !playerStop && !playerAnimations.IsAttacking
-                && playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerAttackForm))
+            if (!isDashing && !playerStop && playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerAttackForm))
             {
+                if (!playerAnimations.IsAttacking)
+                {
+                    playerAnimations.ResetCombo();
+                    if (PlayerAttackForm == ElementType.Fire) { playerAnimations.FireAttack(); }
+                    else { playerAnimations.IceAttack(); }
+                }
+                else if (playerAnimations.canReadyNextAttack)
+                {
+                    playerAnimations.IncreaseCombo();
+                    playerAnimations.canReadyNextAttack = false;
+                }
                 playerAttack.UseSkill(PlayerAttack.AttackList.BasicAttack);
             }
         }
@@ -242,16 +249,16 @@ public class PlayerController : MonoBehaviour
     //SwitchForm
     private void SwitchAttackForm() //Swtich from other form
     {
+
         if (PlayerAttackForm == ElementType.Fire)
         {
-            playerAnimations.SwitchToIceForm();
             PlayerAttackForm = ElementType.Ice;
         }
         else if (PlayerAttackForm == ElementType.Ice)
         {
-            playerAnimations.SwitchToFireForm();
             PlayerAttackForm = ElementType.Fire;
         }
+        playerAnimations.SwitchForm();
         SetFormStats();
         FormSwitchCooldownTimer = FormSwitchCooldown;
     }

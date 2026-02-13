@@ -54,7 +54,6 @@ public class PlayerAttack : MonoBehaviour
                     {
                         ConsumeStamina(FireStaminaCost);
                         BasicAttack();
-                        playerAnimations.FireAttack();
                     }
                     else { Debug.Log("Not Enough Stamina"); }
                 }
@@ -66,7 +65,6 @@ public class PlayerAttack : MonoBehaviour
                     {
                         ConsumeStamina(IceStaminaCost);
                         BasicAttack();
-                        playerAnimations.IceAttack();
                     }
                     else { Debug.Log("Not Enough Stamina"); }
                 }
