@@ -128,6 +128,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""255d9f55-1311-4cee-bf02-7962fbcdf3d3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Ability1"",
                     ""type"": ""Button"",
                     ""id"": ""bedb345f-dd46-456f-be82-8289f9987b91"",
@@ -225,7 +234,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""af2960aa-4cf8-4dbb-8937-1935cd9ac6e9"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -276,6 +285,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1e7bdbf-ff46-4ec0-a318-524791eb693b"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -316,6 +336,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_PlayerButtons_Dash = m_PlayerButtons.FindAction("Dash", throwIfNotFound: true);
         m_PlayerButtons_SwitchAttackForm = m_PlayerButtons.FindAction("SwitchAttackForm", throwIfNotFound: true);
         m_PlayerButtons_BasicAttack = m_PlayerButtons.FindAction("BasicAttack", throwIfNotFound: true);
+        m_PlayerButtons_Block = m_PlayerButtons.FindAction("Block", throwIfNotFound: true);
         m_PlayerButtons_Ability1 = m_PlayerButtons.FindAction("Ability1", throwIfNotFound: true);
         m_PlayerButtons_Ability2 = m_PlayerButtons.FindAction("Ability2", throwIfNotFound: true);
         m_PlayerButtons_Interact = m_PlayerButtons.FindAction("Interact", throwIfNotFound: true);
@@ -407,6 +428,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerButtons_Dash;
     private readonly InputAction m_PlayerButtons_SwitchAttackForm;
     private readonly InputAction m_PlayerButtons_BasicAttack;
+    private readonly InputAction m_PlayerButtons_Block;
     private readonly InputAction m_PlayerButtons_Ability1;
     private readonly InputAction m_PlayerButtons_Ability2;
     private readonly InputAction m_PlayerButtons_Interact;
@@ -437,6 +459,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerButtons/BasicAttack".
         /// </summary>
         public InputAction @BasicAttack => m_Wrapper.m_PlayerButtons_BasicAttack;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerButtons/Block".
+        /// </summary>
+        public InputAction @Block => m_Wrapper.m_PlayerButtons_Block;
         /// <summary>
         /// Provides access to the underlying input action "PlayerButtons/Ability1".
         /// </summary>
@@ -487,6 +513,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @BasicAttack.started += instance.OnBasicAttack;
             @BasicAttack.performed += instance.OnBasicAttack;
             @BasicAttack.canceled += instance.OnBasicAttack;
+            @Block.started += instance.OnBlock;
+            @Block.performed += instance.OnBlock;
+            @Block.canceled += instance.OnBlock;
             @Ability1.started += instance.OnAbility1;
             @Ability1.performed += instance.OnAbility1;
             @Ability1.canceled += instance.OnAbility1;
@@ -519,6 +548,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @BasicAttack.started -= instance.OnBasicAttack;
             @BasicAttack.performed -= instance.OnBasicAttack;
             @BasicAttack.canceled -= instance.OnBasicAttack;
+            @Block.started -= instance.OnBlock;
+            @Block.performed -= instance.OnBlock;
+            @Block.canceled -= instance.OnBlock;
             @Ability1.started -= instance.OnAbility1;
             @Ability1.performed -= instance.OnAbility1;
             @Ability1.canceled -= instance.OnAbility1;
@@ -692,6 +724,13 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBasicAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Block" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBlock(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Ability1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

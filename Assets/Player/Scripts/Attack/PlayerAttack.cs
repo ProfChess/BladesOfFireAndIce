@@ -14,7 +14,7 @@ public class PlayerAttack : MonoBehaviour
     [Header("References")]
     [SerializeField] private PlayerController controls;
     [SerializeField] private BoxCollider2D attackBox;
-    private PlayerStaminaManager playerStamina;
+    [SerializeField] private PlayerStaminaManager playerStamina;
 
     [Header("Visual")]
     [SerializeField] private PlayerAnimations playerAnimations;
@@ -38,7 +38,6 @@ public class PlayerAttack : MonoBehaviour
     {
         attackBox.enabled = false;                      //Turn Collider Off
         attackDuration = controls.GetAttackDuration();  //Assign Duration
-        playerStamina = GetComponent<PlayerStaminaManager>();
     }
 
     //Places Attack Box Collider in Direction Player is Moving

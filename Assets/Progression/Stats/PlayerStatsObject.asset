@@ -21,8 +21,8 @@ MonoBehaviour:
   StrengthScaleIce: 4
   BaseDamageIce: 5
   DexterityScaleFire: 3
-  BaseAttackSpeedFire: 1
+  BaseAttackSpeedFire: 0.7
   DexterityScaleIce: 5
-  BaseAttackSpeedIce: 1.25
+  BaseAttackSpeedIce: 1
   LuckScale: 3
   BaseCriticalChance: 10

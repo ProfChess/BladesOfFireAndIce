@@ -79,6 +79,13 @@ public class PlayerAnimations : MonoBehaviour
         isAttacking = false;
         canReadyNextAttack = false;
     }
+    public void BlockCheck()
+    {
+        if (controls.isBlockHeld)
+        {
+            controls.StartBlock();
+        }
+    }
     public void NextAttackReady() { canReadyNextAttack = true; }
 
     private void Start()

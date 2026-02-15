@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttackSpeedManager : MonoBehaviour
@@ -9,8 +8,8 @@ public class PlayerAttackSpeedManager : MonoBehaviour
     private float FireAttackSpeed = 0f;
     private float IceAttackSpeed = 0f;
 
-    public void SetFireSpeed(float num) { FireAttackSpeed = num; }
-    public void SetIceSpeed(float num) { IceAttackSpeed = num; }
+    public void SetFireSpeed(float num) { FireAttackSpeed = num; SetAttackSpeed(); }
+    public void SetIceSpeed(float num) { IceAttackSpeed = num; SetAttackSpeed(); }
 
     public void SetAttackSpeed()
     {

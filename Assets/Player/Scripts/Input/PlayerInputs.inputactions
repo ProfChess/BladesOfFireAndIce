@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Block",
+                    "type": "Button",
+                    "id": "255d9f55-1311-4cee-bf02-7962fbcdf3d3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Ability1",
                     "type": "Button",
                     "id": "bedb345f-dd46-456f-be82-8289f9987b91",
@@ -139,7 +148,7 @@
                 {
                     "name": "",
                     "id": "af2960aa-4cf8-4dbb-8937-1935cd9ac6e9",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -188,6 +197,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1e7bdbf-ff46-4ec0-a318-524791eb693b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

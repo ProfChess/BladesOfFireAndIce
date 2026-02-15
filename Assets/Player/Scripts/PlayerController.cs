@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerAttack playerAttack;
+    [SerializeField] private PlayerBlock playerBlock;
     [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
     [SerializeField] private PlayerAbilities playerAbilities;
     [SerializeField] private PlayerAttackSpeedManager attackSpeedManager;
@@ -78,11 +79,13 @@ public class PlayerController : MonoBehaviour
     private PlayerAbilitySlot AbilitySlot1 = PlayerAbilitySlot.Slot1;
     private PlayerAbilitySlot AbilitySlot2 = PlayerAbilitySlot.Slot2;
 
+    //Blocking Button
+    public bool isBlockHeld { get; private set; } = false;
+
     //START/UPDATE/ETC
     private void Start()
     {
         PlayerAttackForm = ElementType.Fire; //Player starts in fire form
-        SetFormStats();
     }
     private void FixedUpdate()
     {
@@ -164,11 +167,15 @@ public class PlayerController : MonoBehaviour
     //DASH
     public void OnDash(InputAction.CallbackContext ctx)
     {
+        if (isDashing || playerStop || playerAnimations.IsAttacking) { return; }
+
         if (ctx.started)
         {
-            if (playerAttack.CheckStamina(PlayerAttack.AttackList.Roll, PlayerAttackForm) 
-                && !isDashing && !playerStop)
+            if (playerAttack.CheckStamina(PlayerAttack.AttackList.Roll, PlayerAttackForm))
             {
+                //Stop Blocking
+                if (playerBlock.IsBlocking) { playerBlock.ReleaseBlock(); }
+
                 isDashing = true;
 
                 //Get Direction
@@ -193,9 +200,11 @@ public class PlayerController : MonoBehaviour
     //SWITCH ATTACK FORM
     public void OnFormSwitch(InputAction.CallbackContext ctx)
     {
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking) { return; }
+
         if (ctx.started)
         {
-            if (!isDashing && FormSwitchCooldownTimer <= 0)
+            if (FormSwitchCooldownTimer <= 0)
             {
                 SwitchAttackForm();
             }
@@ -206,10 +215,15 @@ public class PlayerController : MonoBehaviour
     //ATTACK AND ABILITIES
     public void OnBasicAttack(InputAction.CallbackContext ctx)
     {
+        //Ignore Input if 
+        if (isDashing || playerStop) { return; }
+
         if (ctx.started)
         {
-            if (!isDashing && !playerStop && playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerAttackForm))
+            if (playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerAttackForm))
             {
+                if (playerBlock.IsBlocking) { playerBlock.ReleaseBlock(); }
+
                 if (!playerAnimations.IsAttacking)
                 {
                     playerAnimations.ResetCombo();
@@ -228,6 +242,8 @@ public class PlayerController : MonoBehaviour
     }
     public void OnAbilityOne(InputAction.CallbackContext ctx)
     {
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking) { return; }
+
         if (ctx.started)
         {
             playerAbilities.ActivateAbility(AbilitySlot1, PlayerAttackForm);
@@ -237,6 +253,8 @@ public class PlayerController : MonoBehaviour
     }
     public void OnAbilityTwo(InputAction.CallbackContext ctx)
     {
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking) { return; }
+
         if (ctx.started)
         {
             playerAbilities.ActivateAbility(AbilitySlot2, PlayerAttackForm);
@@ -244,12 +262,43 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //BLOCKING
+    public void OnBlock(InputAction.CallbackContext ctx)
+    {
+        /*
+        Sets isBlockHeld to relfect if the button is held down, 
+        allowing blocking to activate while still holding the 
+        button after attacking or dashing
+        */
+
+        if (ctx.started)
+        {
+            isBlockHeld = true;
+            if (playerAnimations.IsAttacking) return;
+            StartBlock();
+        }
+        else if (ctx.canceled)
+        {
+            isBlockHeld = false;
+            StopBlock();
+        }
+    }
+    public void StartBlock()
+    {
+        playerBlock.Block(moveDirection, PlayerAttackForm);
+        playerAnimations.SetBlock(true);
+    }
+    public void StopBlock()
+    {
+        playerBlock.ReleaseBlock();
+        playerAnimations.SetBlock(false);
+    }
+
 
     //FORM SWITCHING/TRACKING
     //SwitchForm
-    private void SwitchAttackForm() //Swtich from other form
+    private void SwitchAttackForm() //Swtich to other form
     {
-
         if (PlayerAttackForm == ElementType.Fire)
         {
             PlayerAttackForm = ElementType.Ice;
