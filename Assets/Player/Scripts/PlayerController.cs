@@ -100,6 +100,10 @@ public class PlayerController : MonoBehaviour
             {
                 rb.velocity = dashDirection.normalized * DashSpeed;
             }
+            else if (playerBlock.IsBlocking)
+            {
+                rb.velocity = moveDirection.normalized * playerBlock.GetBlockMoveSpeed(PlayerAttackForm);
+            }
             else          //Player moves in one of eight directions
             {
                 rb.velocity = moveDirection.normalized * MoveSpeed;
@@ -266,7 +270,7 @@ public class PlayerController : MonoBehaviour
     public void OnBlock(InputAction.CallbackContext ctx)
     {
         /*
-        Sets isBlockHeld to relfect if the button is held down, 
+        Sets isBlockHeld to reflect if the button is held down, 
         allowing blocking to activate while still holding the 
         button after attacking or dashing
         */
