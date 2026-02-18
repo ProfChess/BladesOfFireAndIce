@@ -13,6 +13,7 @@ public class PlayerHealth : BaseHealth
     [SerializeField] private Animator PlayerAnim;
     [SerializeField] private SpriteRenderer playerSprite;
     [SerializeField] private HitFlash HF;
+    [SerializeField] private PlayerBlock playerBlock;
 
     [SerializeField] private PlayerInput input;
 
@@ -43,7 +44,14 @@ public class PlayerHealth : BaseHealth
             //Attack Damage Interaction
             if (collision.TryGetComponent(out BaseDamageDetection DamageDetection)) 
             {
-                PlayerDamage(DamageDetection.GetAttackDamage());
+                if (playerBlock.WasHitBlocked(DamageDetection.transform.position))
+                {
+
+                }
+                else
+                {
+                    PlayerDamage(DamageDetection.GetAttackDamage());
+                }
             }
             //Collision Damage Interaction
             if (collision.TryGetComponent(out BaseHealth Health))
@@ -81,6 +89,7 @@ public class PlayerHealth : BaseHealth
         }
         //ADD CUSTOM DEATH VISUAL LOGIC, AS ASSET PACK DOES NOT CONTAIN DEATH ANIMATION
     }
+
     public void CallPlayerDeathEvent() { PlayerIsDead?.Invoke(); }
     //HEAL
     public void PlayerHeal(float amount)

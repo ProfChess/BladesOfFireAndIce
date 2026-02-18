@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviour
 
     //Physics 
     private Vector2 moveDirection = Vector2.zero;
+    public Vector2 MovingDirection => moveDirection;
+
     private Vector2 dashDirection = Vector2.right;
     private bool isDashing = false;
     private float FormSwitchCooldownTimer;
@@ -124,18 +126,28 @@ public class PlayerController : MonoBehaviour
         }
 
         //Flip Sprite
-        if (moveDirection == Vector2.zero && !playerAnimations.IsAttacking)         //Player is not moving or attacking
+        DecideSpriteFlip();
+    }
+    private void DecideSpriteFlip()
+    {
+        //Attacking Means use attackdirection 
+        if (playerAnimations.IsAttacking)
         {
-            FlipSpriteByMouse();
+            Vector2 mouseDir = playerAttack.GetMouseDirection();
+            playerSprite.flipX = mouseDir.x < 0;
         }
-        else if (moveDirection != Vector2.zero && !playerAnimations.IsAttacking)    //PLayer is moving but not attacking
+        else
         {
-            playerSprite.flipX = moveDirection.x < 0;
-        }
-        else                                                                //Player is attacking
-        {
-            Vector2 MD = playerAttack.GetMouseDirection();
-            playerSprite.flipX = MD.x < 0;
+            //Not Attacking
+            if (moveDirection.x != 0)
+            {
+                //Flip Based on Horizontal Movement
+                playerSprite.flipX = moveDirection.x < 0;
+            }
+            else
+            {
+                FlipSpriteByMouse();
+            }
         }
     }
 
@@ -289,13 +301,11 @@ public class PlayerController : MonoBehaviour
     }
     public void StartBlock()
     {
-        playerBlock.Block(moveDirection, PlayerAttackForm);
-        playerAnimations.SetBlock(true);
+        playerBlock.Block();
     }
     public void StopBlock()
     {
         playerBlock.ReleaseBlock();
-        playerAnimations.SetBlock(false);
     }
 
 
@@ -357,7 +367,7 @@ public class PlayerController : MonoBehaviour
             playerSprite.flipX = true;
         }
     }
-    private Vector2 GetMouseDir()    //Get Direction of mouse based on player position
+    public Vector2 GetMouseDir()    //Get Direction of mouse based on player position
     {
         Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
         Vector2 MouseDirection = (MouseLocation - gameObject.transform.position).normalized;
