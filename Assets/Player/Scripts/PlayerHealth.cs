@@ -30,7 +30,7 @@ public class PlayerHealth : BaseHealth
     //Animations
     private static readonly int FallState = Animator.StringToHash("PlayerFall");
 
-    public void SetMaxHealth(float num) { MaxHealth = num; }
+    public void SetMaxHealth(float num) { MaxHealth = num; curHealth = MaxHealth; }
     public float GetPlayerMaxHealth => MaxHealth;
     public void AddDamageResistance(float num) { damageResist += num; }
 
@@ -46,10 +46,13 @@ public class PlayerHealth : BaseHealth
             {
                 if (playerBlock.WasHitBlocked(DamageDetection.transform.position))
                 {
-
+                    float reducedDamage = playerBlock.GetBlockDamageReductionPercentage * DamageDetection.GetAttackDamage();
+                    PlayerDamage(DamageDetection.GetAttackDamage() - reducedDamage);
+                    playerBlock.PlayerBlockedAHit();
                 }
                 else
                 {
+                    //Hit was not blocked
                     PlayerDamage(DamageDetection.GetAttackDamage());
                 }
             }
@@ -114,8 +117,9 @@ public class PlayerHealth : BaseHealth
             gameObject.transform.localPosition = hitboxFaceRight;
         }
     }
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         hitboxFaceRight = new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y);
     }
 

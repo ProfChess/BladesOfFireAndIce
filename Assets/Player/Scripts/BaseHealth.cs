@@ -27,7 +27,7 @@ public abstract class BaseHealth : MonoBehaviour
     {
         StorageCollisionBool = HasCollisionDamage;
     }
-    private void Start()
+    protected virtual void Start()
     {
         curHealth = MaxHealth;
     }
