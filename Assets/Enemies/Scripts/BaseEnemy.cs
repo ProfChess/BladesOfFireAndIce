@@ -192,7 +192,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
         if (sight.collider != null)
         {
-            return sight.collider.CompareTag("Player");
+            return sight.collider.GetComponentInParent<PlayerController>();
         }
         return false;
     }
@@ -207,7 +207,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
         if (sight.collider != null)
         {
-            return sight.collider.CompareTag("Player");
+            return sight.collider.GetComponentInParent<PlayerController>();
         }
         return false;
     }

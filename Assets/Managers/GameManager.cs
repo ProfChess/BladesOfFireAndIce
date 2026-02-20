@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public event Action GameStart;
 
-    public GameObject Player;
+    public PlayerController Player;
     [SerializeField] private NavMeshBaker MeshBaker;
 
     //Managers
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = FindObjectOfType<PlayerController>();
 
         //Other Managers
         difficultyManager = GetComponentInChildren<DifficultyManager>();
@@ -169,6 +169,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public GameObject getPlayer() { return  Player; }
+    public GameObject getPlayer() { return  Player.gameObject; }
     public NavMeshBaker getNavMesh() {  return MeshBaker; }
 }

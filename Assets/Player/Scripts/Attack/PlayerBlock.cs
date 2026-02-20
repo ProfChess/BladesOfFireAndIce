@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] private float BlockedDamagePercentageFire;
     [SerializeField] private float BlockMoveSpeedFire = 1f;
     [SerializeField] private float MoveBlockAnimSpeedFire = 1f;
+    
     [Header("Ice")]
     [Tooltip("Amount of Stamina Consumed Each Second When Holding Block in Ice Stance")]
     [SerializeField] private float StaminaConsumedIceHold;
@@ -24,11 +26,11 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] private float BlockedDamagePercentageIce;
     [SerializeField] private float BlockMoveSpeedIce = 1f;
     [SerializeField] private float MoveBlockAnimSpeedIce = 1f;
+    
     [Header("Neutral")]
-    public bool IsBlocking = false;
-    //public bool IsBlocking { get; private set; } = false;
     public Vector2 BlockDirection = Vector2.zero; //Set to either Vector2.Right or Vector.Left
     public float BlockArc = 180;                //Angle of Blocking Arc in either direction
+    public bool IsBlocking { get; private set; } = false;
     [SerializeField] private float TimeBetweenStaminaComsume = 0.1f;
     [SerializeField] private Vector2 RightShieldPosition = new Vector2(0.25f, 0.05f);
     [SerializeField] private Vector2 LeftShieldPosition = new Vector2(-0.25f, 0.05f);
@@ -39,11 +41,19 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private BoxCollider2D blockBox;
 
+    //Var Checks for Fire
     private bool isPlayerInFire => PlayerController.PlayerAttackForm == ElementType.Fire;
     public float GetBlockDamageReductionPercentage => isPlayerInFire ? BlockedDamagePercentageFire/100 : BlockedDamagePercentageIce/100;
     public float GetStaminaConsumedOnHitAmount => isPlayerInFire ? StaminaConsumedFireHit : StaminaConsumedIceHit;
     private float GetStaminaConsumedHold => isPlayerInFire ? StaminaConsumedFireHold : StaminaConsumedIceHold;
     private float GetMoveBlockAnimSpeed => isPlayerInFire ? MoveBlockAnimSpeedFire : MoveBlockAnimSpeedIce;
+
+    //Events
+    public event Action<PlayerEventContext> OnBlockStart;
+    private PlayerEventContext BlockStartCtx = new();
+    public event Action<PlayerEventContext> OnBlockEnd;
+    private PlayerEventContext BlockEndCtx = new();
+
     private void Start()
     {
         //Set Starting Settings
@@ -65,10 +75,18 @@ public class PlayerBlock : MonoBehaviour
         IsBlocking = true;
         if (BlockingCoroutine == null)
         {
-            BlockingCoroutine = StartCoroutine(BlockRoutine(GetStaminaConsumedHold));
-            playerAnimations.SetBlockMoveSpeed(GetMoveBlockAnimSpeed);
             blockBox.enabled = true;
+
+            //Stamina Drain
+            BlockingCoroutine = StartCoroutine(BlockRoutine(GetStaminaConsumedHold));
+            
+            //Adjust and Play Anim
+            playerAnimations.SetBlockMoveSpeed(GetMoveBlockAnimSpeed);
             playerAnimations.SetBlock(true);
+
+            //Event
+            BlockStartCtx.Setup(PlayerController.PlayerAttackForm, BlockDirection);
+            OnBlockStart.Invoke(BlockStartCtx);
         }
     }
     public void ReleaseBlock()
@@ -80,6 +98,10 @@ public class PlayerBlock : MonoBehaviour
             IsBlocking = false;
             blockBox.enabled = false;
             playerAnimations.SetBlock(false);
+
+            //Event
+            BlockEndCtx.Setup(PlayerController.PlayerAttackForm, BlockDirection);
+            OnBlockEnd.Invoke(BlockEndCtx);
         }
     }
     public void MoveShield(bool isRight)
