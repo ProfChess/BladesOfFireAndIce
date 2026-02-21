@@ -1,4 +1,5 @@
 
+using UnityEngine;
 public static class RelicEffectLibrary
 {
     private static RunDataManager rundata => GameManager.Instance.runData;
@@ -10,11 +11,23 @@ public static class RelicEffectLibrary
 
         switch (relic.EffectType)
         {
+            case RelicEffectType.FireShieldBuff: RelicEffect_FireShield(relic, Details); break;
             case RelicEffectType.HealthBuff: RelicEffect_HealthBuff(relic, Details); break;
 
         }
     }
 
+    //Starting Relic --> Fire Shield --> Grants Ability to Give AOE/Damage Buff Upon Blocking Damage
+    private static void RelicEffect_FireShield(Relic relic, PlayerEventContext ctx)
+    {
+        //Make Sure Context is Correct
+        if (ctx is not BlockEventContext) { return; }
+        Debug.Log("Fire Shield Effect");
+
+    }
+
+
+    //Grants Bonus Damage When Above 50% HP
     private static void RelicEffect_HealthBuff(Relic relic, PlayerEventContext ctx)
     {
         if (ctx is not StatChangeEventContext statctx) { return; }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName =("PlayerAbilities/Storage"))]
+[CreateAssetMenu(menuName =("Effect/Abilities/Storage"))]
 public class AbilityStorage : ScriptableObject
 {
     public Ability[] Collection;

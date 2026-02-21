@@ -16,11 +16,16 @@ public class Relic : BaseBoon
     public override void BoonCollected()
     {
         runData.AddRelic(this);
+
+        if (PlayerStateNeeded == PlayerStateCheckType.None) { return; }
+
+        //Create Starting Context for Relics That Need it
         StatChangeEventContext StartContext = PlayerEffectSubscriptionManager.Instance.GetPlayerState(PlayerStateNeeded);
         RelicEffectLibrary.PlayRelicEffect(this, StartContext);
     }
 }
-public enum RelicEffectType { HealthBuff, DamageBuff, AttackSpeedBuff, MoveSpeedBuff}
+public enum RelicEffectType { FireShieldBuff = 0, IceShieldBuff = 1, HealthBuff = 2, 
+    DamageBuff = 3, AttackSpeedBuff = 4, MoveSpeedBuff = 5}
 
 [System.Serializable]
 public class RelicBaseStats

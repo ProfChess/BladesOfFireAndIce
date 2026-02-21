@@ -21,6 +21,7 @@ public class RunDataManager : MonoBehaviour
                 isActive = false
             };
             CurrentRelics.Add(relic, instance);
+            relic.BoonSelected();
         }
     }
     public void RelicActivated(Relic relic)

@@ -52,7 +52,7 @@ public class PlayerBlock : MonoBehaviour
     public event Action<PlayerEventContext> OnBlockStart;
     private PlayerEventContext BlockStartCtx = new();
     public event Action<PlayerEventContext> OnBlockEnd;
-    private PlayerEventContext BlockEndCtx = new();
+    private BlockEventContext BlockEndCtx = new();
 
     private void Start()
     {
@@ -85,8 +85,12 @@ public class PlayerBlock : MonoBehaviour
             playerAnimations.SetBlock(true);
 
             //Event
+            BlockEndCtx.ResetBlockedHits();
+            BlockEndCtx.Setup(PlayerController.PlayerAttackForm, BlockDirection);
+
             BlockStartCtx.Setup(PlayerController.PlayerAttackForm, BlockDirection);
-            OnBlockStart.Invoke(BlockStartCtx);
+            OnBlockStart?.Invoke(BlockStartCtx);
+
         }
     }
     public void ReleaseBlock()
@@ -99,9 +103,8 @@ public class PlayerBlock : MonoBehaviour
             blockBox.enabled = false;
             playerAnimations.SetBlock(false);
 
-            //Event
-            BlockEndCtx.Setup(PlayerController.PlayerAttackForm, BlockDirection);
-            OnBlockEnd.Invoke(BlockEndCtx);
+            //Invoke Event Then Reset Numbers
+            OnBlockEnd?.Invoke(BlockEndCtx);
         }
     }
     public void MoveShield(bool isRight)
@@ -121,13 +124,17 @@ public class PlayerBlock : MonoBehaviour
         return dot >= minDot;
     }
     //Lowers stamina depending on stance -> Called every time player blocks an attack
-    public void PlayerBlockedAHit()
+    public void PlayerBlockedAHit(float DamageBlocked)
     {
         //Consume Stamina for Hit
         float CurrentStamina = staminaManager.GetStamina();
         float StaminaToConsume = GetStaminaConsumedOnHitAmount;
 
         staminaManager.DecreaseStamina(Mathf.Min(CurrentStamina, StaminaToConsume));
+
+        //Store Hit and Damage of Blocked Hit
+        BlockEndCtx.RegisterHitAsBlocked(DamageBlocked);
+
         if (CurrentStamina < StaminaToConsume)
         {
             ReleaseBlock();

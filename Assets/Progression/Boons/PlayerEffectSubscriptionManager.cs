@@ -21,6 +21,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     [SerializeField] private PlayerAttackCalcs attackEvents;
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerBlock playerBlock;
 
     //Subscribing to Events
     public void SubscribeToPlayerEvent(Action<PlayerEventContext> BoonEffect, BoonEventType Event)
@@ -35,6 +36,8 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnAbilityDamage: BaseEffectSpawn.OnAbilityDamage += BoonEffect; break;
             case BoonEventType.OnAbilityKill: BaseEffectSpawn.OnAbilityKill += BoonEffect; break;
             case BoonEventType.OnHealthChange: playerHealth.PlayerHealthChange += BoonEffect; break;
+            case BoonEventType.OnBlockStart: playerBlock.OnBlockStart += BoonEffect; break;
+            case BoonEventType.OnBlockEnd: playerBlock.OnBlockEnd += BoonEffect; break;
 
             default: Debug.Log("Incorrect Event Given"); break;
         }
@@ -53,6 +56,8 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnAbilityDamage: BaseEffectSpawn.OnAbilityDamage -= BoonEffect; break;
             case BoonEventType.OnAbilityKill: BaseEffectSpawn.OnAbilityKill -= BoonEffect; break;
             case BoonEventType.OnHealthChange: playerHealth.PlayerHealthChange -= BoonEffect; break;
+            case BoonEventType.OnBlockStart: playerBlock.OnBlockStart -= BoonEffect; break;
+            case BoonEventType.OnBlockEnd: playerBlock.OnBlockEnd -= BoonEffect; break;
 
             default: Debug.Log("Incorrect Event Given"); break;
         }
@@ -94,6 +99,7 @@ public enum BoonEventType
     OnNormalAttack = 0, OnNormalEnemyHit = 1, OnNormalDamageEnemyDeath = 2, OnNormalCriticalHit = 3, 
     OnAbilityUse = 10, OnAbilityDamage = 11, OnAbilityKill = 12,
     OnHealthChange = 20,
+    OnBlockStart = 30, OnBlockEnd = 31,
 }
 public enum PlayerStateCheckType { None = 0, Health = 1}
 
@@ -135,6 +141,22 @@ public class StatChangeEventContext : PlayerEventContext
         oldValue = OldValue;
         newValue = NewValue;
         maxValue = MaxValue;
+    }
+}
+public class BlockEventContext : PlayerEventContext
+{                                       //These will be reset upon stopping block
+    public int hitsBlocked;             //Hits Blocked in a Single Block Duration
+    public float totalDamageBlocked;    //Damage Stored From a Single Block Duration
+
+    public void RegisterHitAsBlocked(float Damage)
+    {
+        hitsBlocked++;
+        totalDamageBlocked += Damage;
+    }
+    public void ResetBlockedHits()
+    {
+        hitsBlocked = 0;
+        totalDamageBlocked = 0;
     }
 }
 

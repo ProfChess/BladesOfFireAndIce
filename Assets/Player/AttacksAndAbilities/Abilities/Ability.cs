@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName =("PlayerAbilities/Ability"))]
+[CreateAssetMenu(menuName =("Effect/Abilities/Ability"))]
 public class Ability : ScriptableObject
 {
     [Header("Ability Info")]

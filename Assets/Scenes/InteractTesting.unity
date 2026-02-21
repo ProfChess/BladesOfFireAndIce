@@ -963,7 +963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &1455886239
 Rigidbody2D:
   serializedVersion: 4
@@ -1550,6 +1550,7 @@ MonoBehaviour:
   attackEvents: {fileID: 7885096799853980321}
   playerAttack: {fileID: 3652600266193606868}
   playerHealth: {fileID: 8683686466529740180}
+  playerBlock: {fileID: 9114125209198407857}
 --- !u!95 &93595505329741553
 Animator:
   serializedVersion: 5
@@ -5686,7 +5687,8 @@ MonoBehaviour:
   - {fileID: 7394783987686545221}
   - {fileID: 636897929102629690}
   - {fileID: 6342235433435876374}
-  Collection: {fileID: 11400000, guid: b435633f2cda58546bedc79a45c58f65, type: 2}
+  EntireRelicCollection: {fileID: 11400000, guid: b435633f2cda58546bedc79a45c58f65, type: 2}
+  StartingRelics: {fileID: 11400000, guid: e8a03357280e6c64fa54ab3cb80ae0c0, type: 2}
 --- !u!224 &3193490939209510625
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8552,8 +8554,7 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8089424936929644631}
+  m_Children: []
   m_Father: {fileID: 6561388052122160075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &5335541250289224281
@@ -10213,6 +10214,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5290126924973768973}
+  - {fileID: 8089424936929644631}
   - {fileID: 488380627062933158}
   - {fileID: 8269221165178783276}
   - {fileID: 6657435447391336238}
@@ -12488,11 +12490,11 @@ Transform:
   m_GameObject: {fileID: 481432063071621069}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5290126924973768973}
+  m_Father: {fileID: 6561388052122160075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8100310397420746922
 MonoBehaviour:
@@ -14456,7 +14458,6 @@ MonoBehaviour:
   BlockedDamagePercentageIce: 50
   BlockMoveSpeedIce: 3.5
   MoveBlockAnimSpeedIce: 1
-  IsBlocking: 0
   BlockDirection: {x: 0, y: 0}
   BlockArc: 180
   TimeBetweenStaminaComsume: 0.1

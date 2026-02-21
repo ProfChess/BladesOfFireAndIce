@@ -48,7 +48,7 @@ public class PlayerHealth : BaseHealth
                 {
                     float reducedDamage = playerBlock.GetBlockDamageReductionPercentage * DamageDetection.GetAttackDamage();
                     PlayerDamage(DamageDetection.GetAttackDamage() - reducedDamage);
-                    playerBlock.PlayerBlockedAHit();
+                    playerBlock.PlayerBlockedAHit(reducedDamage);
                 }
                 else
                 {
