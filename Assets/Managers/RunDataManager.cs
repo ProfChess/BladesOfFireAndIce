@@ -18,29 +18,56 @@ public class RunDataManager : MonoBehaviour
             RelicInstance instance = new RelicInstance
             {
                 RelicRef = relic,
-                isActive = false
+                isActive = false,
+                isTimed = relic.BaseStats.Duration > 0
             };
             CurrentRelics.Add(relic, instance);
             relic.BoonSelected();
         }
     }
-    public void RelicActivated(Relic relic)
+    public void RelicActivated(Relic relic, Action DisableEffect, float Duration = 0f)
     {
         if (isRelicCollected(relic) && !isRelicApplied(relic))
         {
             CurrentRelics[relic].isActive = true;
+            CurrentRelics[relic].DurationOfBuff = Duration;
+            CurrentRelics[relic].DisableEffect = DisableEffect;
+
             Debug.Log("Relic Bonus Activated");
         }
     }
+
     public void RelicDeactivated(Relic relic)
     {
         if (isRelicCollected(relic) && isRelicApplied(relic))
         {
             CurrentRelics[relic].isActive = false;
+            CurrentRelics[relic].DisableEffect?.Invoke();
+            
             Debug.Log("Relic Bonus Deactivated");
         }
     }
-    
+    public bool CanRelicTrigger(Relic relic)
+    {
+        if (!isRelicCollected(relic)) { return false; }
+        return CurrentRelics[relic].CanTrigger;
+    }
+    public void BeginRelicCooldown(Relic relic)
+    {
+        if (!isRelicCollected(relic)) { return; }
+        CurrentRelics[relic].StartCooldown();
+    }
+    public float GetRelicBuffTimeRemaining(Relic relic)
+    {
+        if (!isRelicCollected(relic) && CurrentRelics[relic].isTimed)
+        {
+            return CurrentRelics[relic].DurationOfBuff;
+        }
+        else
+        {
+            return 0f;
+        }
+    }
     
     //BOONS
     private Dictionary<Virtue, VirtueInstance> CurrentVirtues = new();
@@ -68,7 +95,7 @@ public class RunDataManager : MonoBehaviour
     public void BeginVirtueCooldown(Virtue virtue)
     {
         if (!IsVirtueCollected(virtue)) return;
-        CurrentVirtues[virtue].Start(virtue.BaseStats.Cooldown);
+        CurrentVirtues[virtue].StartCooldown();
     }
     public bool CanVirtueTrigger(Virtue virtue)
     {
@@ -84,12 +111,28 @@ public class RunDataManager : MonoBehaviour
         CountDownList(CurrentVirtues.Values);
         //Relics
         CountDownList(CurrentRelics.Values);
+        CountDownDuration(CurrentRelics.Keys);
     }
     private void CountDownList(IEnumerable<CooldownState> cooldowns)
     {
         foreach (CooldownState cooldown in cooldowns)
         {
             cooldown.CountDown(GameTimeManager.GameTime);
+        }
+    }
+    private void CountDownDuration(IEnumerable<Relic> relicList)
+    {
+        foreach (Relic relic in relicList)
+        {
+            RelicInstance relInst = CurrentRelics[relic];
+            if (!relInst.isActive || !relInst.isTimed) { continue; }
+
+            CurrentRelics[relic].DurationOfBuff -= GameTimeManager.GameTime;
+
+            if (relInst.DurationOfBuff <= 0f)
+            {
+                RelicDeactivated(relic);
+            }
         }
     }
 
@@ -117,18 +160,18 @@ public class RunDataManager : MonoBehaviour
 //Classes for Boon/Reic/Ability Instances
 public class CooldownState
 {
-    public float RemainingTime = 0f;
-    public bool CanTrigger => RemainingTime <= 0f;
+    public float RemainingCooldown = 0f;
+    public bool CanTrigger => RemainingCooldown <= 0f;
     public void Start(float Duration)
     {
-        RemainingTime = Duration;
+        RemainingCooldown = Duration;
     }
 
     public void CountDown(float dt)
     {
-        if (RemainingTime > 0f)
+        if (RemainingCooldown > 0f)
         {
-            RemainingTime -= dt;
+            RemainingCooldown -= dt;
         }
     }
 }
@@ -146,9 +189,12 @@ public class RelicInstance : CooldownState
 {
     public Relic RelicRef;
     public bool isActive = false;
-
+    public float DurationOfBuff = 0f;
+    public bool isTimed = false;
+    public Action DisableEffect;
     public void StartCooldown()
     {
         Start(RelicRef.BaseStats.Cooldown);
     }
+    
 }

@@ -11,7 +11,11 @@ public class Relic : BaseBoon
 
     public override void Effect(PlayerEventContext context)
     {
-        RelicEffectLibrary.PlayRelicEffect(this, context);
+        if (runData.CanRelicTrigger(this))
+        {
+            RelicEffectLibrary.PlayRelicEffect(this, context);
+            runData.BeginRelicCooldown(this);
+        }
     }
     public override void BoonCollected()
     {

@@ -20,5 +20,5 @@ MonoBehaviour:
   PlayerStateNeeded: 1
   BaseStats:
     PercentageIncrease: 10
-    Duration: 99
+    Duration: 0
     Cooldown: 0

@@ -19,6 +19,6 @@ MonoBehaviour:
   EffectType: 0
   PlayerStateNeeded: 0
   BaseStats:
-    PercentageIncrease: 4
-    Duration: 0
-    Cooldown: 1
+    PercentageIncrease: 5
+    Duration: 3
+    Cooldown: 0
