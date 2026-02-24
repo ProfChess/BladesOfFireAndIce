@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (playerBlock.IsBlocking)
             {
-                rb.velocity = moveDirection.normalized * playerBlock.GetBlockMoveSpeed(PlayerAttackForm);
+                rb.velocity = moveDirection.normalized * playerBlock.BlockMoveSpeedFire;
             }
             else          //Player moves in one of eight directions
             {
@@ -287,17 +287,30 @@ public class PlayerController : MonoBehaviour
         button after attacking or dashing
         */
 
-        if (ctx.started)
+        //Block Logic For Fire Mode
+        if(PlayerAttackForm == ElementType.Fire)
         {
-            isBlockHeld = true;
-            if (playerAnimations.IsAttacking) return;
-            StartBlock();
+            if (ctx.started)
+            {
+                isBlockHeld = true;
+                if (playerAnimations.IsAttacking) return;
+                StartBlock();
+            }
+            else if (ctx.canceled)
+            {
+                isBlockHeld = false;
+                StopBlock();
+            }
         }
-        else if (ctx.canceled)
+        else
         {
-            isBlockHeld = false;
-            StopBlock();
+            //Logic for Parry
+            if (ctx.started)
+            {
+                Debug.Log("Parry");
+            }
         }
+
     }
     public void StartBlock()
     {
@@ -323,6 +336,7 @@ public class PlayerController : MonoBehaviour
         }
         playerAnimations.SwitchForm();
         SetFormStats();
+        playerAttackCalcs.ApplyAttackAreaSize();
         FormSwitchCooldownTimer = FormSwitchCooldown;
     }
     private void SetFormStats()

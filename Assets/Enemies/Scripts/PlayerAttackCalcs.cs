@@ -13,16 +13,27 @@ public class PlayerAttackCalcs : BasePlayerDamage
     public event Action<PlayerEventContext> OnCriticalHitNormalAttack;
 
     //Quick References
-    
+    //Damage
     public float FireAttackDamage = 1f;
     public void SetFireDamage(float num) {  FireAttackDamage = num; }
     public float IceAttackDamage = 1f;
     public void SetIceDamage(float num) {  IceAttackDamage = num; }
 
-
+    //Crit
     private float crit = 0f;
     public void SetCritChance(float num) { crit = num; }
     public void SetDamage(float num) { AttackDamage = num; }
+
+    //Area
+    private float FireAreaMult = 1f;
+    public void SetFireAOE(float num) { FireAreaMult = num; ApplyAttackAreaSize(); }
+    private float IceAreaMult = 1f; 
+    public void SetIceAOE(float num) { IceAreaMult = num; ApplyAttackAreaSize(); }
+    public void ApplyAttackAreaSize() 
+    {
+        float AreaScalar = PlayerController.PlayerAttackForm == ElementType.Fire ? FireAreaMult : IceAreaMult;
+        gameObject.transform.localScale = new Vector3(AreaScalar, AreaScalar, 1);
+    }
 
     public override float GetAttackDamage(BaseHealth EnemyHealth)
     {

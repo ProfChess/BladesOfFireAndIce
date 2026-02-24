@@ -20,6 +20,8 @@ MonoBehaviour:
   BaseDamageFire: 10
   StrengthScaleIce: 4
   BaseDamageIce: 5
+  BaseAreaFire: 1
+  BaseAreaIce: 0.8
   DexterityScaleFire: 3
   BaseAttackSpeedFire: 0.7
   DexterityScaleIce: 5

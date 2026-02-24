@@ -46,7 +46,7 @@ public class PlayerHealth : BaseHealth
             {
                 if (playerBlock.WasHitBlocked(DamageDetection.transform.position))
                 {
-                    float reducedDamage = playerBlock.GetBlockDamageReductionPercentage * DamageDetection.GetAttackDamage();
+                    float reducedDamage = playerBlock.BlockedDamagePercentageFire * DamageDetection.GetAttackDamage();
                     PlayerDamage(DamageDetection.GetAttackDamage() - reducedDamage);
                     playerBlock.PlayerBlockedAHit(reducedDamage);
                 }
@@ -82,7 +82,6 @@ public class PlayerHealth : BaseHealth
         if (damage > 0) 
         { 
             float totaldamage = damage - damageResist;
-            if (totaldamage <= 0) {/* Insert Player Blocking or Resisting Animation Here */ return; }
             
             TakeDamage(totaldamage); HF.Flash();
 

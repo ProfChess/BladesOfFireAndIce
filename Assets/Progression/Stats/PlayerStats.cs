@@ -21,6 +21,10 @@ public class PlayerStats : ScriptableObject
     [SerializeField] private float StrengthScaleIce = 4f;
     [SerializeField] private float BaseDamageIce = 5f;
 
+    [Header("Range")]
+    [SerializeField] private float BaseAreaFire = 1f;
+    [SerializeField] private float BaseAreaIce = 0.8f;
+
     [Header("Attack Speed")]
     [Tooltip("Increase Attack Speed")]
     [SerializeField] private float DexterityScaleFire = 3f; //Acts as Percent (IE 5f = 5% Increase/Point)
@@ -43,6 +47,8 @@ public class PlayerStats : ScriptableObject
     public float Stamina => BaseStamina + (SM.EndurancePoints * EnduranceScale);
     public float FireDamage => BaseDamageFire + (SM.StrengthPoints * StrengthScaleFire);
     public float IceDamage => BaseDamageIce + (SM.StrengthPoints * StrengthScaleIce);
+    public float BaseFireAOE => BaseAreaFire;
+    public float BaseIceAOE => BaseAreaIce;
     public float AttackSpeedFire => BaseAttackSpeedFire + (SM.DexterityPoints * (DexterityScaleFire/100f));
     public float AttackSpeedIce => BaseAttackSpeedIce + (SM.DexterityPoints * (DexterityScaleIce / 100f));
     public float CriticalChance => (BaseCriticalChance/100f) + (SM.LuckPoints * (LuckScale/100f)); 

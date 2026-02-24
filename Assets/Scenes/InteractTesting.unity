@@ -14847,11 +14847,8 @@ MonoBehaviour:
   BlockedDamagePercentageFire: 100
   BlockMoveSpeedFire: 1.5
   MoveBlockAnimSpeedFire: 0.6
-  StaminaConsumedIceHold: 1
-  StaminaConsumedIceHit: 2
-  BlockedDamagePercentageIce: 50
-  BlockMoveSpeedIce: 3.5
-  MoveBlockAnimSpeedIce: 1
+  StaminaConsumedParry: 0
+  IceParryDamagePencentage: 0
   BlockDirection: {x: 0, y: 0}
   BlockArc: 180
   TimeBetweenStaminaComsume: 0.1

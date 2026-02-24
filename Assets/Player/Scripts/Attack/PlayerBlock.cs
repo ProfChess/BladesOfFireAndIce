@@ -13,19 +13,15 @@ public class PlayerBlock : MonoBehaviour
     [Tooltip("Amount of Stamina Consumed When Hit is Blocked in Fire Stance")]
     [SerializeField] private float StaminaConsumedFireHit;
     [Tooltip("Percentage of Damage Blocked in Fire")]
-    [SerializeField] private float BlockedDamagePercentageFire;
-    [SerializeField] private float BlockMoveSpeedFire = 1f;
+    public float BlockedDamagePercentageFire;
+    public float BlockMoveSpeedFire = 1f;
     [SerializeField] private float MoveBlockAnimSpeedFire = 1f;
-    
+
     [Header("Ice")]
-    [Tooltip("Amount of Stamina Consumed Each Second When Holding Block in Ice Stance")]
-    [SerializeField] private float StaminaConsumedIceHold;
-    [Tooltip("Amount of Stamina Consumed When Hit is Blocked in Ice Stance")]
-    [SerializeField] private float StaminaConsumedIceHit;
+    [Tooltip("Stamina Consumed by Parry Trigger")]
+    [SerializeField] private float StaminaConsumedParry;
     [Tooltip("Percentage of Damage Blocked in Ice")]
-    [SerializeField] private float BlockedDamagePercentageIce;
-    [SerializeField] private float BlockMoveSpeedIce = 1f;
-    [SerializeField] private float MoveBlockAnimSpeedIce = 1f;
+    [SerializeField] private float IceParryDamagePencentage;
     
     [Header("Neutral")]
     public Vector2 BlockDirection = Vector2.zero; //Set to either Vector2.Right or Vector.Left
@@ -43,10 +39,6 @@ public class PlayerBlock : MonoBehaviour
 
     //Var Checks for Fire
     private bool isPlayerInFire => PlayerController.PlayerAttackForm == ElementType.Fire;
-    public float GetBlockDamageReductionPercentage => isPlayerInFire ? BlockedDamagePercentageFire/100 : BlockedDamagePercentageIce/100;
-    public float GetStaminaConsumedOnHitAmount => isPlayerInFire ? StaminaConsumedFireHit : StaminaConsumedIceHit;
-    private float GetStaminaConsumedHold => isPlayerInFire ? StaminaConsumedFireHold : StaminaConsumedIceHold;
-    private float GetMoveBlockAnimSpeed => isPlayerInFire ? MoveBlockAnimSpeedFire : MoveBlockAnimSpeedIce;
 
     //Events
     public event Action<PlayerEventContext> OnBlockStart;
@@ -56,21 +48,14 @@ public class PlayerBlock : MonoBehaviour
 
     private void Start()
     {
-        //Set Starting Settings
-        if (PlayerController.PlayerAttackForm == ElementType.Fire)
-        {
-            playerAnimations.SetBlockMoveSpeed(MoveBlockAnimSpeedFire);
-        }
-        else
-        {
-            playerAnimations.SetBlockMoveSpeed(MoveBlockAnimSpeedIce);
-        }
+        playerAnimations.SetBlockMoveSpeed(MoveBlockAnimSpeedFire);
+
     }
 
     //Begin Block by Setting Stats and Starting Coroutine, Animation, and Turn on Blocking Hitbox
     public void Block()
     {
-        if (staminaManager.GetStamina() < GetStaminaConsumedHold) { return; }
+        if (staminaManager.GetStamina() < StaminaConsumedFireHold) { return; }
 
         IsBlocking = true;
         if (BlockingCoroutine == null)
@@ -78,10 +63,9 @@ public class PlayerBlock : MonoBehaviour
             blockBox.enabled = true;
 
             //Stamina Drain
-            BlockingCoroutine = StartCoroutine(BlockRoutine(GetStaminaConsumedHold));
+            BlockingCoroutine = StartCoroutine(BlockRoutine(StaminaConsumedFireHold));
             
             //Adjust and Play Anim
-            playerAnimations.SetBlockMoveSpeed(GetMoveBlockAnimSpeed);
             playerAnimations.SetBlock(true);
 
             //Event
@@ -128,14 +112,13 @@ public class PlayerBlock : MonoBehaviour
     {
         //Consume Stamina for Hit
         float CurrentStamina = staminaManager.GetStamina();
-        float StaminaToConsume = GetStaminaConsumedOnHitAmount;
 
-        staminaManager.DecreaseStamina(Mathf.Min(CurrentStamina, StaminaToConsume));
+        staminaManager.DecreaseStamina(Mathf.Min(CurrentStamina, StaminaConsumedFireHit));
 
         //Store Hit and Damage of Blocked Hit
         BlockEndCtx.RegisterHitAsBlocked(DamageBlocked);
 
-        if (CurrentStamina < StaminaToConsume)
+        if (CurrentStamina < StaminaConsumedFireHit)
         {
             ReleaseBlock();
             //Add Stun Effect Here Later Maybe
@@ -144,19 +127,6 @@ public class PlayerBlock : MonoBehaviour
         playerAnimations.HitBlocked();
     }
 
-
-    public float GetBlockMoveSpeed(ElementType CurrentElement)
-    {
-        if (CurrentElement == ElementType.Fire)
-        {
-            return BlockMoveSpeedFire;
-        }
-        else if (CurrentElement == ElementType.Ice)
-        {
-            return BlockMoveSpeedIce;
-        }
-        return 0f;
-    }
 
     private IEnumerator BlockRoutine(float StaminaConsumedOnHold)
     {

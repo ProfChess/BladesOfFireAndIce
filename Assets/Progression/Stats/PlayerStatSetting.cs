@@ -32,6 +32,8 @@ public class PlayerStatSetting : MonoBehaviour
     private float StaminaBonus = 0f;
     private float FireDamageBonus = 0f;
     private float IceDamageBonus = 0f;
+    private float FireAreaBonus = 0f;
+    private float IceAreaBonus = 0f;
     private float FireSpeedBonus = 0f;
     private float IceSpeedBonus = 0f;
     private float CriticalChanceBonus = 0f;
@@ -45,6 +47,8 @@ public class PlayerStatSetting : MonoBehaviour
             case StatType.Endurance:      StaminaBonus += Bonus;        break;
             case StatType.StrengthFire:   FireDamageBonus += Bonus;     break;
             case StatType.StrengthIce:    IceDamageBonus += Bonus;      break;
+            case StatType.ReachFire:      FireAreaBonus += Bonus;       break;
+            case StatType.ReachIce:       IceAreaBonus += Bonus;        break;
             case StatType.DexterityFire:  FireSpeedBonus += Bonus;      break;
             case StatType.DexterityIce:   IceSpeedBonus += Bonus;       break;
             case StatType.Luck:           CriticalChanceBonus += Bonus; break;
@@ -59,6 +63,8 @@ public class PlayerStatSetting : MonoBehaviour
         playerStamina.SetMaxStamina(Stats.Stamina * GetBonusAsMultiplier(StaminaBonus));
         playerDamage.SetFireDamage(Stats.FireDamage * GetBonusAsMultiplier(FireDamageBonus));
         playerDamage.SetIceDamage(Stats.IceDamage * GetBonusAsMultiplier(IceDamageBonus));
+        playerDamage.SetFireAOE(Stats.BaseFireAOE * GetBonusAsMultiplier(FireAreaBonus));
+        playerDamage.SetIceAOE(Stats.BaseIceAOE * GetBonusAsMultiplier(IceAreaBonus));
         playerDamage.SetCritChance(Stats.CriticalChance * GetBonusAsMultiplier(CriticalChanceBonus));
         playerAttackSpeed.SetFireSpeed(Stats.AttackSpeedFire * GetBonusAsMultiplier(FireSpeedBonus));
         playerAttackSpeed.SetIceSpeed(Stats.AttackSpeedIce * GetBonusAsMultiplier(IceSpeedBonus));
@@ -66,4 +72,10 @@ public class PlayerStatSetting : MonoBehaviour
     }
     //Stat Types
 }
-public enum StatType { Vitality, Endurance, StrengthFire, StrengthIce, DexterityFire, DexterityIce, Luck, Armor};
+public enum StatType 
+{ None = 0, 
+    Vitality = 1, Endurance = 2, 
+    StrengthFire = 11, StrengthIce = 12,
+    ReachFire = 21, ReachIce = 22,
+    DexterityFire = 31, DexterityIce = 32, 
+    Luck = 41, Armor = 42};

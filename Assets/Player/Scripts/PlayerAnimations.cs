@@ -19,6 +19,7 @@ public class PlayerAnimations : MonoBehaviour
     private static readonly int ComboIndex = Animator.StringToHash("ComboIndex");
     private static readonly int HitBlockedTrig = Animator.StringToHash("BlockedHitTrigger");
     private static readonly int BlockMoveSpeed = Animator.StringToHash("BlockMoveSpeed");
+    private static readonly int ParryTrig = Animator.StringToHash("ParryTrigger");
 
     //ANIMATION PARAMETERS
     //Run Toggling
@@ -28,6 +29,9 @@ public class PlayerAnimations : MonoBehaviour
     public void SetBlock(bool cond) { PlayerAnimationController.SetBool(BlockToggle, cond); }
     public void HitBlocked() { PlayerAnimationController.SetTrigger(HitBlockedTrig); }
     public void SetBlockMoveSpeed(float speed) { PlayerAnimationController.SetFloat(BlockMoveSpeed, speed); }
+
+    //Parry
+    public void Parry() { PlayerAnimationController.SetTrigger(ParryTrig); }
 
     //Attacks
     public void IceAttack() { PlayerAnimationController.SetTrigger(IceAttackTrig); }
