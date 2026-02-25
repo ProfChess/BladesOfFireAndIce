@@ -56,8 +56,8 @@ public class PlayerAnimations : MonoBehaviour
 
     //ANIMATION EVENTS
     private PlayerController controls;
-    private PlayerHealth health;
     private PlayerAttack attack;
+    private PlayerBlock block;
     private bool isAttacking = false;
     public bool canReadyNextAttack = false;
     public bool IsAttacking => isAttacking;
@@ -92,6 +92,12 @@ public class PlayerAnimations : MonoBehaviour
             controls.StartBlock();
         }
     }
+    public void ResetParry()
+    {
+        block.ResetParry();
+    }
+    public void StartParry() { block.OpenParryWindow(); }
+    public void EndParry() { block.CloseParryWindow(); }
     public void NextAttackReady() { canReadyNextAttack = true; }
 
     private void Start()
@@ -100,7 +106,7 @@ public class PlayerAnimations : MonoBehaviour
         GameObject obj = gameObject.transform.parent.gameObject;
         controls = obj.GetComponent<PlayerController>();
         attack = obj.GetComponentInChildren<PlayerAttack>();
-        health = obj.GetComponentInChildren<PlayerHealth>();
+        block = obj.GetComponentInChildren<PlayerBlock>();
     }
 
 }

@@ -136,6 +136,11 @@ public class PlayerController : MonoBehaviour
             Vector2 mouseDir = playerAttack.GetMouseDirection();
             playerSprite.flipX = mouseDir.x < 0;
         }
+        else if (playerBlock.isInParryState)
+        {
+            Vector2 direction = playerBlock.ShieldDirection;
+            playerSprite.flipX = direction.x < 0;
+        }
         else
         {
             //Not Attacking
@@ -307,7 +312,8 @@ public class PlayerController : MonoBehaviour
             //Logic for Parry
             if (ctx.started)
             {
-                Debug.Log("Parry");
+                if (playerAnimations.IsAttacking) return;
+                playerBlock.Parry();
             }
         }
 

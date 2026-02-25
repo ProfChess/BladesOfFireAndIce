@@ -386,7 +386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &539962662
 Rigidbody2D:
   serializedVersion: 4
@@ -1717,7 +1717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &2098729003
 Rigidbody2D:
   serializedVersion: 4
@@ -4612,7 +4612,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6520755186792863413}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -14847,11 +14847,12 @@ MonoBehaviour:
   BlockedDamagePercentageFire: 100
   BlockMoveSpeedFire: 1.5
   MoveBlockAnimSpeedFire: 0.6
-  StaminaConsumedParry: 0
-  IceParryDamagePencentage: 0
-  BlockDirection: {x: 0, y: 0}
   BlockArc: 180
   TimeBetweenStaminaComsume: 0.1
+  StaminaConsumedParry: 0
+  IceParryDamagePencentage: 0
+  ParryArc: 220
+  ShieldDirection: {x: 0, y: 0}
   RightShieldPosition: {x: 0.4, y: 0.05}
   LeftShieldPosition: {x: -0.5, y: 0.05}
   playerController: {fileID: 5638266568757588236}

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 using System;
+using Unity.VisualScripting;
 public class PlayerHealth : BaseHealth
 {
     [Header("Hitbox Adjustment")]
@@ -44,17 +45,37 @@ public class PlayerHealth : BaseHealth
             //Attack Damage Interaction
             if (collision.TryGetComponent(out BaseDamageDetection DamageDetection)) 
             {
-                if (playerBlock.WasHitBlocked(DamageDetection.transform.position))
+                //Fire Block Check
+                if (PlayerController.PlayerAttackForm == ElementType.Fire)
                 {
-                    float reducedDamage = playerBlock.BlockedDamagePercentageFire * DamageDetection.GetAttackDamage();
-                    PlayerDamage(DamageDetection.GetAttackDamage() - reducedDamage);
-                    playerBlock.PlayerBlockedAHit(reducedDamage);
+                    if (playerBlock.WasHitBlocked(DamageDetection.transform.position))
+                    {
+                        float reducedDamage = playerBlock.BlockedDamagePercentageFire * DamageDetection.GetAttackDamage();
+                        PlayerDamage(DamageDetection.GetAttackDamage() - reducedDamage);
+                        playerBlock.PlayerBlockedAHit(reducedDamage);
+                    }
+                    else
+                    {
+                        //Hit was not blocked
+                        PlayerDamage(DamageDetection.GetAttackDamage());
+                    }
                 }
+                //Ice Parry Check
                 else
                 {
-                    //Hit was not blocked
-                    PlayerDamage(DamageDetection.GetAttackDamage());
+                    if (playerBlock.WasHitParried(DamageDetection.transform.position))
+                    {
+                        float reducedDamage = playerBlock.IceParryDamagePencentage * DamageDetection.GetAttackDamage();
+                        PlayerDamage(DamageDetection.GetAttackDamage() - reducedDamage);
+                        playerBlock.PlayerParriedAHit();
+                    }
+                    else
+                    {
+                        //Hit was not blocked
+                        PlayerDamage(DamageDetection.GetAttackDamage());
+                    }
                 }
+
             }
             //Collision Damage Interaction
             if (collision.TryGetComponent(out BaseHealth Health))

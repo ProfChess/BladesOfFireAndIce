@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBlock : MonoBehaviour
 {
@@ -16,18 +17,22 @@ public class PlayerBlock : MonoBehaviour
     public float BlockedDamagePercentageFire;
     public float BlockMoveSpeedFire = 1f;
     [SerializeField] private float MoveBlockAnimSpeedFire = 1f;
+    public float BlockArc = 180f;               
+    public bool IsBlocking { get; private set; } = false;
+    [SerializeField] private float TimeBetweenStaminaComsume = 0.1f;
 
     [Header("Ice")]
     [Tooltip("Stamina Consumed by Parry Trigger")]
     [SerializeField] private float StaminaConsumedParry;
     [Tooltip("Percentage of Damage Blocked in Ice")]
-    [SerializeField] private float IceParryDamagePencentage;
-    
+    public float IceParryDamagePencentage;
+    public float ParryArc = 220f;
+    public bool isInParryState { get; private set; } = false;
+    private bool isParrying = false;
+    public void ResetParry() { isInParryState = false; }
+
     [Header("Neutral")]
-    public Vector2 BlockDirection = Vector2.zero; //Set to either Vector2.Right or Vector.Left
-    public float BlockArc = 180;                //Angle of Blocking Arc in either direction
-    public bool IsBlocking { get; private set; } = false;
-    [SerializeField] private float TimeBetweenStaminaComsume = 0.1f;
+    public Vector2 ShieldDirection = Vector2.zero; //Set to either Vector2.Right or Vector.Left
     [SerializeField] private Vector2 RightShieldPosition = new Vector2(0.25f, 0.05f);
     [SerializeField] private Vector2 LeftShieldPosition = new Vector2(-0.25f, 0.05f);
 
@@ -36,9 +41,6 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] private PlayerStaminaManager staminaManager;
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private BoxCollider2D blockBox;
-
-    //Var Checks for Fire
-    private bool isPlayerInFire => PlayerController.PlayerAttackForm == ElementType.Fire;
 
     //Events
     public event Action<PlayerEventContext> OnBlockStart;
@@ -64,15 +66,15 @@ public class PlayerBlock : MonoBehaviour
 
             //Stamina Drain
             BlockingCoroutine = StartCoroutine(BlockRoutine(StaminaConsumedFireHold));
-            
+
             //Adjust and Play Anim
             playerAnimations.SetBlock(true);
 
             //Event
             BlockEndCtx.ResetBlockedHits();
-            BlockEndCtx.Setup(PlayerController.PlayerAttackForm, BlockDirection);
+            BlockEndCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
 
-            BlockStartCtx.Setup(PlayerController.PlayerAttackForm, BlockDirection);
+            BlockStartCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
             OnBlockStart?.Invoke(BlockStartCtx);
 
         }
@@ -91,6 +93,39 @@ public class PlayerBlock : MonoBehaviour
             OnBlockEnd?.Invoke(BlockEndCtx);
         }
     }
+    public void Parry()
+    {
+        if (staminaManager.GetStamina() < StaminaConsumedParry) { return; }
+        if (!IsBlocking && !isInParryState)
+        {
+            //Set State
+            isInParryState = true;
+
+            //Move Shield to Correct Side
+            ShieldDirection = GetBlockDirection();
+            MoveShield(ShieldDirection == Vector2.right);
+
+            //Start the Parry Animation and Take Stamina
+            playerAnimations.Parry();
+            staminaManager.DecreaseStamina(StaminaConsumedParry);
+        }
+    }
+    public bool WasHitParried(Vector2 hitPosition)
+    {
+        if (!isInParryState) { return false; }
+
+        //Player has Triggered a Parry
+        bool withinArcDirection = IsDirectionWithinArc(ParryArc, hitPosition);
+
+        if (withinArcDirection)
+        {
+            return isParrying;
+        }
+        else { return false; }
+    }
+    public void OpenParryWindow() { isParrying = true; blockBox.enabled = true; }
+    public void CloseParryWindow() { isParrying = false; blockBox.enabled = false; }
+
     public void MoveShield(bool isRight)
     {
         blockBox.offset = isRight ? RightShieldPosition : LeftShieldPosition;
@@ -100,11 +135,15 @@ public class PlayerBlock : MonoBehaviour
         if (!IsBlocking) { return false; }
 
         //Player is Blocking
-        Vector2 Dir = (hitPosition - (Vector2)transform.position).normalized;
-        float dot = Vector2.Dot(BlockDirection, Dir);
-        float halfBlockAngle = BlockArc * 0.5f;
-        float minDot = Mathf.Cos(halfBlockAngle * Mathf.Deg2Rad);
+        return IsDirectionWithinArc(BlockArc, hitPosition);
 
+    }
+    private bool IsDirectionWithinArc(float arc, Vector2 hitPosition)
+    {
+        Vector2 Dir = (hitPosition - (Vector2)transform.position).normalized;
+        float dot = Vector2.Dot(ShieldDirection, Dir);
+        float halfArcAngle = arc * 0.5f;
+        float minDot = Mathf.Cos(halfArcAngle * Mathf.Deg2Rad);
         return dot >= minDot;
     }
     //Lowers stamina depending on stance -> Called every time player blocks an attack
@@ -126,7 +165,11 @@ public class PlayerBlock : MonoBehaviour
         //Play Animation
         playerAnimations.HitBlocked();
     }
-
+    public void PlayerParriedAHit()
+    {
+        //INSERT PARRY SUCCESS EVENT LOGIC
+        Debug.Log("Player Parried");
+    }
 
     private IEnumerator BlockRoutine(float StaminaConsumedOnHold)
     {
@@ -137,8 +180,8 @@ public class PlayerBlock : MonoBehaviour
             if (staminaManager.GetStamina() >= staminaCost)
             {
                 staminaManager.DecreaseStamina(staminaCost);
-                BlockDirection = GetBlockDirection();
-                MoveShield(BlockDirection == Vector2.right);
+                ShieldDirection = GetBlockDirection();
+                MoveShield(ShieldDirection == Vector2.right);
 
                 yield return new WaitForSeconds(TimeBetweenStaminaComsume);
             }
