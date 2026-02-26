@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfce8a0a01ff58e4c9e1cd106bdbd522, type: 3}
-  m_Name: StartingShieldFire
+  m_Name: StartingShieldIce
   m_EditorClassIdentifier: 
-  boonName: Shield of Flame
+  boonName: Shield of Ice
   boonDescription: Put it Between You and Enemies to Not Die
-  EventToAttach: 31
-  ElementRestriction: 1
-  EffectType: 0
+  EventToAttach: 32
+  ElementRestriction: 2
+  EffectType: 1
   PlayerStateNeeded: 0
   BaseStats:
-    PercentageIncrease: 5
-    Duration: 3
+    PercentageIncrease: 15
+    Duration: 2
     Cooldown: 0

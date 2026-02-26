@@ -34,9 +34,13 @@ public static class RelicEffectLibrary
         if (!rundata.isRelicApplied(relic))
         {
             PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, DamageAndAOEScale);
+            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.ReachFire, DamageAndAOEScale);
             rundata.RelicActivated(
-                relic, 
-                () => { PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, DamageAndAOEScale); }, 
+                relic,
+                () => {
+                    PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, DamageAndAOEScale);
+                    PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.ReachFire, DamageAndAOEScale);
+                },
                 FinalDuration);
         }
         else if (rundata.isRelicApplied(relic))
@@ -47,9 +51,12 @@ public static class RelicEffectLibrary
                 //End Previous Duration
                 rundata.RelicDeactivated(relic);
                 PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, DamageAndAOEScale);
+                PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.ReachFire, DamageAndAOEScale);
                 rundata.RelicActivated(
                     relic,
-                    () => { PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, DamageAndAOEScale); },
+                    () => { PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, DamageAndAOEScale);
+                            PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.ReachFire, DamageAndAOEScale);
+                    },
                     FinalDuration);
             }
         }

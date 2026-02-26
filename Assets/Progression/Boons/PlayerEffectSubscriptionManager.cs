@@ -38,6 +38,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnHealthChange: playerHealth.PlayerHealthChange += BoonEffect; break;
             case BoonEventType.OnBlockStart: playerBlock.OnBlockStart += BoonEffect; break;
             case BoonEventType.OnBlockEnd: playerBlock.OnBlockEnd += BoonEffect; break;
+            case BoonEventType.OnParrySuccess: playerBlock.OnParrySuccess += BoonEffect; break;
 
             default: Debug.Log("Incorrect Event Given"); break;
         }
@@ -58,6 +59,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnHealthChange: playerHealth.PlayerHealthChange -= BoonEffect; break;
             case BoonEventType.OnBlockStart: playerBlock.OnBlockStart -= BoonEffect; break;
             case BoonEventType.OnBlockEnd: playerBlock.OnBlockEnd -= BoonEffect; break;
+            case BoonEventType.OnParrySuccess: playerBlock.OnParrySuccess -= BoonEffect; break;
 
             default: Debug.Log("Incorrect Event Given"); break;
         }
@@ -99,7 +101,7 @@ public enum BoonEventType
     OnNormalAttack = 0, OnNormalEnemyHit = 1, OnNormalDamageEnemyDeath = 2, OnNormalCriticalHit = 3, 
     OnAbilityUse = 10, OnAbilityDamage = 11, OnAbilityKill = 12,
     OnHealthChange = 20,
-    OnBlockStart = 30, OnBlockEnd = 31,
+    OnBlockStart = 30, OnBlockEnd = 31, OnParrySuccess = 32,
 }
 public enum PlayerStateCheckType { None = 0, Health = 1}
 

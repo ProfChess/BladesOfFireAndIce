@@ -47,6 +47,8 @@ public class PlayerBlock : MonoBehaviour
     private PlayerEventContext BlockStartCtx = new();
     public event Action<PlayerEventContext> OnBlockEnd;
     private BlockEventContext BlockEndCtx = new();
+    public event Action<PlayerEventContext> OnParrySuccess;
+    private PlayerEventContext ParryCtx = new();
 
     private void Start()
     {
@@ -169,6 +171,9 @@ public class PlayerBlock : MonoBehaviour
     {
         //INSERT PARRY SUCCESS EVENT LOGIC
         Debug.Log("Player Parried");
+
+        ParryCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
+        OnParrySuccess?.Invoke(ParryCtx);
     }
 
     private IEnumerator BlockRoutine(float StaminaConsumedOnHold)
