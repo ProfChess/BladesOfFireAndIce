@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAbilities playerAbilities;
     [SerializeField] private PlayerAttackSpeedManager attackSpeedManager;
     [SerializeField] private BoxCollider2D playerInteractBox;
+    [SerializeField] private PlayerMagicCircleAnim playerCircleEffect;
 
     //Visuals and Animations
     //Visuals
@@ -127,6 +128,7 @@ public class PlayerController : MonoBehaviour
 
         //Flip Sprite
         DecideSpriteFlip();
+        playerCircleEffect.SetSpriteFlip(playerSprite.flipX);
     }
     private void DecideSpriteFlip()
     {
@@ -335,10 +337,12 @@ public class PlayerController : MonoBehaviour
         if (PlayerAttackForm == ElementType.Fire)
         {
             PlayerAttackForm = ElementType.Ice;
+            playerCircleEffect.SwitchToIce();
         }
         else if (PlayerAttackForm == ElementType.Ice)
         {
             PlayerAttackForm = ElementType.Fire;
+            playerCircleEffect.SwitchToFire();
         }
         playerAnimations.SwitchForm();
         SetFormStats();
