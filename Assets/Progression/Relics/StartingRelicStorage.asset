@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllRelics:
   - {fileID: 11400000, guid: 06d4e2311ec3b6a4ab44376194ee5c12, type: 2}
+  - {fileID: 11400000, guid: bbf87fcfd6319af419767aefe6bef273, type: 2}

@@ -14281,8 +14281,9 @@ MonoBehaviour:
   MoveBlockAnimSpeedFire: 0.6
   BlockArc: 180
   TimeBetweenStaminaComsume: 0.1
-  StaminaConsumedParry: 5
+  StaminaConsumedOnParry: 0
   IceParryDamagePencentage: 100
+  ImmunityDurationOnParry: 2
   ParryArc: 220
   ShieldDirection: {x: 0, y: 0}
   RightShieldPosition: {x: 0.4, y: 0.05}

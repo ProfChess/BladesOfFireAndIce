@@ -100,6 +100,9 @@ public class PlayerHealth : BaseHealth
     //DAMAGE
     private void PlayerDamage(float damage)
     {
+        //Skip Applying Damage if Player is Immune
+        if (playerBlock.isImmune) return;
+
         if (damage > 0) 
         { 
             float totaldamage = damage - damageResist;

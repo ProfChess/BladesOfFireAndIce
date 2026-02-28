@@ -23,12 +23,16 @@ public class PlayerBlock : MonoBehaviour
 
     [Header("Ice")]
     [Tooltip("Stamina Consumed by Parry Trigger")]
-    [SerializeField] private float StaminaConsumedParry;
+    [SerializeField] private float StaminaConsumedOnParry;
     [Tooltip("Percentage of Damage Blocked in Ice")]
     public float IceParryDamagePencentage;
+    [Tooltip("Duration of Immunity After Successful Parry")]
+    [SerializeField] private float ImmunityDurationOnParry = 1f;
     public float ParryArc = 220f;
     public bool isInParryState { get; private set; } = false;
     private bool isParrying = false;
+    public bool isImmune { get; private set; } = false;
+    private Coroutine ParryImmunityCoroutine;
     public void ResetParry() { isInParryState = false; }
 
     [Header("Neutral")]
@@ -53,9 +57,9 @@ public class PlayerBlock : MonoBehaviour
     private void Start()
     {
         playerAnimations.SetBlockMoveSpeed(MoveBlockAnimSpeedFire);
-
     }
 
+    //BLOCK
     //Begin Block by Setting Stats and Starting Coroutine, Animation, and Turn on Blocking Hitbox
     public void Block()
     {
@@ -95,38 +99,6 @@ public class PlayerBlock : MonoBehaviour
             OnBlockEnd?.Invoke(BlockEndCtx);
         }
     }
-    public void Parry()
-    {
-        if (staminaManager.GetStamina() < StaminaConsumedParry) { return; }
-        if (!IsBlocking && !isInParryState)
-        {
-            //Set State
-            isInParryState = true;
-
-            //Move Shield to Correct Side
-            ShieldDirection = GetBlockDirection();
-            MoveShield(ShieldDirection == Vector2.right);
-
-            //Start the Parry Animation and Take Stamina
-            playerAnimations.Parry();
-            staminaManager.DecreaseStamina(StaminaConsumedParry);
-        }
-    }
-    public bool WasHitParried(Vector2 hitPosition)
-    {
-        if (!isInParryState) { return false; }
-
-        //Player has Triggered a Parry
-        bool withinArcDirection = IsDirectionWithinArc(ParryArc, hitPosition);
-
-        if (withinArcDirection)
-        {
-            return isParrying;
-        }
-        else { return false; }
-    }
-    public void OpenParryWindow() { isParrying = true; blockBox.enabled = true; }
-    public void CloseParryWindow() { isParrying = false; blockBox.enabled = false; }
 
     public void MoveShield(bool isRight)
     {
@@ -167,14 +139,6 @@ public class PlayerBlock : MonoBehaviour
         //Play Animation
         playerAnimations.HitBlocked();
     }
-    public void PlayerParriedAHit()
-    {
-        //INSERT PARRY SUCCESS EVENT LOGIC
-        Debug.Log("Player Parried");
-
-        ParryCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
-        OnParrySuccess?.Invoke(ParryCtx);
-    }
 
     private IEnumerator BlockRoutine(float StaminaConsumedOnHold)
     {
@@ -209,5 +173,69 @@ public class PlayerBlock : MonoBehaviour
         return playerController.MovingDirection.x > 0 ? Vector2.right : Vector2.left;
     }
 
+    //PARRY
+    public void Parry()
+    {
+        if (staminaManager.GetStamina() < StaminaConsumedOnParry) { return; }
+        if (!IsBlocking && !isInParryState)
+        {
+            //Set State
+            isInParryState = true;
 
+            //Move Shield to Correct Side
+            ShieldDirection = GetBlockDirection();
+            MoveShield(ShieldDirection == Vector2.right);
+
+            //Start the Parry Animation and Take Stamina
+            playerAnimations.Parry();
+            staminaManager.DecreaseStamina(StaminaConsumedOnParry);
+        }
+    }
+    public bool WasHitParried(Vector2 hitPosition)
+    {
+        if (!isInParryState) { return false; }
+
+        //Player has Triggered a Parry
+        bool withinArcDirection = IsDirectionWithinArc(ParryArc, hitPosition);
+
+        if (withinArcDirection)
+        {
+            return isParrying;
+        }
+        else { return false; }
+    }
+    public void OpenParryWindow() { isParrying = true; blockBox.enabled = true; }
+    public void CloseParryWindow() { isParrying = false; blockBox.enabled = false; }
+    public void PlayerParriedAHit()
+    {
+        //INSERT PARRY SUCCESS EVENT LOGIC
+        Debug.Log("Player Parried");
+
+        ParryCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
+        OnParrySuccess?.Invoke(ParryCtx);
+
+        //Apply Immunity
+        if (ParryImmunityCoroutine == null)
+        {
+            ParryImmunityCoroutine = StartCoroutine(ParryImmunityRoutine());
+        }
+        else
+        {
+            StopCoroutine(ParryImmunityCoroutine);
+            ParryImmunityCoroutine = null;
+            ParryImmunityCoroutine = StartCoroutine(ParryImmunityRoutine());
+        }
+    }
+    private IEnumerator ParryImmunityRoutine()
+    {
+        //Set Immunity (Used by Hitbox)
+        isImmune = true;
+
+        //Count to Time
+        yield return GameTimeManager.WaitFor(ImmunityDurationOnParry);
+
+        //Time Over
+        isImmune = false;
+        ParryImmunityCoroutine = null;
+    }
 }

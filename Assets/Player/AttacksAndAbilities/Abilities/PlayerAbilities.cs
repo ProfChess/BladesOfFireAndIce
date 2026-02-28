@@ -58,7 +58,7 @@ public class PlayerAbilities : MonoBehaviour
         {
             if (entry.CooldownRemaining > 0f)
             {
-                entry.CooldownRemaining -= GameTimeManager.GameTime;
+                entry.CooldownRemaining -= GameTimeManager.GameDeltaTime;
             }
         }
     }

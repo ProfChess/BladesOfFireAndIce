@@ -117,7 +117,7 @@ public class RunDataManager : MonoBehaviour
     {
         foreach (CooldownState cooldown in cooldowns)
         {
-            cooldown.CountDown(GameTimeManager.GameTime);
+            cooldown.CountDown(GameTimeManager.GameDeltaTime);
         }
     }
     private void CountDownDuration(IEnumerable<Relic> relicList)
@@ -127,7 +127,7 @@ public class RunDataManager : MonoBehaviour
             RelicInstance relInst = CurrentRelics[relic];
             if (!relInst.isActive || !relInst.isTimed) { continue; }
 
-            CurrentRelics[relic].DurationOfBuff -= GameTimeManager.GameTime;
+            CurrentRelics[relic].DurationOfBuff -= GameTimeManager.GameDeltaTime;
 
             if (relInst.DurationOfBuff <= 0f)
             {

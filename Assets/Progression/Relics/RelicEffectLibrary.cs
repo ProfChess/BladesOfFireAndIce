@@ -13,6 +13,7 @@ public static class RelicEffectLibrary
         switch (relic.EffectType)
         {
             case RelicEffectType.FireShieldBuff: RelicEffect_FireShield(relic, Details); break;
+            case RelicEffectType.IceShieldBuff: RelicEffect_IceShield(relic, Details); break;
             case RelicEffectType.HealthBuff: RelicEffect_HealthBuff(relic, Details); break;
 
         }
@@ -63,6 +64,21 @@ public static class RelicEffectLibrary
 
     }
 
+    //Starting Relic --> Ice Shield --> Grants Invulnerability and Attack Speed Upon Successful Parry
+    private static void RelicEffect_IceShield(Relic relic, PlayerEventContext ctx)
+    {
+        if (!rundata.isRelicApplied(relic))
+        {
+            //Apply Bonus
+            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.DexterityIce, relic.BaseStats.PercentageIncrease);
+            
+            //Mark Relic as Activated and Submit Deactivation Logic with Timing
+            rundata.RelicActivated(relic, () =>
+            {
+                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.DexterityIce, relic.BaseStats.PercentageIncrease);
+            }, relic.BaseStats.Duration);
+        }
+    }
 
     //Grants Bonus Damage When Above 50% HP
     private static void RelicEffect_HealthBuff(Relic relic, PlayerEventContext ctx)

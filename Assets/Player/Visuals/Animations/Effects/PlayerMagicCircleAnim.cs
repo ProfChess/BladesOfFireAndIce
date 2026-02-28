@@ -45,7 +45,7 @@ public class PlayerMagicCircleAnim : MonoBehaviour
         while (time < duration)
         {
             circleSprite.color = Color.Lerp(start, end, time/duration);
-            time += GameTimeManager.GameTime;
+            time += GameTimeManager.GameDeltaTime;
             yield return null;
         }
 
