@@ -18,7 +18,8 @@ MonoBehaviour:
   ElementRestriction: 2
   EffectType: 1
   PlayerStateNeeded: 0
-  BaseStats:
-    PercentageIncrease: 15
-    Duration: 5
-    Cooldown: 0
+  StatIncreases:
+  - Stat: 32
+    PercentageIncrease: 20
+  Duration: 5
+  Cooldown: 0

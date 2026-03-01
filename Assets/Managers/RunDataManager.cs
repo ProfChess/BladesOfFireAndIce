@@ -19,7 +19,7 @@ public class RunDataManager : MonoBehaviour
             {
                 RelicRef = relic,
                 isActive = false,
-                isTimed = relic.BaseStats.Duration > 0
+                isTimed = relic.Duration > 0
             };
             CurrentRelics.Add(relic, instance);
             relic.BoonSelected();
@@ -194,7 +194,7 @@ public class RelicInstance : CooldownState
     public Action DisableEffect;
     public void StartCooldown()
     {
-        Start(RelicRef.BaseStats.Cooldown);
+        Start(RelicRef.Cooldown);
     }
     
 }

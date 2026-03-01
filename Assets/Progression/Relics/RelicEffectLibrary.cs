@@ -23,43 +23,28 @@ public static class RelicEffectLibrary
     private static void RelicEffect_FireShield(Relic relic, PlayerEventContext ctx)
     {
         //Make Sure Context is Correct
-        if (ctx is not BlockEventContext blockedCtx) { return; }
-        if (blockedCtx.hitsBlocked == 0) return; //Return if no hits were blocked
+        if (ctx is not BlockEventContext blockedCtx || blockedCtx.hitsBlocked == 0) { return; }
 
         //Get Timing Scaled off Blocked Hits
-        float FinalDuration = relic.BaseStats.Duration * blockedCtx.hitsBlocked;
+        float FinalDuration = relic.Duration * blockedCtx.hitsBlocked;
 
         //Increased percentage from hits absorbed and base increase
-        float DamageAndAOEScale = relic.BaseStats.PercentageIncrease * blockedCtx.hitsBlocked;
+        float DamageScale = relic.GetIncreaseFromStat(StatType.StrengthFire) * blockedCtx.hitsBlocked;
+        float AOEScale = relic.GetIncreaseFromStat(StatType.ReachFire) * blockedCtx.hitsBlocked;
 
-        if (!rundata.isRelicApplied(relic))
+        if (!rundata.isRelicApplied(relic) || rundata.GetRelicBuffTimeRemaining(relic) < FinalDuration)
         {
-            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, DamageAndAOEScale);
-            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.ReachFire, DamageAndAOEScale);
+            if (rundata.isRelicApplied(relic)) { rundata.RelicDeactivated(relic); }
+
+            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, DamageScale);
+            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.ReachFire, AOEScale);
             rundata.RelicActivated(
                 relic,
                 () => {
-                    PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, DamageAndAOEScale);
-                    PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.ReachFire, DamageAndAOEScale);
+                    PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, DamageScale);
+                    PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.ReachFire, AOEScale);
                 },
                 FinalDuration);
-        }
-        else if (rundata.isRelicApplied(relic))
-        {
-            //Refresh Buff to New Duration if Remaining Duration is Less Than New Duration
-            if (rundata.GetRelicBuffTimeRemaining(relic) < FinalDuration)
-            {
-                //End Previous Duration
-                rundata.RelicDeactivated(relic);
-                PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, DamageAndAOEScale);
-                PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.ReachFire, DamageAndAOEScale);
-                rundata.RelicActivated(
-                    relic,
-                    () => { PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, DamageAndAOEScale);
-                            PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.ReachFire, DamageAndAOEScale);
-                    },
-                    FinalDuration);
-            }
         }
 
     }
@@ -70,13 +55,14 @@ public static class RelicEffectLibrary
         if (!rundata.isRelicApplied(relic))
         {
             //Apply Bonus
-            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.DexterityIce, relic.BaseStats.PercentageIncrease);
+            float AttackSpeedIncrease = relic.GetIncreaseFromStat(StatType.DexterityIce);
+            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.DexterityIce, AttackSpeedIncrease);
             
             //Mark Relic as Activated and Submit Deactivation Logic with Timing
             rundata.RelicActivated(relic, () =>
             {
-                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.DexterityIce, relic.BaseStats.PercentageIncrease);
-            }, relic.BaseStats.Duration);
+                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.DexterityIce, AttackSpeedIncrease);
+            }, relic.Duration);
         }
     }
 
@@ -88,13 +74,15 @@ public static class RelicEffectLibrary
 
         if (Above50 && !rundata.isRelicApplied(relic))
         {
-            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, relic.BaseStats.PercentageIncrease);
-            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthIce, relic.BaseStats.PercentageIncrease);
+            float FireDamageIncrease = relic.GetIncreaseFromStat(StatType.StrengthFire);
+            float IceDamageIncrease = relic.GetIncreaseFromStat(StatType.StrengthIce);
+            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, FireDamageIncrease);
+            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthIce, IceDamageIncrease);
             
             rundata.RelicActivated(relic, () =>
             {
-                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, relic.BaseStats.PercentageIncrease);
-                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthIce, relic.BaseStats.PercentageIncrease);
+                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, FireDamageIncrease);
+                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthIce, IceDamageIncrease);
             });
         }
         else if (!Above50 && rundata.isRelicApplied(relic))
