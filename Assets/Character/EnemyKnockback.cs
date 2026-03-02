@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Knockback : MonoBehaviour
+public class EnemyKnockback : MonoBehaviour
 {
     [HideInInspector] public NavMeshAgent agent;
     private Coroutine KnockbackCoroutine;

@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 3489863196013656183}
   - component: {fileID: 2273477896166827226}
   - component: {fileID: 2807073766202386398}
-  - component: {fileID: 7662212515198993327}
+  - component: {fileID: 2909777525616190572}
   m_Layer: 6
   m_Name: EnemyHitBox
   m_TagString: EnemyHitbox
@@ -278,7 +278,7 @@ MonoBehaviour:
   HitBox: {fileID: 2273477896166827226}
   MainEnemyScript: {fileID: 2174794487145067413}
   HF: {fileID: 8872761858661013811}
---- !u!114 &7662212515198993327
+--- !u!114 &2909777525616190572
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2855619775770576271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b727406e730efca48b19483f420571e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 178a027bbf152f441b11bdceae34c118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
@@ -369,7 +369,7 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_Sprite: {fileID: -1280984342, guid: 4eb05393c87d0c840bda1251a838f5a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}

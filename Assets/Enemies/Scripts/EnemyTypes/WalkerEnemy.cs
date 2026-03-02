@@ -32,6 +32,7 @@ public class WalkerEnemy : BaseEnemy
     //Chase
     protected override void EnemyChaseState()
     {
+        base.EnemyChaseState();
         anim.SetBool(Running, true); anim.SetBool(Walking, false);
         EnemyMovementComponent.ChaseMove(agent, playerLocation, ChaseSpeed, AttackRange);
     }

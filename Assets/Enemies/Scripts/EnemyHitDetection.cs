@@ -40,7 +40,7 @@ public class EnemyHitDetection : BaseHealth
             }
 
             //Knockback
-            if (gameObject.TryGetComponent(out Knockback knockback))
+            if (gameObject.TryGetComponent(out EnemyKnockback knockback))
             {
                 if (collision.transform.parent.TryGetComponent(out PlayerAttack attack))
                 {

@@ -21,6 +21,7 @@ public class PlayerBlock : MonoBehaviour
     public bool IsBlocking { get; private set; } = false;
     [SerializeField] private float TimeBetweenStaminaComsume = 0.1f;
 
+
     [Header("Ice")]
     [Tooltip("Stamina Consumed by Parry Trigger")]
     [SerializeField] private float StaminaConsumedOnParry;
@@ -29,6 +30,7 @@ public class PlayerBlock : MonoBehaviour
     [Tooltip("Duration of Immunity After Successful Parry")]
     [SerializeField] private float ImmunityDurationOnParry = 1f;
     public float ParryArc = 220f;
+
     public bool isInParryState { get; private set; } = false;
     private bool isParrying = false;
     public bool isImmune { get; private set; } = false;
@@ -45,6 +47,7 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] private PlayerStaminaManager staminaManager;
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private BoxCollider2D blockBox;
+    [SerializeField] private PlayerShieldKnockback knockback;
 
     //Events
     public event Action<PlayerEventContext> OnBlockStart;
@@ -97,6 +100,7 @@ public class PlayerBlock : MonoBehaviour
 
             //Invoke Event Then Reset Numbers
             OnBlockEnd?.Invoke(BlockEndCtx);
+            if (BlockEndCtx.hitsBlocked > 0) { knockback.FireKnockBack(); }
         }
     }
 
@@ -209,10 +213,13 @@ public class PlayerBlock : MonoBehaviour
     public void PlayerParriedAHit()
     {
         //INSERT PARRY SUCCESS EVENT LOGIC
-        Debug.Log("Player Parried");
+        Debug.Log("Parry Success");
 
         ParryCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
         OnParrySuccess?.Invoke(ParryCtx);
+
+        //Knockback
+        knockback.IceKnockBack();
 
         //Apply Immunity
         if (ParryImmunityCoroutine == null)

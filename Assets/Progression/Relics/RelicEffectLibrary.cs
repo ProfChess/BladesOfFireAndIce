@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 public static class RelicEffectLibrary
 {
@@ -18,6 +19,22 @@ public static class RelicEffectLibrary
 
         }
     }
+    //Default Application and Deactivation Calls
+    private static void ApplyAllStatBuffs(List<RelicStatPair> StatPairs)
+    {
+        foreach (RelicStatPair pair in StatPairs)
+        {
+            PlayerEffectSubscriptionManager.Instance.AddBonus(pair.Stat, pair.PercentageIncrease);
+        }
+    }
+    private static void UnApplyAllStatBuffs(List<RelicStatPair> StatPairs)
+    {
+        foreach (RelicStatPair pair in StatPairs)
+        {
+            PlayerEffectSubscriptionManager.Instance.RemoveBonus(pair.Stat, pair.PercentageIncrease);
+        }
+    }
+
 
     //Starting Relic --> Fire Shield --> Grants Ability to Give AOE/Damage Buff Upon Blocking Damage
     private static void RelicEffect_FireShield(Relic relic, PlayerEventContext ctx)
@@ -55,13 +72,12 @@ public static class RelicEffectLibrary
         if (!rundata.isRelicApplied(relic))
         {
             //Apply Bonus
-            float AttackSpeedIncrease = relic.GetIncreaseFromStat(StatType.DexterityIce);
-            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.DexterityIce, AttackSpeedIncrease);
+            ApplyAllStatBuffs(relic.StatIncreases);
             
             //Mark Relic as Activated and Submit Deactivation Logic with Timing
             rundata.RelicActivated(relic, () =>
             {
-                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.DexterityIce, AttackSpeedIncrease);
+                UnApplyAllStatBuffs(relic.StatIncreases);
             }, relic.Duration);
         }
     }
@@ -74,15 +90,11 @@ public static class RelicEffectLibrary
 
         if (Above50 && !rundata.isRelicApplied(relic))
         {
-            float FireDamageIncrease = relic.GetIncreaseFromStat(StatType.StrengthFire);
-            float IceDamageIncrease = relic.GetIncreaseFromStat(StatType.StrengthIce);
-            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, FireDamageIncrease);
-            PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthIce, IceDamageIncrease);
+            ApplyAllStatBuffs(relic.StatIncreases);
             
             rundata.RelicActivated(relic, () =>
             {
-                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, FireDamageIncrease);
-                PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthIce, IceDamageIncrease);
+                UnApplyAllStatBuffs(relic.StatIncreases);
             });
         }
         else if (!Above50 && rundata.isRelicApplied(relic))
