@@ -31,13 +31,13 @@ public class PlayerAttackCalcs : BasePlayerDamage
     public void SetIceAOE(float num) { IceAreaMult = num; ApplyAttackAreaSize(); }
     public void ApplyAttackAreaSize() 
     {
-        float AreaScalar = PlayerController.PlayerAttackForm == ElementType.Fire ? FireAreaMult : IceAreaMult;
+        float AreaScalar = PlayerSwitchElements.PlayerAttackForm == ElementType.Fire ? FireAreaMult : IceAreaMult;
         gameObject.transform.localScale = new Vector3(AreaScalar, AreaScalar, 1);
     }
 
     public override float GetAttackDamage(BaseHealth EnemyHealth)
     {
-        if (PlayerController.PlayerAttackForm == ElementType.Fire)
+        if (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire)
         {
             AttackDamage = FireAttackDamage;
         }

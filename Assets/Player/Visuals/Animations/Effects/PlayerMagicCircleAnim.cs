@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMagicCircleAnim : MonoBehaviour
@@ -14,7 +13,7 @@ public class PlayerMagicCircleAnim : MonoBehaviour
     private Coroutine switchingRoutine;
     private void Start()
     {
-        circleSprite.color = PlayerController.PlayerAttackForm == ElementType.Fire ? fireColor : iceColor;
+        circleSprite.color = PlayerSwitchElements.PlayerAttackForm == ElementType.Fire ? fireColor : iceColor;
     }
     public void SetSpriteFlip(bool x)
     {

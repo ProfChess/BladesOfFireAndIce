@@ -45,7 +45,7 @@ public class PlayerHealth : BaseHealth
             if (collision.TryGetComponent(out BaseDamageDetection DamageDetection)) 
             {
                 //Fire Block Check
-                if (PlayerController.PlayerAttackForm == ElementType.Fire)
+                if (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire)
                 {
                     if (playerBlock.WasHitBlocked(DamageDetection.transform.position))
                     {
@@ -109,7 +109,7 @@ public class PlayerHealth : BaseHealth
             TakeDamage(totaldamage); HF.Flash();
 
             //Fire Event for Health Changing
-            healthChangeContext.Setup(PlayerController.PlayerAttackForm, curHealth + totaldamage, curHealth, MaxHealth);
+            healthChangeContext.Setup(PlayerSwitchElements.PlayerAttackForm, curHealth + totaldamage, curHealth, MaxHealth);
             PlayerHealthChange?.Invoke(healthChangeContext);
         }
         //ADD CUSTOM DEATH VISUAL LOGIC, AS ASSET PACK DOES NOT CONTAIN DEATH ANIMATION
@@ -124,7 +124,7 @@ public class PlayerHealth : BaseHealth
         {
             curHealth += amount;
         }
-        healthChangeContext.Setup(PlayerController.PlayerAttackForm, curHealth - amount, curHealth, MaxHealth);
+        healthChangeContext.Setup(PlayerSwitchElements.PlayerAttackForm, curHealth - amount, curHealth, MaxHealth);
         PlayerHealthChange?.Invoke(healthChangeContext);
     }
     private void Update()

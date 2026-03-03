@@ -85,6 +85,9 @@ public class PlayerAnimations : MonoBehaviour
         isAttacking = false;
         canReadyNextAttack = false;
     }
+    public void NextAttackReady() { canReadyNextAttack = true; }
+
+    //Block
     public void BlockCheck()
     {
         if (controls.isBlockHeld)
@@ -92,13 +95,19 @@ public class PlayerAnimations : MonoBehaviour
             controls.StartBlock();
         }
     }
+
+    //Parry
     public void ResetParry()
     {
         block.ResetParry();
     }
     public void StartParry() { block.OpenParryWindow(); }
     public void EndParry() { block.CloseParryWindow(); }
-    public void NextAttackReady() { canReadyNextAttack = true; }
+
+
+    //Switching
+    public void StartSwitching() { controls.SetIsSwitching(true); }
+    public void EndSwitching() { controls.SetIsSwitching(false); }
 
     private void Start()
     {

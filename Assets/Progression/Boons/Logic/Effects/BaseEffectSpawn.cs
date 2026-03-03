@@ -120,7 +120,7 @@ public class BaseEffectSpawn : MonoBehaviour
 
                 //Set up Damage Settings
                 AbilityDamageContext.Setup(
-                    PlayerController.PlayerAttackForm,
+                    PlayerSwitchElements.PlayerAttackForm,
                     EnemyHealth.transform.position - gameObject.transform.position, 
                     EnemyHealth, hitbox.transform.position);
 

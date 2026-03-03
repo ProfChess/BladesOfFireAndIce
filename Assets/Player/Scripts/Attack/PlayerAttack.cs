@@ -47,7 +47,7 @@ public class PlayerAttack : MonoBehaviour
         {
             case AttackList.BasicAttack:
                 //Fire Stance
-                if (PlayerController.PlayerAttackForm == ElementType.Fire)
+                if (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire)
                 {
                     if (playerStamina.GetStamina() >= FireStaminaCost)
                     {
@@ -58,7 +58,7 @@ public class PlayerAttack : MonoBehaviour
                 }
 
                 //Ice Stance
-                if (PlayerController.PlayerAttackForm == ElementType.Ice)
+                if (PlayerSwitchElements.PlayerAttackForm == ElementType.Ice)
                 {
                     if (playerStamina.GetStamina() >= IceStaminaCost)
                     {
@@ -95,7 +95,7 @@ public class PlayerAttack : MonoBehaviour
     private void BasicAttack()
     {
         //Animation
-        attackForm = PlayerController.PlayerAttackForm;
+        attackForm = PlayerSwitchElements.PlayerAttackForm;
         Vector3 MouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition); MouseLocation.z = 0;
         MouseDirection = (MouseLocation - controls.transform.position).normalized;
     }
@@ -108,7 +108,7 @@ public class PlayerAttack : MonoBehaviour
         attackBox.transform.localRotation = Quaternion.Euler(0, 0, rotateAngle);
 
         //Fire Event
-        NormalAttackContext.Setup(PlayerController.PlayerAttackForm, attackDirection.normalized, null, attackBox.transform.position);
+        NormalAttackContext.Setup(PlayerSwitchElements.PlayerAttackForm, attackDirection.normalized, null, attackBox.transform.position);
         OnNormalAttack?.Invoke(NormalAttackContext);
 
         //Hit Effect

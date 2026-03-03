@@ -12,12 +12,12 @@ public class HitStopManager : MonoBehaviour
     {
         float hitStopScale = 1f;
         float hitStopDuration = 0f;
-        if (PlayerController.PlayerAttackForm == ElementType.Fire)
+        if (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire)
         {
             hitStopScale = PlayerController.FireStanceHitStopScale;
             hitStopDuration = PlayerController.FireStanceHitStopDuration;
         }
-        if (PlayerController.PlayerAttackForm == ElementType.Ice)
+        if (PlayerSwitchElements.PlayerAttackForm == ElementType.Ice)
         {
             hitStopScale = PlayerController.IceStanceHitStopScale;
             hitStopDuration = PlayerController.IceStanceHitStopTime;

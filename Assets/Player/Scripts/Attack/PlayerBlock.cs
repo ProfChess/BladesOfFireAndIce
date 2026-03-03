@@ -17,7 +17,7 @@ public class PlayerBlock : MonoBehaviour
     public float BlockedDamagePercentageFire;
     public float BlockMoveSpeedFire = 1f;
     [SerializeField] private float MoveBlockAnimSpeedFire = 1f;
-    public float BlockArc = 180f;               
+    public float BlockArc = 180f;
     public bool IsBlocking { get; private set; } = false;
     [SerializeField] private float TimeBetweenStaminaComsume = 0.1f;
 
@@ -72,7 +72,6 @@ public class PlayerBlock : MonoBehaviour
         if (BlockingCoroutine == null)
         {
             blockBox.enabled = true;
-
             //Stamina Drain
             BlockingCoroutine = StartCoroutine(BlockRoutine(StaminaConsumedFireHold));
 
@@ -81,9 +80,9 @@ public class PlayerBlock : MonoBehaviour
 
             //Event
             BlockEndCtx.ResetBlockedHits();
-            BlockEndCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
+            BlockEndCtx.Setup(PlayerSwitchElements.PlayerAttackForm, ShieldDirection);
 
-            BlockStartCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
+            BlockStartCtx.Setup(PlayerSwitchElements.PlayerAttackForm, ShieldDirection);
             OnBlockStart?.Invoke(BlockStartCtx);
 
         }
@@ -215,7 +214,7 @@ public class PlayerBlock : MonoBehaviour
         //INSERT PARRY SUCCESS EVENT LOGIC
         Debug.Log("Parry Success");
 
-        ParryCtx.Setup(PlayerController.PlayerAttackForm, ShieldDirection);
+        ParryCtx.Setup(PlayerSwitchElements.PlayerAttackForm, ShieldDirection);
         OnParrySuccess?.Invoke(ParryCtx);
 
         //Knockback

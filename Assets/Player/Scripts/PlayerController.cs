@@ -39,22 +39,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float FormSwitchCooldown;
     [SerializeField] private float BasicAttackDuration;
     [SerializeField] private float BasicAttackCooldown;
-    private float playerRollSpeed;
 
-    public (float,  float) GetKnockbackStrAndDur() => 
-        PlayerAttackForm == ElementType.Fire
+    public (float,  float) GetKnockbackStrAndDur() =>
+        PlayerSwitchElements.PlayerAttackForm == ElementType.Fire
         ? (FireKnockbackStrength, FireKnockbackDuration) 
         : (IceKnockbackStrength, IceKnockbackDuration);
-    public AnimationCurve GetKnockbackCurve() => PlayerAttackForm == ElementType.Fire ? FireKnockbackCurve : IceKnockbackCurve;
+    public AnimationCurve GetKnockbackCurve() => PlayerSwitchElements.PlayerAttackForm == ElementType.Fire ? FireKnockbackCurve : IceKnockbackCurve;
 
-    //Form Enum
-    [HideInInspector]
-
-    public static ElementType PlayerAttackForm;
 
     //References
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private PlayerSwitchElements playerSwitchElements;
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private PlayerBlock playerBlock;
     [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
@@ -76,20 +72,15 @@ public class PlayerController : MonoBehaviour
     private Vector2 dashDirection = Vector2.right;
     private bool isDashing = false;
     private float FormSwitchCooldownTimer;
+    private bool isSwitchingElement = false;
     private bool playerStop = false;
 
-    //Abilities
-    private PlayerAbilitySlot AbilitySlot1 = PlayerAbilitySlot.Slot1;
-    private PlayerAbilitySlot AbilitySlot2 = PlayerAbilitySlot.Slot2;
 
     //Blocking Button
     public bool isBlockHeld { get; private set; } = false;
 
-    //START/UPDATE/ETC
-    private void Start()
-    {
-        PlayerAttackForm = ElementType.Fire; //Player starts in fire form
-    }
+    //UPDATE/ETC
+
     private void FixedUpdate()
     {
         //Moving or Dashing
@@ -117,7 +108,7 @@ public class PlayerController : MonoBehaviour
     {
         //COOLDOWNS
         //Form Switch Cooldown
-        if (FormSwitchCooldownTimer > 0) { FormSwitchCooldownTimer -= Time.deltaTime; }
+        if (FormSwitchCooldownTimer > 0) { FormSwitchCooldownTimer -= GameTimeManager.GameDeltaTime; }
 
         //Player State
         if (!isDashing)
@@ -190,14 +181,14 @@ public class PlayerController : MonoBehaviour
     //DASH
     public void OnDash(InputAction.CallbackContext ctx)
     {
-        if (isDashing || playerStop || playerAnimations.IsAttacking) { return; }
+        if (isDashing || playerStop || playerAnimations.IsAttacking || isSwitchingElement) { return; }
 
         if (ctx.started)
         {
-            if (playerAttack.CheckStamina(PlayerAttack.AttackList.Roll, PlayerAttackForm))
+            if (playerAttack.CheckStamina(PlayerAttack.AttackList.Roll, PlayerSwitchElements.PlayerAttackForm))
             {
                 //Stop Blocking
-                if (playerBlock.IsBlocking) { playerBlock.ReleaseBlock(); }
+                if (playerBlock.IsBlocking) { StopBlock(); }
 
                 isDashing = true;
 
@@ -223,34 +214,40 @@ public class PlayerController : MonoBehaviour
     //SWITCH ATTACK FORM
     public void OnFormSwitch(InputAction.CallbackContext ctx)
     {
-        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking) { return; }
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement) { return; }
 
         if (ctx.started)
         {
             if (FormSwitchCooldownTimer <= 0)
             {
-                SwitchAttackForm();
+                playerSwitchElements.SwitchAttackForm();
+                playerAttackCalcs.ApplyAttackAreaSize();
+                attackSpeedManager.SetAttackSpeed();
+                FormSwitchCooldownTimer = FormSwitchCooldown;
             }
         }
-
+    }
+    public void SetIsSwitching(bool isSwitching)
+    {
+        isSwitchingElement = isSwitching;
     }
 
     //ATTACK AND ABILITIES
     public void OnBasicAttack(InputAction.CallbackContext ctx)
     {
         //Ignore Input if 
-        if (isDashing || playerStop) { return; }
+        if (isDashing || playerStop || isSwitchingElement) { return; }
 
         if (ctx.started)
         {
-            if (playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerAttackForm))
+            if (playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerSwitchElements.PlayerAttackForm))
             {
-                if (playerBlock.IsBlocking) { playerBlock.ReleaseBlock(); }
+                if (playerBlock.IsBlocking) { StopBlock(); }
 
                 if (!playerAnimations.IsAttacking)
                 {
                     playerAnimations.ResetCombo();
-                    if (PlayerAttackForm == ElementType.Fire) { playerAnimations.FireAttack(); }
+                    if (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire) { playerAnimations.FireAttack(); }
                     else { playerAnimations.IceAttack(); }
                 }
                 else if (playerAnimations.canReadyNextAttack)
@@ -265,22 +262,22 @@ public class PlayerController : MonoBehaviour
     }
     public void OnAbilityOne(InputAction.CallbackContext ctx)
     {
-        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking) { return; }
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement) { return; }
 
         if (ctx.started)
         {
-            playerAbilities.ActivateAbility(AbilitySlot1, PlayerAttackForm);
+            playerAbilities.ActivateAbility(PlayerAbilitySlot.Slot1, PlayerSwitchElements.PlayerAttackForm);
             Debug.Log("First Ability Pressed");
         }
 
     }
     public void OnAbilityTwo(InputAction.CallbackContext ctx)
     {
-        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking) { return; }
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement) { return; }
 
         if (ctx.started)
         {
-            playerAbilities.ActivateAbility(AbilitySlot2, PlayerAttackForm);
+            playerAbilities.ActivateAbility(PlayerAbilitySlot.Slot2, PlayerSwitchElements.PlayerAttackForm);
             Debug.Log("Second Ability Pressed");
         }
     }
@@ -293,9 +290,11 @@ public class PlayerController : MonoBehaviour
         allowing blocking to activate while still holding the 
         button after attacking or dashing
         */
+        
+        if (isSwitchingElement) { return; }
 
         //Block Logic For Fire Mode
-        if(PlayerAttackForm == ElementType.Fire)
+        if(PlayerSwitchElements.PlayerAttackForm == ElementType.Fire)
         {
             if (ctx.started)
             {
@@ -331,36 +330,6 @@ public class PlayerController : MonoBehaviour
 
 
     //FORM SWITCHING/TRACKING
-    //SwitchForm
-    private void SwitchAttackForm() //Swtich to other form
-    {
-        if (PlayerAttackForm == ElementType.Fire)
-        {
-            PlayerAttackForm = ElementType.Ice;
-            playerCircleEffect.SwitchToIce();
-        }
-        else if (PlayerAttackForm == ElementType.Ice)
-        {
-            PlayerAttackForm = ElementType.Fire;
-            playerCircleEffect.SwitchToFire();
-        }
-        playerAnimations.SwitchForm();
-        SetFormStats();
-        playerAttackCalcs.ApplyAttackAreaSize();
-        FormSwitchCooldownTimer = FormSwitchCooldown;
-    }
-    private void SetFormStats()
-    {
-        if (PlayerAttackForm == ElementType.Fire)
-        {
-            playerRollSpeed = FireRollCooldown;
-        }
-        if (PlayerAttackForm == ElementType.Ice)
-        {
-            playerRollSpeed = IceRollCooldown;
-        }
-        attackSpeedManager.SetAttackSpeed();
-    }
     
     public void SetPlayerStop()
     {

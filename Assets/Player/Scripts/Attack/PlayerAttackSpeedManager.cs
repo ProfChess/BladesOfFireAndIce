@@ -14,7 +14,7 @@ public class PlayerAttackSpeedManager : MonoBehaviour
     public void SetAttackSpeed()
     {
         //Changes attack speed based on Attack Form
-        float AttackSpeedSet = (PlayerController.PlayerAttackForm == ElementType.Fire)? 
+        float AttackSpeedSet = (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire)? 
             FireAttackSpeed : IceAttackSpeed;
 
         //Changes anim Speed 

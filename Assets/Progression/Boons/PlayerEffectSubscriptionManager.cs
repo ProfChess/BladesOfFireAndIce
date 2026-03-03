@@ -19,6 +19,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     //Events Locations
     [SerializeField] private PlayerStatSetting playerStatModding;
     [SerializeField] private PlayerAttackCalcs attackEvents;
+    [SerializeField] private PlayerSwitchElements playerSwitchElements;
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerBlock playerBlock;
@@ -28,6 +29,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     {
         switch (Event)
         {
+            case BoonEventType.OnSwitchElement: playerSwitchElements.OnSwitchElements += BoonEffect; break;
             case BoonEventType.OnNormalAttack: playerAttack.OnNormalAttack += BoonEffect; break;
             case BoonEventType.OnNormalEnemyHit: attackEvents.OnEnemyHitNormalAttack += BoonEffect; break;
             case BoonEventType.OnNormalDamageEnemyDeath: attackEvents.OnEnemyDeathNormalAttack += BoonEffect; break;
@@ -49,6 +51,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     {
         switch (Event)
         {
+            case BoonEventType.OnSwitchElement: playerSwitchElements.OnSwitchElements -= BoonEffect; break;
             case BoonEventType.OnNormalAttack: playerAttack.OnNormalAttack -= BoonEffect; break;
             case BoonEventType.OnNormalEnemyHit: attackEvents.OnEnemyHitNormalAttack -= BoonEffect; break;
             case BoonEventType.OnNormalDamageEnemyDeath: attackEvents.OnEnemyDeathNormalAttack -= BoonEffect; break;
@@ -86,7 +89,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
         switch (StateCheckType)
         {
             case PlayerStateCheckType.Health: 
-                tempCtx.Setup(PlayerController.PlayerAttackForm, 
+                tempCtx.Setup(PlayerSwitchElements.PlayerAttackForm, 
                     playerHealth.CurrentHealth, 
                     playerHealth.CurrentHealth, 
                     playerHealth.GetPlayerMaxHealth);
@@ -98,7 +101,8 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
 
 public enum BoonEventType 
 { 
-    OnNormalAttack = 0, OnNormalEnemyHit = 1, OnNormalDamageEnemyDeath = 2, OnNormalCriticalHit = 3, 
+    OnNormalAttack = 0, OnNormalEnemyHit = 1, OnNormalDamageEnemyDeath = 2, OnNormalCriticalHit = 3,
+    OnSwitchElement = 7,
     OnAbilityUse = 10, OnAbilityDamage = 11, OnAbilityKill = 12,
     OnHealthChange = 20,
     OnBlockStart = 30, OnBlockEnd = 31, OnParrySuccess = 32,
