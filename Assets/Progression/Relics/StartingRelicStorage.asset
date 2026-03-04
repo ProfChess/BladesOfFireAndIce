@@ -15,3 +15,5 @@ MonoBehaviour:
   AllRelics:
   - {fileID: 11400000, guid: 06d4e2311ec3b6a4ab44376194ee5c12, type: 2}
   - {fileID: 11400000, guid: bbf87fcfd6319af419767aefe6bef273, type: 2}
+  - {fileID: 11400000, guid: c33dbe976012b7f4b88196f521e21b8d, type: 2}
+  - {fileID: 11400000, guid: 4f5c750ed447a0d41b8567f42ed84682, type: 2}

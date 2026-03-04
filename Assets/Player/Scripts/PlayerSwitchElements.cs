@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerSwitchElements : MonoBehaviour
 {
     //Form Enum
-    public static ElementType PlayerAttackForm;
+    public static ElementType PlayerAttackForm = ElementType.Fire;
 
     [Header("References")]
     [SerializeField] private PlayerController playerController;
@@ -16,11 +16,6 @@ public class PlayerSwitchElements : MonoBehaviour
     //Events
     public event Action<PlayerEventContext> OnSwitchElements;
     private PlayerEventContext SwitchElementsCtx = new();
-
-    private void Start()
-    {
-        PlayerAttackForm = ElementType.Fire; //Player starts in fire form
-    }
 
     //SwitchForm
     public void SwitchAttackForm() //Swtich to other form

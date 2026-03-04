@@ -22,6 +22,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     [SerializeField] private PlayerSwitchElements playerSwitchElements;
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerStaminaManager playerStamina;
     [SerializeField] private PlayerBlock playerBlock;
 
     //Subscribing to Events
@@ -77,6 +78,17 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     public void RemoveBonus(StatType stat, float AmountAsPercentage)
     {
         playerStatModding.ApplyBonusStat(stat, -AmountAsPercentage);
+    }
+
+    //Restoring Stats From Relics
+    public void RestoreStat(StatType stat, float PercentageAmount)
+    {
+        switch(stat)
+        {
+            default: Debug.Log("Cannot Restore Stat Type: " + stat);                  break;
+            case StatType.Vitality:  playerHealth.PlayerHeal(PercentageAmount);       break;
+            case StatType.Endurance: playerStamina.IncreaseStamina(PercentageAmount); break;
+        }
     }
 
     //State Checking For Relics

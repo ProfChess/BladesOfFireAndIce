@@ -6,7 +6,7 @@ public class PlayerStaminaManager : MonoBehaviour
 {
     //Variables
     [SerializeField] private float MaxStamina;
-    public void SetMaxStamina(float num) { MaxStamina = num; }
+    public void SetMaxStamina(float num) { MaxStamina = num; CurrentStamina = MaxStamina; }
 
     [SerializeField] private float CurrentStamina;      //Current Stamina Level
     [SerializeField] private float StaminaRegenRate;    //Amount Gained Per Second
@@ -15,11 +15,6 @@ public class PlayerStaminaManager : MonoBehaviour
     public float GetMaxStamina() { return MaxStamina; }
 
     private Coroutine StaminaRegenerator;
-
-    private void Start()
-    {
-        CurrentStamina = MaxStamina;
-    }
 
     //Coroutine For Increasing Stamina
     public IEnumerator RegenStamina()
@@ -36,9 +31,11 @@ public class PlayerStaminaManager : MonoBehaviour
     }
 
     //Increase and Decrease Stamina
-    private void IncreaseStamina(float Number) 
-    { 
-        CurrentStamina += Number; 
+    public void IncreaseStamina(float amountAsPercentage) 
+    {
+        float amount = (amountAsPercentage/100) * MaxStamina;
+
+        CurrentStamina += amount; 
         if (CurrentStamina > MaxStamina)
         {
             CurrentStamina = MaxStamina;

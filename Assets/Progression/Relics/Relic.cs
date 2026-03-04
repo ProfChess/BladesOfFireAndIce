@@ -50,8 +50,11 @@ public class Relic : BaseBoon
         return 0f;
     }
 }
-public enum RelicEffectType { FireShieldBuff = 0, IceShieldBuff = 1, HealthBuff = 2, 
-    DamageBuff = 3, AttackSpeedBuff = 4, MoveSpeedBuff = 5}
+public enum RelicEffectType 
+{ FireShieldBuff = 0, IceShieldBuff = 1, DamageFromHealthBuff = 2, 
+  DamageBuff = 3, AttackSpeedBuff = 4, MoveSpeedBuff = 5, 
+  StartingSwapBuff = 10,
+}
 
 [System.Serializable]
 public class RelicStatPair

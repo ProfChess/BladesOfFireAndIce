@@ -117,8 +117,11 @@ public class PlayerHealth : BaseHealth
 
     public void CallPlayerDeathEvent() { PlayerIsDead?.Invoke(); }
     //HEAL
-    public void PlayerHeal(float amount)
+    public void PlayerHeal(float amountAsPercentage)
     {
+        //Get Amount from Percentage
+        float amount = (amountAsPercentage/100) * MaxHealth;
+
         if (curHealth + amount > MaxHealth) curHealth = MaxHealth;
         else
         {

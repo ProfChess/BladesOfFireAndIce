@@ -15,22 +15,32 @@ public static class RelicEffectLibrary
         {
             case RelicEffectType.FireShieldBuff: RelicEffect_FireShield(relic, Details); break;
             case RelicEffectType.IceShieldBuff: RelicEffect_IceShield(relic, Details); break;
-            case RelicEffectType.HealthBuff: RelicEffect_HealthBuff(relic, Details); break;
+            case RelicEffectType.DamageFromHealthBuff: RelicEffect_DamageFromHealthBuff(relic, Details); break;
+            case RelicEffectType.StartingSwapBuff: RelicEffect_SwapElement(relic, Details); break;
 
         }
     }
+    private static readonly HashSet<StatType> RestorativeStats = new() { StatType.Vitality, StatType.Endurance };
     //Default Application and Deactivation Calls
     private static void ApplyAllStatBuffs(List<RelicStatPair> StatPairs)
     {
         foreach (RelicStatPair pair in StatPairs)
         {
-            PlayerEffectSubscriptionManager.Instance.AddBonus(pair.Stat, pair.PercentageIncrease);
+            if (RestorativeStats.Contains(pair.Stat))
+            {
+                PlayerEffectSubscriptionManager.Instance.RestoreStat(pair.Stat, pair.PercentageIncrease);
+            }
+            else
+            {
+                PlayerEffectSubscriptionManager.Instance.AddBonus(pair.Stat, pair.PercentageIncrease);
+            }
         }
     }
     private static void UnApplyAllStatBuffs(List<RelicStatPair> StatPairs)
     {
         foreach (RelicStatPair pair in StatPairs)
         {
+            if (RestorativeStats.Contains(pair.Stat)) { continue; } //Does not Refund Restorative Stats
             PlayerEffectSubscriptionManager.Instance.RemoveBonus(pair.Stat, pair.PercentageIncrease);
         }
     }
@@ -82,8 +92,21 @@ public static class RelicEffectLibrary
         }
     }
 
+    //Starting Relic --> Swapping Power --> Grants Buff Depending on Element + Restore Stamina
+    private static void RelicEffect_SwapElement(Relic relic, PlayerEventContext ctx)
+    {
+        if (rundata.isRelicApplied(relic)) { rundata.RelicDeactivated(relic); }
+        
+        //Fire Buff
+        ApplyAllStatBuffs(relic.StatIncreases);
+        rundata.RelicActivated(relic, () =>
+        {
+            UnApplyAllStatBuffs(relic.StatIncreases);
+        }, relic.Duration);
+    }
+
     //Grants Bonus Damage When Above 50% HP
-    private static void RelicEffect_HealthBuff(Relic relic, PlayerEventContext ctx)
+    private static void RelicEffect_DamageFromHealthBuff(Relic relic, PlayerEventContext ctx)
     {
         if (ctx is not StatChangeEventContext statctx) { return; }
         bool Above50 = (statctx.newValue / statctx.maxValue) >= 0.5f;

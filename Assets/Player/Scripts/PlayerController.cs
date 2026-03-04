@@ -249,13 +249,14 @@ public class PlayerController : MonoBehaviour
                     playerAnimations.ResetCombo();
                     if (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire) { playerAnimations.FireAttack(); }
                     else { playerAnimations.IceAttack(); }
+                    playerAttack.UseSkill(PlayerAttack.AttackList.BasicAttack);
                 }
                 else if (playerAnimations.canReadyNextAttack)
                 {
                     playerAnimations.IncreaseCombo();
                     playerAnimations.canReadyNextAttack = false;
+                    playerAttack.UseSkill(PlayerAttack.AttackList.BasicAttack);
                 }
-                playerAttack.UseSkill(PlayerAttack.AttackList.BasicAttack);
             }
         }
 
