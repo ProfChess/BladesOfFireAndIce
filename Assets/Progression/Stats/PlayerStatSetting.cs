@@ -16,14 +16,14 @@ public class PlayerStatSetting : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.GameStart += AttributeStats;
+            GameManager.Instance.GameStart += InitializePlayerStats;
         }
     }
     void OnDisable()
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.GameStart -= AttributeStats;
+            GameManager.Instance.GameStart -= InitializePlayerStats;
         }
     }
 
@@ -69,6 +69,14 @@ public class PlayerStatSetting : MonoBehaviour
         playerAttackSpeed.SetFireSpeed(Stats.AttackSpeedFire * GetBonusAsMultiplier(FireSpeedBonus));
         playerAttackSpeed.SetIceSpeed(Stats.AttackSpeedIce * GetBonusAsMultiplier(IceSpeedBonus));
         playerHealth.AddDamageResistance(ArmorBonus);
+    }
+
+    //Starting Fill
+    private void InitializePlayerStats()
+    {
+        AttributeStats();
+        playerHealth.StartFillHealth();
+        playerStamina.StartFillStamina();
     }
     //Stat Types
 }

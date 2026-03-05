@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 dashDirection = Vector2.right;
     private bool isDashing = false;
+    public bool isImmuneDash { get; private set; } = false;
     private float FormSwitchCooldownTimer;
     private bool isSwitchingElement = false;
     private bool playerStop = false;
@@ -259,8 +260,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
     }
+    public void SetDashImmunity(bool isImmune) { isImmuneDash = isImmune; }
     public void OnAbilityOne(InputAction.CallbackContext ctx)
     {
         if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement) { return; }

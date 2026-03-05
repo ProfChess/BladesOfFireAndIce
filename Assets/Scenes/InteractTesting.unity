@@ -3230,7 +3230,7 @@ MonoBehaviour:
   MoveBlockAnimSpeedFire: 0.6
   BlockArc: 180
   TimeBetweenStaminaComsume: 0.1
-  StaminaConsumedOnParry: 0
+  StaminaConsumedOnParry: 3
   IceParryDamagePencentage: 100
   ImmunityDurationOnParry: 2
   ParryArc: 220
@@ -8794,12 +8794,13 @@ MonoBehaviour:
   CollisionDamage: 1
   HasCollisionDamage: 0
   hitboxFaceLeft: {x: 0.3, y: 0}
+  playerController: {fileID: 27735078481962319}
+  input: {fileID: 395008096797642286}
+  HF: {fileID: 4261907605011602882}
+  playerBlock: {fileID: 719041809898752862}
   PlayerHitbox: {fileID: 2079365605306033323}
   PlayerAnim: {fileID: 3249106914142875112}
   playerSprite: {fileID: 339506646460940277}
-  HF: {fileID: 4261907605011602882}
-  playerBlock: {fileID: 719041809898752862}
-  input: {fileID: 395008096797642286}
 --- !u!224 &4806750893418723617
 RectTransform:
   m_ObjectHideFlags: 0

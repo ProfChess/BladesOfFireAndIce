@@ -6,7 +6,8 @@ public class PlayerStaminaManager : MonoBehaviour
 {
     //Variables
     [SerializeField] private float MaxStamina;
-    public void SetMaxStamina(float num) { MaxStamina = num; CurrentStamina = MaxStamina; }
+    public void SetMaxStamina(float num) { MaxStamina = num; CurrentStamina = Mathf.Min(CurrentStamina, MaxStamina); }
+    public void StartFillStamina() { CurrentStamina = MaxStamina; }
 
     [SerializeField] private float CurrentStamina;      //Current Stamina Level
     [SerializeField] private float StaminaRegenRate;    //Amount Gained Per Second
@@ -22,7 +23,7 @@ public class PlayerStaminaManager : MonoBehaviour
         yield return new WaitForSeconds(RegenDelay);
         while (CurrentStamina < MaxStamina)
         {
-            CurrentStamina += StaminaRegenRate * Time.deltaTime;
+            CurrentStamina += StaminaRegenRate * GameTimeManager.GameDeltaTime;
             CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, MaxStamina);
 
             yield return null;
@@ -35,11 +36,12 @@ public class PlayerStaminaManager : MonoBehaviour
     {
         float amount = (amountAsPercentage/100) * MaxStamina;
 
-        CurrentStamina += amount; 
-        if (CurrentStamina > MaxStamina)
-        {
-            CurrentStamina = MaxStamina;
-        }
+        CurrentStamina += amount;
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, MaxStamina);
+
+        Debug.Log("Amount: " + amount);
+        Debug.Log("Current: " + CurrentStamina);
+        Debug.Log("Max: " + MaxStamina);
     }
     public void DecreaseStamina(float Number)
     {
@@ -57,6 +59,7 @@ public class PlayerStaminaManager : MonoBehaviour
             if (StaminaRegenerator != null)
             {
                 StopCoroutine(StaminaRegenerator);
+                StaminaRegenerator = null;
             }
             StaminaRegenerator = StartCoroutine(RegenStamina());
         }

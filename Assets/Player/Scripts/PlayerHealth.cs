@@ -8,14 +8,16 @@ public class PlayerHealth : BaseHealth
     [SerializeField] private Vector2 hitboxFaceLeft = Vector2.zero;
     private Vector2 hitboxFaceRight = Vector2.zero;
 
-    [Header("References")]
-    [SerializeField] private BoxCollider2D PlayerHitbox;
-    [SerializeField] private Animator PlayerAnim;
-    [SerializeField] private SpriteRenderer playerSprite;
+    [Header("Script References")]
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerInput input;
     [SerializeField] private HitFlash HF;
     [SerializeField] private PlayerBlock playerBlock;
 
-    [SerializeField] private PlayerInput input;
+    [Header("Other References")]
+    [SerializeField] private BoxCollider2D PlayerHitbox;
+    [SerializeField] private Animator PlayerAnim;
+    [SerializeField] private SpriteRenderer playerSprite;
 
     private bool isFalling = false;
     private float damageResist = 0;
@@ -30,7 +32,8 @@ public class PlayerHealth : BaseHealth
     //Animations
     private static readonly int FallState = Animator.StringToHash("PlayerFall");
 
-    public void SetMaxHealth(float num) { MaxHealth = num; curHealth = MaxHealth; }
+    public void SetMaxHealth(float num) { MaxHealth = num; curHealth = Mathf.Min(curHealth, MaxHealth); }
+    public void StartFillHealth() { curHealth = MaxHealth; }
     public float GetPlayerMaxHealth => MaxHealth;
     public void AddDamageResistance(float num) { damageResist += num; }
 
@@ -100,7 +103,7 @@ public class PlayerHealth : BaseHealth
     private void PlayerDamage(float damage)
     {
         //Skip Applying Damage if Player is Immune
-        if (playerBlock.isImmune) return;
+        if (playerBlock.isImmune || playerController.isImmuneDash) return;
 
         if (damage > 0) 
         { 

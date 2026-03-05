@@ -59,6 +59,7 @@ public class PlayerAnimations : MonoBehaviour
     private PlayerAttack attack;
     private PlayerBlock block;
     private bool isAttacking = false;
+    [HideInInspector]
     public bool canReadyNextAttack = false;
     public bool IsAttacking => isAttacking;
     //Physics Lock
@@ -108,6 +109,10 @@ public class PlayerAnimations : MonoBehaviour
     //Switching
     public void StartSwitching() { controls.SetIsSwitching(true); }
     public void EndSwitching() { controls.SetIsSwitching(false); }
+
+
+    public void OpenDashImmunityWindow() { controls.SetDashImmunity(true); }
+    public void CloseDashImmunityWindow() { controls.SetDashImmunity(false); }
 
     private void Start()
     {
