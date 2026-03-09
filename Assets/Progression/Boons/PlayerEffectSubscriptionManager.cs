@@ -33,7 +33,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnSwitchElement: playerSwitchElements.OnSwitchElements += BoonEffect; break;
             case BoonEventType.OnNormalAttack: playerAttack.OnNormalAttack += BoonEffect; break;
             case BoonEventType.OnNormalEnemyHit: attackEvents.OnEnemyHitNormalAttack += BoonEffect; break;
-            case BoonEventType.OnNormalDamageEnemyDeath: attackEvents.OnEnemyDeathNormalAttack += BoonEffect; break;
+            case BoonEventType.OnNormalDamageEnemyKill: attackEvents.OnEnemyDeathNormalAttack += BoonEffect; break;
             case BoonEventType.OnNormalCriticalHit: attackEvents.OnCriticalHitNormalAttack += BoonEffect; break;
             case BoonEventType.OnAbilityUse: PlayerAbilities.OnAbilityUse += BoonEffect; break;
             case BoonEventType.OnAbilityDamage: BaseEffectSpawn.OnAbilityDamage += BoonEffect; break;
@@ -55,7 +55,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
             case BoonEventType.OnSwitchElement: playerSwitchElements.OnSwitchElements -= BoonEffect; break;
             case BoonEventType.OnNormalAttack: playerAttack.OnNormalAttack -= BoonEffect; break;
             case BoonEventType.OnNormalEnemyHit: attackEvents.OnEnemyHitNormalAttack -= BoonEffect; break;
-            case BoonEventType.OnNormalDamageEnemyDeath: attackEvents.OnEnemyDeathNormalAttack -= BoonEffect; break;
+            case BoonEventType.OnNormalDamageEnemyKill: attackEvents.OnEnemyDeathNormalAttack -= BoonEffect; break;
             case BoonEventType.OnNormalCriticalHit: attackEvents.OnCriticalHitNormalAttack -= BoonEffect; break;
             case BoonEventType.OnAbilityUse: PlayerAbilities.OnAbilityUse -= BoonEffect; break;
             case BoonEventType.OnAbilityDamage: BaseEffectSpawn.OnAbilityDamage -= BoonEffect; break;
@@ -113,7 +113,7 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
 
 public enum BoonEventType 
 { 
-    OnNormalAttack = 0, OnNormalEnemyHit = 1, OnNormalDamageEnemyDeath = 2, OnNormalCriticalHit = 3,
+    OnNormalAttack = 0, OnNormalEnemyHit = 1, OnNormalDamageEnemyKill = 2, OnNormalCriticalHit = 3,
     OnSwitchElement = 7,
     OnAbilityUse = 10, OnAbilityDamage = 11, OnAbilityKill = 12,
     OnHealthChange = 20,

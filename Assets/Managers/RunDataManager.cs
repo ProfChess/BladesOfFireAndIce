@@ -155,6 +155,13 @@ public class RunDataManager : MonoBehaviour
         ShopCurrencyCollected = 0f;
         StatCurrencyCollected = 0f;
     }
+
+
+
+
+    //Stat Bonuses 
+
+
 }
 
 //Classes for Boon/Reic/Ability Instances
