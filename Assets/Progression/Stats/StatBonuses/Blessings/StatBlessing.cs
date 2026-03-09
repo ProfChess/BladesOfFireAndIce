@@ -15,19 +15,27 @@ public class StatBlessing : ScriptableObject
 
     private RunDataManager rundata => GameManager.Instance.runData;
 
-    public void Apply()
+    public void ApplyEffects()
     {
         foreach (var effect in EffectList)
         {
             effect.ApplyEffect();
         }
     }
+    public void RemoveEffects()
+    {
+        foreach (var effect in EffectList)
+        {
+            effect.RemoveEffect();
+        }
+    }
 }
-public abstract class BaseStatBlessingEffect : ScriptableObject { public abstract void ApplyEffect(); }
+public abstract class BaseStatBlessingEffect : ScriptableObject { public abstract void ApplyEffect(); public abstract void RemoveEffect(); }
 public abstract class StatBlessingEffect_EventTriggered : BaseStatBlessingEffect
 {
     [SerializeField] private BoonEventType[] TriggerEvents;
-    protected void SubToEvents(Action<PlayerEventContext> EffectToAttach)
+    protected abstract void TriggerEffect(PlayerEventContext ctx);
+    protected void SubToEvents()
     {
         //Check 
         if (TriggerEvents == null || TriggerEvents.Length == 0)
@@ -38,7 +46,20 @@ public abstract class StatBlessingEffect_EventTriggered : BaseStatBlessingEffect
 
         foreach (BoonEventType eventType in TriggerEvents)
         {
-            PlayerEffectSubscriptionManager.Instance.SubscribeToPlayerEvent(EffectToAttach, eventType);
+            PlayerEffectSubscriptionManager.Instance.SubscribeToPlayerEvent(TriggerEffect, eventType);
+        }
+    }
+    protected void UnSubToEvents()
+    {
+        //Check 
+        if (TriggerEvents == null || TriggerEvents.Length == 0)
+        {
+            Debug.LogWarning($"{name} has no trigger events");
+        }
+
+        foreach (BoonEventType eventType in TriggerEvents)
+        {
+            PlayerEffectSubscriptionManager.Instance.UnSubscribeFromPlayerEvent(TriggerEffect, eventType);
         }
     }
 }

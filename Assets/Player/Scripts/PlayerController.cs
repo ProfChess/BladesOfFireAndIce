@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerSwitchElements playerSwitchElements;
     [SerializeField] private PlayerAttack playerAttack;
+    [SerializeField] private PlayerStaminaManager playerStamina;
     [SerializeField] private PlayerBlock playerBlock;
     [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
     [SerializeField] private PlayerAbilities playerAbilities;
@@ -186,7 +187,7 @@ public class PlayerController : MonoBehaviour
 
         if (ctx.started)
         {
-            if (playerAttack.CheckStamina(PlayerAttack.AttackList.Roll, PlayerSwitchElements.PlayerAttackForm))
+            if (playerStamina.CheckStamina(PlayerAttack.AttackList.Roll, PlayerSwitchElements.PlayerAttackForm))
             {
                 //Stop Blocking
                 if (playerBlock.IsBlocking) { StopBlock(); }
@@ -201,7 +202,7 @@ public class PlayerController : MonoBehaviour
                 else { dashDirection = SnapMousePositionTo8Directions(GetMouseDir()); }
 
                 playerAnimations.DodgeRoll();
-                playerAttack.UseSkill(PlayerAttack.AttackList.Roll);
+                playerStamina.ConsumeStamina(PlayerAttack.AttackList.Roll);
                 StartCoroutine(DashCoroutine());
             }
         }
@@ -241,7 +242,7 @@ public class PlayerController : MonoBehaviour
 
         if (ctx.started)
         {
-            if (playerAttack.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerSwitchElements.PlayerAttackForm))
+            if (playerStamina.CheckStamina(PlayerAttack.AttackList.BasicAttack, PlayerSwitchElements.PlayerAttackForm))
             {
                 if (playerBlock.IsBlocking) { StopBlock(); }
 
@@ -250,13 +251,13 @@ public class PlayerController : MonoBehaviour
                     playerAnimations.ResetCombo();
                     if (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire) { playerAnimations.FireAttack(); }
                     else { playerAnimations.IceAttack(); }
-                    playerAttack.UseSkill(PlayerAttack.AttackList.BasicAttack);
+                    playerAttack.BeginAttack();
                 }
                 else if (playerAnimations.canReadyNextAttack)
                 {
                     playerAnimations.IncreaseCombo();
                     playerAnimations.canReadyNextAttack = false;
-                    playerAttack.UseSkill(PlayerAttack.AttackList.BasicAttack);
+                    playerAttack.BeginAttack();
                 }
             }
         }

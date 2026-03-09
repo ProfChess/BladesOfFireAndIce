@@ -20,7 +20,7 @@ public static class RelicEffectLibrary
 
         }
     }
-    private static readonly HashSet<StatType> RestorativeStats = new() { StatType.Vitality, StatType.Endurance };
+    private static readonly HashSet<StatType> RestorativeStats = new() { StatType.RefreshVitality, StatType.RefreshEndurance };
     //Default Application and Deactivation Calls
     private static void ApplyAllStatBuffs(List<RelicStatPair> StatPairs)
     {

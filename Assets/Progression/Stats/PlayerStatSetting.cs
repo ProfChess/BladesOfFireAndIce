@@ -29,7 +29,8 @@ public class PlayerStatSetting : MonoBehaviour
 
 
     private float HealthBonus = 0f;
-    private float StaminaBonus = 0f;
+    private float MaxStaminaBonus = 0f;
+    private float RollEnduranceDiscount = 0f;
     private float FireDamageBonus = 0f;
     private float IceDamageBonus = 0f;
     private float FireAreaBonus = 0f;
@@ -43,16 +44,17 @@ public class PlayerStatSetting : MonoBehaviour
     {
         switch (Stat)
         {
-            case StatType.Vitality:       HealthBonus += Bonus;         break;
-            case StatType.Endurance:      StaminaBonus += Bonus;        break;
-            case StatType.StrengthFire:   FireDamageBonus += Bonus;     break;
-            case StatType.StrengthIce:    IceDamageBonus += Bonus;      break;
-            case StatType.ReachFire:      FireAreaBonus += Bonus;       break;
-            case StatType.ReachIce:       IceAreaBonus += Bonus;        break;
-            case StatType.DexterityFire:  FireSpeedBonus += Bonus;      break;
-            case StatType.DexterityIce:   IceSpeedBonus += Bonus;       break;
-            case StatType.Luck:           CriticalChanceBonus += Bonus; break;
-            case StatType.Armor:          ArmorBonus += Bonus;          break;
+            case StatType.MaxVitality:    HealthBonus += Bonus;             break;
+            case StatType.MaxEndurance:   MaxStaminaBonus += Bonus;         break;
+            case StatType.RollEndurance:  RollEnduranceDiscount += Bonus;   break;
+            case StatType.StrengthFire:   FireDamageBonus += Bonus;         break;
+            case StatType.StrengthIce:    IceDamageBonus += Bonus;          break;
+            case StatType.ReachFire:      FireAreaBonus += Bonus;           break;
+            case StatType.ReachIce:       IceAreaBonus += Bonus;            break;
+            case StatType.DexterityFire:  FireSpeedBonus += Bonus;          break;
+            case StatType.DexterityIce:   IceSpeedBonus += Bonus;           break;
+            case StatType.Luck:           CriticalChanceBonus += Bonus;     break;
+            case StatType.Armor:          ArmorBonus += Bonus;              break;
         }
         AttributeStats();
     }
@@ -60,7 +62,8 @@ public class PlayerStatSetting : MonoBehaviour
     private void AttributeStats()
     {
         playerHealth.SetMaxHealth(Stats.Health * GetBonusAsMultiplier(HealthBonus));
-        playerStamina.SetMaxStamina(Stats.Stamina * GetBonusAsMultiplier(StaminaBonus));
+        playerStamina.SetMaxStamina(Stats.Stamina * GetBonusAsMultiplier(MaxStaminaBonus));
+        playerStamina.RollStaminaCostMultiplier = GetBonusAsMultiplier(RollEnduranceDiscount);
         playerDamage.SetFireDamage(Stats.FireDamage * GetBonusAsMultiplier(FireDamageBonus));
         playerDamage.SetIceDamage(Stats.IceDamage * GetBonusAsMultiplier(IceDamageBonus));
         playerDamage.SetFireAOE(Stats.BaseFireAOE * GetBonusAsMultiplier(FireAreaBonus));
@@ -82,7 +85,8 @@ public class PlayerStatSetting : MonoBehaviour
 }
 public enum StatType 
 { None = 0, 
-    Vitality = 1, Endurance = 2, 
+    MaxVitality = 1, RefreshVitality = 2,  
+    MaxEndurance = 5, RefreshEndurance = 6, RollEndurance = 7,
     StrengthFire = 11, StrengthIce = 12,
     ReachFire = 21, ReachIce = 22,
     DexterityFire = 31, DexterityIce = 32, 

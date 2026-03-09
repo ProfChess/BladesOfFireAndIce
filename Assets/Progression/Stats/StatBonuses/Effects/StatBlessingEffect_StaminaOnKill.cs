@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName =("Effect/Blessings/BlessingEffect/StaminaGainedOnKill"))]
@@ -6,10 +7,17 @@ public class StatBlessingEffect_StaminaOnKill : StatBlessingEffect_EventTriggere
     [SerializeField] private float StaminaPercentageGainedPerKill = 5f;
     public override void ApplyEffect()
     {
-        SubToEvents(StaminaGainedOnKill);
+        SubToEvents();
     }
-    private void StaminaGainedOnKill(PlayerEventContext ctx)
+
+    public override void RemoveEffect()
     {
-        PlayerEffectSubscriptionManager.Instance.RestoreStat(StatType.Endurance, StaminaPercentageGainedPerKill);
+        UnSubToEvents();
     }
+
+    protected override void TriggerEffect(PlayerEventContext ctx)
+    {
+        PlayerEffectSubscriptionManager.Instance.RestoreStat(StatType.RefreshEndurance, StaminaPercentageGainedPerKill);
+    }
+
 }

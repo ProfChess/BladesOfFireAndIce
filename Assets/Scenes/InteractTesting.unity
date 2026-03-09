@@ -2070,6 +2070,7 @@ MonoBehaviour:
   rb: {fileID: 2309503957904838640}
   playerSwitchElements: {fileID: 4980638717648447601}
   playerAttack: {fileID: 8948511821983805981}
+  playerStamina: {fileID: 5429453980722823448}
   playerBlock: {fileID: 719041809898752862}
   playerAttackCalcs: {fileID: 8129756850551114467}
   playerAbilities: {fileID: 234080570675611305}
@@ -9666,6 +9667,9 @@ MonoBehaviour:
   MaxStamina: 35
   CurrentStamina: 0
   StaminaRegenRate: 2
+  FireStaminaCost: 3
+  IceStaminaCost: 2
+  BaseRollStaminaCost: 2
 --- !u!222 &5432939252992890540
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14958,9 +14962,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599899534e0165c4fa1f8cdfc81f6c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireStaminaCost: 3
-  IceStaminaCost: 2
-  RollStaminaCost: 2
   controls: {fileID: 27735078481962319}
   attackBox: {fileID: 2927850522462332650}
   playerStamina: {fileID: 5429453980722823448}

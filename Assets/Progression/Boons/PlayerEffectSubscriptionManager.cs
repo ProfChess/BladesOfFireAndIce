@@ -85,9 +85,9 @@ public class PlayerEffectSubscriptionManager : MonoBehaviour
     {
         switch(stat)
         {
-            default: Debug.Log("Cannot Restore Stat Type: " + stat);                  break;
-            case StatType.Vitality:  playerHealth.PlayerHeal(PercentageAmount);       break;
-            case StatType.Endurance: playerStamina.IncreaseStamina(PercentageAmount); break;
+            default: Debug.Log("Cannot Restore Stat Type: " + stat);                         break;
+            case StatType.RefreshVitality:  playerHealth.PlayerHeal(PercentageAmount);       break;
+            case StatType.RefreshEndurance: playerStamina.IncreaseStamina(PercentageAmount); break;
         }
     }
 

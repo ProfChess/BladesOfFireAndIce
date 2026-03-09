@@ -1,20 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerAttack;
 
 public class PlayerStaminaManager : MonoBehaviour
 {
     //Variables
+    [Header("Stamina Stats")]
     [SerializeField] private float MaxStamina;
-    public void SetMaxStamina(float num) { MaxStamina = num; CurrentStamina = Mathf.Min(CurrentStamina, MaxStamina); }
-    public void StartFillStamina() { CurrentStamina = MaxStamina; }
-
     [SerializeField] private float CurrentStamina;      //Current Stamina Level
     [SerializeField] private float StaminaRegenRate;    //Amount Gained Per Second
     private float RegenDelay = 1f;
-    public float GetStamina () { return CurrentStamina;}
+    public void SetMaxStamina(float num) { MaxStamina = num; CurrentStamina = Mathf.Min(CurrentStamina, MaxStamina); }
+    public float GetStamina() { return CurrentStamina; }
     public float GetMaxStamina() { return MaxStamina; }
+    public void StartFillStamina() { CurrentStamina = MaxStamina; }
 
+    [Header("Stamina Costs")]
+    [SerializeField] private float FireStaminaCost;
+    [SerializeField] private float IceStaminaCost;
+    [SerializeField] private float BaseRollStaminaCost;
+    public float RollStaminaCostMultiplier { set; private get; } = 0f;
+    private float TotalRollCost => BaseRollStaminaCost * RollStaminaCostMultiplier;
+
+
+
+    //Coroutine
     private Coroutine StaminaRegenerator;
 
     //Coroutine For Increasing Stamina
@@ -63,6 +74,42 @@ public class PlayerStaminaManager : MonoBehaviour
             }
             StaminaRegenerator = StartCoroutine(RegenStamina());
         }
+    }
 
+    //Check Stamina For Actions
+    public bool CheckStamina(AttackList Attacktype, ElementType StanceType)
+    {
+        switch (Attacktype)
+        {
+            case AttackList.BasicAttack:
+                if (StanceType == ElementType.Fire)
+                {
+                    return CurrentStamina >= FireStaminaCost;
+                }
+                else
+                {
+                    return CurrentStamina >= IceStaminaCost;
+                }
+            case AttackList.Roll:
+                return CurrentStamina >= TotalRollCost;
+        }
+        return false;
+    }
+    public void ConsumeStamina(AttackList attackType)
+    {
+        switch(attackType)
+        {
+            case AttackList.BasicAttack:
+                if (PlayerSwitchElements.PlayerAttackForm == ElementType.Fire)
+                {
+                    DecreaseStamina(FireStaminaCost);
+                }
+                else
+                {
+                    DecreaseStamina(IceStaminaCost);
+                }
+                break;
+            case AttackList.Roll: DecreaseStamina(TotalRollCost); break;
+        }
     }
 }

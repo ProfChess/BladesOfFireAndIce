@@ -21,7 +21,7 @@ MonoBehaviour:
   StatIncreases:
   - Stat: 22
     PercentageIncrease: 10
-  - Stat: 2
+  - Stat: 6
     PercentageIncrease: 20
   Duration: 5
   Cooldown: 0

@@ -18,3 +18,4 @@ MonoBehaviour:
     Dodging Costs Less Stamina'
   EffectList:
   - {fileID: 11400000, guid: 1850a7058ca26b8429dfa5df77becaf5, type: 2}
+  - {fileID: 11400000, guid: 3f73e91ec5657524399898fe41713112, type: 2}
