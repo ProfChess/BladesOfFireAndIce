@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public static class AbilityEffectLibrary
 {
@@ -21,6 +20,8 @@ public static class AbilityEffectLibrary
 
         //Get Object From Pool
         GameObject Explosion = PlayerEffectPoolManager.Instance.getObjectFromPool(PlayerEffectObjectType.AbilityFlame);
+        float rotation = Random.Range(0f, 360f);
+        Explosion.transform.Rotate(0f, 0f, rotation);
 
         if (Explosion != null)
         {
@@ -30,6 +31,7 @@ public static class AbilityEffectLibrary
                 Stats.Damage,
                 Stats.Freq,
                 Stats.Duration);
+
         }
     }
     private static void Ability_IceSmash()

@@ -448,10 +448,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectVisual: {fileID: 8225461647428246422}
-  HSpeed: 1.5
-  initialUpForce: 3
+  HSpeed: 3
+  initialUpForce: 5.5
   gravity: 12
-  smallBounceForce: 1
+  smallBounceForce: 1.5
   groundY: -0.115
   fadeSpeed: 2
   fadeDelay: 0.4
