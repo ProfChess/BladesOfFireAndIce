@@ -3,20 +3,6 @@ using UnityEngine;
 public class StatAllocationCenter : InteractableObject
 {
     [SerializeField] private GameObject StatMenu;
-    private void OnEnable()
-    {
-        GameManager.Instance.MenuClosed += CloseMenu;
-
-    }
-    private void OnDisable()
-    {
-        GameManager.Instance.MenuClosed -= CloseMenu;
-    }
-
-    private void CloseMenu()
-    {
-        StatMenu.SetActive(false);
-    }
 
     public override void Interact()
     {
@@ -65,6 +51,8 @@ public class StatAllocationCenter : InteractableObject
     [Tooltip("Stats Cannot go Higher Than This")]
     [SerializeField] private int MaxPointsPerStat = 10;
     [SerializeField] private int MinPointsPerStat = 1;
+    public int MaxStatPoints => MaxPointsPerStat;
+    public int MinStatPoints => MinPointsPerStat;
 
     [Header("Total Points to Spend")]
     [SerializeField] private int PointsSpent = 5;
@@ -126,5 +114,6 @@ public class StatAllocationCenter : InteractableObject
         if (Num > 0) { StatPointSpend(ref Luck); }
         else if (Num < 0) { StatPointRefund(ref Luck); }
     }
+
 
 }

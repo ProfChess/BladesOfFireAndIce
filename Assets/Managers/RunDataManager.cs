@@ -152,16 +152,46 @@ public class RunDataManager : MonoBehaviour
     {
         CurrentVirtues.Clear();
         CurrentRelics.Clear();
+        CurrentBlessings.Clear();
         ShopCurrencyCollected = 0f;
         StatCurrencyCollected = 0f;
     }
 
 
 
-
     //Stat Bonuses 
+    private Dictionary<StatBlessing, BlessingInstance> CurrentBlessings = new();
+    public bool IsBlessingSelected(StatBlessing Blessing) { return CurrentBlessings.ContainsKey(Blessing); } 
+    public void SelectBlessing(StatBlessing Blessing)
+    {
+        if (CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("Blessing Already Selected"); return; }
 
+        BlessingInstance BlessingInst = new BlessingInstance
+        {
+            BlessingRef = Blessing,
+        };
 
+        CurrentBlessings.Add(Blessing, BlessingInst);
+        Blessing.ApplyEffects();
+    }
+    public void DeSelectBlessing(StatBlessing Blessing)
+    {
+        if (!CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("This Blessing is Not Equipped"); return; }
+
+        CurrentBlessings.Remove(Blessing);
+        Blessing.RemoveEffects();
+    }
+    public void ToggleBlessing(StatBlessing Blessing)
+    {
+        if (IsBlessingSelected(Blessing))
+        {
+            DeSelectBlessing(Blessing);
+        }
+        else
+        {
+            SelectBlessing(Blessing);
+        }
+    }
 }
 
 //Classes for Boon/Reic/Ability Instances
@@ -204,4 +234,8 @@ public class RelicInstance : CooldownState
         Start(RelicRef.Cooldown);
     }
     
+}
+public class BlessingInstance
+{
+    public StatBlessing BlessingRef;
 }

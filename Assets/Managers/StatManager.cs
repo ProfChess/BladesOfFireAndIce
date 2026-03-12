@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StatManager : MonoBehaviour
@@ -24,4 +25,15 @@ public class StatManager : MonoBehaviour
         Dexterity = Dex;
         Luck = Luc;
     }
+
+    //Blessings
+    [Header("Blessings")]
+    [SerializeField] private StatBlessing[] VitalityBlessings = new StatBlessing[2];
+    [SerializeField] private StatBlessing[] EnduranceBlessings = new StatBlessing[2];
+    [SerializeField] private StatBlessing[] StrengthBlessings = new StatBlessing[2];
+    [SerializeField] private StatBlessing[] DexterityBlessings = new StatBlessing[2];
+    [SerializeField] private StatBlessing[] LuckBlessings = new StatBlessing[2];
+
+
+
 }

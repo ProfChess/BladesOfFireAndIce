@@ -58,18 +58,4 @@ public class BoonSelection : BaseBonusSelection
         return Choice;
     }
 
-
-    //Close Menu
-    private void CloseMenu()
-    {
-        SelectionPopup.SetActive(false);
-    }
-    private void OnEnable()
-    {
-        GameManager.Instance.MenuClosed += CloseMenu;
-    }
-    private void OnDisable()
-    {
-        GameManager.Instance.MenuClosed -= CloseMenu;
-    }
 }

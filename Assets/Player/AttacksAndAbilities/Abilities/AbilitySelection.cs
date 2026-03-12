@@ -34,8 +34,7 @@ public class AbilitySelection : MonoBehaviour
         }
 
         if(abilityPickup != null) { abilityPickup.gameObject.SetActive(false); }
-        SelectionPopup.SetActive(false);
-        GM.ChangePlayerToPlayerActions();
+        GM.CloseLatestMenu();
     }
 
     public List<AbilityPair> CreateListofPairs(AbilityPickup pickup)
@@ -66,21 +65,7 @@ public class AbilitySelection : MonoBehaviour
             UIOptions[i].AssignVisuals(abilitiesToDisplay[i].Fire, abilitiesToDisplay[i].Ice);
             UIOptions[i].gameObject.SetActive(true);
         }
-        GM.ChangePlayerToUIActions();
-        SelectionPopup.SetActive(true);
+        GM.OpenMenu(SelectionPopup);
     }
 
-    //Close Menu
-    private void CloseMenu()
-    {
-        SelectionPopup.SetActive(false);
-    }
-    private void OnEnable()
-    {
-        GameManager.Instance.MenuClosed += CloseMenu;
-    }
-    private void OnDisable()
-    {
-        GameManager.Instance.MenuClosed -= CloseMenu;
-    }
 }

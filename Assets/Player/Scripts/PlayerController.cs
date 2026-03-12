@@ -414,7 +414,7 @@ public class PlayerController : MonoBehaviour
         {
             if(GameManager.Instance != null)
             {
-                GameManager.Instance.CloseMenus();
+                GameManager.Instance.CloseLatestMenu();
             }
         }
     }

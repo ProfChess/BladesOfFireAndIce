@@ -10,6 +10,7 @@ public class UIStatControls : MonoBehaviour
 
     [Header("Stat Texts")]
     [SerializeField] private Text vitalityNum;
+    [SerializeField] private Button vitalityBlessingButton;
     [SerializeField] private Text enduranceNum;
     [SerializeField] private Text strengthNum;
     [SerializeField] private Text dexterityNum;
@@ -17,6 +18,20 @@ public class UIStatControls : MonoBehaviour
 
     [Header("Points Text")]
     [SerializeField] private Text AvailablePoints;
+
+    //Blessings
+    [Header("Blessings")]
+    [SerializeField] private GameObject BlessingSelectMenu;
+
+    private void OnEnable()
+    {
+        if(GameManager.Instance != null)
+        {
+            GameManager.Instance.OpenMenu(gameObject);
+        }
+    }
+
+
 
     private void UpdateStatVisuals()
     {
@@ -38,6 +53,7 @@ public class UIStatControls : MonoBehaviour
     public void PlusVitality() { StatAllocation.ChangeVitality(1); UpdateStatVisuals(); }
     public void MinusVitality() { StatAllocation.ChangeVitality(-1); UpdateStatVisuals(); }
 
+
     //Endurance
     public void PlusEndurance() { StatAllocation.ChangeEndurance(1); UpdateStatVisuals(); }
     public void MinusEndurance() { StatAllocation.ChangeEndurance(-1); UpdateStatVisuals(); }
@@ -53,4 +69,11 @@ public class UIStatControls : MonoBehaviour
     //Luck
     public void PlusLuck() { StatAllocation.ChangeLuck(1); UpdateStatVisuals(); }
     public void MinusLuck() { StatAllocation.ChangeLuck(-1); UpdateStatVisuals(); }
+
+    //Blessings
+    public void OpenCloseBlessingMenu(bool isOpen)
+    {
+        BlessingSelectMenu.SetActive(isOpen);
+    }
+    
 }

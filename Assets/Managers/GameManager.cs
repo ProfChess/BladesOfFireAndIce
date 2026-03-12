@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ShopUI ShopGetter;
     [Tooltip("Main Shop Menu Object to Turn On/Off")]
     [SerializeField] private GameObject ShopSelectionUI;
-    public event Action MenuClosed;
 
     //Very Start Loading 
     private void Awake()
@@ -136,16 +135,21 @@ public class GameManager : MonoBehaviour
     }
 
     //Close All Menus
-    public void CloseMenus() 
+    private List<GameObject> MenusToClose = new();
+    public void OpenMenu(GameObject Menu) { MenusToClose.Add(Menu); ChangePlayerToUIActions(); }
+    public void CloseLatestMenu()
     {
-        //Close UI 
-        NewRunPopup.SetActive(false);
-        ShopSelectionUI.SetActive(false);
-        MenuClosed?.Invoke();
+        if (MenusToClose.Count <= 0) { Debug.Log("No Menu Open"); return; }
 
-        //Change Action Map
-        ChangePlayerToPlayerActions();
+        GameObject LatestMenu = MenusToClose[MenusToClose.Count - 1];
+        LatestMenu.SetActive(false);
+        MenusToClose.RemoveAt(MenusToClose.Count - 1);
+
+        //Check if All Menus are Closed
+        if (MenusToClose.Count == 0) { ChangePlayerToPlayerActions(); }
     }
+
+
     //New Run
     public void ActivateUIPopup_NewRun() { NewRunPopup.SetActive(true); }
     public void DeactivateUIPopup_NewRun() { NewRunPopup.SetActive(false); }
@@ -169,6 +173,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public GameObject getPlayer() { return  Player.gameObject; }
+    public GameObject getPlayer() 
+    { 
+        if (Player == null) { Player = GameObject.FindObjectOfType<PlayerController>(); }
+        return Player.gameObject; 
+    }
     public NavMeshBaker getNavMesh() {  return MeshBaker; }
 }
