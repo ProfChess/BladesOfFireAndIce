@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     //Close All Menus
     private List<GameObject> MenusToClose = new();
-    public void OpenMenu(GameObject Menu) { MenusToClose.Add(Menu); ChangePlayerToUIActions(); }
+    public void MenuOpened(GameObject Menu) { MenusToClose.Add(Menu); ChangePlayerToUIActions(); }
     public void CloseLatestMenu()
     {
         if (MenusToClose.Count <= 0) { Debug.Log("No Menu Open"); return; }

@@ -55,7 +55,7 @@ public class BaseBonusSelection : MonoBehaviour
     {
         GM.ChangePlayerToUIActions();
         SelectionPopup.SetActive(true);
-        GM.OpenMenu(SelectionPopup);
+        GM.MenuOpened(SelectionPopup);
     }
     private void DisableAllBoonUI()
     {

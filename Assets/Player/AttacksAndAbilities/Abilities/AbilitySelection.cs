@@ -65,7 +65,7 @@ public class AbilitySelection : MonoBehaviour
             UIOptions[i].AssignVisuals(abilitiesToDisplay[i].Fire, abilitiesToDisplay[i].Ice);
             UIOptions[i].gameObject.SetActive(true);
         }
-        GM.OpenMenu(SelectionPopup);
+        GM.MenuOpened(SelectionPopup);
     }
 
 }
