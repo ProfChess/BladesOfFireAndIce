@@ -9,9 +9,13 @@ public class UIStatControls : MonoBehaviour
     [SerializeField] private Text vitalityNum;
     [SerializeField] private Button vitalityBlessingButton;
     [SerializeField] private Text enduranceNum;
+    [SerializeField] private Button enduranceBlessingButton;
     [SerializeField] private Text strengthNum;
+    [SerializeField] private Button strengthBlessingButton;
     [SerializeField] private Text dexterityNum;
+    [SerializeField] private Button dexterityBlessingButton;
     [SerializeField] private Text luckNum;
+    [SerializeField] private Button luckBlessingButton;
 
     [Header("Points Text")]
     [SerializeField] private Text AvailablePoints;
@@ -49,8 +53,16 @@ public class UIStatControls : MonoBehaviour
 
 
     //Vitality
-    public void VitalityPlus() { SM.ChangeVitality(1); UpdateStatVisuals(); CheckStat(SM.VitalityPoints, vitalityBlessingButton); }
-    public void VitalityMinus() { SM.ChangeVitality(-1); UpdateStatVisuals(); CheckStat(SM.VitalityPoints, vitalityBlessingButton); }
+    public void VitalityPlus() 
+    { 
+        SM.ChangeVitality(1); UpdateStatVisuals(); 
+        CheckStat(SM.VitalityPoints, vitalityBlessingButton, SM.VitalityBlessings); 
+    }
+    public void VitalityMinus() 
+    { 
+        SM.ChangeVitality(-1); UpdateStatVisuals(); 
+        CheckStat(SM.VitalityPoints, vitalityBlessingButton, SM.VitalityBlessings); 
+    }
     public void VitalityBlessingMenu()
     {
         FirstBlessingOption.AssignInfo(SM.VitalityBlessings[0]);
@@ -60,29 +72,94 @@ public class UIStatControls : MonoBehaviour
     }
 
     //Endurance
-    public void EndurancePlus() { SM.ChangeEndurance(1); UpdateStatVisuals(); }
-    public void EnduranceMinus() { SM.ChangeEndurance(-1); UpdateStatVisuals(); }
+    public void EndurancePlus() 
+    { 
+        SM.ChangeEndurance(1); UpdateStatVisuals();
+        CheckStat(SM.EndurancePoints, enduranceBlessingButton, SM.EnduranceBlessings);
+    }
+    public void EnduranceMinus() 
+    { 
+        SM.ChangeEndurance(-1); UpdateStatVisuals();
+        CheckStat(SM.EndurancePoints, enduranceBlessingButton, SM.EnduranceBlessings);
+    }
+    public void EnduranceBlessingMenu()
+    {
+        FirstBlessingOption.AssignInfo(SM.EnduranceBlessings[0]);
+        SecondBlessingOption.AssignInfo(SM.EnduranceBlessings[1]);
+        BlessingSelectMenu.SetActive(true);
+        GameManager.Instance.MenuOpened(BlessingSelectMenu);
+    }
 
     //Strength
-    public void StrengthPlus() { SM.ChangeStrength(1); UpdateStatVisuals(); }
-    public void StrengthMinus() { SM.ChangeStrength(-1); UpdateStatVisuals(); }
+    public void StrengthPlus() 
+    { 
+        SM.ChangeStrength(1); UpdateStatVisuals();
+        CheckStat(SM.StrengthPoints, strengthBlessingButton, SM.StrengthBlessings);
+    }
+    public void StrengthMinus() 
+    { 
+        SM.ChangeStrength(-1); UpdateStatVisuals();
+        CheckStat(SM.StrengthPoints, strengthBlessingButton, SM.StrengthBlessings);
+    }
+    public void StrengthBlessingMenu()
+    {
+        FirstBlessingOption.AssignInfo(SM.StrengthBlessings[0]);
+        SecondBlessingOption.AssignInfo(SM.StrengthBlessings[1]);
+        BlessingSelectMenu.SetActive(true);
+        GameManager.Instance.MenuOpened(BlessingSelectMenu);
+    }
 
     //Dexterity
-    public void DexterityPlus() { SM.ChangeDexterity(1); UpdateStatVisuals(); }
-    public void DexterityMinus() { SM.ChangeDexterity(-1); UpdateStatVisuals(); }
+    public void DexterityPlus() 
+    { 
+        SM.ChangeDexterity(1); UpdateStatVisuals();
+        CheckStat(SM.DexterityPoints, dexterityBlessingButton, SM.DexterityBlessings);
+    }
+    public void DexterityMinus() 
+    { 
+        SM.ChangeDexterity(-1); UpdateStatVisuals();
+        CheckStat(SM.DexterityPoints, dexterityBlessingButton, SM.DexterityBlessings);
+    }
+    public void DexterityBlessingMenu()
+    {
+        FirstBlessingOption.AssignInfo(SM.DexterityBlessings[0]);
+        SecondBlessingOption.AssignInfo(SM.DexterityBlessings[1]);
+        BlessingSelectMenu.SetActive(true);
+        GameManager.Instance.MenuOpened(BlessingSelectMenu);
+    }
 
     //Luck
-    public void LuckPlus() { SM.ChangeLuck(1); UpdateStatVisuals(); }
-    public void LuckMinus() { SM.ChangeLuck(-1); UpdateStatVisuals(); }
+    public void LuckPlus() 
+    { 
+        SM.ChangeLuck(1); UpdateStatVisuals();
+        CheckStat(SM.LuckPoints, luckBlessingButton, SM.LuckBlessings);
+    }
+    public void LuckMinus() 
+    { 
+        SM.ChangeLuck(-1); UpdateStatVisuals();
+        CheckStat(SM.LuckPoints, luckBlessingButton, SM.LuckBlessings);
+    }
+    public void LuckBlessingMenu()
+    {
+        FirstBlessingOption.AssignInfo(SM.LuckBlessings[0]);
+        SecondBlessingOption.AssignInfo(SM.LuckBlessings[1]);
+        BlessingSelectMenu.SetActive(true);
+        GameManager.Instance.MenuOpened(BlessingSelectMenu);
+    }
 
     //Blessings
     public void OpenCloseBlessingMenu(bool isOpen)
     {
         BlessingSelectMenu.SetActive(isOpen);
     }
-    private void CheckStat(float statCurrentPoints, Button buttonToConsider)
+    private void CheckStat(float statCurrentPoints, Button buttonToConsider, StatBlessing[] Blessings)
     {
         buttonToConsider.interactable = statCurrentPoints == SM.MaxStatPoints;
+        if (statCurrentPoints < SM.MaxStatPoints)
+        {
+            //Disable Blessing Upon Lowering Max Stats
+            GameManager.Instance.runData.DisableAllBlessingsOfType(Blessings);
+        }
     }
     
 }

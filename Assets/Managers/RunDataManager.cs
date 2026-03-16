@@ -186,10 +186,23 @@ public class RunDataManager : MonoBehaviour
         if (IsBlessingSelected(Blessing))
         {
             DeSelectBlessing(Blessing);
+            Debug.Log("Blessing Deselected: " + Blessing.BlessingName);
         }
         else
         {
             SelectBlessing(Blessing);
+            Debug.Log("Blessing Selected: " + Blessing.BlessingName);
+        }
+    }
+    public void DisableAllBlessingsOfType(StatBlessing[] Blessings)
+    {
+        foreach (var Blessing in Blessings)
+        {
+            if (IsBlessingSelected(Blessing))
+            {
+                DeSelectBlessing(Blessing);
+                Debug.Log("Blessing Deselected: " + Blessing.BlessingName);
+            }
         }
     }
 }
