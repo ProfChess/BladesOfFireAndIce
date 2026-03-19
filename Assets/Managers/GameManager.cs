@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public BoonSelection boonOptions;
     [HideInInspector] public RelicSelection relicOptions;
     [HideInInspector] public RunDataManager runData;
+    [HideInInspector] public SaveManager saveManager;
 
     //Dungeon Specifics
     [HideInInspector] public Vector3 DungeonStartingRoomCenter;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
         boonOptions = GetComponentInChildren<BoonSelection>();
         relicOptions = GetComponentInChildren<RelicSelection>();
         runData = GetComponentInChildren<RunDataManager>();
+        saveManager = GetComponentInChildren<SaveManager>();
 
         //Other Objects Start
         StartCoroutine(GameBeginningDelayedCall());
