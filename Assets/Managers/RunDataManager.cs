@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RunDataManager : MonoBehaviour
 {
@@ -68,6 +68,15 @@ public class RunDataManager : MonoBehaviour
             return 0f;
         }
     }
+    private void ReapplyAllRelicsOnSceneChange()
+    {
+        foreach (Relic relic in CurrentRelics.Keys)
+        {
+            CurrentRelics[relic].isActive = false;
+            relic.BoonSelected();
+            relic.BoonCollected();
+        }
+    }
     
     //BOONS
     private Dictionary<Virtue, VirtueInstance> CurrentVirtues = new();
@@ -103,7 +112,72 @@ public class RunDataManager : MonoBehaviour
 
         return CurrentVirtues[virtue].CanTrigger;
     }
+    private void ReapplyAllVirtuesOnSceneChange()
+    {
+        foreach (Virtue virtue in CurrentVirtues.Keys)
+        {
+            virtue.BoonSelected();
+        }
+    }
 
+
+
+    //Stat Bonuses 
+    private Dictionary<StatBlessing, BlessingInstance> CurrentBlessings = new();
+    public bool IsBlessingSelected(StatBlessing Blessing) { return CurrentBlessings.ContainsKey(Blessing); }
+    public void SelectBlessing(StatBlessing Blessing)
+    {
+        if (CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("Blessing Already Selected"); return; }
+
+        BlessingInstance BlessingInst = new BlessingInstance
+        {
+            BlessingRef = Blessing,
+        };
+
+        CurrentBlessings.Add(Blessing, BlessingInst);
+        Blessing.ApplyEffects();
+    }
+    public void DeSelectBlessing(StatBlessing Blessing)
+    {
+        if (!CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("This Blessing is Not Equipped"); return; }
+
+        CurrentBlessings.Remove(Blessing);
+        Blessing.RemoveEffects();
+    }
+    public void ToggleBlessing(StatBlessing Blessing)
+    {
+        if (IsBlessingSelected(Blessing))
+        {
+            DeSelectBlessing(Blessing);
+            Debug.Log("Blessing Deselected: " + Blessing.BlessingName);
+        }
+        else
+        {
+            SelectBlessing(Blessing);
+            Debug.Log("Blessing Selected: " + Blessing.BlessingName);
+        }
+    }
+    public void DisableAllBlessingsOfType(StatBlessing[] Blessings)
+    {
+        foreach (var Blessing in Blessings)
+        {
+            if (IsBlessingSelected(Blessing))
+            {
+                DeSelectBlessing(Blessing);
+                Debug.Log("Blessing Deselected: " + Blessing.BlessingName);
+            }
+        }
+    }
+    private void ReapplyAllBlessingsOnSceneChange()
+    {
+        foreach(StatBlessing blessing in CurrentBlessings.Keys)
+        {
+            blessing.ApplyEffects();
+        }
+    }
+
+
+    //Cooldowns
     private void Update()
     {
         //COOLDOWNS
@@ -159,52 +233,22 @@ public class RunDataManager : MonoBehaviour
 
 
 
-    //Stat Bonuses 
-    private Dictionary<StatBlessing, BlessingInstance> CurrentBlessings = new();
-    public bool IsBlessingSelected(StatBlessing Blessing) { return CurrentBlessings.ContainsKey(Blessing); } 
-    public void SelectBlessing(StatBlessing Blessing)
+    //Reapplying Effects After Scene Change
+    private void OnEnable()
     {
-        if (CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("Blessing Already Selected"); return; }
+        SceneManager.sceneLoaded += ReapplyAllEffects;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= ReapplyAllEffects;
+    }
+    private void ReapplyAllEffects(Scene scene, LoadSceneMode mode)
+    {
+        ReapplyAllVirtuesOnSceneChange();
+        ReapplyAllRelicsOnSceneChange();
+        ReapplyAllBlessingsOnSceneChange();
+    }
 
-        BlessingInstance BlessingInst = new BlessingInstance
-        {
-            BlessingRef = Blessing,
-        };
-
-        CurrentBlessings.Add(Blessing, BlessingInst);
-        Blessing.ApplyEffects();
-    }
-    public void DeSelectBlessing(StatBlessing Blessing)
-    {
-        if (!CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("This Blessing is Not Equipped"); return; }
-
-        CurrentBlessings.Remove(Blessing);
-        Blessing.RemoveEffects();
-    }
-    public void ToggleBlessing(StatBlessing Blessing)
-    {
-        if (IsBlessingSelected(Blessing))
-        {
-            DeSelectBlessing(Blessing);
-            Debug.Log("Blessing Deselected: " + Blessing.BlessingName);
-        }
-        else
-        {
-            SelectBlessing(Blessing);
-            Debug.Log("Blessing Selected: " + Blessing.BlessingName);
-        }
-    }
-    public void DisableAllBlessingsOfType(StatBlessing[] Blessings)
-    {
-        foreach (var Blessing in Blessings)
-        {
-            if (IsBlessingSelected(Blessing))
-            {
-                DeSelectBlessing(Blessing);
-                Debug.Log("Blessing Deselected: " + Blessing.BlessingName);
-            }
-        }
-    }
 }
 
 //Classes for Boon/Reic/Ability Instances

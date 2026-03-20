@@ -110,6 +110,7 @@ public static class RelicEffectLibrary
     {
         if (ctx is not StatChangeEventContext statctx) { return; }
         bool Above50 = (statctx.newValue / statctx.maxValue) >= 0.5f;
+        Debug.Log(Above50);
 
         if (Above50 && !rundata.isRelicApplied(relic))
         {

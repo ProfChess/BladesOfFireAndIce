@@ -49,8 +49,8 @@ public class UIStatControls : MonoBehaviour
     {
         SM.CalculateSpentPoints();
         UpdateStatVisuals();
+        CheckAllStats();
     }
-
 
     //Vitality
     public void VitalityPlus() 
@@ -161,5 +161,13 @@ public class UIStatControls : MonoBehaviour
             GameManager.Instance.runData.DisableAllBlessingsOfType(Blessings);
         }
     }
-    
+    private void CheckAllStats()
+    {
+        CheckStat(SM.VitalityPoints, vitalityBlessingButton, SM.VitalityBlessings);
+        CheckStat(SM.EndurancePoints, enduranceBlessingButton, SM.EnduranceBlessings);
+        //CheckStat(SM.StrengthPoints, strengthBlessingButton, SM.StrengthBlessings);
+        //CheckStat(SM.DexterityPoints, dexterityBlessingButton, SM.DexterityBlessings);
+        //CheckStat(SM.LuckPoints, luckBlessingButton, SM.LuckBlessings);
+    }
+
 }
