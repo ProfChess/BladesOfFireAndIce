@@ -32,8 +32,10 @@ public class PlayerHealth : BaseHealth
     //Animations
     private static readonly int FallState = Animator.StringToHash("PlayerFall");
 
-    public void SetMaxHealth(float num) { MaxHealth = num; curHealth = Mathf.Min(curHealth, MaxHealth); }
+    public void SetMaxHealth(float num) { MaxHealth = num; curHealth = Mathf.Min(curHealth, MaxHealth);}
     public void StartFillHealth() { curHealth = MaxHealth; }
+    public void SetCurrentHealthFromPastScene(float num) { curHealth = Mathf.Clamp(num, 1f, MaxHealth); Debug.Log("Applied: " + CurrentHealth + " Health");}
+    public void SaveCurrentHealth() { GameManager.Instance.runData.StoreHealth(curHealth); }
     public float GetPlayerMaxHealth => MaxHealth;
     public void AddDamageResistance(float num) { damageResist += num; }
 
@@ -114,6 +116,7 @@ public class PlayerHealth : BaseHealth
             //Fire Event for Health Changing
             healthChangeContext.Setup(PlayerSwitchElements.PlayerAttackForm, curHealth + totaldamage, curHealth, MaxHealth);
             PlayerHealthChange?.Invoke(healthChangeContext);
+
         }
         //ADD CUSTOM DEATH VISUAL LOGIC, AS ASSET PACK DOES NOT CONTAIN DEATH ANIMATION
     }
@@ -147,7 +150,6 @@ public class PlayerHealth : BaseHealth
     }
     protected override void Start()
     {
-        base.Start();
         hitboxFaceRight = new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y);
     }
 

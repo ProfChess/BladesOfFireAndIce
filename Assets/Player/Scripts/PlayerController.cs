@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerSwitchElements playerSwitchElements;
     [SerializeField] private PlayerAttack playerAttack;
+    [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerStaminaManager playerStamina;
     [SerializeField] private PlayerBlock playerBlock;
     [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
@@ -80,6 +81,13 @@ public class PlayerController : MonoBehaviour
 
     //Blocking Button
     public bool isBlockHeld { get; private set; } = false;
+
+    //Save Stats
+    public void SaveStats()
+    {
+        playerHealth.SaveCurrentHealth();
+        playerStamina.SaveCurrentStamina();
+    }
 
     //UPDATE/ETC
 

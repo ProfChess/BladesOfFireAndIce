@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.IO;
 
 public class SaveManager : MonoBehaviour
@@ -11,7 +10,7 @@ public class SaveManager : MonoBehaviour
         //Press N to Reload Scene
         if (Input.GetKeyDown(KeyCode.N))
         {
-            SceneManager.LoadScene("InteractTesting");
+            GameManager.Instance.LoadScene("InteractTesting");
         }
     }
 

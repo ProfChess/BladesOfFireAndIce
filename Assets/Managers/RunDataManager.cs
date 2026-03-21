@@ -231,22 +231,23 @@ public class RunDataManager : MonoBehaviour
         StatCurrencyCollected = 0f;
     }
 
-
-
-    //Reapplying Effects After Scene Change
-    private void OnEnable()
+    //Stat Carry Over
+    private float CurrentHealth = 0f;
+    private float CurrentStamina = 0f;
+    public void StoreHealth(float hp) { CurrentHealth = hp; }
+    public void StoreStamina(float stamina) { CurrentStamina = stamina; }
+    public void ReapplyAllBonuses()
     {
-        SceneManager.sceneLoaded += ReapplyAllEffects;
-    }
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= ReapplyAllEffects;
-    }
-    private void ReapplyAllEffects(Scene scene, LoadSceneMode mode)
-    {
+        //Apply Virtues, Relics, Blessings
         ReapplyAllVirtuesOnSceneChange();
         ReapplyAllRelicsOnSceneChange();
         ReapplyAllBlessingsOnSceneChange();
+    }
+    public void ApplyRuntimeStats(PlayerController player)
+    {
+        player.GetComponentInChildren<PlayerHealth>().SetCurrentHealthFromPastScene(CurrentHealth);
+        player.GetComponentInChildren<PlayerStaminaManager>().SetCurrentStaminaFromPastScene(CurrentStamina);
+
     }
 
 }

@@ -15,6 +15,11 @@ public class PlayerStaminaManager : MonoBehaviour
     public float GetStamina() { return CurrentStamina; }
     public float GetMaxStamina() { return MaxStamina; }
     public void StartFillStamina() { CurrentStamina = MaxStamina; }
+    public void SetCurrentStaminaFromPastScene(float num) 
+    { 
+        CurrentStamina = Mathf.Clamp(num, 0f, MaxStamina); 
+        if(CurrentStamina < MaxStamina) { BeginStaminaRegen(); }
+    }
 
     [Header("Stamina Costs")]
     [SerializeField] private float FireStaminaCost;
@@ -23,7 +28,7 @@ public class PlayerStaminaManager : MonoBehaviour
     public float RollStaminaCostMultiplier { set; private get; } = 0f;
     private float TotalRollCost => BaseRollStaminaCost * RollStaminaCostMultiplier;
 
-
+    public void SaveCurrentStamina() { GameManager.Instance.runData.StoreStamina(CurrentStamina); }
 
     //Coroutine
     private Coroutine StaminaRegenerator;
@@ -67,13 +72,17 @@ public class PlayerStaminaManager : MonoBehaviour
             {
                 CurrentStamina = 0;
             }
-            if (StaminaRegenerator != null)
-            {
-                StopCoroutine(StaminaRegenerator);
-                StaminaRegenerator = null;
-            }
-            StaminaRegenerator = StartCoroutine(RegenStamina());
+            BeginStaminaRegen();
         }
+    }
+    private void BeginStaminaRegen()
+    {
+        if (StaminaRegenerator != null)
+        {
+            StopCoroutine(StaminaRegenerator);
+            StaminaRegenerator = null;
+        }
+        StaminaRegenerator = StartCoroutine(RegenStamina());
     }
 
     //Check Stamina For Actions

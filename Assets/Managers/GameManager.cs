@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -53,13 +54,27 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        ManagerFirstTimeSetup();
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Player = FindObjectOfType<PlayerController>();
 
+        //Apply Health/Stamina
+        runData.ApplyRuntimeStats(Player);
+
+        //Apply all Virtues, relics, etc
+        runData.ReapplyAllBonuses();
+    }
+    public void LoadScene(string sceneName)
+    {
+        Player.SaveStats();
+        SceneManager.LoadScene(sceneName);
+    }
+    private void ManagerFirstTimeSetup()
+    {
         //Other Managers
         difficultyManager = GetComponentInChildren<DifficultyManager>();
         enemySpawnManager = GetComponentInChildren<EnemySpawnManager>();
@@ -74,14 +89,12 @@ public class GameManager : MonoBehaviour
         //Other Objects Start
         StartCoroutine(GameBeginningDelayedCall());
     }
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
 
     //Events
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         if (Player != null)
         {
             Player.GetComponentInChildren<PlayerHealth>().PlayerIsDead += PlayerDeathEvent;
@@ -89,6 +102,8 @@ public class GameManager : MonoBehaviour
     }
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
         if (Player != null)
         {
             Player.GetComponentInChildren<PlayerHealth>().PlayerIsDead -= PlayerDeathEvent;
