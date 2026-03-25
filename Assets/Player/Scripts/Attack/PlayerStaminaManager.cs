@@ -15,8 +15,9 @@ public class PlayerStaminaManager : MonoBehaviour
     public float GetStamina() { return CurrentStamina; }
     public float GetMaxStamina() { return MaxStamina; }
     public void StartFillStamina() { CurrentStamina = MaxStamina; }
-    public void SetCurrentStaminaFromPastScene(float num) 
-    { 
+    public void SetCurrentStaminaFromPastScene() 
+    {
+        float num = GameManager.Instance.runData.CurrentStamina;
         CurrentStamina = Mathf.Clamp(num, 0f, MaxStamina); 
         if(CurrentStamina < MaxStamina) { BeginStaminaRegen(); }
     }

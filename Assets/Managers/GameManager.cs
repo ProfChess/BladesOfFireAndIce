@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         Player = FindObjectOfType<PlayerController>();
 
         //Apply Health/Stamina
-        runData.ApplyRuntimeStats(Player);
+        Player.ApplySaveStats();
 
         //Apply all Virtues, relics, etc
         runData.ReapplyAllBonuses();

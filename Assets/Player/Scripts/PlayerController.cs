@@ -88,6 +88,12 @@ public class PlayerController : MonoBehaviour
         playerHealth.SaveCurrentHealth();
         playerStamina.SaveCurrentStamina();
     }
+    //Apply Stats
+    public void ApplySaveStats()
+    {
+        playerHealth.SetCurrentHealthFromPastScene();
+        playerStamina.SetCurrentStaminaFromPastScene();
+    }
 
     //UPDATE/ETC
 

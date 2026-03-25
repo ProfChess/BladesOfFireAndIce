@@ -34,7 +34,11 @@ public class PlayerHealth : BaseHealth
 
     public void SetMaxHealth(float num) { MaxHealth = num; curHealth = Mathf.Min(curHealth, MaxHealth);}
     public void StartFillHealth() { curHealth = MaxHealth; }
-    public void SetCurrentHealthFromPastScene(float num) { curHealth = Mathf.Clamp(num, 1f, MaxHealth); Debug.Log("Applied: " + CurrentHealth + " Health");}
+    public void SetCurrentHealthFromPastScene() 
+    { 
+        float num = GameManager.Instance.runData.CurrentHealth; 
+        curHealth = Mathf.Clamp(num, 1f, MaxHealth); 
+    }
     public void SaveCurrentHealth() { GameManager.Instance.runData.StoreHealth(curHealth); }
     public float GetPlayerMaxHealth => MaxHealth;
     public void AddDamageResistance(float num) { damageResist += num; }

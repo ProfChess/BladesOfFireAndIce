@@ -232,8 +232,8 @@ public class RunDataManager : MonoBehaviour
     }
 
     //Stat Carry Over
-    private float CurrentHealth = 0f;
-    private float CurrentStamina = 0f;
+    public float CurrentHealth { get; private set; } = 0f;
+    public float CurrentStamina { get; private set; } = 0f;
     public void StoreHealth(float hp) { CurrentHealth = hp; }
     public void StoreStamina(float stamina) { CurrentStamina = stamina; }
     public void ReapplyAllBonuses()
@@ -242,12 +242,6 @@ public class RunDataManager : MonoBehaviour
         ReapplyAllVirtuesOnSceneChange();
         ReapplyAllRelicsOnSceneChange();
         ReapplyAllBlessingsOnSceneChange();
-    }
-    public void ApplyRuntimeStats(PlayerController player)
-    {
-        player.GetComponentInChildren<PlayerHealth>().SetCurrentHealthFromPastScene(CurrentHealth);
-        player.GetComponentInChildren<PlayerStaminaManager>().SetCurrentStaminaFromPastScene(CurrentStamina);
-
     }
 
 }
