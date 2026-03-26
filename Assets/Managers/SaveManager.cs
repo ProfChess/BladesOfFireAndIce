@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Unity.VisualScripting;
 
 public class SaveManager : MonoBehaviour
 {
@@ -13,23 +14,32 @@ public class SaveManager : MonoBehaviour
             GameManager.Instance.LoadScene("InteractTesting");
         }
     }
+    string SaveFilePath = "Empty";
+    private void Start()
+    {
+        SaveFilePath = Path.Combine(Application.persistentDataPath, "Saves", "playerSave.json");
+        Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Saves"));
+        Debug.Log(SaveFilePath);
+    }
+
 
     //Saving and Loading The Player Save Data
-    public void Save(PlayerSaveData data, string filePath)
+    private void Save(PlayerSaveData data)
     {
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(filePath, json);
+        File.WriteAllText(SaveFilePath, json);
     }
-    public PlayerSaveData Load(string filePath)
+    public PlayerSaveData Load()
     {
-        if (!File.Exists(filePath)) { return null; }
+        if (!File.Exists(SaveFilePath)) { return new PlayerSaveData(); }
         
-        string json = File.ReadAllText(filePath);
+        string json = File.ReadAllText(SaveFilePath);
         PlayerSaveData data =  JsonUtility.FromJson<PlayerSaveData>(json);
+
+        ValidateSave(data);
 
         return data;
     }
-
 
     //Save Validation
     public void ValidateSave(PlayerSaveData data)
@@ -55,6 +65,16 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    //Create Save
+    public void SaveGame(PlayerController player)
+    {
+        PlayerSaveData saveData = new PlayerSaveData();
+
+        //Fill in All Info
+
+        Save(saveData);
+    }
+   
 }
 public class PlayerSaveData
 {
@@ -64,14 +84,7 @@ public class PlayerSaveData
     public int currentLevel;
 
     //Stats
-    public List<Save_StatValue> statNumbers = new List<Save_StatValue>()
-    {
-        new Save_StatValue{ stat = SaveStats.Vitality, value = 1 },
-        new Save_StatValue{ stat = SaveStats.Endurance, value = 1 },
-        new Save_StatValue{ stat = SaveStats.Strength, value = 1 },
-        new Save_StatValue{ stat = SaveStats.Dexterity, value = 1 },
-        new Save_StatValue{ stat = SaveStats.Luck, value = 1 },
-    };
+    public List<Save_StatValue> statNumbers = new List<Save_StatValue>();
 
     //Blessings
     public List<Save_StatBonusStorage> statBlessings = new List<Save_StatBonusStorage>();
