@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 
 public class SaveManager : MonoBehaviour
 {
+    private GameManager GM => GameManager.Instance;
     private void Update()
     {
         //Press N to Reload Scene
@@ -46,8 +47,15 @@ public class SaveManager : MonoBehaviour
     {
         //Clamp XP and Stat Points
         data.xp = Mathf.Max(data.xp, 0);
-        data.genericPoints = Mathf.Max(data.genericPoints, 0);
-        data.currentLevel = Mathf.Max(data.currentLevel, 1);
+
+        //Recalculate Points
+        int totalPoints = GM.xpManager.CalculateTotalPointsFromXP(data.xp);
+        int spentPoints = 0;
+        foreach (var stat in data.statNumbers)
+        {
+            spentPoints += (stat.value - 1);
+        }
+        data.genericPoints = Mathf.Max(0, totalPoints - spentPoints);
 
         //Clamp Stats
         foreach (var stat in data.statNumbers)
@@ -71,6 +79,10 @@ public class SaveManager : MonoBehaviour
         PlayerSaveData saveData = new PlayerSaveData();
 
         //Fill in All Info
+        saveData.xp = GM.xpManager.StoreSavedXP();
+        saveData.genericPoints = GM.statManager.GetPointsAvailable();
+        saveData.statNumbers = GM.statManager.GetStatPoints();
+        saveData.statBlessings = GM.statManager.GetSelectedBlessings();
 
         Save(saveData);
     }
@@ -81,7 +93,6 @@ public class PlayerSaveData
     //XP
     public int xp;
     public int genericPoints;
-    public int currentLevel;
 
     //Stats
     public List<Save_StatValue> statNumbers = new List<Save_StatValue>();
@@ -93,13 +104,13 @@ public class PlayerSaveData
 public class Save_StatValue
 {
     public SaveStats stat;
-    public int value;
+    public int value = 1;
 }
 [Serializable]
 public class Save_StatBonusStorage
 {
     public SaveStats stat;
-    public int chosenOption; // -1 = none, 0 or 1 = selected option
+    public int chosenOption = -1; // -1 = none, 0 or 1 = selected option
 }
 public enum SaveStats
 {

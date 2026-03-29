@@ -124,7 +124,7 @@ public class RunDataManager : MonoBehaviour
 
     //Stat Bonuses 
     private Dictionary<StatBlessing, BlessingInstance> CurrentBlessings = new();
-    public bool IsBlessingSelected(StatBlessing Blessing) { return CurrentBlessings.ContainsKey(Blessing); }
+    public bool IsBlessingSelected(StatBlessing Blessing) { if (Blessing == null) { return false; } return CurrentBlessings.ContainsKey(Blessing); }
     public void SelectBlessing(StatBlessing Blessing)
     {
         if (CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("Blessing Already Selected"); return; }
@@ -214,12 +214,14 @@ public class RunDataManager : MonoBehaviour
 
     //CURRENCY
     [field: SerializeField] public float ShopCurrencyCollected { get; private set; } = 100f;
-    [field: SerializeField] public float StatCurrencyCollected { get; private set; } = 0f;
     //Shop Functions
     public void AddShopCurrency(float num) {  ShopCurrencyCollected += num; }
     public bool CanPayItemCost(float num) { return ShopCurrencyCollected >= num; }
 
+
+
     //Stat Functions
+    [field: SerializeField] public float StatCurrencyCollected { get; private set; } = 0f;
     public void AddStatCurrency(float num) { StatCurrencyCollected += num; }
 
     public void ClearRunData()
