@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using Unity.VisualScripting;
 
 public class SaveManager : MonoBehaviour
 {
@@ -24,13 +23,14 @@ public class SaveManager : MonoBehaviour
     }
 
 
-    //Saving and Loading The Player Save Data
+    //Saves the data as Json File
     private void Save(PlayerSaveData data)
     {
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SaveFilePath, json);
     }
-    public PlayerSaveData Load()
+    //Retrieves Json file and Validates the Save
+    private PlayerSaveData Load()
     {
         if (!File.Exists(SaveFilePath)) { return new PlayerSaveData(); }
         
@@ -74,7 +74,7 @@ public class SaveManager : MonoBehaviour
     }
 
     //Create Save
-    public void SaveGame(PlayerController player)
+    public void SaveGame()
     {
         PlayerSaveData saveData = new PlayerSaveData();
 
@@ -85,6 +85,15 @@ public class SaveManager : MonoBehaviour
         saveData.statBlessings = GM.statManager.GetSelectedBlessings();
 
         Save(saveData);
+    }
+    //Applies all Saved Data to Current Game
+    public void LoadGame()
+    {
+        PlayerSaveData saveData = Load();
+
+        GM.statManager.SetPointsAvailable(saveData.genericPoints);
+        GM.statManager.AssignStatPointsFromSave(saveData.statNumbers);
+        GM.statManager.AssignSelectedBlessings(saveData.statBlessings);
     }
    
 }

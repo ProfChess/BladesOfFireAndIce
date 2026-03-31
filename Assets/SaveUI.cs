@@ -6,10 +6,10 @@ public class SaveUI : MonoBehaviour
 {
     public void TestSave()
     {
-        GameManager.Instance.saveManager.SaveGame(GameManager.Instance.Player);
+        GameManager.Instance.saveManager.SaveGame();
     }
     public void TestLoad()
     {
-        GameManager.Instance.saveManager.Load();
+        GameManager.Instance.saveManager.LoadGame();
     }
 }

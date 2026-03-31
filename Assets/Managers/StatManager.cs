@@ -54,11 +54,11 @@ public class StatManager : MonoBehaviour
     }
     public void CalculateSpentPoints()
     {
-        PointsSpent = VitalityPoints - 1 +
-                      EndurancePoints - 1 +
-                      StrengthPoints - 1 +
-                      DexterityPoints - 1 +
-                      LuckPoints - 1;
+        PointsSpent = VitalityPoints +
+                      EndurancePoints +
+                      StrengthPoints +
+                      DexterityPoints +
+                      LuckPoints;
     }
     private void SetStats(int Vit, int Endur, int Str, int Dex, int Luc)
     {
@@ -98,18 +98,32 @@ public class StatManager : MonoBehaviour
 
 
     //Save and Load
-    public void SetPointsAvailable(int num) { PointsAvailable = num; }
+    public void SetPointsAvailable(int num) { PointsAvailable = num; CalculateSpentPoints(); }
     public int GetPointsAvailable() { return PointsAvailable; }
     public List<Save_StatValue> GetStatPoints()
     {
         List<Save_StatValue> StatNumbers = new();
-        StatNumbers.Add(new Save_StatValue() { stat = SaveStats.Vitality, value = VitalityPoints });
-        StatNumbers.Add(new Save_StatValue() { stat = SaveStats.Endurance, value = EndurancePoints });
-        StatNumbers.Add(new Save_StatValue() { stat = SaveStats.Strength, value = StrengthPoints });
-        StatNumbers.Add(new Save_StatValue() { stat = SaveStats.Dexterity, value = DexterityPoints });
-        StatNumbers.Add(new Save_StatValue() { stat = SaveStats.Luck, value = LuckPoints });
+
+        foreach(SaveStats statType in Enum.GetValues(typeof(SaveStats)))
+        {
+            int value = GetStatPointsFromStat(statType);
+            StatNumbers.Add(new Save_StatValue() { stat = statType, value = value });
+        }
 
         return StatNumbers;
+    }
+    //Returns Number of Invested Points of a Given Stat
+    private int GetStatPointsFromStat(SaveStats stat)
+    {
+        switch (stat)
+        {
+            case SaveStats.Vitality: return VitalityPoints;
+            case SaveStats.Endurance: return EndurancePoints;
+            case SaveStats.Strength: return StrengthPoints;
+            case SaveStats.Dexterity: return DexterityPoints;
+            case SaveStats.Luck: return LuckPoints;
+        }
+        return 1;
     }
     public void AssignStatPointsFromSave(List<Save_StatValue> statNumbers)
     {
@@ -127,7 +141,6 @@ public class StatManager : MonoBehaviour
             }
         }
 
-
     }
 
     //Blessings
@@ -138,6 +151,7 @@ public class StatManager : MonoBehaviour
     public StatBlessing[] DexterityBlessings = new StatBlessing[2];
     public StatBlessing[] LuckBlessings = new StatBlessing[2];
 
+    //Returns all selected blessings for saving the choices
     public List<Save_StatBonusStorage> GetSelectedBlessings()
     {
         List<Save_StatBonusStorage> BlessingsSelected = new List<Save_StatBonusStorage>();
@@ -158,13 +172,20 @@ public class StatManager : MonoBehaviour
     }
     public void AssignSelectedBlessings(List<Save_StatBonusStorage> BlessingsSelected)
     {
+        //Loop Through all Saved Blessing Choices
         foreach (Save_StatBonusStorage BlessingChoice in BlessingsSelected)
         {
+            //Skip if no Blessing is Selected
             if (BlessingChoice.chosenOption == -1) { continue; }
-            GameManager.Instance.runData.SelectBlessing
-                (
-                GetBlessingCollectionFromStat(BlessingChoice.stat)[BlessingChoice.chosenOption]
-                );
+            
+            //Get Current Blessing
+            StatBlessing Blessing = GetBlessingCollectionFromStat(BlessingChoice.stat)[BlessingChoice.chosenOption];
+            
+            //If no Blessing, or if Blessing is already applied, cease
+            if (Blessing == null || GameManager.Instance.runData.IsBlessingSelected(Blessing)) { continue; }
+
+            //Apply Blessing
+            GameManager.Instance.runData.SelectBlessing(Blessing);
         }
     }
     private StatBlessing[] GetBlessingCollectionFromStat(SaveStats stat)

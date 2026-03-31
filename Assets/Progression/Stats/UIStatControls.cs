@@ -34,6 +34,9 @@ public class UIStatControls : MonoBehaviour
         {
             GameManager.Instance.MenuOpened(gameObject);
         }
+        SM.CalculateSpentPoints();
+        UpdateStatVisuals();
+        CheckAllStats();
     }
 
     private void UpdateStatVisuals()
@@ -44,12 +47,6 @@ public class UIStatControls : MonoBehaviour
         dexterityNum.text = SM.DexterityPoints.ToString();
         luckNum.text = SM.LuckPoints.ToString();
         AvailablePoints.text = SM.AvailablePoints.ToString();
-    }
-    private void Start()
-    {
-        SM.CalculateSpentPoints();
-        UpdateStatVisuals();
-        CheckAllStats();
     }
 
     //Vitality
