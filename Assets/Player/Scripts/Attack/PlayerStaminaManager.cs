@@ -13,6 +13,7 @@ public class PlayerStaminaManager : MonoBehaviour
     private float RegenDelay = 1f;
     public void SetMaxStamina(float num) { MaxStamina = num; CurrentStamina = Mathf.Min(CurrentStamina, MaxStamina); }
     public float GetStamina() { return CurrentStamina; }
+    public float GetStaminaPercentage() { return CurrentStamina / MaxStamina; }
     public float GetMaxStamina() { return MaxStamina; }
     public void StartFillStamina() { CurrentStamina = MaxStamina; }
     public void SetCurrentStaminaFromPastScene() 

@@ -156,6 +156,13 @@ public class PlayerHealth : BaseHealth
     {
         hitboxFaceRight = new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y);
     }
+    public float GetHealthPercentage()
+    {
+        return CurrentHealth/MaxHealth;
+    }
+
+
+
 
     //HOLE HAZARD
     private void FallInHole(Vector3 HoleSpot)
