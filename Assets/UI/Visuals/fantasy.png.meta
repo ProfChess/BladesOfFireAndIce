@@ -177,6 +177,111 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Panel_Gold_Purple
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 1012
+        width: 70
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be8b603d04666ec4aba2ca9e9a368826
+      internalID: -30772820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Label_Dark
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 432
+        width: 64
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19ccc076851fbe5478774a4767637a62
+      internalID: -1694382728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Gold_Blank
+      rect:
+        serializedVersion: 2
+        x: 712
+        y: 896
+        width: 76
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09c733e8c29b1c140ad074cbf92d2f54
+      internalID: 672283235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gem_Blue
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 1290
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3582231089662534fb2bcacabca94c13
+      internalID: -1999302553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gem_Red
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 1290
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bcc07c61fe56884e8f843faf4825cb3
+      internalID: 1684933197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -190,6 +295,11 @@ TextureImporter:
     nameFileIdTable:
       Bar: -1203604826
       BarBG: 1132578211
+      Gem_Blue: -1999302553
+      Gem_Red: 1684933197
+      Label_Dark: -1694382728
+      Panel_Gold_Blank: 672283235
+      Panel_Gold_Purple: -30772820
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
