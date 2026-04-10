@@ -249,7 +249,7 @@ TextureImporter:
         width: 29
         height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -270,7 +270,7 @@ TextureImporter:
         width: 29
         height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -278,6 +278,384 @@ TextureImporter:
       bones: []
       spriteID: 9bcc07c61fe56884e8f843faf4825cb3
       internalID: 1684933197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Map_Outline
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 249
+        width: 102
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dbe9256671b64747806c543fc4c1050
+      internalID: -1185104381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scroll
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 1339
+        width: 64
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c0e5cdda66e47f47b6152fd101b5f04
+      internalID: -221577274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Dark
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1320
+        width: 48
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c493e199637c88e44adb483bbe904f65
+      internalID: 3455845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Silver_Plain
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 662
+        width: 112
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4e4e33c3e026274cb67da78ca5d6669
+      internalID: -473633536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Paper
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 1035
+        width: 46
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb94ee409a2564a40ab2235a81af390b
+      internalID: 608831998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bag
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 382
+        width: 22
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e41d42dfa899054cbe145e67406d519
+      internalID: -1639554444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Wood
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 648
+        width: 118
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de9201c43d9d43c468cbd8b9fa4c29a6
+      internalID: 1831039915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_DarkGold
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 1518
+        width: 95
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a74d20a2bc24a7d408ebe2b8a984f81e
+      internalID: 706126459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scroll_Wide
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 252
+        width: 150
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4075be4f86d9f9a4e9105568c43772c9
+      internalID: -868012090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Parchment_Wide
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 249
+        width: 144
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be2de4e05991f2346abc69335523d91d
+      internalID: -200967599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gem_White
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 1290
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ebbf8a0d5414d94c8adff5f55e070c4
+      internalID: -29777826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Potion_Dark
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 496
+        width: 22
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4012edf0174fa9d4e83c2da8c701a9b5
+      internalID: 2027048639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nail
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 1279
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5fa6966baf88034d834be0806244c57
+      internalID: 492190164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gem_Small_LightBlue
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 462
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7abd4e3226a28a4bba5268f7dc6b035
+      internalID: -1963244258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Dark_Unpressed
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 1144
+        width: 30
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 321ee4e053980244cb7bc0a638dde432
+      internalID: -128710019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Dark_Pressed
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 1145
+        width: 30
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2a9ee2756253884bb4824160b791f9d
+      internalID: -721420651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Silver_Decorated
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 766
+        width: 116
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 430f109962d5d4f499a09e05004ec817
+      internalID: 493357223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Silver_Sliced
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 662
+        width: 112
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 13, y: 13, z: 13, w: 13}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4d537ec6fb19804d8b598b468d3871e
+      internalID: 1335574990
       vertices: []
       indices: 
       edges: []
@@ -293,13 +671,35 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Bag: -1639554444
       Bar: -1203604826
       BarBG: 1132578211
+      BorderPiece_1: 453741207
+      BorderPiece_2: 1212995320
+      BorderPiece_3: -2010078293
+      BorderPiece_4: -1820661589
+      Button_Dark_Pressed: -721420651
+      Button_Dark_Unpressed: -1661492663
       Gem_Blue: -1999302553
       Gem_Red: 1684933197
+      Gem_Small_LightBlue: -1963244258
+      Gem_White: -29777826
       Label_Dark: -1694382728
+      Map_Outline: -1185104381
+      Nail: 492190164
+      Panel_Dark: 3455845
+      Panel_DarkGold: 706126459
       Panel_Gold_Blank: 672283235
       Panel_Gold_Purple: -30772820
+      Panel_Paper: 608831998
+      Panel_Parchment_Wide: -200967599
+      Panel_Silver_Decorated: -1347276352
+      Panel_Silver_Plain: -473633536
+      Panel_Silver_Sliced: 1335574990
+      Panel_Wood: 1831039915
+      Potion_Dark: 2027048639
+      Scroll: -221577274
+      Scroll_Wide: -868012090
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

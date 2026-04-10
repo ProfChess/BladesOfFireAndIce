@@ -420,6 +420,18 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    //Pause Game
+    public void OnPause(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            if(GameManager.Instance != null)
+            {
+                GameManager.Instance.uiManager.PauseGame();
+            }
+        }
+    }
+
 
     //UI 
     public void OnESC(InputAction.CallbackContext ctx)

@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public RelicSelection relicOptions;
     [HideInInspector] public RunDataManager runData;
     [HideInInspector] public SaveManager saveManager;
+    [HideInInspector] public UIManager uiManager;
 
     //Dungeon Specifics
     [HideInInspector] public Vector3 DungeonStartingRoomCenter;
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
         relicOptions = GetComponentInChildren<RelicSelection>();
         runData = GetComponentInChildren<RunDataManager>();
         saveManager = GetComponentInChildren<SaveManager>();
+        uiManager = GetComponentInChildren<UIManager>();
 
         //Other Objects Start
         StartCoroutine(GameBeginningDelayedCall());

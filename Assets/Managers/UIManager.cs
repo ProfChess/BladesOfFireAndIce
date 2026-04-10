@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    //Player Hud
     public Image HealthBar;
     public Image StaminaBar;
 
@@ -12,6 +13,7 @@ public class UIManager : MonoBehaviour
 
     private const float UIUpdateInterval = 0.1f;
     private float UIUpdateTimer = 0f;
+
     private void Update()
     {
         //Check if Player is Here
@@ -49,4 +51,22 @@ public class UIManager : MonoBehaviour
         float StaminaPercentage = playerStamina.GetStaminaPercentage();
         StaminaBar.fillAmount = StaminaPercentage;
     }
+
+
+    //Pause Menu
+    [SerializeField] private GameObject PauseMenuObject;
+
+    public void PauseGame()
+    {
+        PauseMenuObject.SetActive(true);
+        Time.timeScale = 0f;
+        GameTimeManager.SetPaused(true);
+    }
+    public void UnPauseGame()
+    {
+        GameManager.Instance.CloseLatestMenu();
+        Time.timeScale = 1f;
+        GameTimeManager.SetPaused(false);
+    }
+
 }
