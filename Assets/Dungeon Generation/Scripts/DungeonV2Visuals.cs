@@ -81,7 +81,7 @@ public class DungeonV2Visuals : MonoBehaviour
     }
     private void PlaceTiles()
     {
-        FloorPositionSet = DungeonCreationV2.Instance.GetTilePlaces;
+        FloorPositionSet = new HashSet<Vector2Int>(DungeonCreationV2.Instance.GetTilePlaces);
         foreach (Vector2Int Position in FloorPositionSet)
         {
             //Place Floor Tiles

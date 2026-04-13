@@ -31,7 +31,7 @@ public class DungeonCreationV2 : MonoBehaviour
     private List<(RectInt, RectInt)> DungeonCorridors = new List<(RectInt, RectInt)>();
 
     //Positions
-    private HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>();
+    private HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>(); //All positions of Floor Tiles
     public HashSet<Vector2Int> GetTilePlaces => TilePlacePositions;
     public List<SingleDungeonRoom> GetDungeonRooms => BasicDungeonRooms;
     public int GetRoomBuffer => RoomBuffer;
