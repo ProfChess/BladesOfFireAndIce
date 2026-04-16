@@ -36,3 +36,4 @@ MonoBehaviour:
   WallNarrowW: {fileID: 11400000, guid: 973945abd67e34b428863b3a0c46c670, type: 2}
   WallNarrowEW: {fileID: 11400000, guid: 9b198d93a9f16ff478a52a1fac032c19, type: 2}
   WallNarrowBase: {fileID: 11400000, guid: b98b3db9f5e2393488b6ad13bca257f8, type: 2}
+  CollisionTile: {fileID: 11400000, guid: 2f59c447a673770498c3f31ecbeded3d, type: 2}

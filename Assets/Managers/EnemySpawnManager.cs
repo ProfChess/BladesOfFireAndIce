@@ -9,9 +9,9 @@ public class EnemySpawnManager : MonoBehaviour
     //Ref to PoolManager
     BasePoolManager<EnemyType> PM => EnemyPoolManager.Instance;
 
-    private List<DungeonRoom> dungeonRooms = new List<DungeonRoom>();
-    private Dictionary<DungeonRoom, List<Vector3Int>> roomSpawnPos = 
-        new Dictionary<DungeonRoom, List<Vector3Int>>();
+    private List<SingleDungeonRoom> dungeonRooms = new List<SingleDungeonRoom>();
+    private Dictionary<SingleDungeonRoom, List<Vector3Int>> roomSpawnPos = 
+        new Dictionary<SingleDungeonRoom, List<Vector3Int>>();
     private void Awake()
     {
         if (DungeonInfo.Instance != null)
@@ -23,9 +23,9 @@ public class EnemySpawnManager : MonoBehaviour
     {
         if (dungeonRooms.Count == 0) { return; }
 
-        foreach (DungeonRoom room in dungeonRooms)
+        foreach (SingleDungeonRoom room in dungeonRooms)
         {
-            BoundsInt reducedBounds = ReduceBounds(room.space, 1);
+            RectInt reducedBounds = ReduceBounds(room.Area, 1);
             List<Vector3Int> positions = new List<Vector3Int>();
             for (int x = reducedBounds.xMin; x < reducedBounds.xMax; x++)
             {
@@ -42,10 +42,9 @@ public class EnemySpawnManager : MonoBehaviour
         SpawnEnemies();
     }
 
-    private BoundsInt ReduceBounds(BoundsInt bounds, int amount)
+    private RectInt ReduceBounds(RectInt bounds, int amount)
     {
-        return new BoundsInt(bounds.xMin + amount, bounds.yMin + amount,
-            bounds.zMin, bounds.size.x - amount, bounds.size.y - amount, bounds.size.z);
+        return new RectInt(bounds.xMin + amount, bounds.yMin + amount, bounds.width - amount, bounds.height - amount);
     }
 
 

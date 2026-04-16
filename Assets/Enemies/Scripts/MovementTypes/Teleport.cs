@@ -4,8 +4,8 @@ using UnityEngine.AI;
 
 public class Teleport : BaseEnemyMovement, IEnemyMovementBehaviour
 {
-    private DungeonRoom room;
-    private List<Vector3Int> TeleportPositions = new List<Vector3Int>();
+    private SingleDungeonRoom room;
+    private List<Vector2Int> TeleportPositions = new List<Vector2Int>();
     public void Create()
     {
         room = DungeonInfo.Instance.GrabArea(gameObject.transform.position);
@@ -15,7 +15,7 @@ public class Teleport : BaseEnemyMovement, IEnemyMovementBehaviour
     //Teleport Move
     public void ChaseMove(NavMeshAgent agent, Transform playerTransform, float speed, float range)
     {
-        Vector3 Pos = room.space.center;
+        Vector3 Pos = room.Area.center;
         float Diff = 0f;
         Diff = playerTransform.position.x > gameObject.transform.position.x ? 1.5f : -1.5f;
 
@@ -25,7 +25,7 @@ public class Teleport : BaseEnemyMovement, IEnemyMovementBehaviour
 
         else { agent.Warp(Attempt); }
     }
-    private Vector3Int PickRandomTeleportSpot()
+    private Vector2Int PickRandomTeleportSpot()
     {
         int random = Random.Range(0, TeleportPositions.Count);
         return TeleportPositions[random];
@@ -34,7 +34,7 @@ public class Teleport : BaseEnemyMovement, IEnemyMovementBehaviour
     public void IdleMove(NavMeshAgent agent, float speed)
     {
         CheckCurrentRoom();
-        Vector3Int Location = PickRandomTeleportSpot();
+        Vector2Int Location = PickRandomTeleportSpot();
         agent.Warp(GetPointOnMesh(Location));
     }
 

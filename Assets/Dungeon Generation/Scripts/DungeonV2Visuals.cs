@@ -7,6 +7,8 @@ public class DungeonV2Visuals : MonoBehaviour
 {
     [Header("Tiles")]
     [SerializeField] private Tilemap FloorTM;
+    [SerializeField] private Tilemap BaseWallTM;
+    [SerializeField] private Tilemap CollisonMap;
     [SerializeField] private Tilemap WallTM;
     [SerializeField] private TileSet ChosenTileSet;
     [SerializeField] private List<Tilemap> ExtraWallsTileMaps;
@@ -109,6 +111,10 @@ public class DungeonV2Visuals : MonoBehaviour
             SortWallTile(Pos);
         }
 
+        //Place Collison
+        PlaceAllWallTilesInList(WallPositions, ChosenTileSet.CollisionTile, CollisonMap);
+
+
         //Place Inner Corners
         DetermineInnerCornerLocations();
         PlaceAllWallTilesInList(InnerNWCorners, ChosenTileSet.WallInnerCornerNW, ExtraWallsTileMaps[0]);
@@ -124,9 +130,9 @@ public class DungeonV2Visuals : MonoBehaviour
         PlaceWallTop(ChosenTileSet.WallTopN, BottomWallPositions);
 
         //Place Base Walls
-        PlaceAllWallTilesInList(BottomLeftWallCorners, ChosenTileSet.WallBottomLeft, WallTM);
-        PlaceAllWallTilesInList(BottomRightWallCorners, ChosenTileSet.WallBottomRight, WallTM);
-        PlaceAllWallTilesInList(BottomWallPositions, ChosenTileSet.WallBottomMid, WallTM);
+        PlaceAllWallTilesInList(BottomLeftWallCorners, ChosenTileSet.WallBottomLeft, BaseWallTM);
+        PlaceAllWallTilesInList(BottomRightWallCorners, ChosenTileSet.WallBottomRight, BaseWallTM);
+        PlaceAllWallTilesInList(BottomWallPositions, ChosenTileSet.WallBottomMid, BaseWallTM);
 
 
         //Place Outer Corners
@@ -412,7 +418,9 @@ public class DungeonV2Visuals : MonoBehaviour
             for (int y = Area.yMin; y <= Area.yMax; y++)
             {
                 Vector3Int Position = new Vector3Int(x, y);
-                if (WallTM.GetTile(Position) == null && !FloorPositionSet.Contains((Vector2Int)Position))
+                if (WallTM.GetTile(Position) == null && 
+                    !FloorPositionSet.Contains((Vector2Int)Position) && 
+                    BaseWallTM.GetTile(Position) == null)
                 {
                     WallTM.SetTile(Position, ChosenTileSet.WallEmpty);
                 }

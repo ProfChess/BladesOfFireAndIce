@@ -5,12 +5,12 @@ using System.Collections;
 [RequireComponent(typeof(BaseEnemy))]
 public class KeepDistance : BaseEnemyMovement, IEnemyMovementBehaviour
 {
-    private BoundsInt Territory;
+    private RectInt Territory;
     private const float MAX_WANDER_DISTANCE = 8f;
 
     private void Start()
     {
-        Territory = DungeonInfo.Instance.GrabArea(transform.position).space;
+        Territory = DungeonInfo.Instance.GrabArea(transform.position).Area;
     }
     public void IdleMove(NavMeshAgent agent, float speed)
     {

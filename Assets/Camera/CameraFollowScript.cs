@@ -7,7 +7,7 @@ public class CameraFollowScript : MonoBehaviour
 
     //References
     [SerializeField] private GameObject player;
-    [SerializeField] private DungeonGenerator DunGen;
+    [SerializeField] private DungeonCreationV2 DunGen;
 
     //Camera
     private Camera cam;
@@ -19,9 +19,11 @@ public class CameraFollowScript : MonoBehaviour
         //Camera Set
         cam = Camera.main;
 
+        player = GameManager.Instance.getPlayer();
+
         //Bounds
-        xyMinLimit = new Vector2(DunGen.Space.xMin - 1, DunGen.Space.yMin - 1);
-        xyMaxLimit = new Vector2(DunGen.Space.xMax + 1, DunGen.Space.yMax + 1);
+        xyMinLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMin - 1, DunGen.FinalTotalDungeonSize.yMin - 1);
+        xyMaxLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMax + 1, DunGen.FinalTotalDungeonSize.yMax + 1);
     }
 
     private void LateUpdate()

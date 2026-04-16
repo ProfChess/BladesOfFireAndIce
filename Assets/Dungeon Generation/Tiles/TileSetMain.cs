@@ -40,4 +40,7 @@ public class TileSet : ScriptableObject
     public RuleTile WallNarrowEW;
     public RuleTile WallNarrowBase;
 
+    [Header("Collsion")]
+    public RuleTile CollisionTile;
+
 }

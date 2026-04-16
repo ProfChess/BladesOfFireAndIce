@@ -56,8 +56,14 @@ TagManager:
   - name: Floor
     uniqueID: 1808187813
     locked: 0
+  - name: BaseWalls
+    uniqueID: 455880965
+    locked: 0
   - name: Player
     uniqueID: 3225454595
+    locked: 0
+  - name: Walls
+    uniqueID: 3045922381
     locked: 0
   - name: PlayerAbilities
     uniqueID: 3360347465
@@ -67,7 +73,4 @@ TagManager:
     locked: 0
   - name: BossAttacks
     uniqueID: 522098553
-    locked: 0
-  - name: Walls
-    uniqueID: 3045922381
     locked: 0

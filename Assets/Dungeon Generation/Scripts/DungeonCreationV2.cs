@@ -61,6 +61,7 @@ public class DungeonCreationV2 : MonoBehaviour
         //{
         //    Debug.Log("Room #" + i + " Width: " + BasicDungeonRooms[i].Area.width + " Height: " + BasicDungeonRooms[i].Area.height);
         //}
+        DetermineStartAndEndingRooms();
     }
     private void Start()
     {
@@ -456,7 +457,27 @@ public class DungeonCreationV2 : MonoBehaviour
 
     public static event System.Action DungeonDataCreated;
 
+    private void DetermineStartAndEndingRooms()
+    {
+        Vector2 StartLocation = BasicDungeonRooms[0].Area.center;
+        Vector2 EndLocation = BasicDungeonRooms[1].Area.center;
 
+        foreach (SingleDungeonRoom room in BasicDungeonRooms)
+        {
+            if (room.Area.center.y < StartLocation.y)
+            {
+                //Find Lowest Room and Replace
+                StartLocation = room.Area.center;
+            }
+            if (room.Area.center.y > EndLocation.y)
+            {
+                EndLocation = room.Area.center;
+            }
+        }
+        GameManager.Instance.DungeonStartingRoomCenter = StartLocation;
+        GameManager.Instance.DungeonEndingRoomCenter = EndLocation;
+
+    }
 
 
     //TEMP VISUALIZATION FOR DUNGEON CREATION - GREEN = NORMAL ROOMS - BLUE = SPECIAL ROOMS

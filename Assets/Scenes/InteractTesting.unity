@@ -17541,7 +17541,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMesh: {fileID: 7835383805119383406}
-  visuals: {fileID: 0}
 --- !u!1 &6984842977397941520
 GameObject:
   m_ObjectHideFlags: 0

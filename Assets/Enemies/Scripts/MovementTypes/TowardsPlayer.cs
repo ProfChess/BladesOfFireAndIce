@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public abstract class BaseEnemyMovement : MonoBehaviour
 {
     //Gets spot on mesh from coordinates
-    protected Vector2 GetPointOnMesh(Vector3 Point)
+    protected Vector2 GetPointOnMesh(Vector2 Point)
     {
         if (NavMesh.SamplePosition(Point, out NavMeshHit hit, Mathf.Infinity, NavMesh.AllAreas))
         {
@@ -32,7 +32,7 @@ public abstract class BaseEnemyMovement : MonoBehaviour
     }
 
     //Picks random spot on the navmesh within enemy starting room
-    protected Vector2 GetPointWithinStartingRoom(BoundsInt roomSpace)
+    protected Vector2 GetPointWithinStartingRoom(RectInt roomSpace)
     {
         Vector3 RandomPointInRoom = new Vector2(Random.Range(roomSpace.xMin, roomSpace.xMax), 
                                                 Random.Range(roomSpace.yMin, roomSpace.yMax));

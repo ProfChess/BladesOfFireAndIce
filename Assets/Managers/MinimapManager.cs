@@ -11,6 +11,10 @@ public class MinimapManager : MonoBehaviour
     private Texture2D mapTexture;
     [SerializeField] private RawImage miniMapImage;
 
+    //Updating Map
+    private float MapUpdateInterval = 0.1f;
+    private float MapUpdateTimer = 0f;
+
     private void OnEnable()
     {
         DungeonCreationV2.DungeonDataCreated += AssignFloor;
@@ -31,12 +35,13 @@ public class MinimapManager : MonoBehaviour
         
         //Create Texture
         int size = viewRadius * 2 + 1;
-        Texture2D mapTexture = new Texture2D(size, size);
-        mapTexture.filterMode = FilterMode.Point;
-        mapTexture.wrapMode = TextureWrapMode.Clamp;
+        Texture2D textureMap = new Texture2D(size, size);
+        textureMap.filterMode = FilterMode.Point;
+        textureMap.wrapMode = TextureWrapMode.Clamp;
 
         //Assign UI
-        miniMapImage.texture = mapTexture;
+        miniMapImage.texture = textureMap;
+        mapTexture = textureMap;
 
     }
     private void GenerateMiniMap()
@@ -64,5 +69,18 @@ public class MinimapManager : MonoBehaviour
         }
         mapTexture.Apply();
     }
-   
+
+    private void Update()
+    {
+        if(MapUpdateTimer <= 0)
+        {
+            MapUpdateTimer = MapUpdateInterval;
+            GenerateMiniMap();
+        }
+        else
+        {
+            MapUpdateTimer -= GameTimeManager.GameDeltaTime;
+        }
+    }
+
 }

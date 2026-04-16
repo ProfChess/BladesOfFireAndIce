@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
     public void DeactivateUIPopup_NewRun() { NewRunPopup.SetActive(false); }
     //Shop
     public void InputUIPopup_Shop(List<ShopOption> options) { ShopGetter.PopulateShopOptions(options); }
-    public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); ChangePlayerToUIActions(); }
+    public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); MenuOpened(ShopSelectionUI); }
     public void DeactivateUIPopup_Shop() { ShopSelectionUI.SetActive(false); }
     public void MakeShopDecision(ShopOption ChosenShopItem)
     {
@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject getPlayer() 
     { 
-        if (Player == null) { Player = GameObject.FindObjectOfType<PlayerController>(); }
+        if (Player == null) { Player = FindObjectOfType<PlayerController>(); }
         return Player.gameObject; 
     }
     public NavMeshBaker getNavMesh() {  return MeshBaker; }

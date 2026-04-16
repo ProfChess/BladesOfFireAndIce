@@ -5,7 +5,7 @@ using UnityEngine.Timeline;
 [RequireComponent(typeof(BaseEnemy))]
 public class PatrolRoom : BaseEnemyMovement, IEnemyMovementBehaviour
 {
-    private BoundsInt Territory;
+    private RectInt Territory;
     private BaseEnemy Enemy;
 
     //Patrol Points
@@ -17,7 +17,7 @@ public class PatrolRoom : BaseEnemyMovement, IEnemyMovementBehaviour
     {
         Enemy = GetComponent<BaseEnemy>();  
 
-        Territory = DungeonInfo.Instance.GrabArea(transform.position).space;
+        Territory = DungeonInfo.Instance.GrabArea(transform.position).Area;
 
         int Length = Territory.yMax - Territory.yMin;
         int Width = Territory.xMax - Territory.xMin;

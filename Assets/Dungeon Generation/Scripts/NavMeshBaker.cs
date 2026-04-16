@@ -5,7 +5,6 @@ using UnityEngine;
 public class NavMeshBaker : MonoBehaviour
 {
     public NavMeshSurface navMesh;
-    public DungeonVisuals visuals;
 
     //Events
     public event Action MeshCreated;

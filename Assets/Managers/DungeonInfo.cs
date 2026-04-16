@@ -7,11 +7,11 @@ public class DungeonInfo : MonoBehaviour
     public static DungeonInfo Instance;
 
     //List of Dungeon Info
-    private List<DungeonRoom> roomList = new List<DungeonRoom>();
+    private List<SingleDungeonRoom> roomList = new List<SingleDungeonRoom>();
     //Get
-    public List<DungeonRoom> GetDungeonRoomList() { return roomList; }
+    public List<SingleDungeonRoom> GetDungeonRoomList() { return roomList; }
     //Set
-    public void SetInfo(List<DungeonRoom> rooms)
+    public void SetInfo(List<SingleDungeonRoom> rooms)
     {
         roomList = rooms;
         AssignEdgePositons();
@@ -37,12 +37,12 @@ public class DungeonInfo : MonoBehaviour
 
     //Dungeon Room Info For Enemy AI
     //Gets Set bounds based on enemy starting point
-    public DungeonRoom GrabArea(Vector3 position)
+    public SingleDungeonRoom GrabArea(Vector3 position)
     {
         Vector3Int RoundedPosition = Vector3Int.RoundToInt(position);
         for (int i = 0; i < roomList.Count; i++)
         {
-            if (IsPositionInBounds(RoundedPosition, roomList[i].space))
+            if (IsPositionInBounds(RoundedPosition, roomList[i].Area))
             {
                 return roomList[i];
             }
@@ -51,7 +51,7 @@ public class DungeonInfo : MonoBehaviour
         Debug.Log("Could Not Find Position in Any Room");
         return roomList[0];
     }
-    private bool IsPositionInBounds(Vector3 Position, BoundsInt bounds)
+    private bool IsPositionInBounds(Vector3 Position, RectInt bounds)
     {
         return bounds.xMin <= Position.x &&
                 bounds.xMax >= Position.x &&
@@ -62,20 +62,20 @@ public class DungeonInfo : MonoBehaviour
 
     //Save Edge Positions For Each Room
     //Dictionary to Keep Data
-    Dictionary<DungeonRoom, List<Vector3Int>> EdgePositions = new Dictionary<DungeonRoom, List<Vector3Int>>();
+    Dictionary<SingleDungeonRoom, List<Vector2Int>> EdgePositions = new Dictionary<SingleDungeonRoom, List<Vector2Int>>();
     private void AssignEdgePositons()
     {
-        foreach (DungeonRoom room in roomList)
+        foreach (SingleDungeonRoom room in roomList)
         {
-            List<Vector3Int> EdgeList = new List<Vector3Int>();
-            BoundsInt Bounds = room.space;
+            List<Vector2Int> EdgeList = new List<Vector2Int>();
+            RectInt Bounds = room.Area;
             
             //Search Each Position of The Room
             for (int x = Bounds.xMin + 1; x < Bounds.xMax - 1; x++)
             {
                 for (int y =  Bounds.yMin + 1; y < Bounds.yMax -1 ; y++)
                 {
-                    Vector3Int Position = new Vector3Int(x, y, 0);
+                    Vector2Int Position = new Vector2Int(x, y);
                     if (IsOutSideGivenBounds(Position, Bounds, 2))
                     {
                         //Position is Near Wall
@@ -89,7 +89,7 @@ public class DungeonInfo : MonoBehaviour
 
     }
     //Returns true if given value is outside bounds (ex. Finds Adjacent Wall Positions)
-    private bool IsOutSideGivenBounds(Vector3Int pos, BoundsInt bounds, int edgeThickness = 1)
+    private bool IsOutSideGivenBounds(Vector2Int pos, RectInt bounds, int edgeThickness = 1)
     {
         return
         pos.x < bounds.xMin + edgeThickness ||
@@ -97,10 +97,10 @@ public class DungeonInfo : MonoBehaviour
         pos.y < bounds.yMin + edgeThickness ||
         pos.y >= bounds.yMax - edgeThickness;
     }
-    public List<Vector3Int> GetEdgePositionFromPosition(Vector3 Position)
+    public List<Vector2Int> GetEdgePositionFromPosition(Vector2 Position)
     {
-        DungeonRoom room = GrabArea(Position);
-        if (EdgePositions.TryGetValue(room, out List<Vector3Int> EdgeList))
+        SingleDungeonRoom room = GrabArea(Position);
+        if (EdgePositions.TryGetValue(room, out List<Vector2Int> EdgeList))
         {
             return EdgeList;
         }
