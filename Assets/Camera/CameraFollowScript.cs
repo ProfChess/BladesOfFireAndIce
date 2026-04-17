@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class CameraFollowScript : MonoBehaviour
 {
@@ -8,16 +9,16 @@ public class CameraFollowScript : MonoBehaviour
     //References
     [SerializeField] private GameObject player;
     [SerializeField] private DungeonCreationV2 DunGen;
+    [SerializeField] private float SmoothTime = 0.08f;
 
     //Camera
     private Camera cam;
-    private float camHalfHeight;
-    private float camHalfWidth;
 
     private void Start()
     {
         //Camera Set
         cam = Camera.main;
+        cam.orthographicSize = 4f;
 
         player = GameManager.Instance.getPlayer();
 
@@ -35,23 +36,14 @@ public class CameraFollowScript : MonoBehaviour
     {
         if (player == null) { return;}
 
-        camHalfHeight = cam.orthographicSize;
-        camHalfWidth = camHalfHeight * cam.aspect;
-
-        Vector2 PlayerPos = player.transform.position;
-        float targetX = Mathf.Clamp(PlayerPos.x, xyMinLimit.x + camHalfWidth, xyMaxLimit.x - camHalfWidth);
-        float targetY = Mathf.Clamp(PlayerPos.y, xyMinLimit.y + camHalfHeight, xyMaxLimit.y - camHalfHeight);
-
-        Vector3 Goal = new Vector3(targetX, targetY, gameObject.transform.position.z);
-
-        // Snapping position to nearest pixel grid based on PPU
-        float pixelSize = 1f / 32f;
-        Goal.x = Mathf.Round(Goal.x / pixelSize) * pixelSize;
-        Goal.y = Mathf.Round(Goal.y / pixelSize) * pixelSize;
-
         // Directly move camera to the snapped position
-        transform.position = Goal;
+        Vector3 offset = new Vector3(0, 0, -10);
+        Vector3 TargetPositon = player.transform.position;
 
+        TargetPositon.x = Mathf.Floor(TargetPositon.x * 32f + 0.5f) / 32f;
+        TargetPositon.y = Mathf.Floor(TargetPositon.y * 32f + 0.5f) / 32f;
+
+        transform.position = TargetPositon + offset;
     }
 
 

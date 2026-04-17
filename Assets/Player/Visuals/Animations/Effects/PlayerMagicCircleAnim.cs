@@ -18,7 +18,7 @@ public class PlayerMagicCircleAnim : MonoBehaviour
     public void SetSpriteFlip(bool x)
     {
         Vector3 startPos = gameObject.transform.localPosition;
-        startPos.x = x ? 0.15f : -0.15f;
+        startPos.x = x ? 0.075f : -0.075f;
         gameObject.transform.localPosition = startPos;
     }
     public void SwitchToFire()

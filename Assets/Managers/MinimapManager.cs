@@ -6,10 +6,16 @@ using UnityEngine.UI;
 public class MinimapManager : MonoBehaviour
 {
     private HashSet<Vector2Int> FloorPositions; //Positions of Floor Tiles
-    private const int viewRadius = 8;           //Distance Shown in Map 
+    private const int viewRadius = 12;           //Distance Shown in Map 
     private Transform playerTransform;
     private Texture2D mapTexture;
     [SerializeField] private RawImage miniMapImage;
+
+    [Header("Colors")]
+    public Color PlayerColor = Color.white;
+    public Color FloorColor = Color.white;
+    public Color WallColor = Color.white;
+
 
     //Updating Map
     private float MapUpdateInterval = 0.1f;
@@ -57,10 +63,13 @@ public class MinimapManager : MonoBehaviour
 
                 bool isFloor = FloorPositions.Contains(CurrentPosition);
 
-                Color col = Color.black;
-                if (CurrentPosition == playerPos) { col = Color.red; }
-                else if (isFloor) { col = Color.blue; }
+                //Select Color
+                Color col = Color.white;
+                if (CurrentPosition == playerPos) { col = PlayerColor; }
+                else if (isFloor) { col = FloorColor; }
+                else { col = WallColor; }
 
+                //Block Draw Each Tile
                 int textureX = x + viewRadius;
                 int textureY = y + viewRadius;
 
