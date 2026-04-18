@@ -660,6 +660,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Orb_Boon
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 462
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e33dc9e42740db4388f1c679b449c49
+      internalID: -566698489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Orb_Relic
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 430
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8074d5c85855c6a4ebf86776b94008c4
+      internalID: -89810992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -687,6 +729,8 @@ TextureImporter:
       Label_Dark: -1694382728
       Map_Outline: -1185104381
       Nail: 492190164
+      Orb_Boon: -566698489
+      Orb_Relic: -89810992
       Panel_Dark: 3455845
       Panel_DarkGold: 706126459
       Panel_Gold_Blank: 672283235
