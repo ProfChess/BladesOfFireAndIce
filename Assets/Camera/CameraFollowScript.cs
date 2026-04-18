@@ -3,13 +3,12 @@ using static UnityEditor.PlayerSettings;
 
 public class CameraFollowScript : MonoBehaviour
 {
-    private Vector2 xyMinLimit;
-    private Vector2 xyMaxLimit;
+    public Vector2 xyMinLimit;
+    public Vector2 xyMaxLimit;
 
     //References
     [SerializeField] private GameObject player;
     [SerializeField] private DungeonCreationV2 DunGen;
-    [SerializeField] private float SmoothTime = 0.08f;
 
     //Camera
     private Camera cam;
@@ -23,8 +22,8 @@ public class CameraFollowScript : MonoBehaviour
         player = GameManager.Instance.getPlayer();
 
         //Bounds
-        xyMinLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMin - 1, DunGen.FinalTotalDungeonSize.yMin - 1);
-        xyMaxLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMax + 1, DunGen.FinalTotalDungeonSize.yMax + 1);
+        xyMinLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMin + 6f, DunGen.FinalTotalDungeonSize.yMin + 3.5f);
+        xyMaxLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMax - 6f, DunGen.FinalTotalDungeonSize.yMax - 3.5f);
     }
 
     private void LateUpdate()
@@ -40,8 +39,12 @@ public class CameraFollowScript : MonoBehaviour
         Vector3 offset = new Vector3(0, 0, -10);
         Vector3 TargetPositon = player.transform.position;
 
-        TargetPositon.x = Mathf.Floor(TargetPositon.x * 32f + 0.5f) / 32f;
-        TargetPositon.y = Mathf.Floor(TargetPositon.y * 32f + 0.5f) / 32f;
+        TargetPositon.x = Mathf.Clamp(TargetPositon.x, xyMinLimit.x, xyMaxLimit.x);
+        TargetPositon.y = Mathf.Clamp(TargetPositon.y, xyMinLimit.y, xyMaxLimit.y);
+
+        TargetPositon.x = Mathf.Round(TargetPositon.x * 32f) / 32f;
+        TargetPositon.y = Mathf.Round(TargetPositon.y * 32f) / 32f;
+
 
         transform.position = TargetPositon + offset;
     }

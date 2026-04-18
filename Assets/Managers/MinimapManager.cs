@@ -48,7 +48,6 @@ public class MinimapManager : MonoBehaviour
         //Assign UI
         miniMapImage.texture = textureMap;
         mapTexture = textureMap;
-
     }
     private void GenerateMiniMap()
     {

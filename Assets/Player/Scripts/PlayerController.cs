@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -136,6 +137,15 @@ public class PlayerController : MonoBehaviour
         //Flip Sprite
         DecideSpriteFlip();
         playerCircleEffect.SetSpriteFlip(playerSprite.flipX);
+    }
+    private void LateUpdate()
+    {
+        //Snap to Pixel Grid After Moving
+        Vector3 Pos = transform.position;
+        Pos.x = Mathf.Round(Pos.x * 32f) / 32f;
+        Pos.y = Mathf.Round(Pos.y * 32f) / 32f;
+
+        transform.position = Pos;
     }
     private void DecideSpriteFlip()
     {
