@@ -43,8 +43,23 @@ public abstract class LootBase : InteractableObject
             {
                 transform.position = targetPos;
                 isMoving = false;
+                MovementComplete();
                 gameObject.GetComponent<Collider2D>().enabled = true;
+                gameObject.GetComponentInChildren<FloatingObject>()?.StartObject();
             }
         }
+    }
+    public override void Interact()
+    {
+        base.Interact();
+        gameObject.GetComponentInChildren<FloatingObject>()?.StopObject();
+    }
+    protected virtual void MovementComplete()
+    {
+
+    }
+    public void DirectlySetVisualLayer(int num)
+    {
+        GetComponentInChildren<SpriteRenderer>().sortingOrder = num;
     }
 }

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &955611042055111150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5295587439190147617}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5295587439190147617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955611042055111150}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.075, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4188032540223261659}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1334696720527144654
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +104,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1069512701
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 1891770134, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -99,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FeetLevelObject: {fileID: 2981530716918305734}
+  DelayVisualSet: 0
 --- !u!1 &4577849963600986309
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +195,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2}
+  m_Offset: {x: 0, y: -0.175}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -174,7 +206,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.232}
+  m_Size: {x: 0.6, y: 0.275}
   m_EdgeRadius: 0
 --- !u!1 &5029907187860554913
 GameObject:
@@ -238,6 +270,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5295587439190147617}
   - {fileID: 1830711639601270614}
   - {fileID: 8885544716131744182}
   m_Father: {fileID: 0}
@@ -299,7 +332,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ae24bc8f145974a9512d78f5d54d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sr: {fileID: 6412722719789063361}
+  MainSR: {fileID: 6412722719789063361}
   OpenedChest: {fileID: 1072776809, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
   UnopenedChest: {fileID: 1891770134, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
   inventory: {fileID: 11400000, guid: f5c41ba96505f5c48a28cfdd92a200d8, type: 2}
+  guaranteedInventory: {fileID: 11400000, guid: 96c9132b0f5b72543a3097dfb49057f8, type: 2}
+  minSpawnRange: 1.35
+  maxSpawnRange: 2.5
+  timeBetweenLootSpawn: 0.25
+  lootSpawnPoint: {fileID: 5295587439190147617}

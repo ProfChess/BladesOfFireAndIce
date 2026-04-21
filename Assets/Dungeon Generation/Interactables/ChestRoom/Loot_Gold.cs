@@ -9,4 +9,8 @@ public class Loot_Gold : LootBase
         GameManager.Instance.runData.AddShopCurrency(GoldAmount);
         gameObject.SetActive(false);
     }
+    protected override void MovementComplete()
+    {
+        gameObject.GetComponentInChildren<StaticObjectSorting>()?.SetVisual();
+    }
 }

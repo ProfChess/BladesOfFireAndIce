@@ -1228,7 +1228,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1249,7 +1249,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1257,6 +1257,27 @@ TextureImporter:
       bones: []
       spriteID: 20d09bb57ae140540ad7f1d2c8e8f68f
       internalID: 1072776809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chest_Opened_Front
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 197
+        width: 32
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e66d5ac0557a7f45a2a646b61238259
+      internalID: -1403298745
       vertices: []
       indices: 
       edges: []
@@ -1274,6 +1295,7 @@ TextureImporter:
     nameFileIdTable:
       Chest_Closed: 1200275952
       Chest_Opened: 1072776809
+      Chest_Opened_Front: -1403298745
       Floor_Wood_CrackedSlightly: -1000879967
       Floor_Wood_HolesSmall: 1049854236
       Floor_Wood_Normal: 581128859

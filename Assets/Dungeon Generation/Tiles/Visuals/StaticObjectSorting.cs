@@ -6,9 +6,16 @@ using UnityEngine;
 public class StaticObjectSorting : MonoBehaviour
 {
     [SerializeField] private Transform FeetLevelObject;
+    [SerializeField] private bool DelayVisualSet = false;
 
     //Assign Sorting Order to be Negative of the Feet position (Lower = More In Front)
     private void Start()
+    {
+        var Visual = GetComponent<SpriteRenderer>();
+        if (DelayVisualSet) { return; }
+        Visual.sortingOrder = Mathf.RoundToInt(-FeetLevelObject.position.y * 100);
+    }
+    public void SetVisual()
     {
         var Visual = GetComponent<SpriteRenderer>();
         Visual.sortingOrder = Mathf.RoundToInt(-FeetLevelObject.position.y * 100);

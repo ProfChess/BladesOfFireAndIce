@@ -5,7 +5,7 @@ using UnityEngine;
 public class Chest : InteractableObject
 {
     [Header("Chest Specifics")]
-    [SerializeField] protected SpriteRenderer sr;
+    [SerializeField] protected SpriteRenderer MainSR;
     [SerializeField] protected Sprite OpenedChest;
     [SerializeField] protected Sprite UnopenedChest;
     [SerializeField] protected ChestInventory inventory;
@@ -16,13 +16,14 @@ public class Chest : InteractableObject
     [SerializeField] protected float minSpawnRange = 1.35f;
     [SerializeField] protected float maxSpawnRange = 2.5f;
     [SerializeField] protected float timeBetweenLootSpawn = 0.25f;
+    [SerializeField] protected Transform lootSpawnPoint;
     protected List<ChestLoot> LootToSpawn = new();
     public override void Interact()
     {
         if(isOpened) return;
 
         isOpened = true;
-        if (sr.sprite == UnopenedChest) { sr.sprite = OpenedChest; }
+        if (MainSR.sprite == UnopenedChest) { MainSR.sprite = OpenedChest; }
 
         //List of Loot to Create
         LootToSpawn.Clear();
@@ -42,7 +43,8 @@ public class Chest : InteractableObject
 
     protected void SpawnAndThrowLoot(ChestLoot ChestEntry)
     {
-        LootBase Loot = Instantiate(ChestEntry.ChestLootObject, transform.position, Quaternion.identity);
+        LootBase Loot = Instantiate(ChestEntry.ChestLootObject, lootSpawnPoint.position, Quaternion.identity);
+        Loot.DirectlySetVisualLayer(MainSR.sortingOrder + 1);
         ThrowLootRandomDirection(Loot.gameObject);
     }
 
@@ -51,11 +53,11 @@ public class Chest : InteractableObject
     {
         Vector2 Dir = GetRandomDirection();
         float Power = Random.Range(minSpawnRange, maxSpawnRange);
-        Vector2 TargetLocation = (Vector2)gameObject.transform.position + (Dir * Power);
+        Vector2 TargetLocation = (Vector2)lootSpawnPoint.position + (Dir * Power);
 
         if (LootObject.TryGetComponent<LootBase>(out LootBase loot))
         {
-            loot.beginMove(gameObject.transform.position, TargetLocation);
+            loot.beginMove(lootSpawnPoint.position, TargetLocation);
         }
     }
     protected Vector2 GetRandomDirection()

@@ -669,7 +669,7 @@ TextureImporter:
         width: 19
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -690,7 +690,7 @@ TextureImporter:
         width: 19
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -698,6 +698,27 @@ TextureImporter:
       bones: []
       spriteID: 8074d5c85855c6a4ebf86776b94008c4
       internalID: -89810992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Potion_Essence
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 496
+        width: 22
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a5ba285dde19d1499e2fac3061abff5
+      internalID: 592849366
       vertices: []
       indices: 
       edges: []
@@ -742,6 +763,7 @@ TextureImporter:
       Panel_Silver_Sliced: 1335574990
       Panel_Wood: 1831039915
       Potion_Dark: 2027048639
+      Potion_Essence: 592849366
       Scroll: -221577274
       Scroll_Wide: -868012090
   mipmapLimitGroupName: 
