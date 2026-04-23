@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PuzzlePart_Torch : BasePuzzlePart
 {
-    [SerializeField] private GameObject runeMark;
-    private bool needslit = false;
-    private bool lit = false;
+    [SerializeField] private GameObject Flame;
+    [SerializeField] private GameObject RuneMark;
+    private bool needslit = false;                  //Solution for Torch
+    private bool lit = false;                       //Current State of The Torch
     protected override void PartHit(BasePlayerDamage damageSource)
     {
         base.PartHit(damageSource);
@@ -16,12 +17,15 @@ public class PuzzlePart_Torch : BasePuzzlePart
         if (element == ElementType.Fire && !lit)
         {
             lit = true;
+            Flame.SetActive(true);
         }
         if (element == ElementType.Ice && lit)
         {
             lit = false;
+            Flame.SetActive(false);
         }
         EvaluatePart();
+        Debug.Log("Hit");
     }
     public void EvaluatePart()
     {
@@ -34,9 +38,11 @@ public class PuzzlePart_Torch : BasePuzzlePart
     public void SetUpPart(bool shouldLightTorch)
     {
         MoveMarkLocation();
+        lit = Random.Range(0, 2) == 0 ? true : false;
+        Flame.SetActive(lit);
+
         needslit = shouldLightTorch;
-        if (needslit) { runeMark.SetActive(true); }
-        else { runeMark.SetActive(false); }
+        RuneMark.SetActive(needslit);
     }
     private void MoveMarkLocation()
     {
@@ -45,6 +51,6 @@ public class PuzzlePart_Torch : BasePuzzlePart
 
         //Direction = (cos(angle), sin(angle))
         Vector2 Direction = new Vector2(Mathf.Cos(angleInRad), Mathf.Sin(angleInRad));
-        runeMark.transform.position += (Vector3)Direction;
+        RuneMark.transform.position += (Vector3)Direction;
     }
 }

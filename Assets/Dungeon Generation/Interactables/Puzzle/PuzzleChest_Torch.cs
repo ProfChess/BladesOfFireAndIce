@@ -5,6 +5,11 @@ public class PuzzleChest_Torch : BasePuzzleChest
 {
     private List<PuzzlePart_Torch> puzzleParts = new();
 
+    private void Start()
+    {
+        SetupChest();
+    }
+
     public override void SetupChest()
     {
         base.SetupChest();
