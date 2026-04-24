@@ -1,10 +1,13 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     //Player Hud
+    [Header("Player Hud")]
     public Image HealthBar;
     public Image StaminaBar;
 
@@ -13,6 +16,9 @@ public class UIManager : MonoBehaviour
 
     private const float UIUpdateInterval = 0.1f;
     private float UIUpdateTimer = 0f;
+
+    [Header("Inventory")]
+    public GameObject InventoryUIObject;
 
     private void Update()
     {
@@ -54,19 +60,44 @@ public class UIManager : MonoBehaviour
 
 
     //Pause Menu
+    [Header("Pause")]
     [SerializeField] private GameObject PauseMenuObject;
 
     public void PauseGame()
     {
         PauseMenuObject.SetActive(true);
-        Time.timeScale = 0f;
-        GameTimeManager.SetPaused(true);
+        StopGame();
     }
     public void UnPauseGame()
     {
         GameManager.Instance.CloseLatestMenu();
+        ContinueGame();
+    }
+    public void QuitToHub()
+    {
+        UnPauseGame();
+        SceneManager.LoadScene("MainHubScene");
+    }
+    private void StopGame()
+    {
+        Time.timeScale = 0f;
+        GameTimeManager.SetPaused(true);
+    }
+    private void ContinueGame()
+    {
         Time.timeScale = 1f;
         GameTimeManager.SetPaused(false);
+    }
+
+    //Inventory Display
+    public void OpenInventory()
+    {
+        InventoryUIObject.SetActive(true);
+        StopGame();
+    }
+    public void CloseInventory()
+    {
+        GameManager.Instance.CloseLatestMenu();
     }
 
 }

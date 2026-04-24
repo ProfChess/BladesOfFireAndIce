@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PauseMenuScript : MonoBehaviour
@@ -17,6 +15,22 @@ public class PauseMenuScript : MonoBehaviour
         {
             Time.timeScale = 1f;
             GameTimeManager.SetPaused(false);
+        }
+    }
+
+    //Buttons
+    public void ResumeButton()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.uiManager.UnPauseGame();
+        }
+    }
+    public void QuitButton()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.uiManager.QuitToHub();
         }
     }
 }

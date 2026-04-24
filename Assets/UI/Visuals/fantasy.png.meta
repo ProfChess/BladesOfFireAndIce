@@ -711,7 +711,7 @@ TextureImporter:
         width: 22
         height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -719,6 +719,27 @@ TextureImporter:
       bones: []
       spriteID: 6a5ba285dde19d1499e2fac3061abff5
       internalID: 592849366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Panel_Square_Dark
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 344
+        width: 97
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 7, z: 7, w: 7}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fa1826cd1ed85846af8255f6ccc9e86
+      internalID: 133706654
       vertices: []
       indices: 
       edges: []
@@ -761,6 +782,7 @@ TextureImporter:
       Panel_Silver_Decorated: -1347276352
       Panel_Silver_Plain: -473633536
       Panel_Silver_Sliced: 1335574990
+      Panel_Square_Dark: 133706654
       Panel_Wood: 1831039915
       Potion_Dark: 2027048639
       Potion_Essence: 592849366

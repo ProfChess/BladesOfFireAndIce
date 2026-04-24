@@ -430,6 +430,17 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    //Viewing Inventory
+    public void OnViewInventory(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+
+        }
+    }
+
+
     //Pause Game
     public void OnPause(InputAction.CallbackContext ctx)
     {
