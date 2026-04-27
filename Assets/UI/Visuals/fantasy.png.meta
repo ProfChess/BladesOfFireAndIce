@@ -744,6 +744,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Panel_Parchment_Tall
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 249
+        width: 73
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e29e21124863b8448def38a33648a09
+      internalID: -531068920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -778,6 +799,7 @@ TextureImporter:
       Panel_Gold_Blank: 672283235
       Panel_Gold_Purple: -30772820
       Panel_Paper: 608831998
+      Panel_Parchment_Tall: -531068920
       Panel_Parchment_Wide: -200967599
       Panel_Silver_Decorated: -1347276352
       Panel_Silver_Plain: -473633536
