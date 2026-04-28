@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     private float UIUpdateTimer = 0f;
 
     [Header("Inventory")]
-    public GameObject InventoryUIObject;
+    public Inventory InventoryUIObject;
 
     private void Update()
     {
@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
     //Inventory Display
     public void OpenInventory()
     {
-        InventoryUIObject.SetActive(true);
+        InventoryUIObject.gameObject.SetActive(true);
         StopGame();
     }
     public void CloseInventory()

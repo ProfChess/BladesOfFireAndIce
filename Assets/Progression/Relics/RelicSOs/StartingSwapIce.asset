@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: StartingSwapIce
   m_EditorClassIdentifier: 
   boonName: Ice Attune
+  type: 1
   boonDescription: Grants Increased Attack AOE Upon Switching to Ice
   EventToAttach: 7
   ElementRestriction: 2

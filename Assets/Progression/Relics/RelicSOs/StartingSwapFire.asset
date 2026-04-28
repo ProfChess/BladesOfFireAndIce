@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: StartingSwapFire
   m_EditorClassIdentifier: 
   boonName: Fire Attune
+  type: 1
   boonDescription: Grants Attack Speed Upon Switching to Fire
   EventToAttach: 7
   ElementRestriction: 1

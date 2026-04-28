@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HealthRelic
   m_EditorClassIdentifier: 
   boonName: Health Bonus
+  type: 1
   boonDescription: Gain 10% Damage in Both Stances When HP is >= 50%
   EventToAttach: 20
   ElementRestriction: 0

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 [CreateAssetMenu(menuName = ("Effect/Virtues/Virtue"))]
 public class Virtue : BaseBoon
@@ -47,6 +48,13 @@ public class Virtue : BaseBoon
             FinalProjSpeed = BaseStats.ProjSpeed * Mathf.Pow(LevelScalers.ProjSpeedScale, Level - 1),
             FinalProjTravelDuration = BaseStats.ProjTravelTime * Mathf.Pow(LevelScalers.ProjSpeedScale, Level - 1),
         };
+    }
+
+    //UI Display
+    public override void DisplayInformationInInventory(InventoryDescriptionUI inventoryDesc)
+    {
+        int level = GameManager.Instance.runData.GetVirtueLevel(this);
+        inventoryDesc.AssignTextFromItem(boonName, type.ToString(), boonDescription, level);
     }
 }
 //Boon Type Specific Enum

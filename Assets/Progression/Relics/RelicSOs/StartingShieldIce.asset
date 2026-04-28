@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: StartingShieldIce
   m_EditorClassIdentifier: 
   boonName: Shield of Ice
+  type: 1
   boonDescription: Put it Between You and Enemies to Not Die
   EventToAttach: 32
   ElementRestriction: 2

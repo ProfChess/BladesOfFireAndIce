@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: StartingShieldFire
   m_EditorClassIdentifier: 
   boonName: Shield of Flame
+  type: 1
   boonDescription: Put it Between You and Enemies to Not Die
   EventToAttach: 31
   ElementRestriction: 1

@@ -753,7 +753,7 @@ TextureImporter:
         width: 73
         height: 94
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -761,6 +761,27 @@ TextureImporter:
       bones: []
       spriteID: 1e29e21124863b8448def38a33648a09
       internalID: -531068920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Box
+      rect:
+        serializedVersion: 2
+        x: 928
+        y: 616
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f151c24141ffd5488f0738e3e77eebc
+      internalID: -730108078
       vertices: []
       indices: 
       edges: []
@@ -783,6 +804,7 @@ TextureImporter:
       BorderPiece_2: 1212995320
       BorderPiece_3: -2010078293
       BorderPiece_4: -1820661589
+      Box: -730108078
       Button_Dark_Pressed: -721420651
       Button_Dark_Unpressed: -1661492663
       Gem_Blue: -1999302553
