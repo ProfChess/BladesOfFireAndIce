@@ -167,7 +167,15 @@ public class GameManager : MonoBehaviour
         MenusToClose.RemoveAt(MenusToClose.Count - 1);
 
         //Check if All Menus are Closed
-        if (MenusToClose.Count == 0) { ChangePlayerToPlayerActions(); }
+        if (MenusToClose.Count == 0) 
+        {   
+            //Switch to Normal Controls
+            ChangePlayerToPlayerActions(); 
+
+            //Unpause Game if Needed
+            Time.timeScale = 1f;
+            GameTimeManager.SetPaused(false);
+        }
     }
 
 

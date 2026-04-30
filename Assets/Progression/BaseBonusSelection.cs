@@ -68,5 +68,4 @@ public class BaseBonusSelection : MonoBehaviour
         Pickup.gameObject.SetActive(false);
         Choice.BoonCollected();
     }
-
 }

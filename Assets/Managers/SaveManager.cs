@@ -112,16 +112,16 @@ public class PlayerSaveData
 [Serializable]
 public class Save_StatValue
 {
-    public SaveStats stat;
+    public MainStatType stat;
     public int value = 1;
 }
 [Serializable]
 public class Save_StatBonusStorage
 {
-    public SaveStats stat;
+    public MainStatType stat;
     public int chosenOption = -1; // -1 = none, 0 or 1 = selected option
 }
-public enum SaveStats
+public enum MainStatType
 {
     Vitality,
     Endurance,

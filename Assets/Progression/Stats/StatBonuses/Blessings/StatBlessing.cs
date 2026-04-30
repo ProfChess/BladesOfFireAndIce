@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = ("Effect/Blessings/Blessing"))]
-public class StatBlessing : ScriptableObject
+public class StatBlessing : BaseAttainedBonus
 {
-    [Header("Blessing Info")]
-    public string BlessingName;
-    [TextArea] public string BlessingDescription;
-
     [Header("")]
     public List<BaseStatBlessingEffect> EffectList = new();
 

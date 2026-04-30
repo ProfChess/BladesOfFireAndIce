@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 [CreateAssetMenu(menuName = ("Effect/Virtues/Virtue"))]
 public class Virtue : BaseBoon
@@ -54,7 +53,7 @@ public class Virtue : BaseBoon
     public override void DisplayInformationInInventory(InventoryDescriptionUI inventoryDesc)
     {
         int level = GameManager.Instance.runData.GetVirtueLevel(this);
-        inventoryDesc.AssignTextFromItem(boonName, type.ToString(), boonDescription, level);
+        inventoryDesc.AssignTextFromItem(BonusName, type.ToString(), BonusDescription, level);
     }
 }
 //Boon Type Specific Enum

@@ -14,8 +14,8 @@ public class BlessingChoiceUI : MonoBehaviour
     public void AssignInfo(StatBlessing blessing)
     {
         Blessing = blessing;
-        Name.text = blessing.BlessingName;
-        Desc.text = blessing.BlessingDescription;
+        Name.text = blessing.BonusName;
+        Desc.text = blessing.BonusDescription;
         BlessingToggle.SetIsOnWithoutNotify(GameManager.Instance.runData.IsBlessingSelected(blessing));
         BlessingToggleText.Refresh();
     }

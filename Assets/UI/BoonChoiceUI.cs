@@ -15,8 +15,8 @@ public class BoonChoiceUI : MonoBehaviour
     public void AssignBoonVisuals(BaseBoon boon)
     {
         displayedBoon = boon;
-        TitleText.text = boon.boonName;
-        DescriptionText.text = boon.boonDescription;
+        TitleText.text = boon.BonusName;
+        DescriptionText.text = boon.BonusDescription;
         //iconImage.sprite = boon.Icon;
 
 

@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RunDataManager : MonoBehaviour
 {
     //TEMPORARY DATA FOR EACH RUN THROUGH THE DUNGEON
     [field: SerializeField] public int MaxBoonLevel {  get; private set; }
+    [field: SerializeField] public float ShopCurrencyCollected { get; private set; } = 100f;
+    [field: SerializeField] public float StatCurrencyCollected { get; private set; } = 0f;
+    [SerializeField] private Inventory InventoryUI;
+
     //Relics
     private Dictionary<Relic, RelicInstance> CurrentRelics = new();
     public bool isRelicApplied(Relic relic) { return CurrentRelics[relic].isActive; }
@@ -22,6 +27,9 @@ public class RunDataManager : MonoBehaviour
             };
             CurrentRelics.Add(relic, instance);
             relic.BoonSelected();
+
+            //UI
+            InventoryUI.AddRelicToInventory(relic);
         }
     }
     public void RelicActivated(Relic relic, Action DisableEffect, float Duration = 0f)
@@ -94,6 +102,9 @@ public class RunDataManager : MonoBehaviour
             };
             CurrentVirtues.Add(virtue, instance);
             virtue.BoonSelected();
+
+            //UI
+            InventoryUI.AddVirtueToInventory(virtue);
         }
         else if (CurrentVirtues[virtue].Level < MaxBoonLevel)
         {
@@ -135,6 +146,9 @@ public class RunDataManager : MonoBehaviour
 
         CurrentBlessings.Add(Blessing, BlessingInst);
         Blessing.ApplyEffects();
+
+        //Add to Inventory
+        InventoryUI.AddBlessingToInventory(Blessing);
     }
     public void DeSelectBlessing(StatBlessing Blessing)
     {
@@ -148,12 +162,12 @@ public class RunDataManager : MonoBehaviour
         if (IsBlessingSelected(Blessing))
         {
             DeSelectBlessing(Blessing);
-            Debug.Log("Blessing Deselected: " + Blessing.BlessingName);
+            Debug.Log("Blessing Deselected: " + Blessing.BonusName);
         }
         else
         {
             SelectBlessing(Blessing);
-            Debug.Log("Blessing Selected: " + Blessing.BlessingName);
+            Debug.Log("Blessing Selected: " + Blessing.BonusName);
         }
     }
     public void DisableAllBlessingsOfType(StatBlessing[] Blessings)
@@ -163,7 +177,7 @@ public class RunDataManager : MonoBehaviour
             if (IsBlessingSelected(Blessing))
             {
                 DeSelectBlessing(Blessing);
-                Debug.Log("Blessing Deselected: " + Blessing.BlessingName);
+                Debug.Log("Blessing Deselected: " + Blessing.BonusName);
             }
         }
     }
@@ -212,7 +226,6 @@ public class RunDataManager : MonoBehaviour
 
 
     //CURRENCY
-    [field: SerializeField] public float ShopCurrencyCollected { get; private set; } = 100f;
     //Shop Functions
     public void AddShopCurrency(float num) {  ShopCurrencyCollected += num; }
     public bool CanPayItemCost(float num) { return ShopCurrencyCollected >= num; }
@@ -220,7 +233,6 @@ public class RunDataManager : MonoBehaviour
 
 
     //Stat Functions
-    [field: SerializeField] public float StatCurrencyCollected { get; private set; } = 0f;
     public void AddStatCurrency(float num) { StatCurrencyCollected += num; }
 
     public void ClearRunData()

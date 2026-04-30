@@ -95,9 +95,5 @@ public class UIManager : MonoBehaviour
         InventoryUIObject.gameObject.SetActive(true);
         StopGame();
     }
-    public void CloseInventory()
-    {
-        GameManager.Instance.CloseLatestMenu();
-    }
 
 }

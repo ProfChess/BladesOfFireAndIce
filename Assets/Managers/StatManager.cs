@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StatManager : MonoBehaviour
@@ -31,6 +32,11 @@ public class StatManager : MonoBehaviour
     [SerializeField] private int PointsSpent = 0;
     private int PointsAvailable = 26;
     private const int MaxTotalPoints = 26;          //Will be used to limit attained points
+
+    private void Awake()
+    {
+        CreateBlessingStatMap();
+    }
 
     public void StatPointSpend(ref int stat)
     {
@@ -104,7 +110,7 @@ public class StatManager : MonoBehaviour
     {
         List<Save_StatValue> StatNumbers = new();
 
-        foreach(SaveStats statType in Enum.GetValues(typeof(SaveStats)))
+        foreach(MainStatType statType in Enum.GetValues(typeof(MainStatType)))
         {
             int value = GetStatPointsFromStat(statType);
             StatNumbers.Add(new Save_StatValue() { stat = statType, value = value });
@@ -113,31 +119,31 @@ public class StatManager : MonoBehaviour
         return StatNumbers;
     }
     //Returns Number of Invested Points of a Given Stat
-    private int GetStatPointsFromStat(SaveStats stat)
+    public int GetStatPointsFromStat(MainStatType stat)
     {
         switch (stat)
         {
-            case SaveStats.Vitality: return VitalityPoints;
-            case SaveStats.Endurance: return EndurancePoints;
-            case SaveStats.Strength: return StrengthPoints;
-            case SaveStats.Dexterity: return DexterityPoints;
-            case SaveStats.Luck: return LuckPoints;
+            case MainStatType.Vitality: return VitalityPoints;
+            case MainStatType.Endurance: return EndurancePoints;
+            case MainStatType.Strength: return StrengthPoints;
+            case MainStatType.Dexterity: return DexterityPoints;
+            case MainStatType.Luck: return LuckPoints;
         }
         return 1;
     }
     public void AssignStatPointsFromSave(List<Save_StatValue> statNumbers)
     {
-        foreach (SaveStats statType in Enum.GetValues(typeof(SaveStats)))
+        foreach (MainStatType statType in Enum.GetValues(typeof(MainStatType)))
         {
             int value = statNumbers.FirstOrDefault(s => s.stat == statType)?.value ?? 1;
 
             switch (statType)
             {
-                case SaveStats.Vitality: Vitality = value; break;
-                case SaveStats.Endurance: Endurance = value; break;
-                case SaveStats.Strength: Strength = value; break;
-                case SaveStats.Dexterity: Dexterity = value; break;
-                case SaveStats.Luck: Luck = value; break;
+                case MainStatType.Vitality: Vitality = value; break;
+                case MainStatType.Endurance: Endurance = value; break;
+                case MainStatType.Strength: Strength = value; break;
+                case MainStatType.Dexterity: Dexterity = value; break;
+                case MainStatType.Luck: Luck = value; break;
             }
         }
 
@@ -151,11 +157,35 @@ public class StatManager : MonoBehaviour
     public StatBlessing[] DexterityBlessings = new StatBlessing[2];
     public StatBlessing[] LuckBlessings = new StatBlessing[2];
 
+    private Dictionary<StatBlessing, MainStatType> BlessingStatMap;
+    private void CreateBlessingStatMap()
+    {
+        BlessingStatMap = new Dictionary<StatBlessing, MainStatType>();
+
+        AddBlessings(VitalityBlessings, MainStatType.Vitality);
+        AddBlessings(EnduranceBlessings, MainStatType.Endurance);
+        AddBlessings(StrengthBlessings, MainStatType.Strength);
+        AddBlessings(DexterityBlessings, MainStatType.Dexterity);
+        AddBlessings(LuckBlessings, MainStatType.Luck);
+    }
+    private void AddBlessings(StatBlessing[] blessingList, MainStatType statType)
+    {
+        foreach (var blessing in blessingList)
+        {
+            BlessingStatMap[blessing] = statType;
+        }
+    }
+    public MainStatType GetStatTypeOfBlessing(StatBlessing blessing)
+    {
+        if(BlessingStatMap.TryGetValue(blessing, out MainStatType stat)) { return stat; }
+        throw new Exception("Blessing Not Found");
+    }
+
     //Returns all selected blessings for saving the choices
     public List<Save_StatBonusStorage> GetSelectedBlessings()
     {
         List<Save_StatBonusStorage> BlessingsSelected = new List<Save_StatBonusStorage>();
-        foreach (SaveStats statType in Enum.GetValues(typeof(SaveStats)))
+        foreach (MainStatType statType in Enum.GetValues(typeof(MainStatType)))
         {
             int Choice = -1;
             StatBlessing[] CurrentBlessingCollection = GetBlessingCollectionFromStat(statType);
@@ -188,15 +218,15 @@ public class StatManager : MonoBehaviour
             GameManager.Instance.runData.SelectBlessing(Blessing);
         }
     }
-    private StatBlessing[] GetBlessingCollectionFromStat(SaveStats stat)
+    private StatBlessing[] GetBlessingCollectionFromStat(MainStatType stat)
     {
         switch (stat)
         {
-            case SaveStats.Vitality: return VitalityBlessings;
-            case SaveStats.Endurance: return EnduranceBlessings;
-            case SaveStats.Strength: return StrengthBlessings;
-            case SaveStats.Dexterity: return DexterityBlessings;
-            case SaveStats.Luck: return LuckBlessings;
+            case MainStatType.Vitality: return VitalityBlessings;
+            case MainStatType.Endurance: return EnduranceBlessings;
+            case MainStatType.Strength: return StrengthBlessings;
+            case MainStatType.Dexterity: return DexterityBlessings;
+            case MainStatType.Luck: return LuckBlessings;
         }
         Debug.Log("Stat not Found");
         return null;

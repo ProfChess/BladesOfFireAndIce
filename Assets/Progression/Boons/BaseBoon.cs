@@ -1,13 +1,8 @@
 using System;
 using UnityEngine;
-using static UnityEditor.Progress;
 
-public abstract class BaseBoon : ScriptableObject
+public abstract class BaseBoon : BaseAttainedBonus
 {
-    [Header("Boon Stats")]
-    public string boonName;
-    public BonusType type = BonusType.Virtue;
-    [TextArea] public string boonDescription;
     //public Sprite Icon;
 
     //Restrictions and Specifics
@@ -45,11 +40,7 @@ public abstract class BaseBoon : ScriptableObject
         PlayerEffectSubscriptionManager.Instance.UnSubscribeFromPlayerEvent(effectDelegate, EventToAttach);
     }
 
-    public virtual void DisplayInformationInInventory(InventoryDescriptionUI inventoryDesc)
-    {
-        inventoryDesc.AssignTextFromItem(boonName, type.ToString(), boonDescription);
-    }
 
 }
-public enum BonusType {Virtue, Relic}
+public enum BonusType {Virtue, Relic, Blessing}
 

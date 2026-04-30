@@ -436,7 +436,10 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.performed)
         {
-
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.uiManager.OpenInventory();
+            }
         }
     }
 
@@ -460,6 +463,16 @@ public class PlayerController : MonoBehaviour
         if (ctx.performed)
         {
             if(GameManager.Instance != null)
+            {
+                GameManager.Instance.CloseLatestMenu();
+            }
+        }
+    }
+    public void OnCloseInventory(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            if (GameManager.Instance != null)
             {
                 GameManager.Instance.CloseLatestMenu();
             }
