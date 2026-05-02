@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,8 +8,8 @@ public class RunDataManager : MonoBehaviour
 {
     //TEMPORARY DATA FOR EACH RUN THROUGH THE DUNGEON
     [field: SerializeField] public int MaxBoonLevel {  get; private set; }
-    [field: SerializeField] public float ShopCurrencyCollected { get; private set; } = 100f;
-    [field: SerializeField] public float StatCurrencyCollected { get; private set; } = 0f;
+    [field: SerializeField] public float GoldCurrencyCollected { get; private set; } = 100f;
+    [field: SerializeField] public float EssenceCurrencyCollected { get; private set; } = 0f;
     [SerializeField] private Inventory InventoryUI;
 
     //Relics
@@ -85,10 +86,10 @@ public class RunDataManager : MonoBehaviour
         }
     }
     
-    //BOONS
+    //VIRTUES
     private Dictionary<Virtue, VirtueInstance> CurrentVirtues = new();
     public int GetVirtueLevel(Virtue virtue) {  return CurrentVirtues[virtue].Level; }
-    //Does The Player Already Have This Boon
+    //Does The Player Already Have This Virtue
     public bool IsVirtueCollected(Virtue virtue) { return CurrentVirtues.ContainsKey(virtue); }
     public void AddVirtue(Virtue virtue) 
     {
@@ -132,7 +133,7 @@ public class RunDataManager : MonoBehaviour
 
 
 
-    //Stat Bonuses 
+    //Blessings
     private Dictionary<StatBlessing, BlessingInstance> CurrentBlessings = new();
     public bool IsBlessingSelected(StatBlessing Blessing) { if (Blessing == null) { return false; } return CurrentBlessings.ContainsKey(Blessing); }
     public void SelectBlessing(StatBlessing Blessing)
@@ -190,6 +191,55 @@ public class RunDataManager : MonoBehaviour
     }
 
 
+    //Abilities
+    private Dictionary<Ability, AbilityInstance> AbilityMap = new();
+    private Dictionary<(PlayerAbilitySlot, ElementType), AbilityInstance> CurrentAbilitySlotMap = new();
+    public bool IsAbilityCollected(Ability ability) { return AbilityMap.ContainsKey(ability); }
+    public bool IsAbilitySlotAvailable() { return CurrentAbilitySlotMap.Count != Enum.GetValues(typeof(PlayerAbilitySlot)).Length; }
+    public bool IsAbilitySlotOffCooldown(PlayerAbilitySlot slot, ElementType element) { return CurrentAbilitySlotMap[(slot,element)].CanTrigger; }
+    public void AddAbilityPair(Ability fireAbility, Ability iceAbility)
+    {
+        if (AbilityMap.ContainsKey(fireAbility) || IsAbilityCollected(iceAbility)) 
+        { Debug.Log("Error One or Both of These Abilities are Already Equipped"); return; }
+        if (!IsAbilitySlotAvailable()) { Debug.Log("Error No Ability Slots Available"); return; }
+
+
+        if (!CurrentAbilitySlotMap.ContainsKey((PlayerAbilitySlot.Slot1, ElementType.Fire)))
+        {
+            //First Ability Slot is Free -> Place Ability
+            //Place Fire Ability
+            AssignAbilityToSlot(PlayerAbilitySlot.Slot1, ElementType.Fire, fireAbility);
+            //Place Ice Ability
+            AssignAbilityToSlot(PlayerAbilitySlot.Slot1, ElementType.Ice, iceAbility);
+        }
+        else
+        {
+            //Second Ability Slot is Free -> Place Ability
+            //Place Fire Ability
+            AssignAbilityToSlot(PlayerAbilitySlot.Slot2, ElementType.Fire, fireAbility);
+            //Place Ice Ability
+            AssignAbilityToSlot(PlayerAbilitySlot.Slot2, ElementType.Ice, iceAbility);
+        }
+    }
+    private void AssignAbilityToSlot(PlayerAbilitySlot slot, ElementType Element, Ability ability)
+    {
+        AbilityInstance abilityInstance = new AbilityInstance
+        {
+            AbilityRef = ability,
+            AbilitySlot = slot,
+            BoundElement = Element
+        };
+        AbilityMap.Add(ability, abilityInstance);
+        CurrentAbilitySlotMap.Add((slot, Element), abilityInstance);
+
+        //UI 
+        InventoryUI.AddAbilityToUI(ability, Element, slot);
+    }
+    public void FindAndActivateAbility(PlayerAbilitySlot slot, ElementType element)
+    {
+        CurrentAbilitySlotMap[(slot, element)].AbilityRef.GetEffect().Invoke();
+    }
+
     //Cooldowns
     private void Update()
     {
@@ -199,7 +249,10 @@ public class RunDataManager : MonoBehaviour
         //Relics
         CountDownList(CurrentRelics.Values);
         CountDownDuration(CurrentRelics.Keys);
+        //Abilities
+        CountDownList(AbilityMap.Values);
     }
+    //Counts Down Cooldown of List of Equipment w/ Cooldown States
     private void CountDownList(IEnumerable<CooldownState> cooldowns)
     {
         foreach (CooldownState cooldown in cooldowns)
@@ -207,6 +260,7 @@ public class RunDataManager : MonoBehaviour
             cooldown.CountDown(GameTimeManager.GameDeltaTime);
         }
     }
+    //Counts Down Lasting Effects of Relics
     private void CountDownDuration(IEnumerable<Relic> relicList)
     {
         foreach (Relic relic in relicList)
@@ -227,21 +281,21 @@ public class RunDataManager : MonoBehaviour
 
     //CURRENCY
     //Shop Functions
-    public void AddShopCurrency(float num) {  ShopCurrencyCollected += num; }
-    public bool CanPayItemCost(float num) { return ShopCurrencyCollected >= num; }
+    public void AddShopCurrency(float num) {  GoldCurrencyCollected += num; }
+    public bool CanPayItemCost(float num) { return GoldCurrencyCollected >= num; }
 
 
 
     //Stat Functions
-    public void AddStatCurrency(float num) { StatCurrencyCollected += num; }
+    public void AddStatCurrency(float num) { EssenceCurrencyCollected += num; }
 
     public void ClearRunData()
     {
         CurrentVirtues.Clear();
         CurrentRelics.Clear();
         CurrentBlessings.Clear();
-        ShopCurrencyCollected = 0f;
-        StatCurrencyCollected = 0f;
+        GoldCurrencyCollected = 0f;
+        EssenceCurrencyCollected = 0f;
     }
 
     //Stat Carry Over
@@ -303,4 +357,15 @@ public class RelicInstance : CooldownState
 public class BlessingInstance
 {
     public StatBlessing BlessingRef;
+}
+public class AbilityInstance : CooldownState
+{
+    public Ability AbilityRef;
+    public PlayerAbilitySlot AbilitySlot;
+    public ElementType BoundElement;
+
+    public void StartCooldown()
+    {
+        Start(AbilityRef.BaseStats.Cooldown);
+    }
 }

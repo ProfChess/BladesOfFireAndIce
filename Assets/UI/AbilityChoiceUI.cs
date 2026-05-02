@@ -16,13 +16,13 @@ public class AbilityChoiceUI : MonoBehaviour
         {
             //Fire
             fireAbilityRef = fireAbility;
-            fireTitle.text = fireAbility.AbilityName;
-            fireDescription.text = fireAbility.Description;
+            fireTitle.text = fireAbility.BonusName;
+            fireDescription.text = fireAbility.BonusDescription;
             
             //Ice
             iceAbilityRef = iceAbility;
-            iceTitle.text = iceAbility.AbilityName;
-            iceDescription.text = iceAbility.Description;
+            iceTitle.text = iceAbility.BonusName;
+            iceDescription.text = iceAbility.BonusDescription;
         }
     }
 

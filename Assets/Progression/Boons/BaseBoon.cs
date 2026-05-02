@@ -42,5 +42,5 @@ public abstract class BaseBoon : BaseAttainedBonus
 
 
 }
-public enum BonusType {Virtue, Relic, Blessing}
+public enum BonusType {Virtue, Relic, Blessing, Ability}
 

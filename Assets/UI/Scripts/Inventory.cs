@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -12,6 +13,17 @@ public class Inventory : MonoBehaviour
 
     [Header("Other Needed Objects")]
     [SerializeField] private StatManager statManager;
+    [SerializeField] private RunDataManager runDataManager;
+
+    [Header("Currency UI")]
+    [SerializeField] private TextMeshProUGUI GoldNumUI;
+    [SerializeField] private TextMeshProUGUI EssenceNumUI;
+
+    [Header("Ability UI")]
+    [SerializeField] private InventoryItemBoxUI Slot1Fire;
+    [SerializeField] private InventoryItemBoxUI Slot1Ice;
+    [SerializeField] private InventoryItemBoxUI Slot2Fire;
+    [SerializeField] private InventoryItemBoxUI Slot2Ice;
 
     [Header("Stat Display")]
     [SerializeField] private List<InventoryStatBlessingBox> StatBoxes;
@@ -24,6 +36,13 @@ public class Inventory : MonoBehaviour
         //Add Self to Game Manager's Current Open Menu
         GameManager.Instance.MenuOpened(gameObject);
 
+        //Update Currency Numbers
+        if (runDataManager != null)
+        {
+            GoldNumUI.text = runDataManager.GoldCurrencyCollected.ToString();
+            EssenceNumUI.text = runDataManager.EssenceCurrencyCollected.ToString();
+        }
+
         //Update Stats
         foreach (InventoryStatBlessingBox box in StatBoxes)
         {
@@ -31,6 +50,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //Add Virtues and Relics
     public void AddVirtueToInventory(Virtue virtue)
     {
         GameObject newBox = Instantiate(InventoryItemBoxPrefab, VirtueContentParent);
@@ -56,5 +76,18 @@ public class Inventory : MonoBehaviour
                 break;
             }
         }
+    }
+
+    //Add Abilities
+    public void AddAbilityToUI(Ability ability, ElementType element, PlayerAbilitySlot slot)
+    {
+        GetSlotUI(slot, element).AssignItem(ability);
+    }
+    private InventoryItemBoxUI GetSlotUI(PlayerAbilitySlot slot, ElementType Element)
+    {
+        if (Element == ElementType.Fire)
+            return slot == PlayerAbilitySlot.Slot1 ? Slot1Fire : Slot2Fire;
+        else
+            return slot == PlayerAbilitySlot.Slot1 ? Slot1Ice : Slot2Ice;
     }
 }

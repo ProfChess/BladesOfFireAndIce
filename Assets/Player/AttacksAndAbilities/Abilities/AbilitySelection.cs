@@ -12,26 +12,7 @@ public class AbilitySelection : MonoBehaviour
 
     public void AbilitySelected(Ability fireAbility, Ability iceAbility)
     {
-        PlayerAbilities playerAbilities = GameManager.Instance.getPlayer().GetComponentInChildren<PlayerAbilities>();
-
-        if (!playerAbilities.IsAbilitySlotTaken(PlayerAbilitySlot.Slot1))
-        {
-            Debug.Log("First Slot Used");
-            //First Ability Slot is Free -> Place Ability
-            //Place Fire Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Fire, fireAbility.GetEffect(), fireAbility.BaseStats.Cooldown);
-            //Place Ice Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot1, ElementType.Ice, iceAbility.GetEffect(), iceAbility.BaseStats.Cooldown);
-        }
-        else if (!playerAbilities.IsAbilitySlotTaken(PlayerAbilitySlot.Slot2))
-        {
-            Debug.Log("Second Slot Used");
-            //Second Ability Slot is Free -> Place Ability
-            //Place Fire Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Fire, fireAbility.GetEffect(), fireAbility.BaseStats.Cooldown);
-            //Place Ice Ability
-            playerAbilities.AssignAbility(PlayerAbilitySlot.Slot2, ElementType.Ice, iceAbility.GetEffect(), iceAbility.BaseStats.Cooldown);
-        }
+        GM.runData.AddAbilityPair(fireAbility, iceAbility);
 
         if(abilityPickup != null) { abilityPickup.gameObject.SetActive(false); }
         GM.CloseLatestMenu();

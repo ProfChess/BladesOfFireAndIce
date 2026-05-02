@@ -34,6 +34,6 @@ public class ShopUI : MonoBehaviour
 
     public void ApplyCurrencyNumChange()
     {
-        PlayerCurrentCurrency.text = GameManager.Instance.runData.ShopCurrencyCollected.ToString();
+        PlayerCurrentCurrency.text = GameManager.Instance.runData.GoldCurrencyCollected.ToString();
     }
 }

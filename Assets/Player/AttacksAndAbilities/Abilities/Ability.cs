@@ -2,12 +2,8 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName =("Effect/Abilities/Ability"))]
-public class Ability : ScriptableObject
+public class Ability : BaseAttainedBonus
 {
-    [Header("Ability Info")]
-    public string AbilityName;
-    [TextArea] public string Description;
-
     [Tooltip("Effect This Ability Will Use")]
     public PlayerAbilityType EffectToTrigger;
 

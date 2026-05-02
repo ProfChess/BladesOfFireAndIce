@@ -62,7 +62,7 @@ public class AbilityStorage : ScriptableObject
     }
 
 }
-public class AbilityPair
+public struct AbilityPair
 {
     public Ability Fire;
     public Ability Ice;
