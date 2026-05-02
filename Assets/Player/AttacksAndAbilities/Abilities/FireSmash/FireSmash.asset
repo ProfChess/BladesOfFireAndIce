@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1213e902fbc3484abd232d2ba78cc12, type: 3}
   m_Name: FireSmash
   m_EditorClassIdentifier: 
-  AbilityName: Smash The Fire
-  Description: Big Boom
+  BonusName: Fire Smash
+  type: 0
+  BonusDescription: Triggers a Fire Smash
   EffectToTrigger: 1
   StanceForEffect: 1
   BaseStats:
@@ -22,6 +23,6 @@ MonoBehaviour:
     Freq: 1
     Duration: 1
     EffectNum: 1
+    Cooldown: 0
     ProjSpeed: 1
     ProjTravelTime: 1
-  Cooldown: 1

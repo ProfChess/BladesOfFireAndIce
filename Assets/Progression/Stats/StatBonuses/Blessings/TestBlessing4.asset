@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47737eb5123aff44889760a2401541a6, type: 3}
   m_Name: TestBlessing4
   m_EditorClassIdentifier: 
-  BlessingName: Test Blessing 4
-  BlessingDescription: 'Yet another dumb stupid test blessing
-
-'
+  BonusName: Last Test Blessing
+  type: 2
+  BonusDescription: This is the Final Test Blessing
   EffectList: []

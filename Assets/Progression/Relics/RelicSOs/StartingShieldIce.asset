@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfce8a0a01ff58e4c9e1cd106bdbd522, type: 3}
   m_Name: StartingShieldIce
   m_EditorClassIdentifier: 
-  boonName: Shield of Ice
+  BonusName: Ice Shield
   type: 1
-  boonDescription: Put it Between You and Enemies to Not Die
+  BonusDescription: Grants higher attack speed upon successful parry
   EventToAttach: 32
   ElementRestriction: 2
   EffectType: 1

@@ -164,9 +164,9 @@ public class StatManager : MonoBehaviour
 
         AddBlessings(VitalityBlessings, MainStatType.Vitality);
         AddBlessings(EnduranceBlessings, MainStatType.Endurance);
-        AddBlessings(StrengthBlessings, MainStatType.Strength);
-        AddBlessings(DexterityBlessings, MainStatType.Dexterity);
-        AddBlessings(LuckBlessings, MainStatType.Luck);
+        //AddBlessings(StrengthBlessings, MainStatType.Strength);
+        //AddBlessings(DexterityBlessings, MainStatType.Dexterity);
+        //AddBlessings(LuckBlessings, MainStatType.Luck);
     }
     private void AddBlessings(StatBlessing[] blessingList, MainStatType statType)
     {

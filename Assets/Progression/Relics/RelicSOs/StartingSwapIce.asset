@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfce8a0a01ff58e4c9e1cd106bdbd522, type: 3}
   m_Name: StartingSwapIce
   m_EditorClassIdentifier: 
-  boonName: Ice Attune
+  BonusName: Ice Swap Ring
   type: 1
-  boonDescription: Grants Increased Attack AOE Upon Switching to Ice
+  BonusDescription: Grants attack range and stamina when switching into ice
   EventToAttach: 7
   ElementRestriction: 2
   EffectType: 10

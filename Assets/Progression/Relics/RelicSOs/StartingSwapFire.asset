@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfce8a0a01ff58e4c9e1cd106bdbd522, type: 3}
   m_Name: StartingSwapFire
   m_EditorClassIdentifier: 
-  boonName: Fire Attune
+  BonusName: Fire Swap Ring
   type: 1
-  boonDescription: Grants Attack Speed Upon Switching to Fire
+  BonusDescription: Grants attack speed and stamina upon switching into fire
   EventToAttach: 7
   ElementRestriction: 1
   EffectType: 10

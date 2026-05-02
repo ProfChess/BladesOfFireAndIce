@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfce8a0a01ff58e4c9e1cd106bdbd522, type: 3}
   m_Name: StartingShieldFire
   m_EditorClassIdentifier: 
-  boonName: Shield of Flame
+  BonusName: Fire Shield
   type: 1
-  boonDescription: Put it Between You and Enemies to Not Die
+  BonusDescription: Grants higher damage and range upon releasing block after blocking
+    at least 1 attack. This buff scales with the amount of hits blocked.
   EventToAttach: 31
   ElementRestriction: 1
   EffectType: 0

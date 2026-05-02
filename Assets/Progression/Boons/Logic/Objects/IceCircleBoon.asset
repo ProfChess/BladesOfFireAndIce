@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d605d5924d3c26847bf298cf30e64c33, type: 3}
   m_Name: IceCircleBoon
   m_EditorClassIdentifier: 
-  boonName: Circle of Ice
-  boonDescription: Release Ice in Every Direction Upon Striking an Enemy
+  BonusName: Ice Swirl
+  type: 0
+  BonusDescription: Sends out a ring of icicles upon hitting an enemy with an attack
   EventToAttach: 1
   ElementRestriction: 0
   EffectType: 2

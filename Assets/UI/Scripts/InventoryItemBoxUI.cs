@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class InventoryItemBoxUI : MonoBehaviour
 {
-    [SerializeField] private Image IconImage;
-    private BaseAttainedBonus StoredObject;
+    [SerializeField] protected Image IconImage;
+    protected BaseAttainedBonus StoredObject;
     
     public void AssignItem(BaseAttainedBonus Item)
     {

@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47737eb5123aff44889760a2401541a6, type: 3}
   m_Name: EnduranceBlessing
   m_EditorClassIdentifier: 
-  BlessingName: Stamina Blessing 1
-  BlessingDescription: 'Gain Stamina on Kill.
-
-    Dodging Costs Less Stamina'
+  BonusName: Stamain Killer
+  type: 2
+  BonusDescription: Rolling Costs Less Stamina. Gain Stamina on Kill.
   EffectList:
   - {fileID: 11400000, guid: 1850a7058ca26b8429dfa5df77becaf5, type: 2}
   - {fileID: 11400000, guid: 3f73e91ec5657524399898fe41713112, type: 2}
