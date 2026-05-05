@@ -601,10 +601,10 @@ TextureImporter:
       name: Button_Dark_Pressed
       rect:
         serializedVersion: 2
-        x: 769
-        y: 1145
+        x: 801
+        y: 1129
         width: 30
-        height: 12
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -774,7 +774,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -782,6 +782,48 @@ TextureImporter:
       bones: []
       spriteID: 0f151c24141ffd5488f0738e3e77eebc
       internalID: -730108078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Grey_Unpressed
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 1176
+        width: 30
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a84a3fcd4b929ab42b1d38141d2b06b3
+      internalID: 649599949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Grey_Pressed
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 1161
+        width: 30
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cbb96a7f31b46f45b4f3557c75a06db
+      internalID: 1602362635
       vertices: []
       indices: 
       edges: []
@@ -807,6 +849,8 @@ TextureImporter:
       Box: -730108078
       Button_Dark_Pressed: -721420651
       Button_Dark_Unpressed: -1661492663
+      Button_Grey_Pressed: 1602362635
+      Button_Grey_Unpressed: 649599949
       Gem_Blue: -1999302553
       Gem_Red: 1684933197
       Gem_Small_LightBlue: -1963244258

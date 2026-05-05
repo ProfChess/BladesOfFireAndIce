@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,27 +8,27 @@ public class TextMoveToggle : MonoBehaviour
     [SerializeField] private Toggle thisToggle;
     [SerializeField] private Image ToggleOffImage;
     [SerializeField] private RectTransform textTransform;
-    [SerializeField] private Vector2 ToggledOffset = Vector2.zero;
-    private Vector2 OriginalPosition;
+    [SerializeField] private Vector2 OnTextPosition = Vector2.zero;
+    [SerializeField] private Vector2 OffTextPosition = Vector2.zero;
     private void Start()
     {
         thisToggle.onValueChanged.AddListener(MoveText);
     }
     private void MoveText(bool isOn)
     {
-        if (OriginalPosition == Vector2.zero)
+        if (OffTextPosition == Vector2.zero)
         {
-            OriginalPosition = textTransform.anchoredPosition;
+            OffTextPosition = textTransform.anchoredPosition;
         }
 
         if (isOn)
         {
-            textTransform.anchoredPosition = ToggledOffset;
+            textTransform.anchoredPosition = OnTextPosition;
             ToggleOffImage.enabled = false;
         }
         else
         {
-            textTransform.anchoredPosition = OriginalPosition;
+            textTransform.anchoredPosition = OffTextPosition;
             ToggleOffImage.enabled = true;
         }
     }
