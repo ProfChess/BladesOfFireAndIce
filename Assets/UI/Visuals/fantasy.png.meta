@@ -828,6 +828,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: fantasy_0
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 366
+        width: 7
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0882aa08477b9d43a8b4ce14d61b5f9
+      internalID: 1054125730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fantasy_1
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 363
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b06c71645244e24fb019515fa3d6c67
+      internalID: 1913422102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -876,6 +918,8 @@ TextureImporter:
       Potion_Essence: 592849366
       Scroll: -221577274
       Scroll_Wide: -868012090
+      fantasy_0: 1054125730
+      fantasy_1: 1913422102
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

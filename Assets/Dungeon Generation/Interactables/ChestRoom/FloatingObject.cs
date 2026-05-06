@@ -17,6 +17,7 @@ public class FloatingObject : MonoBehaviour
         {
             MovingCoroutine = StartCoroutine(Move());
         }
+        else { StopCoroutine(MovingCoroutine); MovingCoroutine = StartCoroutine(Move()); }
     }
     public void StopObject()
     {
