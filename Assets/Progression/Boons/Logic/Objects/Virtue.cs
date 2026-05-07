@@ -50,7 +50,7 @@ public class Virtue : BaseBoon
     }
 
     //UI Display
-    public override void DisplayInformationInInventory(InventoryDescriptionUI inventoryDesc)
+    public override void DisplayDetailsOfBonusInInventory(InventoryDescriptionUI inventoryDesc)
     {
         int level = GameManager.Instance.runData.GetVirtueLevel(this);
         inventoryDesc.AssignTextFromItem(BonusName, type.ToString(), BonusDescription, level);

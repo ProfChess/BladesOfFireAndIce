@@ -49,6 +49,19 @@ public class Relic : BaseBoon
         Debug.Log("There is no Stat: " + stat + "in This Relic");
         return 0f;
     }
+    public override void DisplayStatsOfBonusInInventory(InventoryDescriptionUI inventoryObj)
+    {
+        List<StatDisplayEntry> RelevantStats = new();
+        foreach (RelicStatPair pair in StatIncreases)
+        {
+            StatDisplayEntry entry = new();
+            entry.DisplayInfo.Name = UIStatDefinitions.GetInfo(pair.Stat).Name;
+            entry.Value = pair.PercentageIncrease;
+            entry.IsPercentage = true;
+            RelevantStats.Add(entry);
+        }
+        inventoryObj.AssignStatsFromItem(RelevantStats);
+    }
 }
 public enum RelicEffectType 
 { FireShieldBuff = 0, IceShieldBuff = 1, DamageFromHealthBuff = 2, 

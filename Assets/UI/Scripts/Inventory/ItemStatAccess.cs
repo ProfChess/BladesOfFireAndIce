@@ -14,5 +14,10 @@ public class ItemStatAccess : MonoBehaviour
         StatName.text = nameOfStat;
         StatNumber.text = (amount > 0 ? "+" : "") + amount.ToString("0.#") + (isPercentage ? "%" : "");
     }
-
+    public void ClearText()
+    {
+        StatName.text = "";
+        StatNumber.text = "";
+    }
+    public bool isEmpty() { return StatName.text == ""; }
 }

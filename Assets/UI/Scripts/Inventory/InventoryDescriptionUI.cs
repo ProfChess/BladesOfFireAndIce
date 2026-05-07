@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -22,8 +23,11 @@ public class InventoryDescriptionUI : MonoBehaviour
 
     [Header("StatsTab")]
     [SerializeField] private GameObject StatsTab;
+    [SerializeField] private ItemStatAccess StatEntryPrefab;
+    [SerializeField] private RectTransform StatEntriesParentObject;
+    [SerializeField] private List<ItemStatAccess> ReserveStatEntries;
 
-    //Assigning Text
+    //Assigning Text Details
     public void AssignTextFromItem(string name, string type, string Desc, int Level = 0)
     {
         NameText.text = name; NameLabel.gameObject.SetActive(true);
@@ -42,6 +46,40 @@ public class InventoryDescriptionUI : MonoBehaviour
         LevelLabel.gameObject.SetActive(false);
         DescLabel.gameObject.SetActive(false);
     }
+
+    //Assigning Stats
+    public void AssignStatsFromItem(List<StatDisplayEntry> ListOfRelevantStats)
+    {
+        ClearStatList();
+        //Add Every Relevant Stat into the UI
+        foreach (StatDisplayEntry statGroup in ListOfRelevantStats)
+        {
+            ItemStatAccess statUI = GetAvailableStatEntry();
+
+            statUI.AssignStatInfo(statGroup.DisplayInfo.Name, statGroup.Value, statGroup.IsPercentage);
+            statUI.gameObject.SetActive(true);
+        }
+    }
+    //Returns First Emptry Entry if One Exists, Otherwise Creates a New One
+    private ItemStatAccess GetAvailableStatEntry()
+    {
+        foreach (ItemStatAccess availableEntry in ReserveStatEntries)
+        {
+            if (availableEntry.isEmpty()) { return availableEntry; }
+        }
+
+        ItemStatAccess newEntry = Instantiate(StatEntryPrefab, StatEntriesParentObject).GetComponent<ItemStatAccess>();
+
+        ReserveStatEntries.Add(newEntry);
+
+        return newEntry;
+    }
+    private void ClearStatList()
+    {
+        foreach (var stat in ReserveStatEntries) { stat.ClearText(); }
+    }
+
+    //Toggles
     public void ToggleDetailTab()
     {
         DetailsTab.SetActive(true);
@@ -52,4 +90,15 @@ public class InventoryDescriptionUI : MonoBehaviour
         StatsTab.SetActive(true);
         DetailsTab.SetActive(false);
     }
+}
+public struct StatDisplayEntry
+{
+    public StatDisplayInfo DisplayInfo;
+    public float Value;
+    public bool IsPercentage;
+}
+public struct StatDisplayInfo
+{
+    public string Name;
+    public string Description;
 }

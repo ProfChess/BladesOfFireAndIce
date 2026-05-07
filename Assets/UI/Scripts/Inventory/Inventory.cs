@@ -29,7 +29,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private List<InventoryStatBlessingBox> StatBoxes;
     public void DisplayItemDetails(BaseAttainedBonus Item)
     {
-        Item.DisplayInformationInInventory(inventoryDesc);
+        Item.DisplayDetailsOfBonusInInventory(inventoryDesc);
+        Item.DisplayStatsOfBonusInInventory(inventoryDesc);
     }
     private void OnEnable()
     {

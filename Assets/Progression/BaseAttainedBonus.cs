@@ -9,8 +9,12 @@ public class BaseAttainedBonus : ScriptableObject
     public BonusType type = BonusType.Virtue;
     [TextArea] public string BonusDescription;
 
-    public virtual void DisplayInformationInInventory(InventoryDescriptionUI inventoryDesc)
+    public virtual void DisplayDetailsOfBonusInInventory(InventoryDescriptionUI inventoryObj)
     {
-        inventoryDesc.AssignTextFromItem(BonusName, type.ToString(), BonusDescription);
+        inventoryObj.AssignTextFromItem(BonusName, type.ToString(), BonusDescription);
+    }
+    public virtual void DisplayStatsOfBonusInInventory(InventoryDescriptionUI inventoryObj)
+    {
+        //Override for Specific Stat Display
     }
 }
