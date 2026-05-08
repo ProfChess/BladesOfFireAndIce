@@ -57,10 +57,10 @@ public static class BoonEffectLibrary
         {
             BoonLeveledStats Stats = virtue.GetLeveledStats(Level);
             Explosion.GetComponent<BaseEffectSpawn>().Spawn(Position, 
-                Stats.FinalArea, 
+                Stats.FinalEffectSize, 
                 Stats.FinalDamage,
-                Stats.FinalFrequency, 
-                Stats.FinalDuration);
+                Stats.FinalTriggerCount, 
+                Stats.FinalEffectDuration);
         }
     }
 
@@ -80,9 +80,9 @@ public static class BoonEffectLibrary
         //Effect
         if (PlayerEffectPoolManager.Instance == null) { return; }
 
-        for (int i = 0; i < Stats.FinalFrequency; i++)
+        for (int i = 0; i < Stats.FinalTriggerCount; i++)
         {
-            for (int a = 0; a < Stats.FinalEffectNumber; a++)
+            for (int a = 0; a < Stats.FinalSpawnCount; a++)
             {
                 GameObject Proj = PlayerEffectPoolManager.Instance.getObjectFromPool(PlayerEffectObjectType.IceProj);
                 Vector2 RandDirection = GetRandomDirectionAroundObject(ctx.Direction, 180);
@@ -92,8 +92,8 @@ public static class BoonEffectLibrary
                 {
                     ProfRef.ignoredEnemy = attackCtx.Target.gameObject;
                 }
-                ProfRef.Spawn(SpawnLocation, RandDirection, Stats.FinalArea,
-                    Stats.FinalDamage, Stats.FinalDuration, Stats.FinalProjTravelDuration, Stats.FinalProjSpeed);
+                ProfRef.Spawn(SpawnLocation, RandDirection, Stats.FinalEffectSize,
+                    Stats.FinalDamage, Stats.FinalEffectDuration, Stats.FinalProjLifetime, Stats.FinalProjSpeed);
             }
         }
     }

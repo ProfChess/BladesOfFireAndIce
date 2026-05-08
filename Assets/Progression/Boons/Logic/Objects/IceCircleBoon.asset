@@ -17,22 +17,31 @@ MonoBehaviour:
   BonusDescription: Sends out a ring of icicles upon hitting an enemy with an attack
   EventToAttach: 1
   ElementRestriction: 0
+  DisplayStats:
+    Damage: 1
+    EffectSize: 0
+    TriggerCount: 0
+    EffectDuration: 0
+    SpawnCount: 1
+    Cooldown: 1
+    ProjSpeed: 1
+    ProjLifetime: 1
   EffectType: 2
   EffectOrigin: 0
   BaseStats:
     Damage: 1
-    Area: {x: 1, y: 1}
-    Freq: 6
-    Duration: 1
-    EffectNum: 1
+    EffectSize: 1
+    TriggerCount: 1
+    EffectDuration: 1
+    SpawnCount: 1
     Cooldown: 5
     ProjSpeed: 5
-    ProjTravelTime: 4
+    ProjLifetime: 1
   LevelScalers:
-    DamageScale: 1
-    FrequencyScale: 1
-    AreaScale: {x: 1, y: 1}
-    DurationScale: 1
-    EffectNumberScale: 1
+    DamageScale: 3
+    EffectSizeScale: 1
+    TriggerCountScale: 1
+    EffectDurationScale: 1
+    SpawnCountScale: 1
     ProjSpeedScale: 1
-    ProjTravelTimeScale: 1
+    ProjLifetimeScale: 1

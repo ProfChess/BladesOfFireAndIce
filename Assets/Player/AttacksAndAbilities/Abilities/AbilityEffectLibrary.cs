@@ -27,10 +27,10 @@ public static class AbilityEffectLibrary
         {
             EffectBaseStats Stats = ability.BaseStats;
             Explosion.GetComponent<BaseEffectSpawn>().Spawn(PlayerLocation,
-                Stats.Area,
+                Stats.EffectSize,
                 Stats.Damage,
-                Stats.Freq,
-                Stats.Duration);
+                Stats.TriggerCount,
+                Stats.EffectDuration);
 
         }
     }

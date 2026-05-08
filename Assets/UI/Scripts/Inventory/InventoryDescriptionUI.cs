@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InventoryDescriptionUI : MonoBehaviour
 {
@@ -39,12 +40,14 @@ public class InventoryDescriptionUI : MonoBehaviour
         //Update Arrows
         DetailsTextScroll.UpdateArrowScroll();
     }
-    private void OnEnable()
+    private void OnDisable()
     {
         NameLabel.gameObject.SetActive(false);
         TypeLabel.gameObject.SetActive(false);
         LevelLabel.gameObject.SetActive(false);
         DescLabel.gameObject.SetActive(false);
+        ClearStatList();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     //Assigning Stats

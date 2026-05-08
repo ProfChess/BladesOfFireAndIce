@@ -37,9 +37,10 @@ public class BaseEffectSpawn : MonoBehaviour
 
     //Provided Stats -> Given From EffectLibrary
     protected float Damage = 1f;
-    protected Vector2 AreaScaler = Vector2.one; //Makes the Effect Larger
+    protected float AreaScaler = 1f;            //Makes the Effect Larger
     protected int EffectFreq = 1;               //How Many Times the Effect Goes off Per Triggered Event
     protected float EffectStatusDuration = 0f;  //Only Used By Boons that apply Statuses
+    protected Vector3 BaseSize;
 
     //Routine
     protected Coroutine LoopedEffectRoutine;
@@ -53,9 +54,9 @@ public class BaseEffectSpawn : MonoBehaviour
     //This is called whenever the effect library needs to place and start and object
     public virtual void Spawn(Vector2 Location, float Dam)
     {
-        Spawn(Location, Vector2.one, Dam);
+        Spawn(Location, 1f, Dam);
     }
-    public virtual void Spawn(Vector2 Location, Vector2 Scaler, float Dam, int Freq = 1, float Duration = 1f)
+    public virtual void Spawn(Vector2 Location, float Scaler, float Dam, int Freq = 1, float Duration = 1f)
     {
         //Assign 
         Damage = Dam;
@@ -66,7 +67,7 @@ public class BaseEffectSpawn : MonoBehaviour
         //Prep Beginning of Effect
         anim.gameObject.SetActive(false);
         gameObject.transform.position = Location;
-        transform.localScale = AreaScaler;
+        transform.localScale = BaseSize * AreaScaler;
 
         if (LoopedEffectRoutine == null)
         {
@@ -140,6 +141,7 @@ public class BaseEffectSpawn : MonoBehaviour
     {
         overrideAnimController = new AnimatorOverrideController(anim.runtimeAnimatorController);
         anim.runtimeAnimatorController = overrideAnimController;
+        BaseSize = transform.localScale;
     }
 
     protected void Start()

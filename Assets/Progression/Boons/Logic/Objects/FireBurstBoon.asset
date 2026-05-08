@@ -17,22 +17,31 @@ MonoBehaviour:
   BonusDescription: Summons Burst of Flame On Ability Use
   EventToAttach: 10
   ElementRestriction: 0
+  DisplayStats:
+    Damage: 1
+    EffectSize: 1
+    TriggerCount: 0
+    EffectDuration: 0
+    SpawnCount: 0
+    Cooldown: 1
+    ProjSpeed: 0
+    ProjLifetime: 0
   EffectType: 1
   EffectOrigin: 0
   BaseStats:
     Damage: 1
-    Area: {x: 1, y: 1}
-    Freq: 1
-    Duration: 1
-    EffectNum: 1
+    EffectSize: 1
+    TriggerCount: 1
+    EffectDuration: 1
+    SpawnCount: 1
     Cooldown: 0
     ProjSpeed: 1
-    ProjTravelTime: 1
+    ProjLifetime: 1
   LevelScalers:
     DamageScale: 1
-    FrequencyScale: 1
-    AreaScale: {x: 1, y: 1}
-    DurationScale: 1
-    EffectNumberScale: 1
+    EffectSizeScale: 1
+    TriggerCountScale: 1
+    EffectDurationScale: 1
+    SpawnCountScale: 1
     ProjSpeedScale: 1
-    ProjTravelTimeScale: 1
+    ProjLifetimeScale: 1

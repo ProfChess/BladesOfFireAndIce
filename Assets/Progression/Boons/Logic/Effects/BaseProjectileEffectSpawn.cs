@@ -22,11 +22,11 @@ public class BaseProjectileEffectSpawn : BaseEffectSpawn
         return (mouseWorldPos - PlayerLocation).normalized;
     }
 
-    public void Spawn(Vector2 Location, Vector2 Scaler, float Dam, float StatDuration = 1, float TravelDuration = 2f, float Speed = 1f)
+    public void Spawn(Vector2 Location, float SizeScaler, float Dam, float StatDuration = 1, float TravelDuration = 2f, float Speed = 1f)
     {
         //Assign 
         Damage = Dam;
-        AreaScaler = Scaler;
+        AreaScaler = SizeScaler;
         EffectStatusDuration = StatDuration;
         MoveDirection = GetMouseDirection();
         ProjSpeed = Speed;
@@ -36,7 +36,7 @@ public class BaseProjectileEffectSpawn : BaseEffectSpawn
         //Prep Beginning of Effect
         anim.gameObject.SetActive(false);
         gameObject.transform.position = Location;
-        transform.localScale = AreaScaler;
+        transform.localScale = BaseSize * AreaScaler;
 
         float rotateAngle = Mathf.Atan2(MoveDirection.y, MoveDirection.x) * Mathf.Rad2Deg;
         gameObject.transform.rotation = Quaternion.Euler(0f, 0f, rotateAngle);
@@ -47,11 +47,11 @@ public class BaseProjectileEffectSpawn : BaseEffectSpawn
             LoopedEffectRoutine = StartCoroutine(EffectRoutine());
         }
     }
-    public void Spawn(Vector2 Location, Vector2 Direction, Vector2 Scaler, float Dam, float StatDuration = 1, float TravelDuration = 2f, float Speed = 1f)
+    public void Spawn(Vector2 Location, Vector2 Direction, float SizeScaler, float Dam, float StatDuration = 1, float TravelDuration = 2f, float Speed = 1f)
     {
         //Assign 
         Damage = Dam;
-        AreaScaler = Scaler;
+        AreaScaler = SizeScaler;
         EffectStatusDuration = StatDuration;
         MoveDirection = Direction;
         ProjSpeed = Speed;
@@ -61,7 +61,7 @@ public class BaseProjectileEffectSpawn : BaseEffectSpawn
         //Prep Beginning of Effect
         anim.gameObject.SetActive(false);
         gameObject.transform.position = Location;
-        transform.localScale = AreaScaler;
+        transform.localScale = BaseSize * AreaScaler;
 
         float rotateAngle = Mathf.Atan2(MoveDirection.y, MoveDirection.x) * Mathf.Rad2Deg;
         rb.rotation = rotateAngle;
