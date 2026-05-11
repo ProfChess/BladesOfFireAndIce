@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfce8a0a01ff58e4c9e1cd106bdbd522, type: 3}
-  m_Name: StartingSwapFire
+  m_Script: {fileID: 11500000, guid: 60f1a70edd67a424d8b7af5521d1c2d6, type: 3}
+  m_Name: StartingSwapToFire
   m_EditorClassIdentifier: 
-  BonusName: Fire Swap Ring
+  BonusName: Fire Swap Rune
   type: 1
-  BonusDescription: Grants attack speed and stamina upon switching into fire
+  BonusDescription: Grants stamina and attack speed increaseon swapping to Fire
   EventToAttach: 7
   ElementRestriction: 1
   EffectType: 10
   PlayerStateNeeded: 0
   StatIncreases:
-  - Stat: 31
-    PercentageIncrease: 15
   - Stat: 6
     PercentageIncrease: 20
+  - Stat: 31
+    PercentageIncrease: 10
   Duration: 5
-  Cooldown: 0
+  Cooldown: 3

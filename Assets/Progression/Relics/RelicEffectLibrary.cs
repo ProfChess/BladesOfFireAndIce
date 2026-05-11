@@ -5,7 +5,7 @@ using UnityEngine;
 public static class RelicEffectLibrary
 {
     private static RunDataManager rundata => GameManager.Instance.runData;
-    public static void PlayRelicEffect(Relic relic, PlayerEventContext Details)
+    public static void PlayRuneEffect(Rune relic, PlayerEventContext Details)
     {
         //Check if Boon can Trigger in Element
         bool canBoonTrigger = (relic.ElementRestriction == ElementType.None || relic.ElementRestriction == Details.Element);
@@ -13,18 +13,18 @@ public static class RelicEffectLibrary
 
         switch (relic.EffectType)
         {
-            case RelicEffectType.FireShieldBuff: RelicEffect_FireShield(relic, Details); break;
-            case RelicEffectType.IceShieldBuff: RelicEffect_IceShield(relic, Details); break;
-            case RelicEffectType.DamageFromHealthBuff: RelicEffect_DamageFromHealthBuff(relic, Details); break;
-            case RelicEffectType.StartingSwapBuff: RelicEffect_SwapElement(relic, Details); break;
+            case RelicEffectType.FireShieldBuff: RuneEffect_FireShield(relic, Details); break;
+            case RelicEffectType.IceShieldBuff: RuneEffect_IceShield(relic, Details); break;
+            case RelicEffectType.DamageFromHealthBuff: RuneEffect_DamageFromHealthBuff(relic, Details); break;
+            case RelicEffectType.StartingSwapBuff: RuneEffect_SwapElement(relic, Details); break;
 
         }
     }
     private static readonly HashSet<StatType> RestorativeStats = new() { StatType.RefreshVitality, StatType.RefreshEndurance };
     //Default Application and Deactivation Calls
-    private static void ApplyAllStatBuffs(List<RelicStatPair> StatPairs)
+    private static void ApplyAllStatBuffs(List<StatPercentageValuePair> StatPairs)
     {
-        foreach (RelicStatPair pair in StatPairs)
+        foreach (StatPercentageValuePair pair in StatPairs)
         {
             if (RestorativeStats.Contains(pair.Stat))
             {
@@ -36,9 +36,9 @@ public static class RelicEffectLibrary
             }
         }
     }
-    private static void UnApplyAllStatBuffs(List<RelicStatPair> StatPairs)
+    private static void UnApplyAllStatBuffs(List<StatPercentageValuePair> StatPairs)
     {
-        foreach (RelicStatPair pair in StatPairs)
+        foreach (StatPercentageValuePair pair in StatPairs)
         {
             if (RestorativeStats.Contains(pair.Stat)) { continue; } //Does not Refund Restorative Stats
             PlayerEffectSubscriptionManager.Instance.RemoveBonus(pair.Stat, pair.PercentageIncrease);
@@ -47,7 +47,7 @@ public static class RelicEffectLibrary
 
 
     //Starting Relic --> Fire Shield --> Grants Ability to Give AOE/Damage Buff Upon Blocking Damage
-    private static void RelicEffect_FireShield(Relic relic, PlayerEventContext ctx)
+    private static void RuneEffect_FireShield(Rune relic, PlayerEventContext ctx)
     {
         //Make Sure Context is Correct
         if (ctx is not BlockEventContext blockedCtx || blockedCtx.hitsBlocked == 0) { return; }
@@ -77,7 +77,7 @@ public static class RelicEffectLibrary
     }
 
     //Starting Relic --> Ice Shield --> Grants Invulnerability and Attack Speed Upon Successful Parry
-    private static void RelicEffect_IceShield(Relic relic, PlayerEventContext ctx)
+    private static void RuneEffect_IceShield(Rune relic, PlayerEventContext ctx)
     {
         if (!rundata.isRelicApplied(relic))
         {
@@ -93,7 +93,7 @@ public static class RelicEffectLibrary
     }
 
     //Starting Relic --> Swapping Power --> Grants Buff Depending on Element + Restore Stamina
-    private static void RelicEffect_SwapElement(Relic relic, PlayerEventContext ctx)
+    private static void RuneEffect_SwapElement(Rune relic, PlayerEventContext ctx)
     {
         if (rundata.isRelicApplied(relic)) { rundata.RelicDeactivated(relic); }
         
@@ -106,7 +106,7 @@ public static class RelicEffectLibrary
     }
 
     //Grants Bonus Damage When Above 50% HP
-    private static void RelicEffect_DamageFromHealthBuff(Relic relic, PlayerEventContext ctx)
+    private static void RuneEffect_DamageFromHealthBuff(Rune relic, PlayerEventContext ctx)
     {
         if (ctx is not StatChangeEventContext statctx) { return; }
         bool Above50 = (statctx.newValue / statctx.maxValue) >= 0.5f;

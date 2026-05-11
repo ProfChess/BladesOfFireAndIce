@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfce8a0a01ff58e4c9e1cd106bdbd522, type: 3}
-  m_Name: HealthRelic
+  m_Script: {fileID: 11500000, guid: 60f1a70edd67a424d8b7af5521d1c2d6, type: 3}
+  m_Name: HealthRune
   m_EditorClassIdentifier: 
-  BonusName: Health Boost
+  BonusName: Rune of Vitality
   type: 1
-  BonusDescription: Grants higher damage when user is above 50% HP
+  BonusDescription: When Above 50% HP, Gain 10% More Normal Attack Damage
   EventToAttach: 20
   ElementRestriction: 0
   EffectType: 2

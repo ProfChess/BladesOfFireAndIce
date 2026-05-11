@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName =("Effect/Relics/Relic"))]
-public class Relic : BaseBoon
+public class Rune : BaseBoon
 {
     public RelicEffectType EffectType;
     public PlayerStateCheckType PlayerStateNeeded;
 
     [Header("Attributes")]
-    public List<RelicStatPair> StatIncreases;
+    public List<StatPercentageValuePair> StatIncreases;
     private Dictionary<StatType, float> statLookup = new();
     [Tooltip("Time of Each Instance of Buff")]
     public float Duration = 0f;
@@ -19,7 +19,7 @@ public class Relic : BaseBoon
     {
         if (runData.CanRelicTrigger(this))
         {
-            RelicEffectLibrary.PlayRelicEffect(this, context);
+            RelicEffectLibrary.PlayRuneEffect(this, context);
             runData.BeginRelicCooldown(this);
         }
     }
@@ -31,7 +31,7 @@ public class Relic : BaseBoon
 
         //Create Starting Context for Relics That Need it
         StatChangeEventContext StartContext = PlayerEffectSubscriptionManager.Instance.GetPlayerState(PlayerStateNeeded);
-        RelicEffectLibrary.PlayRelicEffect(this, StartContext);
+        RelicEffectLibrary.PlayRuneEffect(this, StartContext);
     }
     private void OnEnable()
     {
@@ -52,7 +52,7 @@ public class Relic : BaseBoon
     public override void DisplayStatsOfBonusInInventory(InventoryDescriptionUI inventoryObj)
     {
         List<StatDisplayEntry> RelevantStats = new();
-        foreach (RelicStatPair pair in StatIncreases)
+        foreach (StatPercentageValuePair pair in StatIncreases)
         {
             StatDisplayEntry entry = new();
             entry.DisplayInfo.Name = UIStatDefinitions.GetInfo(pair.Stat).Name;
@@ -70,7 +70,7 @@ public enum RelicEffectType
 }
 
 [System.Serializable]
-public class RelicStatPair
+public class StatPercentageValuePair
 {
     public StatType Stat;
     public float PercentageIncrease;

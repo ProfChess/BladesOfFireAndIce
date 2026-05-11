@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Effect/Relics/Storage")]
-public class RelicStorage : ScriptableObject
+public class RuneStorage : ScriptableObject
 {
-    public Relic[] AllRelics;
+    public Rune[] AllRelics;
 }

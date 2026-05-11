@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 98f7b4fea71054f488c1ddc3dc2b49d5
+guid: f9d8d98808a8e57479633e970f4cb6d3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -132,11 +132,37 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 512
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 512
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FireHit1
+      name: IceHit1
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +176,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e8c9930a463a754ab3c5b20c8bcdb2e
-      internalID: -958884402
+      spriteID: 4913dbcfc6eb19a42b8cd6da2eef8ab1
+      internalID: -1456364848
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireHit2
+      name: IceHit2
       rect:
         serializedVersion: 2
         x: 48
@@ -171,14 +197,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb540589fd4e36f4a96ec367371a52c1
-      internalID: -861203782
+      spriteID: 96fbeb6a538d45344b01923853ca92bb
+      internalID: 2020958449
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireHit3
+      name: IceHit3
       rect:
         serializedVersion: 2
         x: 96
@@ -192,14 +218,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 992aa6e38f22aa24e9f0b6dac9b14e17
-      internalID: 396443079
+      spriteID: 6f73f4d1ba02f5b4bbd98c74515d9243
+      internalID: -1770260233
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireHit4
+      name: IceHit4
       rect:
         serializedVersion: 2
         x: 144
@@ -213,14 +239,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8590080db2f631448b490e9fbfc0b07f
-      internalID: 2113008056
+      spriteID: 9cba8164cf4b1fa48906586abae01271
+      internalID: 202819042
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireHit5
+      name: IceHit5
       rect:
         serializedVersion: 2
         x: 192
@@ -234,14 +260,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 373c605023df9d74f8fc84a2da20230a
-      internalID: 675526907
+      spriteID: 2c2b00c9861af1c4483fbfd8275b595a
+      internalID: -61960892
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireHit6
+      name: IceHit6
       rect:
         serializedVersion: 2
         x: 240
@@ -255,8 +281,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd6307d0706df654cbf28e6811f8b62f
-      internalID: -929917915
+      spriteID: 70881f734568fdd408cf551825d3fc6f
+      internalID: 1358118325
       vertices: []
       indices: 
       edges: []
@@ -272,12 +298,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FireHit1: -958884402
-      FireHit2: -861203782
-      FireHit3: 396443079
-      FireHit4: 2113008056
-      FireHit5: 675526907
-      FireHit6: -929917915
+      IceHit1: -1456364848
+      IceHit2: 2020958449
+      IceHit3: -1770260233
+      IceHit4: 202819042
+      IceHit5: -61960892
+      IceHit6: 1358118325
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

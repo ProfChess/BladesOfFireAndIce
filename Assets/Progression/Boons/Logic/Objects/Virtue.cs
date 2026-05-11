@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = ("Effect/Virtues/Virtue"))]
@@ -62,53 +61,27 @@ public class Virtue : BaseBoon
         BoonLeveledStats stats = GetLeveledStats(level);
 
         List<StatDisplayEntry> Results = new();
-        foreach (VirtueStatType type in Enum.GetValues(typeof(VirtueStatType)))
+        foreach (PlayerEffectStatType type in Enum.GetValues(typeof(PlayerEffectStatType)))
         {
-            float value = GetStatValueFromStatName(type, stats);
-            AddStatIfRelevant(type, Results, value);
+            float value = GetLeveledStatFromStatName(type, stats);
+            ActivePlayerEffectHelpers.AddStatIfRelevant(type, DisplayStats, Results, value);
         }
 
         inventoryObj.AssignStatsFromItem(Results);
     }
-    private void AddStatIfRelevant(VirtueStatType stat, List<StatDisplayEntry> list, float value, bool isPercent = false)
-    {
-        if (!ShouldDisplayStat(stat)) { return; }
-        list.Add(new StatDisplayEntry
-        {
-            DisplayInfo = UIStatDefinitions.GetInfo(stat),
-            Value = value,
-            IsPercentage = isPercent,
-        });
-    }
-    //returns if a stat has been marked as important
-    private bool ShouldDisplayStat(VirtueStatType stat)
-    {
-        switch (stat)
-        {
-            case VirtueStatType.Damage:             return DisplayStats.Damage;
-            case VirtueStatType.TriggerCount:       return DisplayStats.TriggerCount;
-            case VirtueStatType.EffectSize:         return DisplayStats.EffectSize;
-            case VirtueStatType.EffectDuration:     return DisplayStats.EffectDuration;
-            case VirtueStatType.SpawnCount:         return DisplayStats.SpawnCount;
-            case VirtueStatType.Cooldown:           return DisplayStats.Cooldown;
-            case VirtueStatType.ProjSpeed:          return DisplayStats.ProjSpeed;
-            case VirtueStatType.ProjLifetime:       return DisplayStats.ProjLifetime;
-        }
-        return false;
-    }
     //returns value of stat given the enum
-    private float GetStatValueFromStatName(VirtueStatType stat, BoonLeveledStats statCollection)
+    private float GetLeveledStatFromStatName(PlayerEffectStatType stat, BoonLeveledStats statCollection)
     {
         switch (stat)
         {
-            case VirtueStatType.Damage:         return statCollection.FinalDamage;
-            case VirtueStatType.TriggerCount:   return statCollection.FinalTriggerCount;
-            case VirtueStatType.EffectSize:     return statCollection.FinalEffectSize;
-            case VirtueStatType.EffectDuration: return statCollection.FinalEffectDuration;
-            case VirtueStatType.SpawnCount:     return statCollection.FinalSpawnCount;
-            case VirtueStatType.Cooldown:       return BaseStats.Cooldown;
-            case VirtueStatType.ProjSpeed:      return statCollection.FinalProjSpeed;
-            case VirtueStatType.ProjLifetime:   return statCollection.FinalProjLifetime;
+            case PlayerEffectStatType.Damage:         return statCollection.FinalDamage;
+            case PlayerEffectStatType.TriggerCount:   return statCollection.FinalTriggerCount;
+            case PlayerEffectStatType.EffectSize:     return statCollection.FinalEffectSize;
+            case PlayerEffectStatType.EffectDuration: return statCollection.FinalEffectDuration;
+            case PlayerEffectStatType.SpawnCount:     return statCollection.FinalSpawnCount;
+            case PlayerEffectStatType.Cooldown:       return BaseStats.Cooldown;
+            case PlayerEffectStatType.ProjSpeed:      return statCollection.FinalProjSpeed;
+            case PlayerEffectStatType.ProjLifetime:   return statCollection.FinalProjLifetime;
         }
         return 0f;
     }
@@ -116,7 +89,7 @@ public class Virtue : BaseBoon
 //Boon Type Specific Enum
 public enum DamageBoonEffectType { FireBoom, FireBurst, IceBoom}
 public enum EffectOriginType { Player, Target, Attack}
-public enum VirtueStatType { Damage, TriggerCount, EffectSize, EffectDuration, SpawnCount, Cooldown, ProjSpeed, ProjLifetime }
+public enum PlayerEffectStatType { Damage, TriggerCount, EffectSize, EffectDuration, SpawnCount, Cooldown, ProjSpeed, ProjLifetime }
 
 //Base Stats
 [System.Serializable]

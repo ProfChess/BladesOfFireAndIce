@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RelicSelection : BaseBonusSelection
+public class RuneSelection : BaseBonusSelection
 {
-    [SerializeField] RelicStorage EntireRelicCollection;
-    [SerializeField] RelicStorage StartingRelics;
+    [SerializeField] RuneStorage EntireRelicCollection;
+    [SerializeField] RuneStorage StartingRelics;
 
     private const int MaxRelicChoices = 3;
     private List<BaseBoon> ChosenRelics = new();    //Relics Passed to UI
-    private List<Relic> FilteredRelics = new();  //All Possible Relics that Can Appear
+    private List<Rune> FilteredRelics = new();  //All Possible Relics that Can Appear
     public List<BaseBoon> PlayerSelectRelicChoices()
     {
         ChosenRelics.Clear();
         FilteredRelics.Clear(); 
 
-        foreach (Relic Relic in EntireRelicCollection.AllRelics)
+        foreach (Rune Relic in EntireRelicCollection.AllRelics)
         {
             FilteredRelics.Add(Relic);
         }
@@ -23,7 +23,7 @@ public class RelicSelection : BaseBonusSelection
         int num = Mathf.Min(EntireRelicCollection.AllRelics.Length, MaxRelicChoices);
         for (int i = 0; i < num; i++)
         {
-            Relic ChosenRelic = ChooseRelic(FilteredRelics);
+            Rune ChosenRelic = ChooseRelic(FilteredRelics);
             ChosenRelics.Add(ChosenRelic);
             FilteredRelics.Remove(ChosenRelic);
         }
@@ -31,10 +31,10 @@ public class RelicSelection : BaseBonusSelection
         return ChosenRelics;
     }
 
-    private Relic ChooseRelic(List<Relic> relicList)
+    private Rune ChooseRelic(List<Rune> relicList)
     {
         if (relicList.Count <= 0) { return null; }
-        Relic Choice = relicList[Random.Range(0, relicList.Count)];
+        Rune Choice = relicList[Random.Range(0, relicList.Count)];
         return Choice;
     }
     private void Start()
@@ -42,7 +42,7 @@ public class RelicSelection : BaseBonusSelection
         if (StartingRelics.AllRelics.Length <= 0) { return; }
 
         //Grant Player All Starting Relics 
-        foreach(Relic relic in StartingRelics.AllRelics)
+        foreach(Rune relic in StartingRelics.AllRelics)
         {
             relic.BoonCollected();
         }

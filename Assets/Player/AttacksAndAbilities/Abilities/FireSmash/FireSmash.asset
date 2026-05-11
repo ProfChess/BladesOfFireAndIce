@@ -15,14 +15,23 @@ MonoBehaviour:
   BonusName: Fire Smash
   type: 0
   BonusDescription: Triggers a Fire Smash
+  DisplayStats:
+    Damage: 1
+    EffectSize: 1
+    TriggerCount: 1
+    EffectDuration: 0
+    SpawnCount: 1
+    Cooldown: 1
+    ProjSpeed: 0
+    ProjLifetime: 0
   EffectToTrigger: 1
   StanceForEffect: 1
   BaseStats:
     Damage: 1
-    Area: {x: 1, y: 1}
-    Freq: 1
-    Duration: 1
-    EffectNum: 1
+    EffectSize: 1
+    TriggerCount: 1
+    EffectDuration: 1
+    SpawnCount: 1
     Cooldown: 0
     ProjSpeed: 1
-    ProjTravelTime: 1
+    ProjLifetime: 1

@@ -13,14 +13,14 @@ public class RunDataManager : MonoBehaviour
     [SerializeField] private Inventory InventoryUI;
 
     //Relics
-    private Dictionary<Relic, RelicInstance> CurrentRelics = new();
-    public bool isRelicApplied(Relic relic) { return CurrentRelics[relic].isActive; }
-    public bool isRelicCollected(Relic relic) { return CurrentRelics.ContainsKey(relic); }
-    public void AddRelic(Relic relic)
+    private Dictionary<Rune, RuneInstance> CurrentRelics = new();
+    public bool isRelicApplied(Rune relic) { return CurrentRelics[relic].isActive; }
+    public bool isRelicCollected(Rune relic) { return CurrentRelics.ContainsKey(relic); }
+    public void AddRelic(Rune relic)
     {
         if (!isRelicCollected(relic))
         {
-            RelicInstance instance = new RelicInstance
+            RuneInstance instance = new RuneInstance
             {
                 RelicRef = relic,
                 isActive = false,
@@ -33,7 +33,7 @@ public class RunDataManager : MonoBehaviour
             InventoryUI.AddRelicToInventory(relic);
         }
     }
-    public void RelicActivated(Relic relic, Action DisableEffect, float Duration = 0f)
+    public void RelicActivated(Rune relic, Action DisableEffect, float Duration = 0f)
     {
         if (isRelicCollected(relic) && !isRelicApplied(relic))
         {
@@ -45,7 +45,7 @@ public class RunDataManager : MonoBehaviour
         }
     }
 
-    public void RelicDeactivated(Relic relic)
+    public void RelicDeactivated(Rune relic)
     {
         if (isRelicCollected(relic) && isRelicApplied(relic))
         {
@@ -55,17 +55,17 @@ public class RunDataManager : MonoBehaviour
             Debug.Log("Relic Bonus Deactivated");
         }
     }
-    public bool CanRelicTrigger(Relic relic)
+    public bool CanRelicTrigger(Rune relic)
     {
         if (!isRelicCollected(relic)) { return false; }
         return CurrentRelics[relic].CanTrigger;
     }
-    public void BeginRelicCooldown(Relic relic)
+    public void BeginRelicCooldown(Rune relic)
     {
         if (!isRelicCollected(relic)) { return; }
         CurrentRelics[relic].StartCooldown();
     }
-    public float GetRelicBuffTimeRemaining(Relic relic)
+    public float GetRelicBuffTimeRemaining(Rune relic)
     {
         if (!isRelicCollected(relic) && CurrentRelics[relic].isTimed)
         {
@@ -78,7 +78,7 @@ public class RunDataManager : MonoBehaviour
     }
     private void ReapplyAllRelicsOnSceneChange()
     {
-        foreach (Relic relic in CurrentRelics.Keys)
+        foreach (Rune relic in CurrentRelics.Keys)
         {
             CurrentRelics[relic].isActive = false;
             relic.BoonSelected();
@@ -140,12 +140,15 @@ public class RunDataManager : MonoBehaviour
     {
         if (CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("Blessing Already Selected"); return; }
 
+        //Get List of Effects and Times
         BlessingInstance BlessingInst = new BlessingInstance
         {
             BlessingRef = Blessing,
+            TimedEffects = Blessing.GetTimedEffectList()
         };
 
         CurrentBlessings.Add(Blessing, BlessingInst);
+        Blessing.AttachBlessingTempEffects();
         Blessing.ApplyEffects();
 
         //Add to Inventory
@@ -155,7 +158,11 @@ public class RunDataManager : MonoBehaviour
     {
         if (!CurrentBlessings.ContainsKey(Blessing)) { Debug.Log("This Blessing is Not Equipped"); return; }
 
+        //Remove From Dictionary
         CurrentBlessings.Remove(Blessing);
+        //Unsub Events
+        Blessing.DeAttachBlessingTempEffects();
+        //Remove Flat Bonuses
         Blessing.RemoveEffects();
     }
     public void ToggleBlessing(StatBlessing Blessing)
@@ -189,7 +196,25 @@ public class RunDataManager : MonoBehaviour
             blessing.ApplyEffects();
         }
     }
-
+    public void BeginBlessingCooldown(StatBlessing Blessing)
+    {
+        if(!IsBlessingSelected(Blessing)) { return; }
+        CurrentBlessings[Blessing].StartCooldown();
+    }
+    public bool CanBlessingTrigger(StatBlessing Blessing)
+    {
+        if (!IsBlessingSelected(Blessing)) { return false; }
+        return CurrentBlessings[Blessing].CanTrigger;
+    }
+    public void BlessingEffectActive(StatBlessing Blessing, float Duration)
+    {
+        BlessingInstance inst = CurrentBlessings[Blessing];
+        foreach (var effect in inst.TimedEffects)
+        {
+            effect.Duration = Duration;
+            effect.IsActive = true;
+        }
+    }
 
     //Abilities
     private Dictionary<Ability, AbilityInstance> AbilityMap = new();
@@ -251,6 +276,9 @@ public class RunDataManager : MonoBehaviour
         CountDownDuration(CurrentRelics.Keys);
         //Abilities
         CountDownList(AbilityMap.Values);
+        //Blessings
+        CountDownList(CurrentBlessings.Values);
+        CountDownBlessingDuration(CurrentBlessings.Keys);
     }
     //Counts Down Cooldown of List of Equipment w/ Cooldown States
     private void CountDownList(IEnumerable<CooldownState> cooldowns)
@@ -261,18 +289,40 @@ public class RunDataManager : MonoBehaviour
         }
     }
     //Counts Down Lasting Effects of Relics
-    private void CountDownDuration(IEnumerable<Relic> relicList)
+    private void CountDownDuration(IEnumerable<Rune> runeList)
     {
-        foreach (Relic relic in relicList)
+        foreach (Rune rune in runeList)
         {
-            RelicInstance relInst = CurrentRelics[relic];
+            RuneInstance relInst = CurrentRelics[rune];
             if (!relInst.isActive || !relInst.isTimed) { continue; }
 
-            CurrentRelics[relic].DurationOfBuff -= GameTimeManager.GameDeltaTime;
+            relInst.DurationOfBuff -= GameTimeManager.GameDeltaTime;
 
             if (relInst.DurationOfBuff <= 0f)
             {
-                RelicDeactivated(relic);
+                RelicDeactivated(rune);
+            }
+        }
+    }
+    private void CountDownBlessingDuration(IEnumerable<StatBlessing> blessingList)
+    {
+        foreach (StatBlessing Blessing in blessingList)
+        {
+            if (!CurrentBlessings.TryGetValue(Blessing, out var blessInst)) { continue; }
+
+            blessInst = CurrentBlessings[Blessing];
+            if(blessInst.TimedEffects.Count <= 0) { continue; }
+
+            foreach (var Entry in blessInst.TimedEffects)
+            {
+                if (!Entry.IsActive) { continue; }
+
+                Entry.Duration -= GameTimeManager.GameDeltaTime;
+                if (Entry.Duration <= 0f)
+                {
+                    Entry.DisableEffect();
+                    Entry.IsActive = false;
+                }
             }
         }
     }
@@ -341,9 +391,9 @@ public class VirtueInstance : CooldownState
         Start(VirtueRef.BaseStats.Cooldown);
     }
 }
-public class RelicInstance : CooldownState
+public class RuneInstance : CooldownState
 {
-    public Relic RelicRef;
+    public Rune RelicRef;
     public bool isActive = false;
     public float DurationOfBuff = 0f;
     public bool isTimed = false;
@@ -351,12 +401,16 @@ public class RelicInstance : CooldownState
     public void StartCooldown()
     {
         Start(RelicRef.Cooldown);
-    }
-    
+    }   
 }
-public class BlessingInstance
+public class BlessingInstance : CooldownState
 {
     public StatBlessing BlessingRef;
+    public List<TimedBlessingEffect> TimedEffects;
+    public void StartCooldown()
+    {
+        Start(BlessingRef.Cooldown);
+    }
 }
 public class AbilityInstance : CooldownState
 {

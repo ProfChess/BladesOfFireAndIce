@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public HitStopManager hitStopManager;
     [HideInInspector] public AbilitySelection abilityOptions;
     [HideInInspector] public BoonSelection boonOptions;
-    [HideInInspector] public RelicSelection relicOptions;
+    [HideInInspector] public RuneSelection relicOptions;
     [HideInInspector] public RunDataManager runData;
     [HideInInspector] public SaveManager saveManager;
     [HideInInspector] public UIManager uiManager;
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         hitStopManager = GetComponentInChildren<HitStopManager>();
         abilityOptions = GetComponentInChildren<AbilitySelection>();
         boonOptions = GetComponentInChildren<BoonSelection>();
-        relicOptions = GetComponentInChildren<RelicSelection>();
+        relicOptions = GetComponentInChildren<RuneSelection>();
         runData = GetComponentInChildren<RunDataManager>();
         saveManager = GetComponentInChildren<SaveManager>();
         uiManager = GetComponentInChildren<UIManager>();

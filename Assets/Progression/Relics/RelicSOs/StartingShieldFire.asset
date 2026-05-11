@@ -9,21 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfce8a0a01ff58e4c9e1cd106bdbd522, type: 3}
+  m_Script: {fileID: 11500000, guid: 60f1a70edd67a424d8b7af5521d1c2d6, type: 3}
   m_Name: StartingShieldFire
   m_EditorClassIdentifier: 
-  BonusName: Fire Shield
+  BonusName: Rune of Ice Shielding
   type: 1
-  BonusDescription: Grants higher damage and range upon releasing block after blocking
-    at least 1 attack. This buff scales with the amount of hits blocked.
+  BonusDescription: 
   EventToAttach: 31
   ElementRestriction: 1
   EffectType: 0
   PlayerStateNeeded: 0
   StatIncreases:
+  - Stat: 21
+    PercentageIncrease: 5
   - Stat: 11
     PercentageIncrease: 5
-  - Stat: 21
-    PercentageIncrease: 3
-  Duration: 4
+  Duration: 3
   Cooldown: 0
