@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BlessingChoiceUI : MonoBehaviour
 {
     private StatBlessing Blessing;
-    [SerializeField] private Text Name;
-    [SerializeField] private Text Desc;
+    [SerializeField] private TextMeshProUGUI Name;
+    [SerializeField] private TextMeshProUGUI Desc;
     [SerializeField] private Toggle BlessingToggle;
     [SerializeField] private TextMoveToggle BlessingToggleText;
 

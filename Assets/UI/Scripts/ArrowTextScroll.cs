@@ -29,8 +29,8 @@ public class ArrowTextScroll : MonoBehaviour
         }
 
         float y = Position.y;
-        UpArrow.SetActive(y < 0.99f);
-        DownArrow.SetActive(y > 0.01f);
+        UpArrow.SetActive(y < 0.95f);
+        DownArrow.SetActive(y > 0.05f);
     }
     public void UpdateArrowScroll()
     {

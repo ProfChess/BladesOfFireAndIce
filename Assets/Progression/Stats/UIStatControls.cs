@@ -1,24 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIStatControls : MonoBehaviour
 {
     [Header("Stat Texts")]
-    [SerializeField] private Text vitalityNum;
+    [SerializeField] private TextMeshProUGUI vitalityNum;
     [SerializeField] private Button vitalityBlessingButton;
-    [SerializeField] private Text enduranceNum;
+    [SerializeField] private TextMeshProUGUI enduranceNum;
     [SerializeField] private Button enduranceBlessingButton;
-    [SerializeField] private Text strengthNum;
+    [SerializeField] private TextMeshProUGUI strengthNum;
     [SerializeField] private Button strengthBlessingButton;
-    [SerializeField] private Text dexterityNum;
+    [SerializeField] private TextMeshProUGUI dexterityNum;
     [SerializeField] private Button dexterityBlessingButton;
-    [SerializeField] private Text luckNum;
+    [SerializeField] private TextMeshProUGUI luckNum;
     [SerializeField] private Button luckBlessingButton;
 
     [Header("Points Text")]
-    [SerializeField] private Text AvailablePoints;
+    [SerializeField] private TextMeshProUGUI AvailablePoints;
 
     private StatManager SM => GameManager.Instance.statManager;
 

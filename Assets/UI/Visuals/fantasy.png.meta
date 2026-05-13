@@ -334,7 +334,7 @@ TextureImporter:
         height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 3, y: 3, z: 3, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -439,7 +439,7 @@ TextureImporter:
         height: 36
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 5, y: 4, z: 5, w: 4}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -870,6 +870,132 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Panel_Square_Light
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 456
+        width: 97
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 7, z: 7, w: 7}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f96b73f20c1bc614fbcbfaf21d05cc75
+      internalID: 821605817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Dark_Plus_Unpressed
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 393
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29fe6980914d07440a20b158727128d1
+      internalID: 1814757164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Dark_Plus_Pressed
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 393
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cf77c3c7fe39f94898393a4ea18bb42
+      internalID: 1949927453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Dark_Minus_Unpressed
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 377
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ca629ee24123ce4ba03a2be542b1250
+      internalID: -1861413351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Dark_Minus_Pressed
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 377
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4e4eebfd5dfcde4e938152601ae9d28
+      internalID: -2086985159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Dark_Pressed_NoBorder
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 1145
+        width: 28
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f43ec0e15e4fdf4eb386c275e0f19f8
+      internalID: 2035782634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -889,7 +1015,13 @@ TextureImporter:
       BorderPiece_3: -2010078293
       BorderPiece_4: -1820661589
       Box: -730108078
+      ButtonFIll1: 34136023
+      Button_Dark_Minus_Pressed: -2086985159
+      Button_Dark_Minus_Unpressed: -1861413351
+      Button_Dark_Plus_Pressed: 1949927453
+      Button_Dark_Plus_Unpressed: 1814757164
       Button_Dark_Pressed: -721420651
+      Button_Dark_Pressed_NoBorder: 2035782634
       Button_Dark_Unpressed: -1661492663
       Button_Grey_Pressed: 1602362635
       Button_Grey_Unpressed: 649599949
@@ -913,6 +1045,7 @@ TextureImporter:
       Panel_Silver_Plain: -473633536
       Panel_Silver_Sliced: 1335574990
       Panel_Square_Dark: 133706654
+      Panel_Square_Light: 821605817
       Panel_Wood: 1831039915
       Potion_Dark: 2027048639
       Potion_Essence: 592849366

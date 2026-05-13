@@ -6,14 +6,14 @@ using UnityEngine;
 public class StatBlessingStatBonus : BaseStatBlessingEffect
 {
     [SerializeField] private StatType Stat;
-    [SerializeField] private float Value;
+    [SerializeField] private float PercentageValue;
     public override void ApplyEffect()
     {
-        PlayerEffectSubscriptionManager.Instance.AddBonus(Stat, Value);
+        PlayerEffectSubscriptionManager.Instance.AddBonus(Stat, PercentageValue);
     }
 
     public override void RemoveEffect()
     {
-        PlayerEffectSubscriptionManager.Instance.RemoveBonus(Stat, Value);
+        PlayerEffectSubscriptionManager.Instance.RemoveBonus(Stat, PercentageValue);
     }
 }
