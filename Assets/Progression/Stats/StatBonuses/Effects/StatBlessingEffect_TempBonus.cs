@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName =("Effect/Blessings/BlessingEffect/ConditionalStatChange"))]
@@ -22,6 +23,20 @@ public class StatBlessingEffect_ConditionalStatChange : BaseStatBlessingEffect
         {
             PlayerEffectSubscriptionManager.Instance.RemoveBonus(ValuePair.Stat, ValuePair.PercentageIncrease);
         }
+    }
+    public List<StatDisplayEntry> GetStatDisplayInfo()
+    {
+        List<StatDisplayEntry> EntryList = new();
+
+        foreach(var ValuePair in StatChanges)
+        {
+            StatDisplayEntry newEntry = new();
+            newEntry.DisplayInfo = UIStatDefinitions.GetInfo(ValuePair.Stat);
+            newEntry.Value = ValuePair.PercentageIncrease;
+            newEntry.IsPercentage = true;
+            EntryList.Add(newEntry);
+        }
+        return EntryList;
     }
 
 }

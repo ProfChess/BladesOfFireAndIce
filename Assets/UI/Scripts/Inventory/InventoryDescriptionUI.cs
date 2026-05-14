@@ -4,8 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventoryDescriptionUI : MonoBehaviour
+public class InventoryDescriptionUI : BaseStatUIDisplay
 {
+    [SerializeField] private GameObject StatsTab;
+
     [Header("DetailsTab")]
     [SerializeField] private GameObject DetailsTab;
     [SerializeField] private ArrowTextScroll DetailsTextScroll;
@@ -21,12 +23,6 @@ public class InventoryDescriptionUI : MonoBehaviour
     //Description
     [SerializeField] private TextMeshProUGUI DescLabel;
     [SerializeField] private TextMeshProUGUI DescText;
-
-    [Header("StatsTab")]
-    [SerializeField] private GameObject StatsTab;
-    [SerializeField] private ItemStatAccess StatEntryPrefab;
-    [SerializeField] private RectTransform StatEntriesParentObject;
-    [SerializeField] private List<ItemStatAccess> ReserveStatEntries;
 
     //Assigning Text Details
     public void AssignTextFromItem(string name, string type, string Desc, int Level = 0)
@@ -48,38 +44,6 @@ public class InventoryDescriptionUI : MonoBehaviour
         DescLabel.gameObject.SetActive(false);
         ClearStatList();
         EventSystem.current.SetSelectedGameObject(null);
-    }
-
-    //Assigning Stats
-    public void AssignStatsFromItem(List<StatDisplayEntry> ListOfRelevantStats)
-    {
-        ClearStatList();
-        //Add Every Relevant Stat into the UI
-        foreach (StatDisplayEntry statGroup in ListOfRelevantStats)
-        {
-            ItemStatAccess statUI = GetAvailableStatEntry();
-
-            statUI.AssignStatInfo(statGroup.DisplayInfo.Name, statGroup.Value, statGroup.IsPercentage);
-            statUI.gameObject.SetActive(true);
-        }
-    }
-    //Returns First Emptry Entry if One Exists, Otherwise Creates a New One
-    private ItemStatAccess GetAvailableStatEntry()
-    {
-        foreach (ItemStatAccess availableEntry in ReserveStatEntries)
-        {
-            if (availableEntry.isEmpty()) { return availableEntry; }
-        }
-
-        ItemStatAccess newEntry = Instantiate(StatEntryPrefab, StatEntriesParentObject).GetComponent<ItemStatAccess>();
-
-        ReserveStatEntries.Add(newEntry);
-
-        return newEntry;
-    }
-    private void ClearStatList()
-    {
-        foreach (var stat in ReserveStatEntries) { stat.ClearText(); }
     }
 
     //Toggles

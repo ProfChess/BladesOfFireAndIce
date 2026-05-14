@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = ("Effect/Blessings/Blessing"))]
 public class StatBlessing : BaseAttainedBonus
 {
     [Header("")]
-    public List<BaseStatBlessingEffect> FlatEffectList = new();
+    public List<StatBlessingFlatEffect> FlatEffectList = new();
     public BlessingTriggerRule ConditionalEffects;
     [Tooltip("Time Before Events Will Trigger Another Stat Change")]
     public float Cooldown = 0f;
@@ -74,7 +75,22 @@ public class StatBlessing : BaseAttainedBonus
     }
     public override void DisplayStatsOfBonusInInventory(InventoryDescriptionUI inventoryObj)
     {
-        
+        inventoryObj.AssignStatsFromItem(GetDisplayListofEffects());
+    }
+    public List<StatDisplayEntry> GetDisplayListofEffects()
+    {
+        List<StatDisplayEntry> DisplayList = new();
+        //Add All Flat Effects
+        foreach (var effect in FlatEffectList)
+        {
+            DisplayList.Add(effect.GetDisplayInfo());
+        }
+        //Add Conditional Effects
+        foreach (var effect in ConditionalEffects.Effects)
+        {
+            DisplayList.AddRange(effect.GetStatDisplayInfo());
+        }
+        return DisplayList;
     }
 }
 public abstract class BaseStatBlessingEffect : ScriptableObject { public abstract void ApplyEffect(); public abstract void RemoveEffect(); }

@@ -9786,6 +9786,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5e62dfbd4bd7249ac545ad36604136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StatEntryFontSize: 0
+  StatEntryPrefab: {fileID: 2762667737577228207, guid: e89629145b060424882e9573bf6e0a90, type: 3}
+  StatEntriesParentObject: {fileID: 9105764105907432901}
+  ReserveStatEntries:
+  - {fileID: 1830496302565954433}
+  StatsTab: {fileID: 3624437691824329111}
   DetailsTab: {fileID: 1757360819546976065}
   DetailsTextScroll: {fileID: 1245052808221476504}
   NameLabel: {fileID: 4370470146419505617}
@@ -9796,11 +9802,6 @@ MonoBehaviour:
   LevelText: {fileID: 5365259593718806127}
   DescLabel: {fileID: 5744787314437865948}
   DescText: {fileID: 9066256944130607459}
-  StatsTab: {fileID: 3624437691824329111}
-  StatEntryPrefab: {fileID: 2762667737577228207, guid: e89629145b060424882e9573bf6e0a90, type: 3}
-  StatEntriesParentObject: {fileID: 9105764105907432901}
-  ReserveStatEntries:
-  - {fileID: 1830496302565954433}
 --- !u!114 &3422127039417070332
 MonoBehaviour:
   m_ObjectHideFlags: 0

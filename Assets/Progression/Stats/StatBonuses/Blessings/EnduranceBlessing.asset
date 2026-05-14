@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47737eb5123aff44889760a2401541a6, type: 3}
   m_Name: EnduranceBlessing
   m_EditorClassIdentifier: 
-  BonusName: Stamain Killer
+  BonusName: Stamina Killer
   type: 2
   BonusDescription: Rolling Costs Less Stamina. Gain Stamina on Kill.
   FlatEffectList:

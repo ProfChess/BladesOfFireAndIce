@@ -20,4 +20,9 @@ public class ItemStatAccess : MonoBehaviour
         StatNumber.text = "";
     }
     public bool isEmpty() { return StatName.text == ""; }
+    public void SetFontSize(float size)
+    {
+        StatName.fontSize = size;
+        StatNumber.fontSize = size;
+    }
 }

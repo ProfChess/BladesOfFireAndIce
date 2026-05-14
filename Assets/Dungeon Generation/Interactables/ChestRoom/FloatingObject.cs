@@ -13,6 +13,7 @@ public class FloatingObject : MonoBehaviour
     public void StartObject()
     {
         StartPosition = transform.parent.position;
+        ReturnToStart();
         if (MovingCoroutine == null)
         {
             MovingCoroutine = StartCoroutine(Move());
@@ -24,7 +25,12 @@ public class FloatingObject : MonoBehaviour
         if (MovingCoroutine != null)
         {
             StopCoroutine(MovingCoroutine);
+            ReturnToStart();
         }
+    }
+    public void ReturnToStart()
+    {
+        transform.position = StartPosition;
     }
 
     private IEnumerator Move()
