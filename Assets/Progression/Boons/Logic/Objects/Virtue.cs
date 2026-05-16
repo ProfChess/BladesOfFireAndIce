@@ -54,10 +54,13 @@ public class Virtue : BaseBoon
         int level = GameManager.Instance.runData.GetVirtueLevel(this);
         inventoryDesc.AssignTextFromItem(BonusName, type.ToString(), BonusDescription, level);
     }
-    //Loop through each enum and find if that stat should be shown, then fill out its info
-    public override void DisplayStatsOfBonusInInventory(InventoryDescriptionUI inventoryObj)
+    public override List<StatDisplayEntry> GetListOfStatsForDisplay()
     {
-        int level = GameManager.Instance.runData.GetVirtueLevel(this);
+        int level = 1;
+        if (GameManager.Instance.runData.IsVirtueCollected(this))
+        {
+            level = GameManager.Instance.runData.GetVirtueLevel(this);
+        }
         BoonLeveledStats stats = GetLeveledStats(level);
 
         List<StatDisplayEntry> Results = new();
@@ -66,8 +69,7 @@ public class Virtue : BaseBoon
             float value = GetLeveledStatFromStatName(type, stats);
             ActivePlayerEffectHelpers.AddStatIfRelevant(type, DisplayStats, Results, value);
         }
-
-        inventoryObj.AssignStatsFromItem(Results);
+        return Results;
     }
     //returns value of stat given the enum
     private float GetLeveledStatFromStatName(PlayerEffectStatType stat, BoonLeveledStats statCollection)

@@ -49,7 +49,7 @@ public class Rune : BaseBoon
         Debug.Log("There is no Stat: " + stat + "in This Relic");
         return 0f;
     }
-    public override void DisplayStatsOfBonusInInventory(InventoryDescriptionUI inventoryObj)
+    public override List<StatDisplayEntry> GetListOfStatsForDisplay()
     {
         List<StatDisplayEntry> RelevantStats = new();
         foreach (StatPercentageValuePair pair in StatIncreases)
@@ -60,7 +60,7 @@ public class Rune : BaseBoon
             entry.IsPercentage = true;
             RelevantStats.Add(entry);
         }
-        inventoryObj.AssignStatsFromItem(RelevantStats);
+        return RelevantStats;
     }
 }
 public enum RelicEffectType 

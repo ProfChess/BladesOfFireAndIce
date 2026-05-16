@@ -3,58 +3,98 @@ using UnityEngine;
 
 public class FloatingObject : MonoBehaviour
 {
+    [Header("Float Controls")]
     [SerializeField] private float yMaxLevel = 1f;          //How High the Visual Will go From Starting Position
     [SerializeField] private float yMinLevel = 1f;          //How Low the Visual Will go From Starting Position
-    [SerializeField] private float MovementInterval = 0.1f; //Change in Height per Frame
+    [SerializeField] private float MovementSpeed = 0.1f;    //Change in Height per Frame
 
-    private Vector2 StartPosition = Vector2.zero;
     private Coroutine MovingCoroutine;
 
+    private RectTransform rectTransform;
+    private bool isUI;
+    
+    private Vector2 StartWorldPosition = Vector2.zero;
+    private Vector2 StartAnchoredPosition;
+
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        isUI = rectTransform != null && GetComponentInParent<Canvas>() != null;
+    }
     public void StartObject()
     {
-        StartPosition = transform.parent.position;
+        if (isUI) { StartAnchoredPosition = rectTransform.anchoredPosition; }
+        else { StartWorldPosition = transform.position; }
+
         ReturnToStart();
-        if (MovingCoroutine == null)
+        if (MovingCoroutine != null)
         {
-            MovingCoroutine = StartCoroutine(Move());
+            StopCoroutine(MovingCoroutine);
         }
-        else { StopCoroutine(MovingCoroutine); MovingCoroutine = StartCoroutine(Move()); }
+        MovingCoroutine = StartCoroutine(Move());
     }
     public void StopObject()
     {
         if (MovingCoroutine != null)
         {
             StopCoroutine(MovingCoroutine);
-            ReturnToStart();
+            MovingCoroutine = null;
         }
+        ReturnToStart();
     }
     public void ReturnToStart()
     {
-        transform.position = StartPosition;
+        if (isUI) { rectTransform.anchoredPosition = StartAnchoredPosition; }
+        else { transform.position = StartWorldPosition; }
     }
 
+    private float GetEdgeDeceleration(float value, float min, float max)
+    {
+        float mid = (min + max) * 0.5f;
+        float distFromCenter = Mathf.Abs(value - mid);
+        float range = (max - min) * 0.5f;
+
+        float t = distFromCenter / range;
+
+        //Slow down near edges (0 at edge, 1 at center)
+        return Mathf.SmoothStep(0.2f, 1f, 1f - t);
+    }
     private IEnumerator Move()
     {
         float Direction = 1f; //1 = Up, -1 = Down
 
-        float upperLimit = StartPosition.y + yMaxLevel;
-        float lowerLimit = StartPosition.y - yMinLevel;
-
         while (true)
         {
             yield return null;
-
-            //Move
-            transform.position += new Vector3(0f, Direction * MovementInterval, 0f);
-
-            //Change Direction if Hits Limit
-            if (transform.position.y >= upperLimit)
+            if (isUI)
             {
-                Direction = -1f;
+                Vector2 pos = rectTransform.anchoredPosition;
+                float min = StartAnchoredPosition.y - yMinLevel;
+                float max = StartAnchoredPosition.y + yMaxLevel;
+
+                float speedMult = GetEdgeDeceleration(pos.y, min, max);
+
+                pos.y += Direction * MovementSpeed * speedMult * GameTimeManager.GameDeltaTime;
+
+                if (pos.y >= max) { pos.y = max; Direction = -1f; }
+                else if(pos.y <= min) { pos.y = min; Direction = 1f; }
+
+                rectTransform.anchoredPosition = pos;
             }
-            else if (transform.position.y <= lowerLimit)
+            else
             {
-                Direction = 1f;
+                Vector2 pos = transform.position;
+                float min = StartWorldPosition.y - yMinLevel;
+                float max = StartWorldPosition.y + yMaxLevel;
+
+                float speedMult = GetEdgeDeceleration(pos.y, min, max);
+
+                pos.y += Direction * MovementSpeed * speedMult * GameTimeManager.GameDeltaTime;
+
+                if (pos.y >= StartWorldPosition.y + yMaxLevel) { Direction = -1f; }
+                else if (pos.y <= StartWorldPosition.y - yMinLevel) { Direction = 1f; }
+
+                transform.position = pos;
             }
         }
 

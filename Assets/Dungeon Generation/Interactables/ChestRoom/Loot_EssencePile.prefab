@@ -207,7 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   yMaxLevel: 0.25
   yMinLevel: 0.25
-  MovementInterval: 0.0025
+  MovementSpeed: 0.75
 --- !u!1 &7112033166320495823
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BaseAttainedBonus : ScriptableObject
@@ -15,6 +16,10 @@ public class BaseAttainedBonus : ScriptableObject
     }
     public virtual void DisplayStatsOfBonusInInventory(InventoryDescriptionUI inventoryObj)
     {
-        //Override for Specific Stat Display
+        inventoryObj.AssignStatsFromItem(GetListOfStatsForDisplay());
+    }
+    public virtual List<StatDisplayEntry> GetListOfStatsForDisplay()
+    {
+        return new List<StatDisplayEntry>();
     }
 }

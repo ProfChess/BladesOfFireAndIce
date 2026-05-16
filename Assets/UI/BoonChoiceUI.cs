@@ -1,19 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
-
-public class BoonChoiceUI : MonoBehaviour
+using TMPro;
+public class BoonChoiceUI : BaseStatUIDisplay
 {
     //Current Boon To Display
     private BaseBoon displayedBoon;
 
     //Fields for Visual Elements
-    [SerializeField] private Text TitleText;
-    [SerializeField] private Text DescriptionText;
-    [SerializeField] private Text LevelNumText;
+    [SerializeField] private TextMeshProUGUI TitleText;
+    [SerializeField] private TextMeshProUGUI DescriptionText;
+    [SerializeField] private TextMeshProUGUI LevelNumText;
+    
     //[SerializeField] private Image iconImage;
 
     public void AssignBoonVisuals(BaseBoon boon)
     {
+        ClearStatList();
         displayedBoon = boon;
         TitleText.text = boon.BonusName;
         DescriptionText.text = boon.BonusDescription;
@@ -26,6 +28,8 @@ public class BoonChoiceUI : MonoBehaviour
             if (!collected) { LevelNumText.text = "1"; }
             else { LevelNumText.text = "2"; }
         }
+        //Input Stats
+        AssignStatsFromItem(boon.GetListOfStatsForDisplay());
     }
 
     public void Select()

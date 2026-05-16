@@ -88,7 +88,10 @@ public class RunDataManager : MonoBehaviour
     
     //VIRTUES
     private Dictionary<Virtue, VirtueInstance> CurrentVirtues = new();
-    public int GetVirtueLevel(Virtue virtue) {  return CurrentVirtues[virtue].Level; }
+    public int GetVirtueLevel(Virtue virtue) 
+    {
+        return CurrentVirtues[virtue].Level;
+    }
     //Does The Player Already Have This Virtue
     public bool IsVirtueCollected(Virtue virtue) { return CurrentVirtues.ContainsKey(virtue); }
     public void AddVirtue(Virtue virtue) 
