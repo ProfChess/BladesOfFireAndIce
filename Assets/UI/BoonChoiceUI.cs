@@ -25,11 +25,20 @@ public class BoonChoiceUI : BaseStatUIDisplay
         if (boon is Virtue virtue)
         {
             bool collected = GameManager.Instance.runData.IsVirtueCollected(virtue);
-            if (!collected) { LevelNumText.text = "1"; }
-            else { LevelNumText.text = "2"; }
+            if (!collected) 
+            { 
+                LevelNumText.text = "1"; AssignStatsFromItem(boon.GetListOfStatsForDisplay());
+            }
+            else 
+            { 
+                LevelNumText.text = "2";
+                AssignStatsFromItem(boon.GetLeveledStatsPreview());
+            }
         }
-        //Input Stats
-        AssignStatsFromItem(boon.GetListOfStatsForDisplay());
+        else
+        {
+            AssignStatsFromItem(boon.GetListOfStatsForDisplay());
+        }
     }
 
     public void Select()

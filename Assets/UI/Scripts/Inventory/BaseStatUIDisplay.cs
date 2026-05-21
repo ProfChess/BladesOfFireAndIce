@@ -18,7 +18,7 @@ public class BaseStatUIDisplay : MonoBehaviour
         {
             ItemStatAccess statUI = GetAvailableStatEntry();
 
-            statUI.AssignStatInfo(statGroup.DisplayInfo.Name, statGroup.Value, statGroup.IsPercentage);
+            statUI.AssignStatInfo(statGroup.DisplayInfo.Name, statGroup.NewValue, statGroup.IsPercentage, statGroup.OldValue);
             statUI.gameObject.SetActive(true);
             statUI.SetFontSize(StatEntryFontSize);
         }
@@ -39,6 +39,7 @@ public class BaseStatUIDisplay : MonoBehaviour
     }
     protected void ClearStatList()
     {
+        if (ReserveStatEntries.Count <= 0) { return; }
         foreach (var stat in ReserveStatEntries) { stat.ClearText(); }
     }
 }

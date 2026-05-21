@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class BaseAttainedBonus : ScriptableObject
@@ -19,6 +20,10 @@ public class BaseAttainedBonus : ScriptableObject
         inventoryObj.AssignStatsFromItem(GetListOfStatsForDisplay());
     }
     public virtual List<StatDisplayEntry> GetListOfStatsForDisplay()
+    {
+        return new List<StatDisplayEntry>();
+    }
+    public virtual List<StatDisplayEntry> GetLeveledStatsPreview()
     {
         return new List<StatDisplayEntry>();
     }

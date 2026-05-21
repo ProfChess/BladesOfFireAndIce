@@ -56,7 +56,7 @@ public class Rune : BaseBoon
         {
             StatDisplayEntry entry = new();
             entry.DisplayInfo.Name = UIStatDefinitions.GetInfo(pair.Stat).Name;
-            entry.Value = pair.PercentageIncrease;
+            entry.NewValue = pair.PercentageIncrease;
             entry.IsPercentage = true;
             RelevantStats.Add(entry);
         }

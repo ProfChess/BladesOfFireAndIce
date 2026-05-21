@@ -21,7 +21,7 @@ public class StatBlessingFlatEffect : BaseStatBlessingEffect
         return new StatDisplayEntry
         {
             DisplayInfo = UIStatDefinitions.GetInfo(Stat),
-            Value = PercentageValue,
+            NewValue = PercentageValue,
             IsPercentage = true
         };
     }

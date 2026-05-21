@@ -5,13 +5,16 @@ using UnityEngine;
 public static class ActivePlayerEffectHelpers
 {
     //Adds given stat to display if determined to be relevant
-    public static void AddStatIfRelevant(PlayerEffectStatType stat, StatsToDisplay displayStats, List<StatDisplayEntry> list, float value, bool isPercent = false)
+    public static void AddStatIfRelevant(PlayerEffectStatType stat, StatsToDisplay displayStats, 
+        List<StatDisplayEntry> list, float value, bool isPercent = false, float? oldValue = null)
     {
         if (!ShouldDisplayStat(stat, displayStats)) { return; }
+
         list.Add(new StatDisplayEntry
         {
             DisplayInfo = UIStatDefinitions.GetInfo(stat),
-            Value = value,
+            NewValue = value,
+            OldValue = oldValue,
             IsPercentage = isPercent,
         });
     }

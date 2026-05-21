@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = ("Effect/Virtues/Virtue"))]
@@ -61,13 +62,27 @@ public class Virtue : BaseBoon
         {
             level = GameManager.Instance.runData.GetVirtueLevel(this);
         }
-        BoonLeveledStats stats = GetLeveledStats(level);
 
         List<StatDisplayEntry> Results = new();
+        BoonLeveledStats stats = GetLeveledStats(level);
         foreach (PlayerEffectStatType type in Enum.GetValues(typeof(PlayerEffectStatType)))
         {
             float value = GetLeveledStatFromStatName(type, stats);
             ActivePlayerEffectHelpers.AddStatIfRelevant(type, DisplayStats, Results, value);
+        }
+
+        return Results;
+    }
+    public override List<StatDisplayEntry> GetLeveledStatsPreview()
+    {
+        List<StatDisplayEntry> Results = new();
+        BoonLeveledStats newStats = GetLeveledStats(2);
+        BoonLeveledStats oldStats = GetLeveledStats(1);
+        foreach (PlayerEffectStatType type in Enum.GetValues(typeof(PlayerEffectStatType)))
+        {
+            float NewValue = GetLeveledStatFromStatName(type, newStats);
+            float OldValue = GetLeveledStatFromStatName(type, oldStats);
+            ActivePlayerEffectHelpers.AddStatIfRelevant(type, DisplayStats, Results, NewValue, false, OldValue);
         }
         return Results;
     }

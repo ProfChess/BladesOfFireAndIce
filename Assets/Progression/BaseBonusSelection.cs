@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BaseBonusSelection : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class BaseBonusSelection : MonoBehaviour
         GM.ChangePlayerToUIActions();
         SelectionPopup.SetActive(true);
         GM.MenuOpened(SelectionPopup);
+        EventSystem.current.SetSelectedGameObject(null);
     }
     private void DisableAllBoonUI()
     {

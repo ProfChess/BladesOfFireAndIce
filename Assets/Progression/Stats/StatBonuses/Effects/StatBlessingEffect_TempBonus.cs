@@ -32,7 +32,7 @@ public class StatBlessingEffect_ConditionalStatChange : BaseStatBlessingEffect
         {
             StatDisplayEntry newEntry = new();
             newEntry.DisplayInfo = UIStatDefinitions.GetInfo(ValuePair.Stat);
-            newEntry.Value = ValuePair.PercentageIncrease;
+            newEntry.NewValue = ValuePair.PercentageIncrease;
             newEntry.IsPercentage = true;
             EntryList.Add(newEntry);
         }
