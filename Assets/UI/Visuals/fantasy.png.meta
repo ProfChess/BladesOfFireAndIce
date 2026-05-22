@@ -1017,6 +1017,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Scroll_Small
+      rect:
+        serializedVersion: 2
+        x: 965
+        y: 1250
+        width: 53
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 5, y: 17, z: 7, w: 18}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c2116819cd88c84cadd04b3ca6b100c
+      internalID: 2144967828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1072,6 +1093,7 @@ TextureImporter:
       Potion_Dark: 2027048639
       Potion_Essence: 592849366
       Scroll: -221577274
+      Scroll_Small: 2144967828
       Scroll_Wide: -868012090
       fantasy_0: 1054125730
       fantasy_1: 1913422102

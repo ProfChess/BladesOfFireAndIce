@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BaseStatUIDisplay : MonoBehaviour
@@ -9,6 +10,11 @@ public class BaseStatUIDisplay : MonoBehaviour
     [SerializeField] protected ItemStatAccess StatEntryPrefab;
     [SerializeField] protected RectTransform StatEntriesParentObject;
     [SerializeField] protected List<ItemStatAccess> ReserveStatEntries;
+
+    [Header("Tooltip Placement")]
+    [SerializeField] private RectTransform TooltipTransformLocation;
+    public RectTransform GetTooltipLocation() { return TooltipTransformLocation; }
+
     //Assigning Stats
     public void AssignStatsFromItem(List<StatDisplayEntry> ListOfRelevantStats)
     {
@@ -18,7 +24,7 @@ public class BaseStatUIDisplay : MonoBehaviour
         {
             ItemStatAccess statUI = GetAvailableStatEntry();
 
-            statUI.AssignStatInfo(statGroup.DisplayInfo.Name, statGroup.NewValue, statGroup.IsPercentage, statGroup.OldValue);
+            statUI.AssignStatInfo(statGroup.DisplayInfo, statGroup.NewValue, statGroup.IsPercentage, statGroup.OldValue);
             statUI.gameObject.SetActive(true);
             statUI.SetFontSize(StatEntryFontSize);
         }

@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     [Header("Inventory")]
     public Inventory InventoryUIObject;
 
+    [Header("Tooltip")]
+    public TooltipStat Tooltip;
+
     private void Update()
     {
         //Check if Player is Here
@@ -94,6 +97,18 @@ public class UIManager : MonoBehaviour
     {
         InventoryUIObject.gameObject.SetActive(true);
         StopGame();
+    }
+
+    //Display tooltip
+    public void ShowTooltip(StatDisplayInfo info, RectTransform transform)
+    {
+        Tooltip.DisplayInformation(info);
+        Tooltip.transform.position = transform.position;
+        Tooltip.gameObject.SetActive(true);
+    }
+    public void CloseTooltip()
+    {
+        Tooltip.gameObject.SetActive(false);
     }
 
 }

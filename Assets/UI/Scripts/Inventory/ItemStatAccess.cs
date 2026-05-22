@@ -7,11 +7,14 @@ public class ItemStatAccess : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI StatName;
     [SerializeField] private TextMeshProUGUI StatNumber;
+    private StatDisplayInfo cachedDisplayInfo;
 
     //Fills in Stat Name and Number, Showing Up To 1 Decimal Place, +/- Signs, and % Sign if Needed
-    public void AssignStatInfo(string nameOfStat, float amount, bool isPercentage, float? oldAmount = null)
+    public void AssignStatInfo(StatDisplayInfo info, float amount, bool isPercentage, float? oldAmount = null)
     {
-        StatName.text = nameOfStat;
+        cachedDisplayInfo = info;
+
+        StatName.text = info.Name;
         if (oldAmount.HasValue) //In the Case of Virtues, They can display their old amount dependant on the UI
         {
             StatNumber.text = "(" + GetSpecificStringFromAmount(oldAmount.Value, isPercentage) + ")" + "<voffset=0.1em>→</voffset>"
@@ -37,4 +40,5 @@ public class ItemStatAccess : MonoBehaviour
         StatName.fontSize = size;
         StatNumber.fontSize = size;
     }
+    public StatDisplayInfo GetDisplayInfo() {  return cachedDisplayInfo; }
 }
