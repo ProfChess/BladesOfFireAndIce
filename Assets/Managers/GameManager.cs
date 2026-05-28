@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -22,7 +21,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public HitStopManager hitStopManager;
     [HideInInspector] public AbilitySelection abilityOptions;
     [HideInInspector] public BoonSelection boonOptions;
-    [HideInInspector] public RuneSelection relicOptions;
+    [HideInInspector] public RuneSelection runeOptions;
     [HideInInspector] public RunDataManager runData;
     [HideInInspector] public SaveManager saveManager;
     [HideInInspector] public UIManager uiManager;
@@ -85,7 +84,7 @@ public class GameManager : MonoBehaviour
         hitStopManager = GetComponentInChildren<HitStopManager>();
         abilityOptions = GetComponentInChildren<AbilitySelection>();
         boonOptions = GetComponentInChildren<BoonSelection>();
-        relicOptions = GetComponentInChildren<RuneSelection>();
+        runeOptions = GetComponentInChildren<RuneSelection>();
         runData = GetComponentInChildren<RunDataManager>();
         saveManager = GetComponentInChildren<SaveManager>();
         uiManager = GetComponentInChildren<UIManager>();
@@ -188,11 +187,11 @@ public class GameManager : MonoBehaviour
     public void DeactivateUIPopup_Shop() { ShopSelectionUI.SetActive(false); }
     public void MakeShopDecision(ShopOption ChosenShopItem)
     {
-        runData.AddShopCurrency(-ChosenShopItem.Description.ItemCost);
+        runData.AddShopCurrency(-ChosenShopItem.itemCost);
         ShopGetter.ReEvalutateShop();
         if (ChosenShopItem != null)
         {
-            ChosenShopItem.ApplyChoice();
+            ChosenShopItem.item.BonusCollected();
         }
     }
 

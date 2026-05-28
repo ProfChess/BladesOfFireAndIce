@@ -68,6 +68,6 @@ public class BaseBonusSelection : MonoBehaviour
     {
         GM.CloseLatestMenu();
         Pickup.gameObject.SetActive(false);
-        Choice.BoonCollected();
+        Choice.BonusCollected();
     }
 }

@@ -57,7 +57,7 @@ public class Inventory : MonoBehaviour
         GameObject newBox = Instantiate(InventoryItemBoxPrefab, VirtueContentParent);
         newBox.GetComponent<InventoryItemBoxUI>().AssignItem(virtue);
     }
-    public void AddRelicToInventory(Rune relic)
+    public void AddRuneToInventory(Rune relic)
     {
         GameObject newBox = Instantiate(InventoryItemBoxPrefab, RelicContentParent);
         newBox.GetComponent<InventoryItemBoxUI>().AssignItem(relic);

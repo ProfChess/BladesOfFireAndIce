@@ -23,13 +23,6 @@ public class Shop : InteractableObject
             shopCreated = true;
         }
 
-        //Check if The Player Has Items/Boons Already
-        foreach (var option in cachedShopSelection)
-        {
-            if (!option.CanBeSold()) { option.isSold = true; }
-        }
-
-
         //Create Shop
         GameManager.Instance.InputUIPopup_Shop(cachedShopSelection);
         GameManager.Instance.ActivateUIPopup_Shop();
@@ -40,7 +33,7 @@ public class Shop : InteractableObject
         if (options.Count < num) { Debug.Log("Insufficient Number of Items in Lists"); }
 
         List<ShopOption> ItemSet = new List<ShopOption>();
-        List<ShopOption> TempOptions = new List<ShopOption>(options);
+        List<ShopOption> TempOptions = FilterFirstTimeList(options);
 
         for (int i = 0; i < num; i++)
         {
@@ -76,57 +69,22 @@ public class Shop : InteractableObject
         Debug.Log("Failed to Select Shop Option");
         return Options.Count > 0 ? Options[0] : null;
     }
-}
-
-
-//SHOP CLASSES
-[System.Serializable]
-public abstract class ShopOption
-{
-    protected RunDataManager GM_Rundata => GameManager.Instance.runData;
-    public ShopDescription Description;
-    public float ChanceToAppear;
-    [HideInInspector] public bool isSold = false;
-    //Application Function
-    public abstract void ApplyChoice();
-    public abstract bool CanBeSold();
-}
-[System.Serializable]
-public class ShopDescription
-{
-    public string ItemName;
-    public float ItemCost;
-    public UnityEngine.UI.Image Icon;
-}
-[System.Serializable]
-public class ShopOptionBoon : ShopOption
-{
-    public Virtue virtueRef;
-    public override void ApplyChoice()
+    private List<ShopOption> FilterFirstTimeList(IReadOnlyList<ShopOption> options)
     {
-        virtueRef.BoonCollected();
-    }
-    public override bool CanBeSold()
-    {
-        if (GM_Rundata == null || virtueRef == null) { return false; }
-        if (GM_Rundata.IsVirtueCollected(virtueRef))
+        List<ShopOption> filteredOptions = new();
+        foreach (var option in options)
         {
-            //Boon is Collected
-            if (GM_Rundata.GetVirtueLevel(virtueRef) == GM_Rundata.MaxBoonLevel) { return false; }
+            if (option.ChanceToAppear > 0 && option.item.isItemAvailable()) { filteredOptions.Add(option); }
         }
-        return true;
+        return filteredOptions;
     }
 }
 [System.Serializable]
-public class ShopOptionItem : ShopOption
+public class ShopOption
 {
-    public GameObject Relic;
-    public override void ApplyChoice()
-    {
-        if (GameManager.Instance == null) { return; }
-    }
-    public override bool CanBeSold()
-    {
-        return true;
-    }
+    public ShopEligibleBonus item;
+    public float itemCost;
+    public float ChanceToAppear;
+    public bool isSold = false;
+    public bool CanAfford(float amount) { return amount >= itemCost; }
 }

@@ -1,33 +1,37 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 
 public class ShopUI : MonoBehaviour
 {
-    [SerializeField] private Transform AllShopOptionsObject;
-    [SerializeField] private Text PlayerCurrentCurrency;
-    private List<ShopUIEntryOption> shopUIOptions = new List<ShopUIEntryOption>();
+    [SerializeField] private Transform AllShopOptionsParentObject;
+    [SerializeField] private TextMeshProUGUI PlayerCurrentCurrency;
+    [SerializeField] private ShopUIEntryOption ShopEntryPrefab;
+    [SerializeField] private List<ShopUIEntryOption> reserveShopUIOptions = new List<ShopUIEntryOption>();
 
-    private void Awake()
-    {
-        shopUIOptions = new List<ShopUIEntryOption>(AllShopOptionsObject.GetComponentsInChildren<ShopUIEntryOption>(true));
-    }
+
+    //Display Given Options no Matter the Size, and Update the Players Gold Amount Display
     public void PopulateShopOptions(List<ShopOption> Options)
     {
-        //Fill Shop Options
         for (int i = 0; i < Options.Count; i++)
         {
-            shopUIOptions[i].Assign(Options[i]);
+            if (i >= reserveShopUIOptions.Count)
+            {
+                ShopUIEntryOption newUIOption = Instantiate(ShopEntryPrefab, AllShopOptionsParentObject);
+                reserveShopUIOptions.Add(newUIOption);
+            }
+            reserveShopUIOptions[i].gameObject.SetActive(true);
+            reserveShopUIOptions[i].Assign(Options[i]);
         }
-        //Show Player Current Currency Amount
         ReEvalutateShop();
     }
 
     public void ReEvalutateShop()
     {
-        for (int i = 0; i < shopUIOptions.Count; i++)
+        for (int i = 0; i < reserveShopUIOptions.Count; i++)
         {
-            shopUIOptions[i].CheckEntryStatus();
+            reserveShopUIOptions[i].CheckEntryStatus();
         }
         ApplyCurrencyNumChange();
     }

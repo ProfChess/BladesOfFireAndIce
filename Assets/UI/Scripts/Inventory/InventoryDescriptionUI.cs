@@ -60,12 +60,12 @@ public class InventoryDescriptionUI : BaseStatUIDisplay
 }
 public struct StatDisplayEntry
 {
-    public StatDisplayInfo DisplayInfo;
+    public ItemDisplayInfo DisplayInfo;
     public float NewValue;
     public float? OldValue;
     public bool IsPercentage;
 }
-public struct StatDisplayInfo
+public struct ItemDisplayInfo
 {
     public string Name;
     public string Description;

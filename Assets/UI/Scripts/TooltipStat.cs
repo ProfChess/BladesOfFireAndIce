@@ -8,7 +8,7 @@ public class TooltipStat : MonoBehaviour
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI desc;
 
-    public void DisplayInformation(StatDisplayInfo info)
+    public void DisplayInformation(ItemDisplayInfo info)
     {
         title.text = info.Name;
         desc.text = info.Description;

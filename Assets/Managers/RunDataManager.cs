@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RunDataManager : MonoBehaviour
@@ -13,12 +11,12 @@ public class RunDataManager : MonoBehaviour
     [SerializeField] private Inventory InventoryUI;
 
     //Relics
-    private Dictionary<Rune, RuneInstance> CurrentRelics = new();
-    public bool isRelicApplied(Rune relic) { return CurrentRelics[relic].isActive; }
-    public bool isRelicCollected(Rune relic) { return CurrentRelics.ContainsKey(relic); }
-    public void AddRelic(Rune relic)
+    private Dictionary<Rune, RuneInstance> CurrentRunes = new();
+    public bool isRuneApplied(Rune relic) { return CurrentRunes[relic].isActive; }
+    public bool isRuneCollected(Rune relic) { return CurrentRunes.ContainsKey(relic); }
+    public void AddRune(Rune relic)
     {
-        if (!isRelicCollected(relic))
+        if (!isRuneCollected(relic))
         {
             RuneInstance instance = new RuneInstance
             {
@@ -26,63 +24,63 @@ public class RunDataManager : MonoBehaviour
                 isActive = false,
                 isTimed = relic.Duration > 0
             };
-            CurrentRelics.Add(relic, instance);
+            CurrentRunes.Add(relic, instance);
             relic.BoonSelected();
 
             //UI
-            InventoryUI.AddRelicToInventory(relic);
+            InventoryUI.AddRuneToInventory(relic);
         }
     }
-    public void RelicActivated(Rune relic, Action DisableEffect, float Duration = 0f)
+    public void RuneActivated(Rune relic, Action DisableEffect, float Duration = 0f)
     {
-        if (isRelicCollected(relic) && !isRelicApplied(relic))
+        if (isRuneCollected(relic) && !isRuneApplied(relic))
         {
-            CurrentRelics[relic].isActive = true;
-            CurrentRelics[relic].DurationOfBuff = Duration;
-            CurrentRelics[relic].DisableEffect = DisableEffect;
+            CurrentRunes[relic].isActive = true;
+            CurrentRunes[relic].DurationOfBuff = Duration;
+            CurrentRunes[relic].DisableEffect = DisableEffect;
 
             Debug.Log("Relic Bonus Activated");
         }
     }
 
-    public void RelicDeactivated(Rune relic)
+    public void RuneDeactivated(Rune relic)
     {
-        if (isRelicCollected(relic) && isRelicApplied(relic))
+        if (isRuneCollected(relic) && isRuneApplied(relic))
         {
-            CurrentRelics[relic].isActive = false;
-            CurrentRelics[relic].DisableEffect?.Invoke();
+            CurrentRunes[relic].isActive = false;
+            CurrentRunes[relic].DisableEffect?.Invoke();
             
             Debug.Log("Relic Bonus Deactivated");
         }
     }
-    public bool CanRelicTrigger(Rune relic)
+    public bool CanRuneTrigger(Rune relic)
     {
-        if (!isRelicCollected(relic)) { return false; }
-        return CurrentRelics[relic].CanTrigger;
+        if (!isRuneCollected(relic)) { return false; }
+        return CurrentRunes[relic].CanTrigger;
     }
-    public void BeginRelicCooldown(Rune relic)
+    public void BeginRuneCooldown(Rune relic)
     {
-        if (!isRelicCollected(relic)) { return; }
-        CurrentRelics[relic].StartCooldown();
+        if (!isRuneCollected(relic)) { return; }
+        CurrentRunes[relic].StartCooldown();
     }
-    public float GetRelicBuffTimeRemaining(Rune relic)
+    public float GetRuneBuffTimeRemaining(Rune relic)
     {
-        if (!isRelicCollected(relic) && CurrentRelics[relic].isTimed)
+        if (!isRuneCollected(relic) && CurrentRunes[relic].isTimed)
         {
-            return CurrentRelics[relic].DurationOfBuff;
+            return CurrentRunes[relic].DurationOfBuff;
         }
         else
         {
             return 0f;
         }
     }
-    private void ReapplyAllRelicsOnSceneChange()
+    private void ReapplyAllRunesOnSceneChange()
     {
-        foreach (Rune relic in CurrentRelics.Keys)
+        foreach (Rune relic in CurrentRunes.Keys)
         {
-            CurrentRelics[relic].isActive = false;
+            CurrentRunes[relic].isActive = false;
             relic.BoonSelected();
-            relic.BoonCollected();
+            relic.BonusCollected();
         }
     }
     
@@ -227,7 +225,7 @@ public class RunDataManager : MonoBehaviour
     public bool IsAbilitySlotOffCooldown(PlayerAbilitySlot slot, ElementType element) { return CurrentAbilitySlotMap[(slot,element)].CanTrigger; }
     public void AddAbilityPair(Ability fireAbility, Ability iceAbility)
     {
-        if (AbilityMap.ContainsKey(fireAbility) || IsAbilityCollected(iceAbility)) 
+        if (IsAbilityCollected(fireAbility) || IsAbilityCollected(iceAbility)) 
         { Debug.Log("Error One or Both of These Abilities are Already Equipped"); return; }
         if (!IsAbilitySlotAvailable()) { Debug.Log("Error No Ability Slots Available"); return; }
 
@@ -275,8 +273,8 @@ public class RunDataManager : MonoBehaviour
         //Virtues
         CountDownList(CurrentVirtues.Values);
         //Relics
-        CountDownList(CurrentRelics.Values);
-        CountDownDuration(CurrentRelics.Keys);
+        CountDownList(CurrentRunes.Values);
+        CountDownDuration(CurrentRunes.Keys);
         //Abilities
         CountDownList(AbilityMap.Values);
         //Blessings
@@ -296,14 +294,14 @@ public class RunDataManager : MonoBehaviour
     {
         foreach (Rune rune in runeList)
         {
-            RuneInstance relInst = CurrentRelics[rune];
+            RuneInstance relInst = CurrentRunes[rune];
             if (!relInst.isActive || !relInst.isTimed) { continue; }
 
             relInst.DurationOfBuff -= GameTimeManager.GameDeltaTime;
 
             if (relInst.DurationOfBuff <= 0f)
             {
-                RelicDeactivated(rune);
+                RuneDeactivated(rune);
             }
         }
     }
@@ -335,7 +333,6 @@ public class RunDataManager : MonoBehaviour
     //CURRENCY
     //Shop Functions
     public void AddShopCurrency(float num) {  GoldCurrencyCollected += num; }
-    public bool CanPayItemCost(float num) { return GoldCurrencyCollected >= num; }
 
 
 
@@ -345,7 +342,7 @@ public class RunDataManager : MonoBehaviour
     public void ClearRunData()
     {
         CurrentVirtues.Clear();
-        CurrentRelics.Clear();
+        CurrentRunes.Clear();
         CurrentBlessings.Clear();
         GoldCurrencyCollected = 0f;
         EssenceCurrencyCollected = 0f;
@@ -360,7 +357,7 @@ public class RunDataManager : MonoBehaviour
     {
         //Apply Virtues, Relics, Blessings
         ReapplyAllVirtuesOnSceneChange();
-        ReapplyAllRelicsOnSceneChange();
+        ReapplyAllRunesOnSceneChange();
         ReapplyAllBlessingsOnSceneChange();
     }
 

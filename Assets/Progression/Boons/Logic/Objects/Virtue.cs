@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = ("Effect/Virtues/Virtue"))]
@@ -30,7 +29,7 @@ public class Virtue : BaseBoon
             runData.BeginVirtueCooldown(this);
         }
     }
-    public override void BoonCollected()
+    public override void BonusCollected()
     {
         runData.AddVirtue(this);
     }
@@ -101,6 +100,16 @@ public class Virtue : BaseBoon
             case PlayerEffectStatType.ProjLifetime:   return statCollection.FinalProjLifetime;
         }
         return 0f;
+    }
+
+    //Shop Appearance
+    public override bool isItemAvailable()
+    {
+        if (GameManager.Instance.runData.IsVirtueCollected(this))
+        {
+            return GameManager.Instance.runData.GetVirtueLevel(this) < 2;
+        }
+        return true;
     }
 }
 //Boon Type Specific Enum

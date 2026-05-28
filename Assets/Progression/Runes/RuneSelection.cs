@@ -44,7 +44,7 @@ public class RuneSelection : BaseBonusSelection
         //Grant Player All Starting Relics 
         foreach(Rune relic in StartingRelics.AllRelics)
         {
-            relic.BoonCollected();
+            relic.BonusCollected();
         }
     }
 }

@@ -7,10 +7,10 @@ public class ItemStatAccess : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI StatName;
     [SerializeField] private TextMeshProUGUI StatNumber;
-    private StatDisplayInfo cachedDisplayInfo;
+    private ItemDisplayInfo cachedDisplayInfo;
 
     //Fills in Stat Name and Number, Showing Up To 1 Decimal Place, +/- Signs, and % Sign if Needed
-    public void AssignStatInfo(StatDisplayInfo info, float amount, bool isPercentage, float? oldAmount = null)
+    public void AssignStatInfo(ItemDisplayInfo info, float amount, bool isPercentage, float? oldAmount = null)
     {
         cachedDisplayInfo = info;
 
@@ -40,5 +40,5 @@ public class ItemStatAccess : MonoBehaviour
         StatName.fontSize = size;
         StatNumber.fontSize = size;
     }
-    public StatDisplayInfo GetDisplayInfo() {  return cachedDisplayInfo; }
+    public ItemDisplayInfo GetDisplayInfo() {  return cachedDisplayInfo; }
 }

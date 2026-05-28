@@ -6,6 +6,6 @@ public class RelicPickup : BaseBonusSelectionPickup
 {
     protected override List<BaseBoon> GetRelevantBonusListInfo()
     {
-        return GameManager.Instance.relicOptions.PlayerSelectRelicChoices();
+        return GameManager.Instance.runeOptions.PlayerSelectRelicChoices();
     }
 }

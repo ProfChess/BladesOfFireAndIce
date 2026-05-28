@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class BaseBoon : BaseAttainedBonus
+public abstract class BaseBoon : ShopEligibleBonus
 {
     //public Sprite Icon;
 
@@ -25,10 +25,6 @@ public abstract class BaseBoon : BaseAttainedBonus
     //Accessing Boon Level
     protected RunDataManager runData => GameManager.Instance.runData;
     
-    public virtual void BoonCollected()
-    {
-        //OVERRIDE AND ADD COMMAND FOR PLACING BOON/RELIC/OTHER COLLECTABLE INTO CORRECT STORAGE
-    }
     public virtual void BoonSelected()
     {
         effectDelegate = Effect;
@@ -42,5 +38,4 @@ public abstract class BaseBoon : BaseAttainedBonus
 
 
 }
-public enum BonusType {Virtue, Rune, Blessing, Ability}
 

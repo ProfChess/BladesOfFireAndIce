@@ -7,8 +7,8 @@ public class ShopDataCreation : ScriptableObject
 {
     private List<ShopOption> shopOptions = new List<ShopOption>();
     public IReadOnlyList<ShopOption> ShopOptions => shopOptions;
-    [SerializeField] private List<ShopOptionBoon> boonShopOptions = new();
-    [SerializeField] private List<ShopOptionItem> relicShopOptions = new();
+    [SerializeField] private List<ShopOption> boonShopOptions = new();
+    [SerializeField] private List<ShopOption> relicShopOptions = new();
 
     private void OnEnable()
     {

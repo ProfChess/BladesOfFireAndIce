@@ -100,7 +100,7 @@ public class UIManager : MonoBehaviour
     }
 
     //Display tooltip
-    public void ShowTooltip(StatDisplayInfo info, RectTransform transform)
+    public void ShowTooltip(ItemDisplayInfo info, RectTransform transform)
     {
         Tooltip.DisplayInformation(info);
         Tooltip.transform.position = transform.position;

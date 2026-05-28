@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class BaseAttainedBonus : ScriptableObject
+public abstract class BaseAttainedBonus : ScriptableObject
 {
     [Header("Boon Stats")]
     public string BonusName;
@@ -28,3 +26,5 @@ public class BaseAttainedBonus : ScriptableObject
         return new List<StatDisplayEntry>();
     }
 }
+public enum BonusType { Virtue, Rune, Blessing, Ability, Potion }
+

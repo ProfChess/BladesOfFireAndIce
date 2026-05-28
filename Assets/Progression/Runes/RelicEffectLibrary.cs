@@ -59,13 +59,13 @@ public static class RelicEffectLibrary
         float DamageScale = relic.GetIncreaseFromStat(StatType.StrengthFire) * blockedCtx.hitsBlocked;
         float AOEScale = relic.GetIncreaseFromStat(StatType.ReachFire) * blockedCtx.hitsBlocked;
 
-        if (!rundata.isRelicApplied(relic) || rundata.GetRelicBuffTimeRemaining(relic) < FinalDuration)
+        if (!rundata.isRuneApplied(relic) || rundata.GetRuneBuffTimeRemaining(relic) < FinalDuration)
         {
-            if (rundata.isRelicApplied(relic)) { rundata.RelicDeactivated(relic); }
+            if (rundata.isRuneApplied(relic)) { rundata.RuneDeactivated(relic); }
 
             PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.StrengthFire, DamageScale);
             PlayerEffectSubscriptionManager.Instance.AddBonus(StatType.ReachFire, AOEScale);
-            rundata.RelicActivated(
+            rundata.RuneActivated(
                 relic,
                 () => {
                     PlayerEffectSubscriptionManager.Instance.RemoveBonus(StatType.StrengthFire, DamageScale);
@@ -79,13 +79,13 @@ public static class RelicEffectLibrary
     //Starting Relic --> Ice Shield --> Grants Invulnerability and Attack Speed Upon Successful Parry
     private static void RuneEffect_IceShield(Rune relic, PlayerEventContext ctx)
     {
-        if (!rundata.isRelicApplied(relic))
+        if (!rundata.isRuneApplied(relic))
         {
             //Apply Bonus
             ApplyAllStatBuffs(relic.StatIncreases);
             
             //Mark Relic as Activated and Submit Deactivation Logic with Timing
-            rundata.RelicActivated(relic, () =>
+            rundata.RuneActivated(relic, () =>
             {
                 UnApplyAllStatBuffs(relic.StatIncreases);
             }, relic.Duration);
@@ -95,11 +95,11 @@ public static class RelicEffectLibrary
     //Starting Relic --> Swapping Power --> Grants Buff Depending on Element + Restore Stamina
     private static void RuneEffect_SwapElement(Rune relic, PlayerEventContext ctx)
     {
-        if (rundata.isRelicApplied(relic)) { rundata.RelicDeactivated(relic); }
+        if (rundata.isRuneApplied(relic)) { rundata.RuneDeactivated(relic); }
         
         //Fire Buff
         ApplyAllStatBuffs(relic.StatIncreases);
-        rundata.RelicActivated(relic, () =>
+        rundata.RuneActivated(relic, () =>
         {
             UnApplyAllStatBuffs(relic.StatIncreases);
         }, relic.Duration);
@@ -112,18 +112,18 @@ public static class RelicEffectLibrary
         bool Above50 = (statctx.newValue / statctx.maxValue) >= 0.5f;
         Debug.Log(Above50);
 
-        if (Above50 && !rundata.isRelicApplied(relic))
+        if (Above50 && !rundata.isRuneApplied(relic))
         {
             ApplyAllStatBuffs(relic.StatIncreases);
             
-            rundata.RelicActivated(relic, () =>
+            rundata.RuneActivated(relic, () =>
             {
                 UnApplyAllStatBuffs(relic.StatIncreases);
             });
         }
-        else if (!Above50 && rundata.isRelicApplied(relic))
+        else if (!Above50 && rundata.isRuneApplied(relic))
         {
-            rundata.RelicDeactivated(relic);
+            rundata.RuneDeactivated(relic);
         }
     }
 

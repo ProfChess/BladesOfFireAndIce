@@ -17,15 +17,15 @@ public class Rune : BaseBoon
 
     public override void Effect(PlayerEventContext context)
     {
-        if (runData.CanRelicTrigger(this))
+        if (runData.CanRuneTrigger(this))
         {
             RelicEffectLibrary.PlayRuneEffect(this, context);
-            runData.BeginRelicCooldown(this);
+            runData.BeginRuneCooldown(this);
         }
     }
-    public override void BoonCollected()
+    public override void BonusCollected()
     {
-        runData.AddRelic(this);
+        runData.AddRune(this);
 
         if (PlayerStateNeeded == PlayerStateCheckType.None) { return; }
 
@@ -61,6 +61,10 @@ public class Rune : BaseBoon
             RelevantStats.Add(entry);
         }
         return RelevantStats;
+    }
+    public override bool isItemAvailable()
+    {
+        return !GameManager.Instance.runData.isRuneCollected(this);
     }
 }
 public enum RelicEffectType 

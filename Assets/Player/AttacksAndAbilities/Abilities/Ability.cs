@@ -52,5 +52,4 @@ public class Ability : BaseAttainedBonus
         }
         return 0f;
     }
-
 }

@@ -1,23 +1,24 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopUIEntryOption : MonoBehaviour
 {
-    [SerializeField] private Text ShopItemName;
-    [SerializeField] private Text ShopItemCostTextField;
+    [SerializeField] private TextMeshProUGUI ShopItemName;
+    [SerializeField] private TextMeshProUGUI ShopItemCostTextField;
+    [SerializeField] private TextMeshProUGUI TypeText;
     [SerializeField] private Image Icon;
     [SerializeField] private GameObject SoldOverlay;
-    [SerializeField] private GameObject CantAffordOverlay;
+    [SerializeField] private Color CantAffordColor;
     private bool _isAffordable = true;
     private ShopOption CurrentOption;
 
     //Assigns Attributes Based on Given Info
     public void Assign(ShopOption Option)
     {
-        //Fill in Item Attributes
-        ShopItemName.text = Option.Description.ItemName;
-        ShopItemCostTextField.text = Option.Description.ItemCost.ToString();
-        Icon = Option.Description.Icon;
+        ShopItemName.text = Option.item.BonusName;
+        ShopItemCostTextField.text = Option.itemCost.ToString();
+        //Icon = Option.item.Icon;
         CurrentOption = Option;
 
         CheckEntryStatus();
@@ -30,13 +31,13 @@ public class ShopUIEntryOption : MonoBehaviour
     {
         //Item Sold
         SoldOverlay.SetActive(CurrentOption.isSold);
-        if (CurrentOption.isSold) { CantAffordOverlay.SetActive(false); }
+        if (CurrentOption.isSold) { ShopItemCostTextField.color = Color.white; }
         
         //Item Price
         else
         {
-            _isAffordable = GameManager.Instance.runData.CanPayItemCost(CurrentOption.Description.ItemCost);
-            CantAffordOverlay.SetActive(!_isAffordable);
+            _isAffordable = CurrentOption.CanAfford(GameManager.Instance.runData.GoldCurrencyCollected);
+            ShopItemCostTextField.color = _isAffordable ? Color.white : CantAffordColor;
         }
     }
 
@@ -45,7 +46,8 @@ public class ShopUIEntryOption : MonoBehaviour
     {
         if (CurrentOption.isSold || !_isAffordable) { return; }
         GameManager.Instance.MakeShopDecision(CurrentOption);
-        CurrentOption.isSold = true; SoldOverlay.SetActive(true);
+        CurrentOption.isSold = true;
+        CheckEntryStatus();
     }
 
 }
