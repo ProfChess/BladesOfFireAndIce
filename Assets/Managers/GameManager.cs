@@ -40,9 +40,6 @@ public class GameManager : MonoBehaviour
     //UI
     [Header("UI")]
     [SerializeField] private GameObject NewRunPopup;
-    [SerializeField] private ShopUI ShopGetter;
-    [Tooltip("Main Shop Menu Object to Turn On/Off")]
-    [SerializeField] private GameObject ShopSelectionUI;
 
     //Very Start Loading 
     private void Awake()
@@ -181,19 +178,7 @@ public class GameManager : MonoBehaviour
     //New Run
     public void ActivateUIPopup_NewRun() { NewRunPopup.SetActive(true); }
     public void DeactivateUIPopup_NewRun() { NewRunPopup.SetActive(false); }
-    //Shop
-    public void InputUIPopup_Shop(List<ShopOption> options) { ShopGetter.PopulateShopOptions(options); }
-    public void ActivateUIPopup_Shop() { ShopSelectionUI.SetActive(true); MenuOpened(ShopSelectionUI); }
-    public void DeactivateUIPopup_Shop() { ShopSelectionUI.SetActive(false); }
-    public void MakeShopDecision(ShopOption ChosenShopItem)
-    {
-        runData.AddShopCurrency(-ChosenShopItem.itemCost);
-        ShopGetter.ReEvalutateShop();
-        if (ChosenShopItem != null)
-        {
-            ChosenShopItem.item.BonusCollected();
-        }
-    }
+
 
     public void DungeonFinished()
     {

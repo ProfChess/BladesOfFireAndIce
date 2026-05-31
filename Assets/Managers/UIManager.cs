@@ -1,5 +1,5 @@
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,6 +22,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Tooltip")]
     public TooltipStat Tooltip;
+
+    [Header("Shop")]
+    public ShopUI ShopUIObject;
 
     private void Update()
     {
@@ -100,15 +103,35 @@ public class UIManager : MonoBehaviour
     }
 
     //Display tooltip
-    public void ShowTooltip(ItemDisplayInfo info, RectTransform transform)
+    public void ShowTooltip(ItemDisplayInfo info, RectTransform transformParent, bool showTooltipOnRight)
     {
         Tooltip.DisplayInformation(info);
-        Tooltip.transform.position = transform.position;
+
+        RectTransform tooltipRect = Tooltip.GetComponent<RectTransform>();
+
+        tooltipRect.pivot = showTooltipOnRight ? new Vector2(0,1) : new Vector2(1,1);
+        tooltipRect.position = transformParent.position;
+
         Tooltip.gameObject.SetActive(true);
     }
     public void CloseTooltip()
     {
         Tooltip.gameObject.SetActive(false);
+    }
+
+    //Shop
+    //Shop
+    public void InputUIPopup_Shop(List<ShopOption> options) { ShopUIObject.PopulateShopOptions(options); }
+    public void ActivateUIPopup_Shop() { ShopUIObject.gameObject.SetActive(true); GameManager.Instance.MenuOpened(ShopUIObject.gameObject); }
+    public void MakeShopDecision(ShopOption ChosenShopItem)
+    {
+        GameManager.Instance.runData.AddShopCurrency(-ChosenShopItem.itemCost);
+        ShopUIObject.ReEvalutateShop();
+        ShopUIObject.shopItemDetails.ClearSelection();
+        if (ChosenShopItem != null)
+        {
+            ChosenShopItem.item.BonusCollected();
+        }
     }
 
 }

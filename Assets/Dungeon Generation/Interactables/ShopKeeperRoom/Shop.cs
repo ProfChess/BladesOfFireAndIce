@@ -21,11 +21,12 @@ public class Shop : InteractableObject
             cachedShopSelection = GetSetOfItems(ShopSize, ShopData.ShopOptions);
 
             shopCreated = true;
+            Debug.Log("Shop Created");
         }
 
         //Create Shop
-        GameManager.Instance.InputUIPopup_Shop(cachedShopSelection);
-        GameManager.Instance.ActivateUIPopup_Shop();
+        GameManager.Instance.uiManager.InputUIPopup_Shop(cachedShopSelection);
+        GameManager.Instance.uiManager.ActivateUIPopup_Shop();
     }
 
     private List<ShopOption> GetSetOfItems(int num, IReadOnlyList<ShopOption> options)
@@ -85,6 +86,5 @@ public class ShopOption
     public ShopEligibleBonus item;
     public float itemCost;
     public float ChanceToAppear;
-    public bool isSold = false;
     public bool CanAfford(float amount) { return amount >= itemCost; }
 }

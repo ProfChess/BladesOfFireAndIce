@@ -33,6 +33,7 @@ public class ItemStatAccess : MonoBehaviour
     {
         StatName.text = "";
         StatNumber.text = "";
+        cachedDisplayInfo = default;
     }
     public bool isEmpty() { return StatName.text == ""; }
     public void SetFontSize(float size)

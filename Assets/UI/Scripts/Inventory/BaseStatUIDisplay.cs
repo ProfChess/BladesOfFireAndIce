@@ -13,7 +13,9 @@ public class BaseStatUIDisplay : MonoBehaviour
 
     [Header("Tooltip Placement")]
     [SerializeField] private RectTransform TooltipTransformLocation;
+    [SerializeField] private bool TooltipOnRight = false;
     public RectTransform GetTooltipLocation() { return TooltipTransformLocation; }
+    public bool IsToolTipRight => TooltipOnRight;
 
     //Assigning Stats
     public void AssignStatsFromItem(List<StatDisplayEntry> ListOfRelevantStats)
@@ -46,6 +48,6 @@ public class BaseStatUIDisplay : MonoBehaviour
     protected void ClearStatList()
     {
         if (ReserveStatEntries.Count <= 0) { return; }
-        foreach (var stat in ReserveStatEntries) { stat.ClearText(); }
+        foreach (var stat in ReserveStatEntries) { stat.ClearText(); stat.gameObject.SetActive(false); }
     }
 }

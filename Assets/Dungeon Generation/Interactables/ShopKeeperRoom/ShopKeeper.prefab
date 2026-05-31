@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1069512701
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: 1608801472, guid: c1c2970348d24f24ba1d2e4f4a55213c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FeetLevelObject: {fileID: 3217902423653545368}
+  DelayVisualSet: 0
 --- !u!1 &1233961080633587640
 GameObject:
   m_ObjectHideFlags: 0

@@ -39,7 +39,7 @@ public class RunDataManager : MonoBehaviour
             CurrentRunes[relic].DurationOfBuff = Duration;
             CurrentRunes[relic].DisableEffect = DisableEffect;
 
-            Debug.Log("Relic Bonus Activated");
+            Debug.Log("Rune Bonus Activated");
         }
     }
 
@@ -88,7 +88,11 @@ public class RunDataManager : MonoBehaviour
     private Dictionary<Virtue, VirtueInstance> CurrentVirtues = new();
     public int GetVirtueLevel(Virtue virtue) 
     {
-        return CurrentVirtues[virtue].Level;
+        if (CurrentVirtues.ContainsKey(virtue))
+        {
+            return CurrentVirtues[virtue].Level;
+        }
+        return 0;
     }
     //Does The Player Already Have This Virtue
     public bool IsVirtueCollected(Virtue virtue) { return CurrentVirtues.ContainsKey(virtue); }

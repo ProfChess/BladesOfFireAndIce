@@ -8,13 +8,13 @@ public class ShopDataCreation : ScriptableObject
     private List<ShopOption> shopOptions = new List<ShopOption>();
     public IReadOnlyList<ShopOption> ShopOptions => shopOptions;
     [SerializeField] private List<ShopOption> boonShopOptions = new();
-    [SerializeField] private List<ShopOption> relicShopOptions = new();
+    [SerializeField] private List<ShopOption> runeShopOptions = new();
 
     private void OnEnable()
     {
         shopOptions.Clear();
 
         shopOptions.AddRange(boonShopOptions);
-        shopOptions.AddRange(relicShopOptions);
+        shopOptions.AddRange(runeShopOptions);
     }
 }

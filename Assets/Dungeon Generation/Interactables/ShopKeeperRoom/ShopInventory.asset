@@ -13,25 +13,16 @@ MonoBehaviour:
   m_Name: ShopInventory
   m_EditorClassIdentifier: 
   boonShopOptions:
-  - Description:
-      ItemName: Fire Boon
-      ItemCost: 12
-      Icon: {fileID: 0}
-    ChanceToAppear: 1
-    isSold: 1
-    BoonRef: {fileID: 11400000, guid: 73a1edf0586c17344ab1672fa8d6e877, type: 2}
-  - Description:
-      ItemName: Ice Boon
-      ItemCost: 6
-      Icon: {fileID: 0}
-    ChanceToAppear: 1
-    isSold: 1
-    BoonRef: {fileID: 11400000, guid: 3a65fd79672cdd74aa31d660c3686f8a, type: 2}
-  relicShopOptions:
-  - Description:
-      ItemName: RelicOfRandom
-      ItemCost: 5
-      Icon: {fileID: 0}
+  - item: {fileID: 11400000, guid: 73a1edf0586c17344ab1672fa8d6e877, type: 2}
+    itemCost: 25
+    ChanceToAppear: 0.8
+    isSold: 0
+  - item: {fileID: 11400000, guid: 3a65fd79672cdd74aa31d660c3686f8a, type: 2}
+    itemCost: 13
+    ChanceToAppear: 0.5
+    isSold: 0
+  runeShopOptions:
+  - item: {fileID: 11400000, guid: b895355e41ba4c54aad8ac9e2eee0315, type: 2}
+    itemCost: 10
     ChanceToAppear: 1
     isSold: 0
-    Relic: {fileID: 6958949292863221762, guid: 6dd6f7c2bd6845a4a9a03de2569ed8fd, type: 3}

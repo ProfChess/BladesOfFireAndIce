@@ -43,7 +43,7 @@ public class InventoryDescriptionUI : BaseStatUIDisplay
         LevelLabel.gameObject.SetActive(false);
         DescLabel.gameObject.SetActive(false);
         ClearStatList();
-        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current?.SetSelectedGameObject(null);
     }
 
     //Toggles

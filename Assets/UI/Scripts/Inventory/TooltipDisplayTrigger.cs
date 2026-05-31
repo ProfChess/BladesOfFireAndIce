@@ -8,7 +8,8 @@ public class TooltipDisplayTrigger : MonoBehaviour, IPointerEnterHandler, IPoint
     [SerializeField] private ItemStatAccess item;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GameManager.Instance.uiManager.ShowTooltip(item.GetDisplayInfo(), GetComponentInParent<BaseStatUIDisplay>().GetTooltipLocation());
+        BaseStatUIDisplay parentUIDisplay = GetComponentInParent<BaseStatUIDisplay>();
+        GameManager.Instance.uiManager.ShowTooltip(item.GetDisplayInfo(), parentUIDisplay.GetTooltipLocation(), parentUIDisplay.IsToolTipRight);
     }
 
     public void OnPointerExit(PointerEventData eventData)
