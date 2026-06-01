@@ -8,4 +8,8 @@ public class BoonPickup : BaseBonusSelectionPickup
     {
         return GameManager.Instance.boonOptions.PlayerSelectBoonChoices();
     }
+    private void Start()
+    {
+        GetComponentInChildren<FloatingObject>()?.StartObject();
+    }
 }

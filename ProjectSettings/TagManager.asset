@@ -62,11 +62,11 @@ TagManager:
   - name: Player
     uniqueID: 3225454595
     locked: 0
-  - name: TempLayer
-    uniqueID: 3924536959
-    locked: 0
   - name: Walls
     uniqueID: 3045922381
+    locked: 0
+  - name: Pickups
+    uniqueID: 4186452263
     locked: 0
   - name: PlayerAbilities
     uniqueID: 3360347465

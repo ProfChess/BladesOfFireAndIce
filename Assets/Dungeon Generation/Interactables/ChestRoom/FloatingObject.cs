@@ -57,7 +57,7 @@ public class FloatingObject : MonoBehaviour
         float t = distFromCenter / range;
 
         //Slow down near edges (0 at edge, 1 at center)
-        return Mathf.SmoothStep(0.2f, 1f, 1f - t);
+        return Mathf.SmoothStep(0.3f, 1f, 1f - t);
     }
     private IEnumerator Move()
     {
@@ -91,8 +91,8 @@ public class FloatingObject : MonoBehaviour
 
                 pos.y += Direction * MovementSpeed * speedMult * GameTimeManager.GameDeltaTime;
 
-                if (pos.y >= StartWorldPosition.y + yMaxLevel) { Direction = -1f; }
-                else if (pos.y <= StartWorldPosition.y - yMinLevel) { Direction = 1f; }
+                if (pos.y >= StartWorldPosition.y + yMaxLevel) { pos.y = max; Direction = -1f; }
+                else if (pos.y <= StartWorldPosition.y - yMinLevel) { pos.y = min; Direction = 1f; }
 
                 transform.position = pos;
             }

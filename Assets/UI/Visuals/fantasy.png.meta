@@ -1026,7 +1026,7 @@ TextureImporter:
         width: 53
         height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 5, y: 17, z: 7, w: 18}
       outline: []
       physicsShape: []
@@ -1034,6 +1034,27 @@ TextureImporter:
       bones: []
       spriteID: 1c2116819cd88c84cadd04b3ca6b100c
       internalID: 2144967828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gem_Small_Purple
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 462
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a287e3f2865b8bc468a5ea12bc7bfc70
+      internalID: -13190465
       vertices: []
       indices: 
       edges: []
@@ -1070,6 +1091,7 @@ TextureImporter:
       Gem_Blue: -1999302553
       Gem_Red: 1684933197
       Gem_Small_LightBlue: -1963244258
+      Gem_Small_Purple: -13190465
       Gem_White: -29777826
       Label_Dark: -1694382728
       Map_Outline: -1185104381
