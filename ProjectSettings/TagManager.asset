@@ -59,8 +59,14 @@ TagManager:
   - name: BaseWalls
     uniqueID: 455880965
     locked: 0
+  - name: PlayerUnderEffects
+    uniqueID: 1548501669
+    locked: 0
   - name: Player
     uniqueID: 3225454595
+    locked: 0
+  - name: PlayerCoverEffects
+    uniqueID: 2855856057
     locked: 0
   - name: Walls
     uniqueID: 3045922381
