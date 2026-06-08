@@ -12,6 +12,7 @@ public class PlayerSwitchElements : MonoBehaviour
     [SerializeField] private PlayerController playerController;
     [SerializeField] private PlayerAnimations playerAnim;
     [SerializeField] private PlayerMagicCircleAnim playerCircleEffect;
+    [SerializeField] private PlayerEffectCtrls playerEffectCtrls;
 
     //Events
     public event Action<PlayerEventContext> OnSwitchElements;
@@ -24,11 +25,13 @@ public class PlayerSwitchElements : MonoBehaviour
         {
             PlayerAttackForm = ElementType.Ice;
             playerCircleEffect.SwitchToIce();
+            playerEffectCtrls.PlayEffect_SwitchElement_ToIce();
         }
         else if (PlayerAttackForm == ElementType.Ice)
         {
             PlayerAttackForm = ElementType.Fire;
             playerCircleEffect.SwitchToFire();
+            playerEffectCtrls.PlayEffect_SwitchElement_ToFire();
         }
 
         //Fire Event

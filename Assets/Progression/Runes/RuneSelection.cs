@@ -4,34 +4,34 @@ using UnityEngine;
 
 public class RuneSelection : BaseBonusSelection
 {
-    [SerializeField] RuneStorage EntireRelicCollection;
-    [SerializeField] RuneStorage StartingRelics;
+    [SerializeField] RuneStorage EntireRuneCollection;
+    [SerializeField] RuneStorage StartingRunes;
 
-    private const int MaxRelicChoices = 3;
-    private List<BaseBoon> ChosenRelics = new();    //Relics Passed to UI
-    private List<Rune> FilteredRelics = new();  //All Possible Relics that Can Appear
-    public List<BaseBoon> PlayerSelectRelicChoices()
+    private const int MaxRuneChoices = 3;
+    private List<BaseBoon> ChosenRunes = new();    //Relics Passed to UI
+    private List<Rune> FilteredRunes = new();      //All Possible Relics that Can Appear
+    public List<BaseBoon> PlayerSelectRuneChoices()
     {
-        ChosenRelics.Clear();
-        FilteredRelics.Clear(); 
+        ChosenRunes.Clear();
+        FilteredRunes.Clear(); 
 
-        foreach (Rune Relic in EntireRelicCollection.AllRelics)
+        foreach (Rune Relic in EntireRuneCollection.AllRelics)
         {
-            FilteredRelics.Add(Relic);
+            FilteredRunes.Add(Relic);
         }
 
-        int num = Mathf.Min(EntireRelicCollection.AllRelics.Length, MaxRelicChoices);
+        int num = Mathf.Min(EntireRuneCollection.AllRelics.Length, MaxRuneChoices);
         for (int i = 0; i < num; i++)
         {
-            Rune ChosenRelic = ChooseRelic(FilteredRelics);
-            ChosenRelics.Add(ChosenRelic);
-            FilteredRelics.Remove(ChosenRelic);
+            Rune ChosenRelic = ChooseRune(FilteredRunes);
+            ChosenRunes.Add(ChosenRelic);
+            FilteredRunes.Remove(ChosenRelic);
         }
 
-        return ChosenRelics;
+        return ChosenRunes;
     }
 
-    private Rune ChooseRelic(List<Rune> relicList)
+    private Rune ChooseRune(List<Rune> relicList)
     {
         if (relicList.Count <= 0) { return null; }
         Rune Choice = relicList[Random.Range(0, relicList.Count)];
@@ -39,10 +39,10 @@ public class RuneSelection : BaseBonusSelection
     }
     private void Start()
     {
-        if (StartingRelics.AllRelics.Length <= 0) { return; }
+        if (StartingRunes.AllRelics.Length <= 0) { return; }
 
         //Grant Player All Starting Relics 
-        foreach(Rune relic in StartingRelics.AllRelics)
+        foreach(Rune relic in StartingRunes.AllRelics)
         {
             relic.BonusCollected();
         }

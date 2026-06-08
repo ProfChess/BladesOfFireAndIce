@@ -17,6 +17,9 @@ public class AbilityPickup : LootBase
         }
         GameManager.Instance.abilityOptions.DisplayAbilityInformation(SelectionList);
     }
-   
+    private void Start()
+    {
+        GetComponentInChildren<FloatingObject>()?.StartObject();
+    }
 
 }

@@ -20,7 +20,8 @@ public class PlayerBlock : MonoBehaviour
     public float BlockArc = 180f;
     public bool IsBlocking { get; private set; } = false;
     [SerializeField] private float TimeBetweenStaminaComsume = 0.1f;
-
+    [SerializeField] private Vector2 RightShieldPositionFire = new Vector2(0.5f, 0.05f);
+    [SerializeField] private Vector2 LeftShieldPositionFire = new Vector2(-0.5f, 0.05f);
 
     [Header("Ice")]
     [Tooltip("Stamina Consumed by Parry Trigger")]
@@ -30,17 +31,18 @@ public class PlayerBlock : MonoBehaviour
     [Tooltip("Duration of Immunity After Successful Parry")]
     [SerializeField] private float ImmunityDurationOnParry = 1f;
     public float ParryArc = 220f;
-
+    [SerializeField] private Vector2 RightShieldPositionIce = new Vector2(0.5f, -0.15f);
+    [SerializeField] private Vector2 LeftShieldPositionIce = new Vector2(-0.5f, -0.15f);
     public bool isInParryState { get; private set; } = false;
     private bool isParrying = false;
     public bool isImmune { get; private set; } = false;
     private Coroutine ParryImmunityCoroutine;
     public void ResetParry() { isInParryState = false; }
+    
 
     [Header("Neutral")]
     public Vector2 ShieldDirection = Vector2.zero; //Set to either Vector2.Right or Vector.Left
-    [SerializeField] private Vector2 RightShieldPosition = new Vector2(0.25f, 0.05f);
-    [SerializeField] private Vector2 LeftShieldPosition = new Vector2(-0.25f, 0.05f);
+
 
     [Header("References")]
     [SerializeField] private PlayerController playerController;
@@ -48,6 +50,7 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private BoxCollider2D blockBox;
     [SerializeField] private PlayerShieldKnockback knockback;
+    [SerializeField] private PlayerEffectCtrls effectCtrls;
 
     //Events
     public event Action<PlayerEventContext> OnBlockStart;
@@ -99,13 +102,21 @@ public class PlayerBlock : MonoBehaviour
 
             //Invoke Event Then Reset Numbers
             OnBlockEnd?.Invoke(BlockEndCtx);
-            if (BlockEndCtx.hitsBlocked > 0) { knockback.FireKnockBack(); }
+            if (BlockEndCtx.hitsBlocked > 0) { knockback.FireKnockBack(); effectCtrls.PlayEffect_Knockback_Fire(); }
         }
     }
 
     public void MoveShield(bool isRight)
     {
-        blockBox.offset = isRight ? RightShieldPosition : LeftShieldPosition;
+        bool isFire = PlayerSwitchElements.PlayerAttackForm == ElementType.Fire;
+        if (isFire)
+        {
+            blockBox.offset = isRight ? RightShieldPositionFire : LeftShieldPositionFire;
+        }
+        else
+        {
+            blockBox.offset = isRight ? RightShieldPositionIce : LeftShieldPositionIce;
+        }
     }
     public bool WasHitBlocked(Vector2 hitPosition)
     {
@@ -141,6 +152,7 @@ public class PlayerBlock : MonoBehaviour
         }
         //Play Animation
         playerAnimations.HitBlocked();
+        effectCtrls.PlayEffect_ShieldHit_Fire();
     }
 
     private IEnumerator BlockRoutine(float StaminaConsumedOnHold)
@@ -219,6 +231,8 @@ public class PlayerBlock : MonoBehaviour
 
         //Knockback
         knockback.IceKnockBack();
+        effectCtrls.PlayEffect_Knockback_ToIce();
+        effectCtrls.PlayEffect_ShieldHit_Ice();
 
         //Apply Immunity
         if (ParryImmunityCoroutine == null)

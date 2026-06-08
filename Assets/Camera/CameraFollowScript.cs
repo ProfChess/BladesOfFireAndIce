@@ -17,18 +17,21 @@ public class CameraFollowScript : MonoBehaviour
     {
         //Camera Set
         cam = Camera.main;
-        cam.orthographicSize = 4f;
 
         player = GameManager.Instance.getPlayer();
 
         //Bounds
-        xyMinLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMin + 6f, DunGen.FinalTotalDungeonSize.yMin + 3.5f);
-        xyMaxLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMax - 6f, DunGen.FinalTotalDungeonSize.yMax - 3.5f);
+        float camHalfHeight = cam.orthographicSize;
+        float camHalfWidth = camHalfHeight * cam.aspect;
+
+        xyMinLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMin + camHalfWidth, DunGen.FinalTotalDungeonSize.yMin + camHalfHeight);
+        xyMaxLimit = new Vector2(DunGen.FinalTotalDungeonSize.xMax - camHalfWidth, DunGen.FinalTotalDungeonSize.yMax - camHalfHeight);
     }
 
     private void LateUpdate()
     {
         followPlayer();
+        AlignProjection();
     }
 
     private void followPlayer()
@@ -37,17 +40,23 @@ public class CameraFollowScript : MonoBehaviour
 
         // Directly move camera to the snapped position
         Vector3 offset = new Vector3(0, 0, -10);
-        Vector3 TargetPositon = player.transform.position;
+        Vector3 TargetPositon = player.transform.position + offset;
 
         TargetPositon.x = Mathf.Clamp(TargetPositon.x, xyMinLimit.x, xyMaxLimit.x);
         TargetPositon.y = Mathf.Clamp(TargetPositon.y, xyMinLimit.y, xyMaxLimit.y);
 
-        TargetPositon.x = Mathf.Round(TargetPositon.x * 32f) / 32f;
-        TargetPositon.y = Mathf.Round(TargetPositon.y * 32f) / 32f;
-
-
-        transform.position = TargetPositon + offset;
+        transform.position = TargetPositon;
     }
+    void AlignProjection()
+    {
+        float unitsPerPixel = 2f * cam.orthographicSize / Screen.height;
 
+        Vector3 pos = cam.transform.position;
+
+        pos.x = Mathf.Round(pos.x / unitsPerPixel) * unitsPerPixel;
+        pos.y = Mathf.Round(pos.y / unitsPerPixel) * unitsPerPixel;
+
+        cam.transform.position = pos;
+    }
 
 }

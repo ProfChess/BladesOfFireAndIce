@@ -10,6 +10,7 @@ public class BoonChoiceUI : BaseStatUIDisplay
     [SerializeField] private TextMeshProUGUI TitleText;
     [SerializeField] private TextMeshProUGUI DescriptionText;
     [SerializeField] private TextMeshProUGUI LevelNumText;
+    [SerializeField] private GameObject LevelLabelObj;
     
     //[SerializeField] private Image iconImage;
 
@@ -34,10 +35,12 @@ public class BoonChoiceUI : BaseStatUIDisplay
                 LevelNumText.text = "2";
                 AssignStatsFromItem(boon.GetLeveledStatsPreview());
             }
+            LevelLabelObj.SetActive(true);
         }
         else
         {
             AssignStatsFromItem(boon.GetListOfStatsForDisplay());
+            LevelLabelObj.SetActive(false);
         }
     }
 

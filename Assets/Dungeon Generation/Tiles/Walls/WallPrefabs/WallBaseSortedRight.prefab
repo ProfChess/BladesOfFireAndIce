@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2037699528487087323}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FeetObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2299163223756452921}
   - component: {fileID: 1560263428250701815}
   - component: {fileID: 1835539844459453993}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WallBaseSortedRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1069512701
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 1142991400, guid: 3609be1179807e540b721ca07f7e92b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FeetLevelObject: {fileID: 4905045340338385467}
+  DelayVisualSet: 0
 --- !u!61 &1835539844459453993
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MinimapManager : MonoBehaviour
 {
     private HashSet<Vector2Int> FloorPositions; //Positions of Floor Tiles
-    private const int viewRadius = 12;           //Distance Shown in Map 
+    [SerializeField] private int viewRadius = 12;          //Distance Shown in Map 
     private Transform playerTransform;
     private Texture2D mapTexture;
     [SerializeField] private RawImage miniMapImage;
