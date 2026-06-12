@@ -43,6 +43,12 @@ public class PlayerBlock : MonoBehaviour
     [Header("Neutral")]
     public Vector2 ShieldDirection = Vector2.zero; //Set to either Vector2.Right or Vector.Left
 
+    [Header("Effects")]
+    [SerializeField] private PlayerEffectCtrls effectCtrls;
+    [SerializeField] private SpriteRenderer FireEffectSR;
+    [SerializeField] private Vector2 FireEffectPosition = new Vector2(0.2f, 0.125f);
+    [SerializeField] private SpriteRenderer IceEffectSR;
+    [SerializeField] private Vector2 IceEffectPosition = new Vector2(0.175f, -0.175f);
 
     [Header("References")]
     [SerializeField] private PlayerController playerController;
@@ -50,7 +56,6 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] private PlayerAnimations playerAnimations;
     [SerializeField] private BoxCollider2D blockBox;
     [SerializeField] private PlayerShieldKnockback knockback;
-    [SerializeField] private PlayerEffectCtrls effectCtrls;
 
     //Events
     public event Action<PlayerEventContext> OnBlockStart;
@@ -153,6 +158,15 @@ public class PlayerBlock : MonoBehaviour
         //Play Animation
         playerAnimations.HitBlocked();
         effectCtrls.PlayEffect_ShieldHit_Fire();
+    }
+    public void AssignShieldEffectsDirection(bool isRight)
+    {
+        FireEffectSR.flipX = isRight;
+        IceEffectSR.flipX = isRight;
+        int mult = isRight ? -1 : 1;
+        FireEffectSR.gameObject.transform.SetLocalPositionAndRotation(new Vector2(FireEffectPosition.x * mult,
+            FireEffectPosition.y), Quaternion.Euler(0, 0, 25f * mult));
+        IceEffectSR.gameObject.transform.localPosition = new Vector2(IceEffectPosition.x * mult, IceEffectPosition.y);
     }
 
     private IEnumerator BlockRoutine(float StaminaConsumedOnHold)
