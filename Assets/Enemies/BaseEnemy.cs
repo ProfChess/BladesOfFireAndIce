@@ -1,41 +1,20 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-
-//Interfaces For Enemy Uses
-public interface IEnemyMovementBehaviour
-{
-    void IdleMove(NavMeshAgent agent, float speed);
-    void ChaseMove(NavMeshAgent agent, Transform playerTransform, float speed, float range);
-}
-public interface IEnemyAttackBehaviour
-{
-    void Attack(float Range, int Cooldown, float Offset, Transform playerTransform);
-}
-
-
 public abstract class BaseEnemy : MonoBehaviour
 {
-    //Stats
-    [Header("Idle Settings")]
-    [Tooltip("Speed Enemy Moves in Idle State")]
-    [SerializeField] protected float IdleSpeed; 
-
     [Header("Chase Settings")]
-    [Tooltip("Speed Enemy Moves in Chase State")]
-    [SerializeField] protected float ChaseSpeed;
     [Tooltip("Distance From Player to Trigger Chase State")]
-    [SerializeField] protected int ChaseRange;
+    [SerializeField] protected float ChaseRange;
 
     [Header("Basic Attack Settings")]
-    [Tooltip("Time Inbetween Each Basic Attack")]
-    [SerializeField] protected int AttackCooldown;
-    [Tooltip("Offset of Basic Attack Box / Speed of Projectiles")]
-    [SerializeField] protected float AttackOffset;
     [Tooltip("Distance From Player to Trigger Attack State")]
     [SerializeField] protected float AttackRange;
+    [SerializeField] protected float GlobalAttackCooldownTime;
+    private bool isEnemyOnCooldown = false;
 
     //Animation
     protected Animator anim;
@@ -55,10 +34,10 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected EnemyType EnemyPoolType;
 
     //Behaviour Components
-    protected IEnemyMovementBehaviour EnemyMovementComponent;
-    protected IEnemyAttackBehaviour EnemyAttackComponent;
+    [SerializeField] protected BaseEnemyMovement EnemyIdleMovement;
+    [SerializeField] protected BaseEnemyMovement EnemyChaseMovement;
+    [SerializeField] protected List<BaseEnemyAttack> EnemyAttacks;
     protected Transform playerLocation;
-    protected Transform enemyTransform;
     protected LayerMask PlayerDetectionMask;
 
     //Pathfinding
@@ -85,30 +64,21 @@ public abstract class BaseEnemy : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void DeactivateEnemy()
+    public virtual void DeactivateEnemy()
     {
-        CustomEnemyDeathLogic();
         gameObject.SetActive(false);
         PM.ReturnObjectToPool(EnemyPoolType, gameObject);
     }
-    protected virtual void CustomEnemyDeathLogic() { }
     
     protected virtual void Start()
     {
-        //Visuals 
-        anim = GetComponentInChildren<Animator>();
-        EnemySprite = GetComponentInChildren<SpriteRenderer>();
-
         //Initialize State
         CurrentEnemyState = EnemyState.Idle;
 
         //Layer
         PlayerDetectionMask = LayerMask.GetMask("Player", "Walls");
 
-        EnemyMovementComponent = GetComponent<IEnemyMovementBehaviour>();
-        EnemyAttackComponent = GetComponent<IEnemyAttackBehaviour>();
         playerLocation = GameManager.Instance.getPlayer().transform;
-        enemyTransform = GetComponent<Transform>();
         CreateAgent(); //NOTE --> WILL LIKELY GET CHANGED TO JUST ASSIGNING REFERENCE TO NAVAGENT
     }
 
@@ -159,7 +129,16 @@ public abstract class BaseEnemy : MonoBehaviour
         else { anim.SetBool(Walking, false); }
     }
     protected virtual void EnemyChaseState() { FlipSprite(); }
-    protected virtual void EnemyAttackState() { FlipSprite(); }
+    protected virtual void EnemyAttackState() 
+    {
+        FlipSprite();
+        if (isEnemyOnCooldown) { return; }
+
+        BaseEnemyAttack ChosenAttack = ChooseAttack();
+        ChosenAttack?.Attack();
+        StartCoroutine(BasicAttackCooldown(ChosenAttack));
+        StartCoroutine(BeginEnemyActionCooldown());
+    }
 
 
     //Visuals
@@ -169,23 +148,24 @@ public abstract class BaseEnemy : MonoBehaviour
     }
 
     //Cooldowns
-    protected virtual IEnumerator BasicAttackCooldown()
+    protected virtual IEnumerator BasicAttackCooldown(BaseEnemyAttack attack)
     {
-        canAttack = false;
-        yield return new WaitForSeconds(AttackCooldown);
-        canAttack = true;
+        attack.canAttack = false;
+        yield return GameTimeManager.WaitFor(attack.AttackCD);
+        attack.canAttack = true;
     }
-    public void StartEnemyCooldown() { StartCoroutine(BasicAttackCooldown()); }
-    public void StartEnemyAttackDamage() 
-    { 
-        EnemyAttackComponent.Attack(AttackRange, AttackCooldown, AttackOffset, playerLocation); 
+    protected virtual IEnumerator BeginEnemyActionCooldown()
+    {
+        isEnemyOnCooldown = true;
+        yield return GameTimeManager.WaitFor(GlobalAttackCooldownTime);
+        isEnemyOnCooldown = false;
     }
     //Checks
     protected bool PlayerWithinChaseRange() //Checks if player is within chase range
     {
         if (ChaseRange == -1) { return false; }
 
-        RaycastHit2D sight = Physics2D.Raycast(enemyTransform.position, 
+        RaycastHit2D sight = Physics2D.Raycast(gameObject.transform.position, 
             GetPlayerDirection(), 
             ChaseRange,
             PlayerDetectionMask);
@@ -200,7 +180,7 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if (AttackRange == -1) { return false; }
 
-        RaycastHit2D sight = Physics2D.Raycast(enemyTransform.position,
+        RaycastHit2D sight = Physics2D.Raycast(gameObject.transform.position,
             GetPlayerDirection(),
             AttackRange,
             PlayerDetectionMask);
@@ -215,7 +195,7 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         return GetPlayerDistance().normalized;
     }
-    protected Vector2 GetPlayerDistance() { return (playerLocation.position - enemyTransform.position); }
+    protected Vector2 GetPlayerDistance() { return (playerLocation.position - gameObject.transform.position); }
     //NavAgent
     protected void CreateAgent() //Setup for adding agent at runtime
     {
@@ -228,50 +208,37 @@ public abstract class BaseEnemy : MonoBehaviour
         agent.agentTypeID = 0;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.speed = IdleSpeed;
+        agent.speed = EnemyIdleMovement.GetMoveSpeed;
         agent.acceleration = 500;
         agent.stoppingDistance = 0.5f;
         agent.autoBraking = false;
         agent.radius = 0.2f;
     }
 
-    public bool Arrived() //Checks if Agent has Arrived at destination
+    //Enemy Attack Selection 
+    protected BaseEnemyAttack ChooseAttack()
     {
-        if (!agent.pathPending)
+        float totalChance = 0;
+        foreach(var AttackEntry in EnemyAttacks)
         {
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            if (AttackEntry.canAttack)
+            { totalChance += AttackEntry.AttackChance; }
+        }
+        if (totalChance == 0f) { return null; }
+
+        float Choice = UnityEngine.Random.Range(0f, totalChance);
+        float choiceTrack = 0f;
+        foreach (var AttackEntry in EnemyAttacks)
+        {
+            if (AttackEntry.canAttack)
             {
-                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                choiceTrack += AttackEntry.AttackChance;
+                if (Choice < choiceTrack)
                 {
-                    return true;
+                    return AttackEntry;
                 }
             }
         }
-        return false;
-    }
-    //Default way for enemy to move in idle state, wandering around
-    protected void IdleWanderThenWait(ref bool isWaiting, ref float Timer, float WaitTime)
-    {
-        if (Arrived())
-        {
-            //Start Waiting
-            if (!isWaiting)
-            {
-                isWaiting = true;
-                Timer = Time.time + WaitTime;
-            }
-
-            //Still Waiting
-            if (Time.time >= Timer)
-            {
-                isWaiting = false;
-                EnemyMovementComponent.IdleMove(agent, IdleSpeed);
-                EnemySprite.flipX = agent.destination.x <= transform.position.x;
-            }
-        }
-        else //Not at destination
-        {
-            isWaiting = false;
-        }
+        return null;
     }
 }

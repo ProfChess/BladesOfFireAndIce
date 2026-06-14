@@ -1,9 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public abstract class BaseEnemyMovement : MonoBehaviour
 {
+    //Base Attributes
+    [Tooltip("Speed Enemy Can Move When using This Movement Type")]
+    [SerializeField] private float MovementSpeed = 1f;
+    public float GetMoveSpeed => MovementSpeed;
+    public abstract void EnemyMove(NavMeshAgent agent, float speed);
+
+
+    //Extra Helpful Functions
     //Gets spot on mesh from coordinates
+    protected Vector2 GetPlayerLocation()
+    {
+        if (GameManager.Instance == null) { return Vector2.zero; }
+        return GameManager.Instance.getPlayer().transform.position;
+    }
+    //Converts Vector Point into Location on NavMesh
     protected Vector2 GetPointOnMesh(Vector2 Point)
     {
         if (NavMesh.SamplePosition(Point, out NavMeshHit hit, Mathf.Infinity, NavMesh.AllAreas))
@@ -14,7 +31,7 @@ public abstract class BaseEnemyMovement : MonoBehaviour
     }
 
     //Picks random spot on the navmesh within a circle around enemy
-    protected Vector2 GetPointAroundEnemy(float Radius) 
+    protected Vector2 GetPointAroundEnemy(float Radius)
     {
         Vector3 RandomDirection = Random.insideUnitCircle * Radius;
         RandomDirection += transform.position;
@@ -34,31 +51,8 @@ public abstract class BaseEnemyMovement : MonoBehaviour
     //Picks random spot on the navmesh within enemy starting room
     protected Vector2 GetPointWithinStartingRoom(RectInt roomSpace)
     {
-        Vector3 RandomPointInRoom = new Vector2(Random.Range(roomSpace.xMin, roomSpace.xMax), 
+        Vector3 RandomPointInRoom = new Vector2(Random.Range(roomSpace.xMin, roomSpace.xMax),
                                                 Random.Range(roomSpace.yMin, roomSpace.yMax));
         return GetPointOnMesh(RandomPointInRoom);
     }
-}
-
-[RequireComponent(typeof(BaseEnemy))]
-public class TowardsPlayer : BaseEnemyMovement, IEnemyMovementBehaviour
-{
-    [Header("Wandering")]
-    [SerializeField] private int WanderRadius = 3;
-
-    public void IdleMove(NavMeshAgent agent, float speed)
-    {
-        agent.speed = speed;
-        Vector2 PointOfInterest = GetPointAroundEnemy(WanderRadius);
-        agent.SetDestination(PointOfInterest);
-        if (PointOfInterest != Vector2.zero) {  }
-    }
-
-    public void ChaseMove(NavMeshAgent agent, Transform playerTransform, float speed, float range)
-    {
-        agent.speed = speed;
-        agent.stoppingDistance = range;
-        agent.SetDestination(playerTransform.position);
-    }
-
 }
