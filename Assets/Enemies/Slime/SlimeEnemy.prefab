@@ -53,6 +53,8 @@ MonoBehaviour:
   ChaseRange: 4
   AttackRange: 1
   GlobalAttackCooldownTime: 0.5
+  anim: {fileID: 6206820143231138907}
+  EnemySprite: {fileID: 4880815376599874024}
   EnemyPoolType: 0
   EnemyIdleMovement: {fileID: 2486791443811112733}
   EnemyChaseMovement: {fileID: 5121089300241721055}
@@ -71,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e885cb096511b024f82ebb2e841d1df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 1
+  MovementSpeed: 1.5
   WanderInterval: 0.1
   MinWanderRange: 1
   MaxWanderRange: 3
@@ -87,8 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79582a33d69953048a65cea02ea32538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 1
-  MovementUpdatenInterval: 0.2
+  MovementSpeed: 3
+  MovementUpdateInterval: 0.2
 --- !u!114 &5700886419945325695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,13 +103,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef652c1dba6c544418e0e2026d6456f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackCooldown: 1
+  AttackCooldown: 1.2
   AttackChance: 1
   canAttack: 1
+  attackInProgress: 0
   AttackCol: {fileID: 4878502794871029643}
-  AttackRange: 1
-  AnimWaitTime: 0.3
+  AnimWaitTime: 0.4
   AttackColActiveDuration: 0.1
+  AttackRange: 1
 --- !u!1 &1690861206079018032
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +303,7 @@ MonoBehaviour:
   CollisionDamage: 1
   HasCollisionDamage: 1
   HitBox: {fileID: 2273477896166827226}
-  MainEnemyScript: {fileID: 0}
+  MainEnemyScript: {fileID: 6763443976112395918}
   HF: {fileID: 8872761858661013811}
 --- !u!114 &2909777525616190572
 MonoBehaviour:
@@ -387,8 +390,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 73624549
-  m_SortingLayer: 0
+  m_SortingLayerID: -1069512701
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: -1280984342, guid: 4eb05393c87d0c840bda1251a838f5a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

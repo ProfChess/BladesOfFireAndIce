@@ -5,18 +5,17 @@ using UnityEngine.AI;
 
 public class EnemyMove_FollowPlayer : BaseEnemyMovement
 {
-    [SerializeField] private float MovementUpdatenInterval = 0.2f;
+    [SerializeField] private float MovementUpdateInterval = 0.2f;
     private float positionUpdateTimer = 0f;
     public override void EnemyMove(NavMeshAgent agent, float speed)
     {
         if(positionUpdateTimer <= 0f)
         {
-            positionUpdateTimer = MovementUpdatenInterval;
+            positionUpdateTimer = MovementUpdateInterval;
             agent.speed = speed;
             Vector2 TargetLocation = GetPointOnMesh(GetPlayerLocation());
             agent.SetDestination(TargetLocation);
         }
         else { positionUpdateTimer -= GameTimeManager.GameDeltaTime; }
-
     }
 }

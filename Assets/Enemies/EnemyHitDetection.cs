@@ -56,7 +56,7 @@ public class EnemyHitDetection : BaseHealth
         if (curHealth > 0) { HitReaction(); }
         else if (MainEnemyScript != null)
         {
-            MainEnemyScript.GetAnimator().Play(EnemyDeath, 1);
+            MainEnemyScript.anim.Play(EnemyDeath, 1);
             MainEnemyScript.canMove = false;
             Invoke(nameof(TurnOff), 1.2f);
         }
@@ -72,7 +72,7 @@ public class EnemyHitDetection : BaseHealth
     {
         if (MainEnemyScript != null)
         {
-            if (MainEnemyScript.GetSpriteRenderer().flipX) { BoxShouldBeFlipped = true; }
+            if (MainEnemyScript.EnemySprite.flipX) { BoxShouldBeFlipped = true; }
             else { BoxShouldBeFlipped = false; }
 
             if (BoxShouldBeFlipped && !BoxIsFlipped) { FlipHitBox(); BoxIsFlipped = true; }

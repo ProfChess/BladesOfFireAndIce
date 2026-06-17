@@ -9,8 +9,16 @@ public abstract class BaseEnemyAttack : MonoBehaviour
     public float AttackCD => AttackCooldown;
     public float AttackChance;
     public bool canAttack = true;
+    public bool attackInProgress = false;
 
     public abstract void Attack();
+    //Cooldowns
+    protected virtual IEnumerator BasicAttackCooldown()
+    {
+        canAttack = false;
+        yield return GameTimeManager.WaitFor(AttackCD);
+        canAttack = true;
+    }
     protected virtual Vector2 GetPlayerLocation()
     {
         if (GameManager.Instance == null) { return Vector2.zero; }

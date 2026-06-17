@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,14 +18,9 @@ public abstract class BaseEnemy : MonoBehaviour
     private bool isEnemyOnCooldown = false;
 
     //Animation
-    protected Animator anim;
-    protected SpriteRenderer EnemySprite;
-    //Bools
-    protected static readonly int Walking = Animator.StringToHash("IsWalking");
-    protected static readonly int Running = Animator.StringToHash("IsRunning");
+    public Animator anim;
+    public SpriteRenderer EnemySprite;
 
-    public SpriteRenderer GetSpriteRenderer() { return EnemySprite; }
-    public Animator GetAnimator() { return anim; }
     //States
     protected enum EnemyState {Idle, Chase, Attack}
     protected EnemyState CurrentEnemyState;
@@ -44,7 +40,8 @@ public abstract class BaseEnemy : MonoBehaviour
     protected NavMeshAgent agent;
 
     //Timers
-    protected const float checkInterval = 0.2f;
+    protected const float stateSwitchInterval = 0.1f;
+    private float stateSwitchTimer = 0f;
     protected float nextCheck = 0f;
     protected bool canAttack = true;
     [HideInInspector] public bool canMove = true;
@@ -88,72 +85,64 @@ public abstract class BaseEnemy : MonoBehaviour
         if (!canMove) { return; }
 
         //States
-        else if (Time.time >= nextCheck)
+        UpdateState();
+
+        //Call functions for each state
+        switch (CurrentEnemyState)
         {
-            nextCheck = Time.time + checkInterval;
-            if (!PlayerWithinChaseRange()) 
+            case EnemyState.Chase:
+                EnemyChaseState();
+                break;
+
+            case EnemyState.Attack:
+                EnemyAttackState();
+                break;
+
+            default:
+                EnemyIdleState();
+                break;
+        }
+    }
+    protected void UpdateState()
+    {
+        if (stateSwitchTimer <= 0)
+        {
+            stateSwitchTimer = stateSwitchInterval;
+            if (!PlayerWithinChaseRange())
             { CurrentEnemyState = EnemyState.Idle; }
 
             else if (PlayerWithinChaseRange() && !PlayerWithinAttackRange())
             { CurrentEnemyState = EnemyState.Chase; }
 
-            else if (PlayerWithinChaseRange() && PlayerWithinAttackRange()) 
+            else if (PlayerWithinChaseRange() && PlayerWithinAttackRange())
             { CurrentEnemyState = EnemyState.Attack; }
-
-            //Call functions for each state
-            switch (CurrentEnemyState)
-            {
-                case EnemyState.Chase:
-                    EnemyChaseState();
-                    break;
-
-                case EnemyState.Attack:
-                    EnemyAttackState();
-                    break;
-
-                default:
-                    EnemyIdleState();
-                    break;
-            }
         }
+        else { stateSwitchTimer -= GameTimeManager.GameDeltaTime; }
+
     }
     //State Functions (Override in Inherited Class)
     protected virtual void EnemyIdleState()
     {
-        anim.SetBool(Running, false);
-
-        if (agent.velocity.sqrMagnitude > 0)
-        {
-            anim.SetBool(Walking, true);
-        }
-        else { anim.SetBool(Walking, false); }
+        EnemyIdleMovement.EnemyMove(agent, EnemyIdleMovement.GetMoveSpeed);
     }
-    protected virtual void EnemyChaseState() { FlipSprite(); }
-    protected virtual void EnemyAttackState() 
+    protected virtual void EnemyChaseState() 
+    { 
+        EnemyChaseMovement.EnemyMove(agent, EnemyChaseMovement.GetMoveSpeed);
+    }
+    //Returns a bool for child functions to use to know if an attack was chosen or not
+    protected virtual bool EnemyAttackState() 
     {
-        FlipSprite();
-        if (isEnemyOnCooldown) { return; }
+        if (isEnemyOnCooldown) { return false; }
 
         BaseEnemyAttack ChosenAttack = ChooseAttack();
-        ChosenAttack?.Attack();
-        StartCoroutine(BasicAttackCooldown(ChosenAttack));
+        if (ChosenAttack == null || !ChosenAttack.canAttack || ChosenAttack.attackInProgress) { return false; }
+
+        ChosenAttack.Attack();
+
         StartCoroutine(BeginEnemyActionCooldown());
+        return true;
     }
 
-
-    //Visuals
-    protected void FlipSprite()
-    {
-        EnemySprite.flipX = playerLocation.position.x <= transform.position.x;
-    }
-
-    //Cooldowns
-    protected virtual IEnumerator BasicAttackCooldown(BaseEnemyAttack attack)
-    {
-        attack.canAttack = false;
-        yield return GameTimeManager.WaitFor(attack.AttackCD);
-        attack.canAttack = true;
-    }
     protected virtual IEnumerator BeginEnemyActionCooldown()
     {
         isEnemyOnCooldown = true;
@@ -213,6 +202,10 @@ public abstract class BaseEnemy : MonoBehaviour
         agent.stoppingDistance = 0.5f;
         agent.autoBraking = false;
         agent.radius = 0.2f;
+    }
+    protected bool IsMoving()
+    {
+        return agent.velocity.sqrMagnitude > 0.01f;
     }
 
     //Enemy Attack Selection 

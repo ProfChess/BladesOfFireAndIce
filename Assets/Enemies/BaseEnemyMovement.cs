@@ -12,6 +12,21 @@ public abstract class BaseEnemyMovement : MonoBehaviour
     public float GetMoveSpeed => MovementSpeed;
     public abstract void EnemyMove(NavMeshAgent agent, float speed);
 
+    protected bool isArrived(NavMeshAgent agent)
+    {
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     //Extra Helpful Functions
     //Gets spot on mesh from coordinates
