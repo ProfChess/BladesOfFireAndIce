@@ -7,13 +7,7 @@ using UnityEngine.AI;
 
 public abstract class BaseEnemy : MonoBehaviour
 {
-    [Header("Chase Settings")]
-    [Tooltip("Distance From Player to Trigger Chase State")]
-    [SerializeField] protected float ChaseRange;
-
-    [Header("Basic Attack Settings")]
-    [Tooltip("Distance From Player to Trigger Attack State")]
-    [SerializeField] protected float AttackRange;
+    [SerializeField] protected EnemyAISettings AISettings;
     [SerializeField] protected float GlobalAttackCooldownTime;
     private bool isEnemyOnCooldown = false;
 
@@ -22,7 +16,7 @@ public abstract class BaseEnemy : MonoBehaviour
     public SpriteRenderer EnemySprite;
 
     //States
-    protected enum EnemyState {Idle, Chase, Attack}
+    protected enum EnemyState {Idle, Chase, Attack, ReturnHome}
     protected EnemyState CurrentEnemyState;
 
     //Spawning 
@@ -35,6 +29,13 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected List<BaseEnemyAttack> EnemyAttacks;
     protected Transform playerLocation;
     protected LayerMask PlayerDetectionMask;
+    
+    //Leash
+    [SerializeField] protected Vector2 SpawnLocation;
+    private bool returningHome = false;
+    private bool leashTriggered = false;
+    private float leashTimer = 0f;
+    private bool isMovementLocked = false;
 
     //Pathfinding
     protected NavMeshAgent agent;
@@ -55,10 +56,16 @@ public abstract class BaseEnemy : MonoBehaviour
         //Move to Correct Position
         gameObject.transform.position = Position;
         canMove = true;
+        returningHome = false;
+        leashTriggered = false;
+        leashTimer = 0f;
 
         //Restart State
         CurrentEnemyState = EnemyState.Idle;
         gameObject.SetActive(true);
+
+        //Spawn Location 
+        SpawnLocation = Position;
     }
 
     public virtual void DeactivateEnemy()
@@ -66,7 +73,6 @@ public abstract class BaseEnemy : MonoBehaviour
         gameObject.SetActive(false);
         PM.ReturnObjectToPool(EnemyPoolType, gameObject);
     }
-    
     protected virtual void Start()
     {
         //Initialize State
@@ -98,6 +104,10 @@ public abstract class BaseEnemy : MonoBehaviour
                 EnemyAttackState();
                 break;
 
+            case EnemyState.ReturnHome:
+                EnemyReturnHomeState();
+                break;
+
             default:
                 EnemyIdleState();
                 break;
@@ -105,21 +115,59 @@ public abstract class BaseEnemy : MonoBehaviour
     }
     protected void UpdateState()
     {
-        if (stateSwitchTimer <= 0)
+        if (stateSwitchTimer > 0f)
         {
-            stateSwitchTimer = stateSwitchInterval;
-            if (!PlayerWithinChaseRange())
-            { CurrentEnemyState = EnemyState.Idle; }
-
-            else if (PlayerWithinChaseRange() && !PlayerWithinAttackRange())
-            { CurrentEnemyState = EnemyState.Chase; }
-
-            else if (PlayerWithinChaseRange() && PlayerWithinAttackRange())
-            { CurrentEnemyState = EnemyState.Attack; }
+            stateSwitchTimer -= GameTimeManager.GameDeltaTime; return;
         }
-        else { stateSwitchTimer -= GameTimeManager.GameDeltaTime; }
 
+        stateSwitchTimer = stateSwitchInterval;
+
+        HandleLeash();
+
+        if (returningHome)
+        {
+            SetEnemyState(EnemyState.ReturnHome); return;
+        }
+        if (PlayerWithinAttackRange())
+        {
+            SetEnemyState(EnemyState.Attack); return;
+        }
+        if (PlayerWithinChaseRange())
+        {
+            SetEnemyState(EnemyState.Chase); return;
+        }
+        SetEnemyState(EnemyState.Idle);
     }
+    protected void SetEnemyState(EnemyState newState)
+    {
+        if (CurrentEnemyState == newState) { return; }
+        CurrentEnemyState = newState;
+        OnStateEnter(newState);
+    }
+    protected void OnStateEnter(EnemyState state)
+    {
+        switch (state)
+        {
+            case EnemyState.Idle:
+                OnStateEnterIdle();
+                break;
+            case EnemyState.Chase:      
+                OnStateEnterChase();
+                break;
+            case EnemyState.Attack:
+                OnStateEnterAttack();
+                break;
+            case EnemyState.ReturnHome:
+                OnStateEnterReturnHome();
+                break;
+        }
+    }
+    protected virtual void OnStateEnterIdle() { agent.ResetPath(); }
+    protected virtual void OnStateEnterChase() { }
+    protected virtual void OnStateEnterAttack() { agent.ResetPath(); }
+    protected virtual void OnStateEnterReturnHome() { agent.ResetPath(); 
+        agent.speed = AISettings.returnSpeed; agent.SetDestination(SpawnLocation); }
+
     //State Functions (Override in Inherited Class)
     protected virtual void EnemyIdleState()
     {
@@ -142,6 +190,60 @@ public abstract class BaseEnemy : MonoBehaviour
         StartCoroutine(BeginEnemyActionCooldown());
         return true;
     }
+    protected virtual void EnemyReturnHomeState() 
+    {
+        if(isMovementLocked) { return; }
+
+        agent.SetDestination(SpawnLocation);
+
+        float distanceToHome = Vector2.Distance(transform.position, SpawnLocation);
+        if (distanceToHome <= 0.5f)
+        {
+            returningHome = false;
+            leashTriggered = false;
+            leashTimer = 0f;
+            SetEnemyState(EnemyState.Idle);
+            return;
+        }
+
+        //Attack if Player is Close, Otherwise Return to SpawnPoint
+        if (PlayerWithinAttackRange()) 
+        {
+            EnemyAttackState();
+        }
+    }
+    private void HandleLeash()
+    {
+        float distanceFromHome = Vector2.Distance(transform.position, SpawnLocation);
+        bool outSideLeash = distanceFromHome > AISettings.LeashRange;
+
+        if(!outSideLeash && !returningHome)
+        {
+            leashTriggered = false;
+            leashTimer = 0f;
+            return;
+        }
+        if (returningHome) { return; }
+        if (outSideLeash && !leashTriggered)
+        {
+            leashTriggered = true; ; leashTimer = AISettings.ChasePastLeashTime;
+        }
+        if (!leashTriggered) { return; }
+        bool hasLOS = PlayerWithinAttackRange();
+
+        if (!hasLOS) { BeginReturnHome(); return; }
+        leashTimer -= GameTimeManager.GameDeltaTime;
+        if (leashTimer <= 0f) { BeginReturnHome(); }
+    }
+    private void BeginReturnHome()
+    {
+        returningHome = true; SetEnemyState(EnemyState.ReturnHome);
+    }
+    public void LockEnemyMovement(bool isLocked) 
+    { 
+        isMovementLocked = isLocked;
+        agent.isStopped = isMovementLocked;
+    }
 
     protected virtual IEnumerator BeginEnemyActionCooldown()
     {
@@ -152,33 +254,27 @@ public abstract class BaseEnemy : MonoBehaviour
     //Checks
     protected bool PlayerWithinChaseRange() //Checks if player is within chase range
     {
-        if (ChaseRange == -1) { return false; }
+        if (AISettings.ChaseRange == -1) { return false; }
 
         RaycastHit2D sight = Physics2D.Raycast(gameObject.transform.position, 
             GetPlayerDirection(), 
-            ChaseRange,
+            AISettings.ChaseRange,
             PlayerDetectionMask);
 
-        if (sight.collider != null)
-        {
-            return sight.collider.GetComponentInParent<PlayerController>();
-        }
-        return false;
+        if(sight.collider == null) { return false; }
+        return sight.collider.GetComponentInParent<PlayerController>() != null;
     }
     protected bool PlayerWithinAttackRange() //Checks if player is within attack range
     {
-        if (AttackRange == -1) { return false; }
+        if (AISettings.AttackRange == -1) { return false; }
 
         RaycastHit2D sight = Physics2D.Raycast(gameObject.transform.position,
             GetPlayerDirection(),
-            AttackRange,
+            AISettings.AttackRange,
             PlayerDetectionMask);
 
-        if (sight.collider != null)
-        {
-            return sight.collider.GetComponentInParent<PlayerController>();
-        }
-        return false;
+        if (sight.collider == null) { return false; }
+        return sight.collider.GetComponentInParent<PlayerController>() != null;
     }
     protected Vector2 GetPlayerDirection() //Returns player direction from objects position
     {

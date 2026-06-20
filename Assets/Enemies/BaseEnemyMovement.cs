@@ -35,6 +35,17 @@ public abstract class BaseEnemyMovement : MonoBehaviour
         if (GameManager.Instance == null) { return Vector2.zero; }
         return GameManager.Instance.getPlayer().transform.position;
     }
+    protected bool TryGetPointOnMesh(Vector2 Point, float maxDistance, out Vector2 Result)
+    {
+        if (NavMesh.SamplePosition(Point, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
+        {
+            Result = hit.position;
+            return true;
+        }
+        Result = Vector2.zero;
+        return false;
+    }
+
     //Converts Vector Point into Location on NavMesh
     protected Vector2 GetPointOnMesh(Vector2 Point)
     {

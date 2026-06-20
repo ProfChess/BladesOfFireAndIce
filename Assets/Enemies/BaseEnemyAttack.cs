@@ -4,12 +4,14 @@ using UnityEngine;
 
 public abstract class BaseEnemyAttack : MonoBehaviour
 {
+    [SerializeField] protected BaseEnemy Enemy;
     [Tooltip("Time Inbetween Each Basic Attack")]
     [SerializeField] protected float AttackCooldown;
     public float AttackCD => AttackCooldown;
     public float AttackChance;
     public bool canAttack = true;
     public bool attackInProgress = false;
+    public bool pausesEnemyMovement = false;
 
     public abstract void Attack();
     //Cooldowns

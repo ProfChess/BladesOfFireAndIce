@@ -90,15 +90,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b72d49ee02edc8458298f030f9529b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 3
+  MaxHealth: 50
   curHealth: 0
   CollisionDamage: 1
   HasCollisionDamage: 1
   HitBox: {fileID: 7879989837797992243}
-  MainEnemyScript: {fileID: 6746069334155164018}
-  SR: {fileID: 0}
-  hitFlashMat: {fileID: 0}
-  hitFlashTime: 0
+  MainEnemyScript: {fileID: 7313266551614029991}
+  HF: {fileID: 5532406286683911047}
 --- !u!1 &3228458347048174961
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +108,7 @@ GameObject:
   - component: {fileID: 4547416601968683027}
   - component: {fileID: 2616590051189473084}
   - component: {fileID: 2980183206718261214}
-  - component: {fileID: 7017962688574590254}
+  - component: {fileID: 5532406286683911047}
   m_Layer: 6
   m_Name: Visual
   m_TagString: Untagged
@@ -206,7 +204,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7017962688574590254
+--- !u!114 &5532406286683911047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,10 +213,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3228458347048174961}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 985b8a735d3b6854cbc7e5c3613087e7, type: 3}
+  m_Script: {fileID: 11500000, guid: c831d8fffb6eac14e8817d124655d884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 6746069334155164018}
+  hitFlashMat: {fileID: 2100000, guid: 822938936c5abf1459b9567519a936b9, type: 2}
+  hitFlashTime: 0.05
 --- !u!1 &5419324500875122358
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,9 +227,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8703699330273216827}
-  - component: {fileID: 6746069334155164018}
-  - component: {fileID: 145554690692720658}
-  - component: {fileID: 8774907997346068726}
+  - component: {fileID: 7313266551614029991}
+  - component: {fileID: 8976993703500412267}
+  - component: {fileID: 1905307164301451092}
+  - component: {fileID: 3854456639754225677}
   m_Layer: 6
   m_Name: ArcherEnemy
   m_TagString: Enemy
@@ -255,7 +255,7 @@ Transform:
   - {fileID: 6110949082775884314}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6746069334155164018
+--- !u!114 &7313266551614029991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -264,21 +264,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 5419324500875122358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19096ca3f805d8c448f760cf375db370, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e0f465fe8a62f240bd97d4447554bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IdleSpeed: 2
-  ChaseSpeed: 5
-  ChaseRange: 7
-  AttackCooldown: 1
-  AttackOffset: 2
-  AttackRange: 4
+  ChaseRange: 3
+  AttackRange: 1
+  GlobalAttackCooldownTime: 1
+  anim: {fileID: 2980183206718261214}
+  EnemySprite: {fileID: 2616590051189473084}
   EnemyPoolType: 1
+  EnemyIdleMovement: {fileID: 8976993703500412267}
+  EnemyChaseMovement: {fileID: 1905307164301451092}
+  EnemyAttacks:
+  - {fileID: 3854456639754225677}
   canMove: 1
-  RunAwayCooldown: 3
-  RunAwayDistance: 6
-  IdleWanderWaitTime: 3
---- !u!114 &145554690692720658
+--- !u!114 &8976993703500412267
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,10 +287,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5419324500875122358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd9ed63109aea544910683e95061c6e, type: 3}
+  m_Script: {fileID: 11500000, guid: e885cb096511b024f82ebb2e841d1df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8774907997346068726
+  MovementSpeed: 1
+  WanderInterval: 0.1
+  MinWanderRange: 1
+  MaxWanderRange: 3
+--- !u!114 &1905307164301451092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,7 +303,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5419324500875122358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2cbec89b3abdc948a50bd8dca8978de, type: 3}
+  m_Script: {fileID: 11500000, guid: 099b0b5435d1e1643bab609ca3f0d280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 7786850028855229985, guid: 91af13ed53eeda04d94fa5b82134b67d, type: 3}
+  MovementSpeed: 1
+  EscapeDistance: 5
+  RepathCooldown: 2
+  MaxSnapDistance: 1
+--- !u!114 &3854456639754225677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5419324500875122358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a707983e24f533849a08f93cf1ea89c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackCooldown: 2
+  AttackChance: 1
+  canAttack: 1
+  attackInProgress: 0
+  ProjPrefab: {fileID: 7786850028855229985, guid: 91af13ed53eeda04d94fa5b82134b67d, type: 3}
