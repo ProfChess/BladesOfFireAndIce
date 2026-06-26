@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MainTileSet
   m_EditorClassIdentifier: 
   DefaultFloor: {fileID: 11400000, guid: b98db0861734cc948ba6e7dfa216248f, type: 2}
+  DoorPrefab: {fileID: 5065473456350955850, guid: 937fc0db6fadd844394c744d697dadf4, type: 3}
   WallEmpty: {fileID: 11400000, guid: c36d535e52e73ef48a309c18b0d5d8ab, type: 2}
   WallBottomMid: {fileID: 11400000, guid: 46990415a41a9124c9319313d77475d5, type: 2}
   WallBottomRight: {fileID: 11400000, guid: 27f13f8101e1f9f42bb64d1324da15d7, type: 2}

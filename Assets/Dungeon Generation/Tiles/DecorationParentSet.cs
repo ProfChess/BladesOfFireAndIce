@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DecorationParentSet : MonoBehaviour
@@ -20,11 +21,17 @@ public class DecorationParentSet : MonoBehaviour
     [SerializeField] private Transform Box3;
     [SerializeField] private Transform Box4;
 
+    [Header("Doors")]
+    [SerializeField] private Transform DoorParent;
+
     public Transform GetDecorParent(SpawnParentType Parent)
     {
         switch (Parent)
         {
             default: return gameObject.transform;
+
+            case SpawnParentType.Door:
+                return DoorParent;
 
             case SpawnParentType.Box1:
                 return Box1;

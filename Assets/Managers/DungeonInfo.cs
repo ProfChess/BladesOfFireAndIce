@@ -8,14 +8,30 @@ public class DungeonInfo : MonoBehaviour
 
     //List of Dungeon Info
     private List<SingleDungeonRoom> roomList = new List<SingleDungeonRoom>();
+
+    //Door Dictionary 
+    private Dictionary<Vector2Int, GameObject> DoorFinder = new();
+
     //Get
     public List<SingleDungeonRoom> GetDungeonRoomList() { return roomList; }
     //Set
     public void SetInfo(List<SingleDungeonRoom> rooms)
     {
+        //Assign Room List
         roomList = rooms;
         AssignEdgePositons();
+
     }
+    public void SetDoorFinder(Dictionary<Vector2Int, GameObject> GivenDictionary)
+    {
+        DoorFinder = GivenDictionary;
+    }
+    public GameObject GetDoorFromPosition(Vector2Int pos)
+    {
+        if (!DoorFinder.ContainsKey(pos)) { Debug.Log("Invalid Door Position Given"); return null; }
+        return DoorFinder[pos];
+    }
+
     private void Awake()
     {
         if (Instance == null)

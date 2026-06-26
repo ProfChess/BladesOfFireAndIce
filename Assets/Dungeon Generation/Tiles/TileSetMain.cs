@@ -6,6 +6,9 @@ public class TileSet : ScriptableObject
     [Header("Floor")]
     public RuleTile DefaultFloor;
 
+    [Header("Door")]
+    public GameObject DoorPrefab;
+
     [Header("Wall")]
     [Header("Wall Bases")]
     public RuleTile WallEmpty;

@@ -30,4 +30,4 @@ public class DungeonDecor
     public SpawnParentType ParentType;
     public Vector2 GetPotentialOffset => new Vector2(Mathf.Clamp(PotentialOffset.x, 0f, 0.5f), Mathf.Clamp(PotentialOffset.y, 0f, 0.5f));
 }
-public enum SpawnParentType { WallChain1, WallChain2, WallChain3, Candle1, Candle2, Candle3, Box1, Box2, Box3, Box4 };
+public enum SpawnParentType { WallChain1, WallChain2, WallChain3, Candle1, Candle2, Candle3, Box1, Box2, Box3, Box4, Door };

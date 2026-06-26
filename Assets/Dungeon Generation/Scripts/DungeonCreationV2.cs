@@ -27,13 +27,16 @@ public class DungeonCreationV2 : MonoBehaviour
 
     //Rooms 
     private SingleDungeonRoom StartingRoom;
-    private List<SingleDungeonRoom> BasicDungeonRooms = new List<SingleDungeonRoom>();
-    private List<(RectInt, RectInt)> DungeonCorridors = new List<(RectInt, RectInt)>();
+    private List<SingleDungeonRoom> BasicDungeonRooms = new();
+    private List<CorridorDungeonRoom> Corridors = new();
+    private List<(RectInt, RectInt)> DungeonCorridors = new();
 
     //Positions
     private HashSet<Vector2Int> TilePlacePositions = new HashSet<Vector2Int>(); //All positions of Floor Tiles
     public HashSet<Vector2Int> GetTilePlaces => TilePlacePositions;
     public List<SingleDungeonRoom> GetDungeonRooms => BasicDungeonRooms;
+    public List<CorridorDungeonRoom> GetCorridors => Corridors;
+    public HashSet<Vector2Int> CorridorFloorTilePositions = new();
     public int GetRoomBuffer => RoomBuffer;
     private void Awake()
     {
@@ -308,7 +311,7 @@ public class DungeonCreationV2 : MonoBehaviour
     private void CreateCorridorConnections()
     {
         List<Vector2Int> roomCenters = GetRoomCenters();
-        List<(Vector2Int, Vector2Int)> corridorConnections = GetRoomConnections(roomCenters);
+        List<(Vector2Int, Vector2Int)> corridorConnections = CreateRoomConnections(roomCenters);
 
         //Corridor Creation
         foreach (var (a, b) in corridorConnections)
@@ -331,11 +334,13 @@ public class DungeonCreationV2 : MonoBehaviour
                 YCor = new RectInt(new Vector2Int(a.x, yStart), new Vector2Int(2, Mathf.Abs(b.y - a.y) + 2));
                 XCor = new RectInt(new Vector2Int(xStart, b.y), new Vector2Int(Mathf.Abs(b.x - a.x) + 2, 2));
             }
+
             DungeonCorridors.Add((XCor, YCor));
         }
     }
+
     //Connects rooms using Prim's Algorithm
-    private List<(Vector2Int, Vector2Int)> GetRoomConnections(List<Vector2Int> roomCenters)
+    private List<(Vector2Int, Vector2Int)> CreateRoomConnections(List<Vector2Int> roomCenters)
     {
         //Rooms that have been connected to another
         List<Vector2Int> roomsConnected = new List<Vector2Int>();
@@ -396,43 +401,41 @@ public class DungeonCreationV2 : MonoBehaviour
     private void CollectPositions()
     {
         //Gather all positions from rooms
-        for (int i = 0; i < BasicDungeonRooms.Count; i++)
+        HashSet<Vector2Int> RoomFloorTilePositions = new();
+        foreach (var room in BasicDungeonRooms)
         {
-            for(int x = BasicDungeonRooms[i].Area.xMin; x <= BasicDungeonRooms[i].Area.xMax; x++)
+            foreach (Vector2Int position in room.Area.allPositionsWithin)
             {
-                for(int y = BasicDungeonRooms[i].Area.yMin; y <= BasicDungeonRooms[i].Area.yMax; y++)
-                {
-                    Vector2Int Position = new Vector2Int(x, y);
-                    TilePlacePositions.Add(Position);
-                }
+                RoomFloorTilePositions.Add(position);
             }
         }
+        TilePlacePositions.UnionWith(RoomFloorTilePositions);
+
         //Gather all positions from corridors
         for (int i = 0; i < DungeonCorridors.Count; ++i)
         {
-            RectInt XArea = DungeonCorridors[i].Item1;
-            RectInt YArea = DungeonCorridors[i].Item2;
+            HashSet<Vector2Int> CorridorPositions = new();
 
-            //Horizontal Corridor Position Gathering
-            for (int x = XArea.xMin; x <= XArea.xMax; x++)
-            {
-                for (int y = XArea.yMin; y <= XArea.yMax; y++)
-                {
-                    Vector2Int Position = new Vector2Int(x, y);
-                    TilePlacePositions.Add(Position);
-                }
-            }
-            //Vertical Corridor Position Gathering
-            for (int x = YArea.xMin; x <= YArea.xMax; x++)
-            {
-                for (int y = YArea.yMin; y <= YArea.yMax; y++)
-                {
-                    Vector2Int Position = new Vector2Int(x, y);
-                    TilePlacePositions.Add(Position);
-                }
-            }
+            CorridorPositions.UnionWith(GetFilteredPureHallwayPositions(DungeonCorridors[i].Item1, RoomFloorTilePositions));
+            CorridorPositions.UnionWith(GetFilteredPureHallwayPositions(DungeonCorridors[i].Item2, RoomFloorTilePositions));
+
+            CorridorFloorTilePositions.UnionWith(CorridorPositions);
+
+            Corridors.Add(new CorridorDungeonRoom { Positions = CorridorPositions, });
         }
+    }
+    private HashSet<Vector2Int> GetFilteredPureHallwayPositions(RectInt Box, HashSet<Vector2Int> ExclusionGroup)
+    {
+        HashSet<Vector2Int> BoxPositions = new();
+        foreach (Vector2Int Position in Box.allPositionsWithin)
+        {
+            if (!ExclusionGroup.Contains(Position))
+            {
+                BoxPositions.Add(Position);
+            } 
 
+        }
+        return BoxPositions;
     }
 
     //Gather Max Bounds Accounting for Room Movement
@@ -490,7 +493,7 @@ public class DungeonCreationV2 : MonoBehaviour
             {
                 Gizmos.color = Color.green;
                 Vector2 size = new Vector2(room.Area.width, room.Area.height);
-                Vector2 center = new Vector2(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f);
+                Vector2 center = new Vector2(room.Area.x + (room.Area.width - 1) * 0.5f, room.Area.y + (room.Area.height - 1) * 0.5f);
 
                 Gizmos.DrawWireCube(center, size);
             }
@@ -498,21 +501,17 @@ public class DungeonCreationV2 : MonoBehaviour
             {
                 Gizmos.color = Color.blue;
                 Vector2 size = new Vector2(room.Area.width, room.Area.height);
-                Vector2 center = new Vector2(room.Area.x + room.Area.width * 0.5f, room.Area.y + room.Area.height * 0.5f);
+                Vector2 center = new Vector2(room.Area.x + (room.Area.width - 1) * 0.5f, room.Area.y + (room.Area.height - 1) * 0.5f);
 
                 Gizmos.DrawWireCube(center, size);
             }
         }
         Gizmos.color = Color.green;
-        foreach (var room in DungeonCorridors)
+        foreach (var position in CorridorFloorTilePositions)
         {
-            Vector2 size1 = new Vector2(room.Item1.width, room.Item1.height);
-            Vector2 center1 = new Vector2(room.Item1.x + room.Item1.width * 0.5f, room.Item1.y + room.Item1.height * 0.5f);
-            Gizmos.DrawWireCube(center1, size1);
-
-            Vector2 size2 = new Vector2(room.Item2.width, room.Item2.height);
-            Vector2 center2 = new Vector2(room.Item2.x + room.Item2.width * 0.5f, room.Item2.y + room.Item2.height * 0.5f);
-            Gizmos.DrawWireCube(center2, size2);
+            Gizmos.DrawWireCube(
+                new Vector3(position.x, position.y, 0),
+                Vector3.one);
         }
         Gizmos.color = Color.red;
         Vector3 totalSize = new Vector3(StartingTotalDungeonSize.width, StartingTotalDungeonSize.height);
@@ -550,9 +549,9 @@ public class SingleDungeonRoom
     public Vector2Int[] Corners => new[]
     {
         new Vector2Int(Area.xMin, Area.yMin),
-        new Vector2Int(Area.xMin, Area.yMax),
-        new Vector2Int(Area.xMax, Area.yMin),
-        new Vector2Int(Area.xMax, Area.yMax)
+        new Vector2Int(Area.xMin, Area.yMax - 1),
+        new Vector2Int(Area.xMax - 1, Area.yMin),
+        new Vector2Int(Area.xMax - 1, Area.yMax - 1)
     };
 }
 public class SpecialDungeonRoom : SingleDungeonRoom
@@ -566,4 +565,8 @@ public class SpecialDungeonRoom : SingleDungeonRoom
         CenterPoint = new Vector2Int(size.x + size.width/2, size.y + size.height / 2);
     }
 
+}
+public class CorridorDungeonRoom
+{
+    public HashSet<Vector2Int> Positions;
 }
