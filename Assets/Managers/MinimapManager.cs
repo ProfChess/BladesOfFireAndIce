@@ -38,6 +38,7 @@ public class MinimapManager : MonoBehaviour
 
         //Get Floor
         FloorPositions = new HashSet<Vector2Int>(DungeonCreationV2.Instance.GetTilePlaces);
+        FloorPositions.UnionWith(DungeonCreationV2.Instance.CorridorFloorTilePositions);
         
         //Create Texture
         int size = viewRadius * 2 + 1;

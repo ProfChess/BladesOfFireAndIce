@@ -59,8 +59,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAttackCalcs playerAttackCalcs;
     [SerializeField] private PlayerAbilities playerAbilities;
     [SerializeField] private PlayerAttackSpeedManager attackSpeedManager;
-    [SerializeField] private BoxCollider2D playerInteractBox;
     [SerializeField] private PlayerMagicCircleAnim playerCircleEffect;
+    [SerializeField] private PlayerInteract playerInteract;
 
     //Visuals and Animations
     //Visuals
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
     private float FormSwitchCooldownTimer;
     private bool isSwitchingElement = false;
     private bool playerStop = false;
-
+    private bool isInteracting = false;
 
     //Blocking Button
     public bool isBlockHeld { get; private set; } = false;
@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
     //DASH
     public void OnDash(InputAction.CallbackContext ctx)
     {
-        if (isDashing || playerStop || playerAnimations.IsAttacking || isSwitchingElement) { return; }
+        if (isDashing || playerStop || playerAnimations.IsAttacking || isSwitchingElement || isInteracting) { return; }
 
         if (ctx.started)
         {
@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
     //SWITCH ATTACK FORM
     public void OnFormSwitch(InputAction.CallbackContext ctx)
     {
-        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement) { return; }
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement || isInteracting) { return; }
 
         if (ctx.started)
         {
@@ -263,7 +263,7 @@ public class PlayerController : MonoBehaviour
     public void OnBasicAttack(InputAction.CallbackContext ctx)
     {
         //Ignore Input if 
-        if (isDashing || playerStop || isSwitchingElement) { return; }
+        if (isDashing || playerStop || isSwitchingElement || isInteracting) { return; }
 
         if (ctx.started)
         {
@@ -290,7 +290,7 @@ public class PlayerController : MonoBehaviour
     public void SetDashImmunity(bool isImmune) { isImmuneDash = isImmune; }
     public void OnAbilityOne(InputAction.CallbackContext ctx)
     {
-        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement) { return; }
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement || isInteracting) { return; }
 
         if (ctx.started)
         {
@@ -301,7 +301,7 @@ public class PlayerController : MonoBehaviour
     }
     public void OnAbilityTwo(InputAction.CallbackContext ctx)
     {
-        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement) { return; }
+        if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement || isInteracting) { return; }
 
         if (ctx.started)
         {
@@ -319,7 +319,7 @@ public class PlayerController : MonoBehaviour
         button after attacking or dashing
         */
         
-        if (isSwitchingElement) { return; }
+        if (isSwitchingElement || isInteracting) { return; }
 
         //Block Logic For Fire Mode
         if(PlayerSwitchElements.PlayerAttackForm == ElementType.Fire)
@@ -415,21 +415,12 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.performed)
         {
-            Collider2D[] hits = Physics2D.OverlapBoxAll(
-            playerInteractBox.bounds.center,
-            playerInteractBox.bounds.size, 0f);
+            if (playerBlock.IsBlocking || isDashing || playerAnimations.IsAttacking || isSwitchingElement) { return; }
 
-            foreach (Collider2D hit in hits)
-            {
-                InteractableObject hitObj = hit.GetComponent<InteractableObject>();
-                if (hitObj != null)
-                {
-                    hitObj.Interact();
-                    break;
-                }
-            }
+            playerAnimations.InteractStart();
+            playerInteract.InteractWithObject();
         }
-
+        
     }
 
     //Viewing Inventory

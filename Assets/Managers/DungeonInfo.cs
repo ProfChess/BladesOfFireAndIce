@@ -10,7 +10,7 @@ public class DungeonInfo : MonoBehaviour
     private List<SingleDungeonRoom> roomList = new List<SingleDungeonRoom>();
 
     //Door Dictionary 
-    private Dictionary<Vector2Int, GameObject> DoorFinder = new();
+    private Dictionary<Vector2Int, Interactable_Door> DoorFinder = new();
 
     //Get
     public List<SingleDungeonRoom> GetDungeonRoomList() { return roomList; }
@@ -22,14 +22,13 @@ public class DungeonInfo : MonoBehaviour
         AssignEdgePositons();
 
     }
-    public void SetDoorFinder(Dictionary<Vector2Int, GameObject> GivenDictionary)
+    public void SetDoorFinder(Dictionary<Vector2Int, Interactable_Door> GivenDictionary)
     {
         DoorFinder = GivenDictionary;
     }
-    public GameObject GetDoorFromPosition(Vector2Int pos)
+    public Interactable_Door GetDoorFromPosition(Vector2Int pos)
     {
-        if (!DoorFinder.ContainsKey(pos)) { Debug.Log("Invalid Door Position Given"); return null; }
-        return DoorFinder[pos];
+        return DoorFinder.TryGetValue(pos, out var door) ? door : null;
     }
 
     private void Awake()

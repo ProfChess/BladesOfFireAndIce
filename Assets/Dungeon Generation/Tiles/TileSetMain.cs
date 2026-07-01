@@ -7,7 +7,7 @@ public class TileSet : ScriptableObject
     public RuleTile DefaultFloor;
 
     [Header("Door")]
-    public GameObject DoorPrefab;
+    public Interactable_Door DoorPrefab;
 
     [Header("Wall")]
     [Header("Wall Bases")]

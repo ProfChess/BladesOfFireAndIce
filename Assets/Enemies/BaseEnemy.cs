@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,6 +17,7 @@ public abstract class BaseEnemy : MonoBehaviour
     //States
     protected enum EnemyState {Idle, Chase, Attack, ReturnHome}
     protected EnemyState CurrentEnemyState;
+    [SerializeField] protected EnemyLeashType LeashType;
 
     //Spawning 
     [Header("Pool Type Selection")]
@@ -30,12 +30,15 @@ public abstract class BaseEnemy : MonoBehaviour
     protected Transform playerLocation;
     protected LayerMask PlayerDetectionMask;
     
-    //Leash
+    //Point Leash
     [SerializeField] protected Vector2 SpawnLocation;
     private bool returningHome = false;
     private bool leashTriggered = false;
     private float leashTimer = 0f;
     private bool isMovementLocked = false;
+
+    //Room Leash
+    [SerializeField] protected RectInt roomBounds;
 
     //Pathfinding
     protected NavMeshAgent agent;
@@ -194,10 +197,10 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if(isMovementLocked) { return; }
 
-        agent.SetDestination(SpawnLocation);
+        agent.SetDestination(GetReturnPosition());
 
-        float distanceToHome = Vector2.Distance(transform.position, SpawnLocation);
-        if (distanceToHome <= 0.5f)
+        Vector2 returnPos = GetReturnPosition();
+        if (Vector2.Distance(transform.position, returnPos) <= 0.5f)
         {
             returningHome = false;
             leashTriggered = false;
@@ -212,10 +215,22 @@ public abstract class BaseEnemy : MonoBehaviour
             EnemyAttackState();
         }
     }
+    protected virtual Vector2 GetReturnPosition()
+    {
+        switch (LeashType)
+        {
+            case EnemyLeashType.Point:
+                return SpawnLocation;
+            case EnemyLeashType.Room:
+                return new Vector2(Mathf.Clamp(transform.position.x, roomBounds.xMin, roomBounds.xMax),
+                            Mathf.Clamp(transform.position.y, roomBounds.yMin, roomBounds.yMax));
+
+            default: return SpawnLocation;
+        }
+    }
     private void HandleLeash()
     {
-        float distanceFromHome = Vector2.Distance(transform.position, SpawnLocation);
-        bool outSideLeash = distanceFromHome > AISettings.LeashRange;
+        bool outSideLeash = IsOutsideLeash();
 
         if(!outSideLeash && !returningHome)
         {
@@ -234,6 +249,20 @@ public abstract class BaseEnemy : MonoBehaviour
         if (!hasLOS) { BeginReturnHome(); return; }
         leashTimer -= GameTimeManager.GameDeltaTime;
         if (leashTimer <= 0f) { BeginReturnHome(); }
+    }
+    protected virtual bool IsOutsideLeash()
+    {
+        switch (LeashType)
+        {
+            case EnemyLeashType.Point:
+                return Vector2.Distance(transform.position, SpawnLocation) > AISettings.LeashRange;
+            case EnemyLeashType.Room:
+                RectInt leashRect = new RectInt(roomBounds.xMin - AISettings.RoomLeashPadding, roomBounds.yMin - AISettings.RoomLeashPadding,
+                                 roomBounds.width + AISettings.RoomLeashPadding * 2, roomBounds.height + AISettings.RoomLeashPadding * 2);
+
+                return !leashRect.Contains(Vector2Int.RoundToInt(transform.position));
+            default: return false;
+        }
     }
     private void BeginReturnHome()
     {
@@ -331,3 +360,4 @@ public abstract class BaseEnemy : MonoBehaviour
         return null;
     }
 }
+public enum EnemyLeashType { Point, Room, }

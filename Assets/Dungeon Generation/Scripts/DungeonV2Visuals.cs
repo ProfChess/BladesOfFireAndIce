@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class DungeonV2Visuals : MonoBehaviour
 {
@@ -274,10 +275,10 @@ public class DungeonV2Visuals : MonoBehaviour
     }
     private void PlaceDoors()
     {
-        Dictionary<Vector2Int, GameObject> DoorLocations = new();
+        Dictionary<Vector2Int, Interactable_Door> DoorLocations = new();
         foreach (Vector2Int position in DoorPositionSet)
         {
-            GameObject door = Instantiate(ChosenTileSet.DoorPrefab, (Vector3Int)position, Quaternion.identity, DecorationParent.GetDecorParent(SpawnParentType.Door));
+            Interactable_Door door = Instantiate(ChosenTileSet.DoorPrefab, (Vector3Int)position, Quaternion.identity, DecorationParent.GetDecorParent(SpawnParentType.Door));
             DoorLocations.Add(position, door);
         }
         DungeonInfo.Instance.SetDoorFinder(DoorLocations);
@@ -532,6 +533,8 @@ public class DungeonV2Visuals : MonoBehaviour
                 Vector2Int[] RoomCorners = room.Corners;
                 foreach (Vector2Int corner in RoomCorners)
                 {
+                    if (DoorPositionSet.Contains(corner)) { continue; }
+
                     CornerLocations.Add(corner);
                 }
             }
@@ -543,6 +546,8 @@ public class DungeonV2Visuals : MonoBehaviour
         {
             foreach (Vector2Int Position in FloorPositionSet)
             {
+                if (DoorPositionSet.Contains(Position)) { continue; }
+
                 if (!WallPositions.Contains(Position + Vector2Int.down))
                 {
                     //Not Adjacent to Bottom Wall so Can Place
