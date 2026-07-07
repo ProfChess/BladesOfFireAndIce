@@ -28,7 +28,7 @@ public class DifficultyManager : MonoBehaviour
 
     //ENEMY SPAWN CHANCES
     //Enemy and Difficulty Spawning
-    private int[] GlobalEnemySpawnChance = new int[] { 15, 25, 35, 45 }; //Out of 100
+    private int[] GlobalEnemySpawnChance = new int[] { 5, 25, 35, 45 }; //Out of 100
 
     //Enum for Spawn Chances
     private enum EnemySpawnTypes
@@ -47,11 +47,11 @@ public class DifficultyManager : MonoBehaviour
         new Dictionary<EnemySpawnTypes, int[]> 
         {
             { EnemySpawnTypes.Slime, new int[] {50, 35, 25, 15} },
-            { EnemySpawnTypes.Archer, new int[] {40, 30, 20, 10} },
-            { EnemySpawnTypes.Axeman, new int[] {40, 30, 20, 10} },
-            { EnemySpawnTypes.Caster, new int[] {20, 10, 15, 25} },
-            { EnemySpawnTypes.Elite1, new int[] {10, 10, 20, 30} },
-            { EnemySpawnTypes.Elite2, new int[] {10, 10, 20, 30} },
+            { EnemySpawnTypes.Archer, new int[] {0, 0, 0, 0} },
+            { EnemySpawnTypes.Axeman, new int[] {0, 0, 0, 0} },
+            { EnemySpawnTypes.Caster, new int[] {0, 0, 0, 0} },
+            { EnemySpawnTypes.Elite1, new int[] {0, 0, 0, 0} },
+            { EnemySpawnTypes.Elite2, new int[] {0, 0, 0, 0} },
         };
     //Access Dictionary
     public EnemyType GetEnemyToSpawn()

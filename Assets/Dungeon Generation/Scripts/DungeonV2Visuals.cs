@@ -167,6 +167,13 @@ public class DungeonV2Visuals : MonoBehaviour
             roomSpecifics.SpawnSpecialRoomChoice(room.SpecialType, room);
         }
 
+
+        //Signal Creation Completion to Game Manager
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.DungeonFinished();
+        }
+
     }
     private void PlaceDecorativePatches(Tilemap TM, HashSet<Vector2Int> Positions, List<TileWithChance> TileList, float PercentOfTiles)
     {

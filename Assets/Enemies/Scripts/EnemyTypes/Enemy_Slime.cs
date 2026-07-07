@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.VersionControl;
+
+using TreeEditor;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Enemy_Slime : BaseEnemy
 {
@@ -13,14 +12,14 @@ public class Enemy_Slime : BaseEnemy
     protected override void EnemyIdleState()
     {
         base.EnemyIdleState();
-        FlipSpriteInDirection();
+        FlipSpriteInPathDirection();
         anim.SetBool(WalkingToggle, IsMoving());
         anim.SetBool(RunningToggle, false);
     }
     protected override void EnemyChaseState()
     {
         base.EnemyChaseState();
-        FlipSpriteInDirection();
+        FlipSpriteInPathDirection();
         anim.SetBool(WalkingToggle, false);
         anim.SetBool(RunningToggle, IsMoving());
     }
@@ -31,15 +30,39 @@ public class Enemy_Slime : BaseEnemy
         if(didAttack)
         {
             anim.SetTrigger(AttackTrig);
+            SpriteFacePlayerDirection();
         }
-        FlipSpriteInDirection();
         anim.SetBool(WalkingToggle, false);
         anim.SetBool(RunningToggle, false);
         return didAttack;
     }
-    private void FlipSpriteInDirection()
+    protected override void EnemyReturnHomeState()
+    {
+        base.EnemyReturnHomeState();
+        anim.SetBool(RunningToggle, false);
+        anim.SetBool(WalkingToggle, IsMoving());
+    }
+    private void FlipSpriteInPathDirection()
     {
         Vector2 destination = agent.pathEndPosition;
         EnemySprite.flipX = destination.x < transform.position.x;
+    }
+    private void SpriteFacePlayerDirection()
+    {
+        EnemySprite.flipX = playerLocation.position.x < transform.position.x;
+    }
+    protected override void Update()
+    {
+        base.Update();
+
+        if(isMovementLocked || CurrentEnemyState == EnemyState.Attack)
+        {
+            SpriteFacePlayerDirection();
+        }
+        else
+        {
+            FlipSpriteInPathDirection();
+        }
+        
     }
 }

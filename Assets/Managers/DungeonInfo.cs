@@ -12,8 +12,6 @@ public class DungeonInfo : MonoBehaviour
     //Door Dictionary 
     private Dictionary<Vector2Int, Interactable_Door> DoorFinder = new();
 
-    //Get
-    public List<SingleDungeonRoom> GetDungeonRoomList() { return roomList; }
     //Set
     public void SetInfo(List<SingleDungeonRoom> rooms)
     {

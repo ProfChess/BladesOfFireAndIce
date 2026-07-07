@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Interactable_Door : InteractableObject
 {
     [SerializeField] private Collider2D blockCollider;
+    [SerializeField] private NavMeshObstacle obstacle;
     [SerializeField] private Animator animController;
     private static readonly int DeactivateAnimTrigger = Animator.StringToHash("End");
     private bool isActive = true;
@@ -18,6 +20,7 @@ public class Interactable_Door : InteractableObject
         isActive = false;
 
         blockCollider.enabled = false;
+        obstacle.enabled = false;
         animController.SetTrigger(DeactivateAnimTrigger);
         CheckPositionAndNeightbours();
     }

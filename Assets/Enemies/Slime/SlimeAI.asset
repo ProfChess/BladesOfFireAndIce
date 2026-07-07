@@ -15,6 +15,6 @@ MonoBehaviour:
   ChaseRange: 4
   AttackRange: 1
   LeashRange: 7
-  RoomLeashPadding: 0
+  RoomLeashPadding: 4
   ChasePastLeashTime: 1.5
   returnSpeed: 2

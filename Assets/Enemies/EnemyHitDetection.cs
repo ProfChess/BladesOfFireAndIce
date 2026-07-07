@@ -57,7 +57,7 @@ public class EnemyHitDetection : BaseHealth
         else if (MainEnemyScript != null)
         {
             MainEnemyScript.anim.Play(EnemyDeath, 1);
-            MainEnemyScript.canMove = false;
+            MainEnemyScript.LockEnemyMovement(true);
             Invoke(nameof(TurnOff), 1.2f);
         }
     }

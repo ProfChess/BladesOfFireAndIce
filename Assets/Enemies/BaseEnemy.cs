@@ -35,10 +35,10 @@ public abstract class BaseEnemy : MonoBehaviour
     private bool returningHome = false;
     private bool leashTriggered = false;
     private float leashTimer = 0f;
-    private bool isMovementLocked = false;
+    [SerializeField] protected bool isMovementLocked = false;
 
     //Room Leash
-    [SerializeField] protected RectInt roomBounds;
+    protected SingleDungeonRoom SpawnRoom; 
 
     //Pathfinding
     protected NavMeshAgent agent;
@@ -48,27 +48,28 @@ public abstract class BaseEnemy : MonoBehaviour
     private float stateSwitchTimer = 0f;
     protected float nextCheck = 0f;
     protected bool canAttack = true;
-    [HideInInspector] public bool canMove = true;
 
     //Access to Pool
     BasePoolManager<EnemyType> PM => EnemyPoolManager.Instance;
 
     //Init
-    public void CreateEnemy(Vector2 Position)
+    public void CreateEnemy(Vector2 Position, EnemyLeashType enemyLeashType, SingleDungeonRoom room = null)
     {
         //Move to Correct Position
         gameObject.transform.position = Position;
-        canMove = true;
+        isMovementLocked = false;
         returningHome = false;
         leashTriggered = false;
         leashTimer = 0f;
 
         //Restart State
         CurrentEnemyState = EnemyState.Idle;
+        LeashType = enemyLeashType;
         gameObject.SetActive(true);
 
         //Spawn Location 
         SpawnLocation = Position;
+        if(room != null) { SpawnRoom = room; }
     }
 
     public virtual void DeactivateEnemy()
@@ -91,7 +92,7 @@ public abstract class BaseEnemy : MonoBehaviour
     //Switches State Based Upon Player Distance to Enemy
     virtual protected void Update()
     {
-        if (!canMove) { return; }
+        if (isMovementLocked) { return; }
 
         //States
         UpdateState();
@@ -212,7 +213,7 @@ public abstract class BaseEnemy : MonoBehaviour
         //Attack if Player is Close, Otherwise Return to SpawnPoint
         if (PlayerWithinAttackRange()) 
         {
-            EnemyAttackState();
+            SetEnemyState(EnemyState.Attack);
         }
     }
     protected virtual Vector2 GetReturnPosition()
@@ -222,8 +223,8 @@ public abstract class BaseEnemy : MonoBehaviour
             case EnemyLeashType.Point:
                 return SpawnLocation;
             case EnemyLeashType.Room:
-                return new Vector2(Mathf.Clamp(transform.position.x, roomBounds.xMin, roomBounds.xMax),
-                            Mathf.Clamp(transform.position.y, roomBounds.yMin, roomBounds.yMax));
+                return new Vector2(Mathf.Clamp(transform.position.x, SpawnRoom.Area.xMin, SpawnRoom.Area.xMax),
+                            Mathf.Clamp(transform.position.y, SpawnRoom.Area.yMin, SpawnRoom.Area.yMax));
 
             default: return SpawnLocation;
         }
@@ -257,8 +258,8 @@ public abstract class BaseEnemy : MonoBehaviour
             case EnemyLeashType.Point:
                 return Vector2.Distance(transform.position, SpawnLocation) > AISettings.LeashRange;
             case EnemyLeashType.Room:
-                RectInt leashRect = new RectInt(roomBounds.xMin - AISettings.RoomLeashPadding, roomBounds.yMin - AISettings.RoomLeashPadding,
-                                 roomBounds.width + AISettings.RoomLeashPadding * 2, roomBounds.height + AISettings.RoomLeashPadding * 2);
+                RectInt leashRect = new RectInt(SpawnRoom.Area.xMin - AISettings.RoomLeashPadding, SpawnRoom.Area.yMin - AISettings.RoomLeashPadding,
+                                 SpawnRoom.Area.width + AISettings.RoomLeashPadding * 2, SpawnRoom.Area.height + AISettings.RoomLeashPadding * 2);
 
                 return !leashRect.Contains(Vector2Int.RoundToInt(transform.position));
             default: return false;
@@ -272,6 +273,7 @@ public abstract class BaseEnemy : MonoBehaviour
     { 
         isMovementLocked = isLocked;
         agent.isStopped = isMovementLocked;
+        if (isMovementLocked ) { agent.ResetPath(); }
     }
 
     protected virtual IEnumerator BeginEnemyActionCooldown()
@@ -327,6 +329,7 @@ public abstract class BaseEnemy : MonoBehaviour
         agent.stoppingDistance = 0.5f;
         agent.autoBraking = false;
         agent.radius = 0.2f;
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.GoodQualityObstacleAvoidance;
     }
     protected bool IsMoving()
     {

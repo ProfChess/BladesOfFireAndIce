@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1587931259567735554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8998112212872942627}
+  m_Layer: 6
+  m_Name: FootObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8998112212872942627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587931259567735554}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2945173883640242022}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1631260252677130111
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,6 +85,7 @@ MonoBehaviour:
   GlobalAttackCooldownTime: 0.5
   anim: {fileID: 6206820143231138907}
   EnemySprite: {fileID: 4880815376599874024}
+  LeashType: 0
   EnemyPoolType: 0
   EnemyIdleMovement: {fileID: 2486791443811112733}
   EnemyChaseMovement: {fileID: 5121089300241721055}
@@ -125,6 +157,7 @@ GameObject:
   - component: {fileID: 2945173883640242022}
   - component: {fileID: 2035972329010788047}
   - component: {fileID: 3287193837146523422}
+  - component: {fileID: 4804183989891399084}
   m_Layer: 6
   m_Name: AttackVisual
   m_TagString: Untagged
@@ -144,7 +177,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8998112212872942627}
   m_Father: {fileID: 7345870523439256223}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2035972329010788047
@@ -220,6 +254,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4804183989891399084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690861206079018032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274309839ab68e948ae8eafa376d4d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Visual: {fileID: 2035972329010788047}
+  FeetLevelObject: {fileID: 8998112212872942627}
 --- !u!1 &2855619775770576271
 GameObject:
   m_ObjectHideFlags: 0

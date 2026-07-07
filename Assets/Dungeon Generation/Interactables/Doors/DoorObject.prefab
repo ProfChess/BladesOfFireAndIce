@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6305594341384383436}
   - component: {fileID: 3149942657083338298}
   - component: {fileID: 6906643300162055758}
+  - component: {fileID: 249769876178008841}
+  - component: {fileID: -4597559564658254837}
   m_Layer: 10
   m_Name: DoorObject
   m_TagString: Wall
@@ -92,7 +94,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockCollider: {fileID: 3149942657083338298}
+  obstacle: {fileID: 249769876178008841}
   animController: {fileID: 1899405273679501725}
+--- !u!208 &249769876178008841
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5065473456350955850}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 1
+--- !u!114 &-4597559564658254837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5065473456350955850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &8336092934209022067
 GameObject:
   m_ObjectHideFlags: 0
