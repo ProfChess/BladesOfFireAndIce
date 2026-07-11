@@ -28,7 +28,7 @@ public class DifficultyManager : MonoBehaviour
 
     //ENEMY SPAWN CHANCES
     //Enemy and Difficulty Spawning
-    private int[] GlobalEnemySpawnChance = new int[] { 5, 25, 35, 45 }; //Out of 100
+    private int[] GlobalEnemySpawnChance = new int[] { 15, 25, 35, 45 }; //Out of 100
 
     //Enum for Spawn Chances
     private enum EnemySpawnTypes

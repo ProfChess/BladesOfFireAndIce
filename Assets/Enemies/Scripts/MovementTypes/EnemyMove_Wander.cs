@@ -12,6 +12,11 @@ public class EnemyMove_Wander : BaseEnemyMovement
     [SerializeField] private float MinWanderRange = 1f;
     [Tooltip("Determines Max Distance Agent Can Wander")]
     [SerializeField] private float MaxWanderRange = 3f;
+
+    private void Awake()
+    {
+        WanderTimer = Random.Range(0f, WanderInterval);
+    }
     public override void EnemyMove(NavMeshAgent agent, float speed)
     {
         agent.speed = speed;

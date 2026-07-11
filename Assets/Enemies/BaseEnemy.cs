@@ -28,6 +28,7 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected BaseEnemyMovement EnemyChaseMovement;
     [SerializeField] protected List<BaseEnemyAttack> EnemyAttacks;
     protected Transform playerLocation;
+    protected Vector2 playerDistance; 
     protected LayerMask PlayerDetectionMask;
     
     //Point Leash
@@ -42,12 +43,15 @@ public abstract class BaseEnemy : MonoBehaviour
 
     //Pathfinding
     protected NavMeshAgent agent;
+    protected bool attackLOS = false;
+    protected bool chaseLOS = false;
 
     //Timers
+    protected float stateSwitchTimer = 0f;
     protected const float stateSwitchInterval = 0.1f;
-    private float stateSwitchTimer = 0f;
     protected float nextCheck = 0f;
     protected bool canAttack = true;
+
 
     //Access to Pool
     BasePoolManager<EnemyType> PM => EnemyPoolManager.Instance;
@@ -90,11 +94,15 @@ public abstract class BaseEnemy : MonoBehaviour
     }
 
     //Switches State Based Upon Player Distance to Enemy
+    private bool playerClose = true;
     virtual protected void Update()
     {
+        if(GetPlayerDistance().sqrMagnitude > 35 * 35 && playerClose) { DisableEnemyVisuals(); return;}
+        else if (!playerClose && GetPlayerDistance().sqrMagnitude <= 50 * 50) { EnableEnemyVisuals(); }
+
         if (isMovementLocked) { return; }
 
-        //States
+        //Think 
         UpdateState();
 
         //Call functions for each state
@@ -117,29 +125,38 @@ public abstract class BaseEnemy : MonoBehaviour
                 break;
         }
     }
-    protected void UpdateState()
+    protected void DisableEnemyVisuals()
     {
-        if (stateSwitchTimer > 0f)
-        {
-            stateSwitchTimer -= GameTimeManager.GameDeltaTime; return;
-        }
-
+        agent.isStopped = true; agent.ResetPath(); playerClose = false;
+        anim.enabled = false;
+    }
+    protected void EnableEnemyVisuals()
+    {
+        playerClose = true; agent.isStopped = false;
+        anim.enabled = true;
+    }
+    public void UpdateState()
+    {
+        if (stateSwitchTimer > 0f) { stateSwitchTimer -= GameTimeManager.GameDeltaTime; return; }
         stateSwitchTimer = stateSwitchInterval;
 
+        AISightUpdate();
         HandleLeash();
 
+        if (attackLOS)
+        {
+            returningHome = false;
+            SetEnemyState(EnemyState.Attack); return;
+        }
         if (returningHome)
         {
             SetEnemyState(EnemyState.ReturnHome); return;
         }
-        if (PlayerWithinAttackRange())
-        {
-            SetEnemyState(EnemyState.Attack); return;
-        }
-        if (PlayerWithinChaseRange())
+        if (chaseLOS)
         {
             SetEnemyState(EnemyState.Chase); return;
         }
+
         SetEnemyState(EnemyState.Idle);
     }
     protected void SetEnemyState(EnemyState newState)
@@ -170,7 +187,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void OnStateEnterChase() { }
     protected virtual void OnStateEnterAttack() { agent.ResetPath(); }
     protected virtual void OnStateEnterReturnHome() { agent.ResetPath(); 
-        agent.speed = AISettings.returnSpeed; agent.SetDestination(SpawnLocation); }
+        agent.speed = AISettings.returnSpeed; agent.SetDestination(GetReturnPosition()); }
 
     //State Functions (Override in Inherited Class)
     protected virtual void EnemyIdleState()
@@ -198,7 +215,14 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if(isMovementLocked) { return; }
 
-        agent.SetDestination(GetReturnPosition());
+        //Attack if Player is Close, Otherwise Return to SpawnPoint
+        if (attackLOS)
+        {
+            returningHome = false;
+            agent.ResetPath();
+            SetEnemyState(EnemyState.Attack);
+            return;
+        }
 
         Vector2 returnPos = GetReturnPosition();
         if (Vector2.Distance(transform.position, returnPos) <= 0.5f)
@@ -207,13 +231,6 @@ public abstract class BaseEnemy : MonoBehaviour
             leashTriggered = false;
             leashTimer = 0f;
             SetEnemyState(EnemyState.Idle);
-            return;
-        }
-
-        //Attack if Player is Close, Otherwise Return to SpawnPoint
-        if (PlayerWithinAttackRange()) 
-        {
-            SetEnemyState(EnemyState.Attack);
         }
     }
     protected virtual Vector2 GetReturnPosition()
@@ -239,15 +256,12 @@ public abstract class BaseEnemy : MonoBehaviour
             leashTimer = 0f;
             return;
         }
-        if (returningHome) { return; }
         if (outSideLeash && !leashTriggered)
         {
             leashTriggered = true; ; leashTimer = AISettings.ChasePastLeashTime;
         }
         if (!leashTriggered) { return; }
-        bool hasLOS = PlayerWithinAttackRange();
-
-        if (!hasLOS) { BeginReturnHome(); return; }
+        if (!attackLOS) { BeginReturnHome(); return; }
         leashTimer -= GameTimeManager.GameDeltaTime;
         if (leashTimer <= 0f) { BeginReturnHome(); }
     }
@@ -283,29 +297,31 @@ public abstract class BaseEnemy : MonoBehaviour
         isEnemyOnCooldown = false;
     }
     //Checks
-    protected bool PlayerWithinChaseRange() //Checks if player is within chase range
+    protected void AISightUpdate()
     {
-        if (AISettings.ChaseRange == -1) { return false; }
+        playerDistance = GetPlayerDistance(); float sqrDistance = playerDistance.sqrMagnitude;
 
-        RaycastHit2D sight = Physics2D.Raycast(gameObject.transform.position, 
-            GetPlayerDirection(), 
-            AISettings.ChaseRange,
-            PlayerDetectionMask);
-
-        if(sight.collider == null) { return false; }
-        return sight.collider.GetComponentInParent<PlayerController>() != null;
+        if (sqrDistance <= AISettings.ChaseRange * AISettings.ChaseRange)
+        {
+            chaseLOS = HasLineOfSight(AISettings.ChaseRange);
+        }
+        else { chaseLOS = false; }
+        if (sqrDistance <= AISettings.AttackRange * AISettings.AttackRange)
+        {
+            attackLOS = HasLineOfSight(AISettings.AttackRange);
+        }
+        else { attackLOS = false; }
     }
-    protected bool PlayerWithinAttackRange() //Checks if player is within attack range
+    protected bool HasLineOfSight(float range)
     {
-        if (AISettings.AttackRange == -1) { return false; }
-
         RaycastHit2D sight = Physics2D.Raycast(gameObject.transform.position,
-            GetPlayerDirection(),
-            AISettings.AttackRange,
-            PlayerDetectionMask);
+        GetPlayerDirection(),
+        range,
+        PlayerDetectionMask);
 
         if (sight.collider == null) { return false; }
         return sight.collider.GetComponentInParent<PlayerController>() != null;
+
     }
     protected Vector2 GetPlayerDirection() //Returns player direction from objects position
     {
@@ -329,7 +345,7 @@ public abstract class BaseEnemy : MonoBehaviour
         agent.stoppingDistance = 0.5f;
         agent.autoBraking = false;
         agent.radius = 0.2f;
-        agent.obstacleAvoidanceType = ObstacleAvoidanceType.GoodQualityObstacleAvoidance;
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
     }
     protected bool IsMoving()
     {

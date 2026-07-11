@@ -1,6 +1,4 @@
 
-using TreeEditor;
-using UnityEditor;
 using UnityEngine;
 
 public class Enemy_Slime : BaseEnemy
@@ -13,15 +11,11 @@ public class Enemy_Slime : BaseEnemy
     {
         base.EnemyIdleState();
         FlipSpriteInPathDirection();
-        anim.SetBool(WalkingToggle, IsMoving());
-        anim.SetBool(RunningToggle, false);
     }
     protected override void EnemyChaseState()
     {
         base.EnemyChaseState();
         FlipSpriteInPathDirection();
-        anim.SetBool(WalkingToggle, false);
-        anim.SetBool(RunningToggle, IsMoving());
     }
     protected override bool EnemyAttackState()
     {
@@ -32,15 +26,20 @@ public class Enemy_Slime : BaseEnemy
             anim.SetTrigger(AttackTrig);
             SpriteFacePlayerDirection();
         }
+        return didAttack;
+    }
+    protected override void OnStateEnterAttack()
+    {
+        base.OnStateEnterAttack();
         anim.SetBool(WalkingToggle, false);
         anim.SetBool(RunningToggle, false);
-        return didAttack;
     }
     protected override void EnemyReturnHomeState()
     {
         base.EnemyReturnHomeState();
-        anim.SetBool(RunningToggle, false);
-        anim.SetBool(WalkingToggle, IsMoving());
+        
+        if (CurrentEnemyState != EnemyState.ReturnHome) { return; }
+
     }
     private void FlipSpriteInPathDirection()
     {
@@ -63,6 +62,27 @@ public class Enemy_Slime : BaseEnemy
         {
             FlipSpriteInPathDirection();
         }
-        
+        UpdateMovementAnimation();
+    }
+    protected void UpdateMovementAnimation()
+    {
+        bool moving = IsMoving();
+        switch (CurrentEnemyState)
+        {
+            case EnemyState.Idle:
+                anim.SetBool(WalkingToggle, moving);
+                anim.SetBool(RunningToggle, false);
+                break;
+            case EnemyState.Chase:
+                anim.SetBool(WalkingToggle, false);
+                anim.SetBool(RunningToggle, moving);
+                break;
+            case EnemyState.Attack:
+                anim.SetBool(WalkingToggle, false);
+                anim.SetBool(RunningToggle, false);
+                break;
+            case EnemyState.ReturnHome:
+                break;
+        }
     }
 }

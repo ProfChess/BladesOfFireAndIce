@@ -92,7 +92,7 @@ MonoBehaviour:
   EnemyAttacks:
   - {fileID: 5700886419945325695}
   SpawnLocation: {x: 4.5, y: 4.5}
-  canMove: 1
+  isMovementLocked: 0
 --- !u!114 &2486791443811112733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,7 +466,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: aedec111eb6035440b33cb3b85d7476d, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

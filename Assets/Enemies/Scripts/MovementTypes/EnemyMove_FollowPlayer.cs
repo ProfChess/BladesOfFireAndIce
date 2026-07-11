@@ -7,6 +7,10 @@ public class EnemyMove_FollowPlayer : BaseEnemyMovement
 {
     [SerializeField] private float MovementUpdateInterval = 0.2f;
     private float positionUpdateTimer = 0f;
+    private void Awake()
+    {
+        positionUpdateTimer = Random.Range(0f, MovementUpdateInterval);
+    }
     public override void EnemyMove(NavMeshAgent agent, float speed)
     {
         if(positionUpdateTimer <= 0f)
