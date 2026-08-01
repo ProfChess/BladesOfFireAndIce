@@ -10,6 +10,8 @@ public class Enemy_Slime : BaseEnemy
     protected override void EnemyIdleState()
     {
         base.EnemyIdleState();
+
+        if (!isActive) { return; }
         FlipSpriteInPathDirection();
     }
     protected override void EnemyChaseState()

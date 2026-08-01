@@ -1047,7 +1047,7 @@ TextureImporter:
         width: 19
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1055,6 +1055,69 @@ TextureImporter:
       bones: []
       spriteID: a287e3f2865b8bc468a5ea12bc7bfc70
       internalID: -13190465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bar_Detailed_Dark
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 1144
+        width: 30
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 2, z: 4, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75cb4db0585f20a4c95585174d083f28
+      internalID: 370376534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Switch_Grey
+      rect:
+        serializedVersion: 2
+        x: 610
+        y: 1194
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 314a506a2aba8994e93046ac01b5e85c
+      internalID: 1069076243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bar_Fill_Silver
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1355
+        width: 47
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de402b79a0d3c294a9d4f5c75c81b58e
+      internalID: -1706358308
       vertices: []
       indices: 
       edges: []
@@ -1073,6 +1136,8 @@ TextureImporter:
       Bag: -1639554444
       Bar: -1203604826
       BarBG: 1132578211
+      Bar_Detailed_Dark: 370376534
+      Bar_Fill_Silver: -1706358308
       BorderPiece_1: 453741207
       BorderPiece_2: 1212995320
       BorderPiece_3: -2010078293
@@ -1117,6 +1182,7 @@ TextureImporter:
       Scroll: -221577274
       Scroll_Small: 2144967828
       Scroll_Wide: -868012090
+      Switch_Grey: 1069076243
       fantasy_0: 1054125730
       fantasy_1: 1913422102
   mipmapLimitGroupName: 

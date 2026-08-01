@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public RunDataManager runData;
     [HideInInspector] public SaveManager saveManager;
     [HideInInspector] public UIManager uiManager;
+    [HideInInspector] public SoundManager soundManager;
 
     //Dungeon Specifics
     [HideInInspector] public Vector3 DungeonStartingRoomCenter;
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour
         runData = GetComponentInChildren<RunDataManager>();
         saveManager = GetComponentInChildren<SaveManager>();
         uiManager = GetComponentInChildren<UIManager>();
+        soundManager = GetComponentInChildren<SoundManager>();
 
         //Other Objects Start
         StartCoroutine(GameBeginningDelayedCall());

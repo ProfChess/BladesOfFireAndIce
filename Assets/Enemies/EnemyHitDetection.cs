@@ -9,7 +9,8 @@ public class EnemyHitDetection : BaseHealth
     [Header("References")]
     [SerializeField] private BaseEnemy MainEnemyScript;
     [SerializeField] private HitFlash HF;
-
+    [SerializeField] private Vector2 boxStartingOffset;
+    [SerializeField] private Vector2 boxFlippedOffset;
 
     //Box Flipping
     private bool BoxShouldBeFlipped = false;
@@ -18,7 +19,6 @@ public class EnemyHitDetection : BaseHealth
     //Animations
     private static readonly int EnemyHurt = Animator.StringToHash("Hurt");
     private static readonly int EnemyDeath = Animator.StringToHash("Death");
-
 
     //Health and Damage Detection
     private void OnTriggerEnter2D(Collider2D collision)
@@ -70,21 +70,17 @@ public class EnemyHitDetection : BaseHealth
 
     private void Update()
     {
-        if (MainEnemyScript != null)
+        if (MainEnemyScript != null && MainEnemyScript.isActive)
         {
+            HitBox.enabled = true;
+
             if (MainEnemyScript.EnemySprite.flipX) { BoxShouldBeFlipped = true; }
             else { BoxShouldBeFlipped = false; }
 
-            if (BoxShouldBeFlipped && !BoxIsFlipped) { FlipHitBox(); BoxIsFlipped = true; }
-            if (!BoxShouldBeFlipped && BoxIsFlipped) { FlipHitBox(); BoxIsFlipped = false; }
+            if (BoxShouldBeFlipped && !BoxIsFlipped) { HitBox.offset = boxFlippedOffset; BoxIsFlipped = true; }
+            if (!BoxShouldBeFlipped && BoxIsFlipped) { HitBox.offset = boxStartingOffset; BoxIsFlipped = false; }
         }
-    }
-    private void FlipHitBox()
-    {
-        if (HitBox != null)
-        {
-            HitBox.offset = new Vector2(HitBox.offset.x * -1, HitBox.offset.y);
-        }
+        else { HitBox.enabled = false; }
     }
 
     private void TurnOff()

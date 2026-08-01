@@ -93,6 +93,7 @@ MonoBehaviour:
   - {fileID: 5700886419945325695}
   SpawnLocation: {x: 4.5, y: 4.5}
   isMovementLocked: 0
+  isActive: 0
 --- !u!114 &2486791443811112733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,6 +357,8 @@ MonoBehaviour:
   HitBox: {fileID: 2273477896166827226}
   MainEnemyScript: {fileID: 6763443976112395918}
   HF: {fileID: 8872761858661013811}
+  boxStartingOffset: {x: 0, y: 0}
+  boxFlippedOffset: {x: 0.025, y: 0}
 --- !u!114 &2909777525616190572
 MonoBehaviour:
   m_ObjectHideFlags: 0

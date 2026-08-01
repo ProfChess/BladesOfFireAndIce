@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PauseMenuScript : MonoBehaviour
 {
+    [SerializeField] private GameObject PauseMenu;
+    [SerializeField] private GameObject SettingsMenu;
+
     private void OnEnable()
     {
         if (GameManager.Instance != null)
@@ -32,5 +35,15 @@ public class PauseMenuScript : MonoBehaviour
         {
             GameManager.Instance.uiManager.QuitToHub();
         }
+    }
+    public void SettingsButton()
+    {
+        SettingsMenu.SetActive(true);
+        PauseMenu.SetActive(false);
+    }
+    public void BackButton()
+    {
+        SettingsMenu.SetActive(false);
+        PauseMenu.SetActive(true);
     }
 }

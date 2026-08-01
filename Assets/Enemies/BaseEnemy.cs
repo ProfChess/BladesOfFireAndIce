@@ -48,7 +48,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     //Timers
     protected float stateSwitchTimer = 0f;
-    protected const float stateSwitchInterval = 0.1f;
+    protected const float stateSwitchInterval = 0.2f;
     protected float nextCheck = 0f;
     protected bool canAttack = true;
 
@@ -70,6 +70,7 @@ public abstract class BaseEnemy : MonoBehaviour
         CurrentEnemyState = EnemyState.Idle;
         LeashType = enemyLeashType;
         gameObject.SetActive(true);
+        stateSwitchTimer = UnityEngine.Random.Range(0, stateSwitchInterval);
 
         //Spawn Location 
         SpawnLocation = Position;
@@ -91,16 +92,16 @@ public abstract class BaseEnemy : MonoBehaviour
 
         playerLocation = GameManager.Instance.getPlayer().transform;
         CreateAgent(); //NOTE --> WILL LIKELY GET CHANGED TO JUST ASSIGNING REFERENCE TO NAVAGENT
+        stateSwitchTimer = UnityEngine.Random.Range(0, stateSwitchInterval);
     }
 
     //Switches State Based Upon Player Distance to Enemy
-    private bool playerClose = true;
     virtual protected void Update()
     {
-        if(GetPlayerDistance().sqrMagnitude > 35 * 35 && playerClose) { DisableEnemyVisuals(); return;}
-        else if (!playerClose && GetPlayerDistance().sqrMagnitude <= 50 * 50) { EnableEnemyVisuals(); }
+        if(GetPlayerDistance().sqrMagnitude > 20 * 20) { DisableEnemyVisuals();}
+        else if (GetPlayerDistance().sqrMagnitude <= 50 * 50) { EnableEnemyVisuals(); }
 
-        if (isMovementLocked) { return; }
+        if (isMovementLocked || !isActive) { return; }
 
         //Think 
         UpdateState();
@@ -125,15 +126,18 @@ public abstract class BaseEnemy : MonoBehaviour
                 break;
         }
     }
+    public bool isActive = false;
     protected void DisableEnemyVisuals()
     {
-        agent.isStopped = true; agent.ResetPath(); playerClose = false;
+        agent.enabled = false;
         anim.enabled = false;
+        isActive = false;
     }
     protected void EnableEnemyVisuals()
     {
-        playerClose = true; agent.isStopped = false;
+        agent.enabled = true;
         anim.enabled = true;
+        isActive = true;
     }
     public void UpdateState()
     {
