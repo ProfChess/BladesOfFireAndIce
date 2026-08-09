@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerMagicCircleAnim : MonoBehaviour
+public class PlayerMagicCircleAnim : BaseEffectVisual
 {
     [SerializeField] private SpriteRenderer circleSprite;
 
@@ -14,12 +14,6 @@ public class PlayerMagicCircleAnim : MonoBehaviour
     private void Start()
     {
         circleSprite.color = PlayerSwitchElements.PlayerAttackForm == ElementType.Fire ? fireColor : iceColor;
-    }
-    public void SetSpriteFlip(bool x)
-    {
-        Vector3 startPos = gameObject.transform.localPosition;
-        startPos.x = x ? 0.075f : -0.075f;
-        gameObject.transform.localPosition = startPos;
     }
     public void SwitchToFire()
     {

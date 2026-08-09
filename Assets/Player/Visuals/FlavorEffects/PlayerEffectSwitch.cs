@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerEffectSwitch : MonoBehaviour
+public class PlayerEffectSwitch : BaseEffectVisual
 {
     public void TurnOffSelf()
     {

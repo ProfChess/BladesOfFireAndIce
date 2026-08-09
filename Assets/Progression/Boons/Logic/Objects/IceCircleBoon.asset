@@ -33,7 +33,7 @@ MonoBehaviour:
     EffectSize: 1
     TriggerCount: 1
     EffectDuration: 1
-    SpawnCount: 1
+    SpawnCount: 10
     Cooldown: 5
     ProjSpeed: 5
     ProjLifetime: 1

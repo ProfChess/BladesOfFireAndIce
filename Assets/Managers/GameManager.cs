@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded += soundManager.PlayMusicOnSceneChange;
 
         if (Player != null)
         {
@@ -105,6 +106,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded -= soundManager.PlayMusicOnSceneChange;
 
         if (Player != null)
         {

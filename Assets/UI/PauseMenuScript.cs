@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class PauseMenuScript : MonoBehaviour
 {
@@ -46,4 +48,6 @@ public class PauseMenuScript : MonoBehaviour
         SettingsMenu.SetActive(false);
         PauseMenu.SetActive(true);
     }
+
+    
 }

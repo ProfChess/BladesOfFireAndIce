@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
     [Header("Music")]
     [SerializeField] private AudioSource MusicSource;
     [SerializeField] private MusicTrack[] musicTracks;
+    [SerializeField] private SoundSettings soundSettings;
 
     [Header("SFX")]
     [SerializeField] private AudioSource MainSFXSource;
@@ -15,8 +19,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private GameObject ExtraAudioSourcesParent;
     private AudioSource[] sfxPool;
 
-    private Dictionary<SFX, SoundEffect> effectMap;
-    private Dictionary<BGM, AudioClip> musicMap;
+    private Dictionary<SFX, SoundEffect> effectMap = new();
+    private Dictionary<BGM, AudioClip> musicMap = new();
+    private BGM CurrentMusic;
+
+    [Header("Sliders")]
+    [SerializeField] private AudioMixer mainMixer;
+    [SerializeField] private Slider MasterSlider;
+    [SerializeField] private Slider BGMSlider;
+    [SerializeField] private Slider SFXSlider;
 
     private void Awake()
     {
@@ -37,6 +48,13 @@ public class SoundManager : MonoBehaviour
         }
 
         sfxPool = ExtraAudioSourcesParent.GetComponentsInChildren<AudioSource>();
+
+
+    }
+    private void Start()
+    {
+        //InitializeAudioValues
+        InitializeAudio();
     }
     public void PlaySoundEffect(SFX effect)
     {
@@ -61,6 +79,13 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayMusic(BGM Music)
     {
+        if (CurrentMusic != Music)
+        {
+            MusicSource.Stop();
+            MusicSource.clip = musicMap[Music];
+            CurrentMusic = Music;
+            MusicSource.Play();
+        }
 
     }
     private AudioSource GetAvailableAudioSource()
@@ -70,6 +95,42 @@ public class SoundManager : MonoBehaviour
             if (!source.isPlaying) { return source; }
         }
         return null;
+    }
+
+
+    public void PlayMusicOnSceneChange(Scene scene, LoadSceneMode mode)
+    {
+        SceneBGSoundChoice BGMChoice = FindObjectOfType<SceneBGSoundChoice>();
+
+        if (BGMChoice != null)
+        {
+            PlayMusic(BGMChoice.MusicChoice);
+        }
+    }
+
+    //Music
+
+    private float ConvertAudioValue(float value)
+    {
+        return Mathf.Log10(value) * 20f;
+    }
+    public void ChangeAudio_SFX()
+    {
+        mainMixer.SetFloat("SFXVolume", ConvertAudioValue(SFXSlider.value));
+    }
+    public void ChangeAudio_BGM()
+    {
+        mainMixer.SetFloat("MusicVolume", ConvertAudioValue(BGMSlider.value));
+    }
+    public void ChangeAudio_Master()
+    {
+        mainMixer.SetFloat("MasterVolume", ConvertAudioValue(MasterSlider.value));
+    }
+    public void InitializeAudio()
+    {
+        ChangeAudio_Master();
+        ChangeAudio_BGM();
+        ChangeAudio_SFX();
     }
 }
 [System.Serializable]
@@ -89,7 +150,7 @@ public class SoundEffect
     public float MaxPitch = 1.1f;
     public float Volume = 1f;
 }
-public enum BGM { Menu, Dungeon, Hub, }
+public enum BGM { None, Menu, Dungeon, Hub, Paused, FireBoss, IceBoss, ThirdBoss, FinalBoss}
 public enum SFX { PlayerDamaged = 0, PlayerSwordSwingFire1 = 1, PlayerSwordSwingFire2 = 2, PlayerSwordSwingIce1 = 3, 
                   PlayerSwordSwingIce2 = 4, PlayerDeath = 5, PlayerSwitchStance = 6, PlayerRoll = 7, 
                   PlayerParrySuccess = 8, PlayerParryMiss = 9, PlayerHitBlocked = 10, PlayerInteract = 11, 

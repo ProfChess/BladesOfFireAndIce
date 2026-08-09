@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerVisualMovement : MonoBehaviour
@@ -8,8 +9,14 @@ public class PlayerVisualMovement : MonoBehaviour
     [SerializeField] private Vector2 SpriteFaceLeft = Vector2.zero;
     [SerializeField] private Vector2 SpriteFaceRight = Vector2.zero;
 
+    [Header("Other Effects")]
+    [SerializeField] private List<BaseEffectVisual> OtherEffects;
     private void Update()
     {
         gameObject.transform.localPosition = PlayerSprite.flipX ? SpriteFaceLeft : SpriteFaceRight;
+        foreach (BaseEffectVisual effect in OtherEffects)
+        {
+            effect.MoveObject(PlayerSprite.flipX);
+        }
     }
 }

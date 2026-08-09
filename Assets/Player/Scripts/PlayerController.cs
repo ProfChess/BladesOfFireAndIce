@@ -137,7 +137,6 @@ public class PlayerController : MonoBehaviour
         //Flip Sprite
         DecideSpriteFlip();
         playerBlock.AssignShieldEffectsDirection(playerSprite.flipX);
-        playerCircleEffect.SetSpriteFlip(playerSprite.flipX);
     }
     private void LateUpdate()
     {
